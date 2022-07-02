@@ -1,0 +1,64 @@
+{
+  "name": "builtin.git",
+  "version": "0.0.0-dev",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "lerna bootstrap --ci",
+    "test": "cd packages/extension && npm run test",
+    "dev": "ONLY_EXTENSION=packages/extension npx @lvce-editor/server",
+    "e2e": "cd packages/e2e && npm run e2e",
+    "e2e:headless": "cd packages/e2e && npm run e2e:headless"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@lvce-editor/package-extension": "git+https://github.com/lvce-editor/package-extension.git#v0.0.2",
+    "@lvce-editor/server": "^0.0.25",
+    "lerna": "^5.1.6",
+    "prettier": "^2.7.1"
+  },
+  "xo": {
+    "rules": {
+      "unicorn/filename-case": "off",
+      "indent": "off",
+      "semi": "off",
+      "no-unused-vars": "off",
+      "unicorn/numeric-separators-style": "off",
+      "no-extra-semi": "off",
+      "arrow-body-style": "off",
+      "padded-blocks": "off",
+      "capitalized-comments": "off",
+      "padding-line-between-statements": "off",
+      "arrow-parens": "off",
+      "no-warning-comments": "off",
+      "array-bracket-spacing": "off",
+      "comma-spacing": "off",
+      "unicorn/no-array-callback-reference": "off",
+      "comma-dangle": "off",
+      "operator-linebreak": "off",
+      "no-case-declarations": "off",
+      "no-undef": "off",
+      "object-curly-spacing": "off",
+      "object-shorthand": "off",
+      "complexity": "off",
+      "no-labels": "off",
+      "no-multi-assign": "off",
+      "max-params": "off",
+      "no-bitwise": "off",
+      "unicorn/prefer-math-trunc": "off",
+      "no-await-in-loop": "off",
+      "unicorn/prefer-add-event-listener": "off",
+      "no-unused-expressions": "off"
+    },
+    "ignores": [
+      "distmin"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}

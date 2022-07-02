@@ -1,0 +1,26 @@
+{
+  "name": "builtin.git",
+  "version": "0.0.0-dev",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --unhandled-rejections=warn --experimental-vm-modules ../../node_modules/jest/bin/jest.js --detectOpenHandles --forceExit",
+    "test:watch": "node --unhandled-rejections=warn --experimental-vm-modules ../../node_modules/jest/bin/jest.js --watch",
+    "build-min": "microbundle --entry src/gitMain.js --output distmin --format modern"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/auth-token": "^2.5.0",
+    "@octokit/rest": "^18.12.0",
+    "chokidar": "^3.5.3",
+    "execa": "^6.1.0",
+    "p-timeout": "^5.1.0",
+    "verror": "^1.10.1"
+  },
+  "devDependencies": {
+    "@types/verror": "^1.10.5"
+  }
+}
