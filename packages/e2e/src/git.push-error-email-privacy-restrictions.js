@@ -1,17 +1,13 @@
-import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-import { tmpdir } from 'os'
 import {
+  getTmpDir,
   runWithExtension,
-  root,
+  test,
   useElectron,
   writeSettings,
-} from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
+} from '@lvce-editor/test-with-playwright'
+import { expect } from '@playwright/test'
+import { chmod, writeFile } from 'fs/promises'
+import { join } from 'node:path'
 
 const createFakeGitBinary = async (content) => {
   const tmpDir = await getTmpDir()
@@ -26,7 +22,7 @@ ${content}`
   return gitPath
 }
 
-const main = async () => {
+test('git.push-error-email-privacy-restrictions', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(join(tmpDir, 'test.txt'), 'div')
   const gitPath = await createFakeGitBinary(`
@@ -75,9 +71,4 @@ process.exit(128)
       'Error: Git: remote: error: GH007: Your push would publish a private email address.'
     )
   }
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})

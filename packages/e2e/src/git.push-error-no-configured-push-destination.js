@@ -1,16 +1,13 @@
-import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-import { tmpdir } from 'os'
 import {
+  expect,
+  getTmpDir,
   runWithExtension,
+  test,
   useElectron,
   writeSettings,
-} from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
+} from '@lvce-editor/test-with-playwright'
+import { chmod, writeFile } from 'fs/promises'
+import { join } from 'node:path'
 
 const createFakeGitBinary = async (content) => {
   const tmpDir = await getTmpDir()
@@ -25,7 +22,7 @@ ${content}`
   return gitPath
 }
 
-const main = async () => {
+test('git.push-error-no-configured-push-destination', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(join(tmpDir, 'test.txt'), 'div')
   const gitPath = await createFakeGitBinary(`
@@ -93,9 +90,4 @@ process.exit(128)
       'Error: Git: fatal: No configured push destination.'
     )
   }
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})
