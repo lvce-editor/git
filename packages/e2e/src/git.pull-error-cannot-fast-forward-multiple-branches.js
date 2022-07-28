@@ -1,12 +1,11 @@
-import { expect } from '@playwright/test'
+import {
+  expect,
+  runWithExtension,
+  test,
+} from '@lvce-editor/test-with-playwright'
 import { chmod, mkdtemp, writeFile } from 'fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'os'
-import {
-  runWithExtension,
-  useElectron,
-  writeSettings,
-} from './runWithExtension.js'
 
 const getTmpDir = () => {
   return mkdtemp(join(tmpdir(), 'foo-'))
@@ -25,7 +24,7 @@ ${content}`
   return gitPath
 }
 
-const main = async () => {
+test('git.pull-error-cannot-fast-forward-multiple-branches', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(join(tmpDir, 'test.txt'), 'div')
   const gitPath = await createFakeGitBinary(`
@@ -36,7 +35,6 @@ process.exit(128)
     'git.path': gitPath,
   })
   const page = await runWithExtension({
-    name: 'builtin.git',
     folder: tmpDir,
     env: {
       XDG_CONFIG_HOME: configDir,
@@ -81,10 +79,4 @@ process.exit(128)
       'Error: Git: fatal: Cannot fast-forward to multiple branches.'
     )
   }
-
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})

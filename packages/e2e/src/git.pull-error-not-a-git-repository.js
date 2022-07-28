@@ -1,17 +1,7 @@
+import { getTmpDir, runWithExtension } from '@lvce-editor/test-with-playwright'
 import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
+import { chmod, writeFile } from 'fs/promises'
 import { join } from 'node:path'
-import { tmpdir } from 'os'
-import {
-  runWithExtension,
-  root,
-  useElectron,
-  writeSettings,
-} from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
 
 const createFakeGitBinary = async (content) => {
   const tmpDir = await getTmpDir()
@@ -26,7 +16,7 @@ ${content}`
   return gitPath
 }
 
-const main = async () => {
+test('git.pull-error-not-a-git-repository', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(join(tmpDir, 'test.txt'), 'div')
   const gitPath = await createFakeGitBinary(`
@@ -37,7 +27,6 @@ process.exit(128)
     'git.path': gitPath,
   })
   const page = await runWithExtension({
-    name: 'builtin.git',
     folder: tmpDir,
     env: {
       XDG_CONFIG_HOME: configDir,
@@ -67,9 +56,4 @@ process.exit(128)
       return
     }
   }
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})

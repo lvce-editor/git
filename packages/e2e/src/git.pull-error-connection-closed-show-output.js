@@ -1,16 +1,11 @@
-import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-import { tmpdir } from 'os'
 import {
+  expect,
+  getTmpDir,
   runWithExtension,
-  useElectron,
-  writeSettings,
-} from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
+  test,
+} from '@lvce-editor/test-with-playwright'
+import { chmod, writeFile } from 'fs/promises'
+import { join } from 'node:path'
 
 const trimLines = (string) => {
   return string.split('\n').join('')
@@ -29,7 +24,7 @@ ${content}`
   return gitPath
 }
 
-const main = async () => {
+test('git.pull-error-connection-closed-show-output', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(join(tmpDir, 'test.txt'), 'div')
   const gitPath = await createFakeGitBinary(`
@@ -85,9 +80,4 @@ Please make sure you have the correct access rights
 and the repository exists.`)
     )
   }
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})

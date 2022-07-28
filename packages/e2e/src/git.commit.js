@@ -1,12 +1,13 @@
-import { expect } from '@playwright/test'
 import { chmod, mkdtemp, writeFile } from 'fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'os'
-import { runWithExtension, writeSettings } from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
+import {
+  runWithExtension,
+  writeSettings,
+  test,
+  expect,
+  getTmpDir,
+} from '@lvce-editor/test-with-playwright'
 
 const createFakeGitBinary = async (content) => {
   const tmpDir = await getTmpDir()
@@ -21,7 +22,7 @@ ${content}`
   return gitPath
 }
 
-const main = async () => {
+test('git.commit', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(join(tmpDir, 'test.txt'), 'div')
   const gitPath = await createFakeGitBinary(`
@@ -64,7 +65,6 @@ switch(process.argv[2]){
     'git.path': gitPath,
   })
   const page = await runWithExtension({
-    name: 'builtin.git',
     folder: tmpDir,
     env: {
       XDG_CONFIG_HOME: configDir,
@@ -86,10 +86,4 @@ switch(process.argv[2]){
   // TODO should also test loading indicator
   await page.keyboard.press('Control+Enter')
   await expect(sourceControlInput).toHaveText('')
-
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})

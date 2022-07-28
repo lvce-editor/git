@@ -1,12 +1,11 @@
-import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
+import {
+  expect,
+  getTmpDir,
+  runWithExtension,
+  test,
+} from '@lvce-editor/test-with-playwright'
+import { chmod, writeFile } from 'fs/promises'
 import { join } from 'node:path'
-import { tmpdir } from 'os'
-import { runWithExtension, writeSettings } from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
 
 const createFakeGitBinary = async (content) => {
   const tmpDir = await getTmpDir()
@@ -21,7 +20,7 @@ ${content}`
   return gitPath
 }
 
-const main = async () => {
+test('git.commit-error-empty-message', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(join(tmpDir, 'test.txt'), 'div')
   const gitPath = await createFakeGitBinary(`
@@ -52,10 +51,10 @@ switch(process.argv[2]){
     'git.path': gitPath,
   })
   const page = await runWithExtension({
-    name: 'builtin.git',
     folder: tmpDir,
     env: {
       XDG_CONFIG_HOME: configDir,
+      GIT_PATH: git,
     },
   })
   const testTxt = page.locator('text=test.txt')
@@ -80,10 +79,4 @@ switch(process.argv[2]){
 
   const notificationOption = notification.locator('.NotificationOption')
   await expect(notificationOption).toHaveText('Create Empty Commit')
-
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})

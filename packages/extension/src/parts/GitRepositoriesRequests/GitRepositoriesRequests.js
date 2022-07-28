@@ -23,11 +23,10 @@ export const execute = async ({ id, fn, args }) => {
   runListeners()
   try {
     console.log('before')
-    const r = await pTimeout(
-      fn(args),
-      Constants.CommandTimeout,
-      `Git ${id} timeout out after ${Constants.CommandTimeout}ms`
-    )
+    const r = await pTimeout(fn(args), {
+      milliseconds: Constants.CommandTimeout,
+      message: `Git ${id} timeout out after ${Constants.CommandTimeout}ms`,
+    })
     console.log(r)
     console.log('after')
     return r

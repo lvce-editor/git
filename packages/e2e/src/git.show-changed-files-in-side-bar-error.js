@@ -1,11 +1,11 @@
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
+import {
+  getTmpDir,
+  runWithExtension,
+  test,
+  writeSettings,
+} from '@lvce-editor/test-with-playwright'
+import { chmod, writeFile } from 'fs/promises'
 import { join } from 'node:path'
-import { tmpdir } from 'os'
-import { runWithExtension, root, writeSettings } from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
 
 const createFakeGitBinary = async (content) => {
   const tmpDir = await getTmpDir()
@@ -20,7 +20,7 @@ ${content}`
   return gitPath
 }
 
-const main = async () => {
+test('git.show-changed-files-in-side-bar-error', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await createFakeGitBinary(`
@@ -32,7 +32,6 @@ process.exit(128)
     'git.path': gitPath,
   })
   const page = await runWithExtension({
-    name: 'builtin.git',
     folder: tmpDir,
     env: {
       XDG_CONFIG_HOME: configDir,
@@ -59,9 +58,4 @@ process.exit(128)
   // await page.waitForSelector('text=')
   // await page.waitForSelector('.TreeItem:has-text("GitRequests.js")')
   // await page.waitForSelector('.TreeItem:has-text("InternalCommand.js")')
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})
