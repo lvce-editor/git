@@ -2,8 +2,6 @@ import {
   getTmpDir,
   runWithExtension,
   test,
-  useElectron,
-  writeSettings,
 } from '@lvce-editor/test-with-playwright'
 import { expect } from '@playwright/test'
 import { chmod, writeFile } from 'fs/promises'

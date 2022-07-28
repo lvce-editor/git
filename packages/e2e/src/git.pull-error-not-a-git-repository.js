@@ -1,9 +1,4 @@
-import {
-  getTmpDir,
-  runWithExtension,
-  useElectron,
-  writeSettings,
-} from '@lvce-editor/test-with-playwright'
+import { getTmpDir, runWithExtension } from '@lvce-editor/test-with-playwright'
 import { expect } from '@playwright/test'
 import { chmod, writeFile } from 'fs/promises'
 import { join } from 'node:path'

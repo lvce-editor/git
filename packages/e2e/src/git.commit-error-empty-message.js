@@ -54,6 +54,7 @@ switch(process.argv[2]){
     folder: tmpDir,
     env: {
       XDG_CONFIG_HOME: configDir,
+      GIT_PATH: git,
     },
   })
   const testTxt = page.locator('text=test.txt')

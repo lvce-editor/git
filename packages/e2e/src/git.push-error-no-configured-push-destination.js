@@ -3,8 +3,6 @@ import {
   getTmpDir,
   runWithExtension,
   test,
-  useElectron,
-  writeSettings,
 } from '@lvce-editor/test-with-playwright'
 import { chmod, writeFile } from 'fs/promises'
 import { join } from 'node:path'
