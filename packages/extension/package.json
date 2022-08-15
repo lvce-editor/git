@@ -13,14 +13,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@octokit/auth-token": "^2.5.0",
-    "@octokit/rest": "^18.12.0",
+    "@octokit/auth-token": "^3.0.1",
+    "@octokit/rest": "^19.0.4",
     "chokidar": "^3.5.3",
     "execa": "^6.1.0",
-    "p-timeout": "^5.1.0",
+    "p-timeout": "^6.0.0",
     "verror": "^1.10.1"
   },
   "devDependencies": {
-    "@types/verror": "^1.10.5"
+    "@types/verror": "^1.10.6"
   }
 }
