@@ -1,38 +1,18 @@
-import {
-  expect,
-  getTmpDir,
-  runWithExtension,
-  test,
-} from '@lvce-editor/test-with-playwright'
-import { chmod, mkdir, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await getTmpDir()
-  const nodePath = process.argv[0]
-  const gitPath = join(tmpDir, 'git')
-  await writeFile(
+  const tmpDir = await FileSystem.getTmpDir()
+  const nodePath = await Platform.getNodePath()
+  const gitPath = `${tmpDir}/git`
+  await FileSystem.writeFile(
     gitPath,
     `#!${nodePath}
 ${content}`
   )
-  await chmod(gitPath, '755')
+  await FileSystem.chmod(gitPath, '755')
   return gitPath
 }
 
-export const writeSettings = async (settings) => {
-  const configDir = await getTmpDir()
-  await mkdir(join(configDir, 'lvce-oss'))
-  await writeFile(
-    join(configDir, 'lvce-oss', 'settings.json'),
-    JSON.stringify(settings)
-  )
-  return configDir
-}
-
 test('git.push-error-server', async () => {
-  const tmpDir = await getTmpDir()
-  await writeFile(`${tmpDir}/test.txt`, 'div')
+  // arrange
   const gitPath = await createFakeGitBinary(`
 console.info(\`Enumerating objects: 23, done.
 Counting objects: 100% (23/23), done.
@@ -47,27 +27,14 @@ To github.com:user/repo.git
 error: failed to push some refs to 'github.com:user/repo.git\`)
 process.exit(128)
 `)
-  const configDir = await writeSettings({
+  await Settings.update({
     'git.path': gitPath,
   })
-  const page = await runWithExtension({
-    folder: tmpDir,
-    env: {
-      XDG_CONFIG_HOME: configDir,
-    },
-  })
-  const testTxt = page.locator('text=test.txt')
-  await testTxt.click()
-  const tokenText = page.locator('.Token.Text')
-  await tokenText.click()
-  await page.keyboard.press('Control+Shift+P')
-  const quickPick = page.locator('#QuickPick')
-  const quickPickInput = quickPick.locator('.InputBox')
-  await expect(quickPickInput).toHaveValue('>')
-  await quickPickInput.type('git push')
-  const quickPickItemGitPush = quickPick.locator('text=Git: Push')
-  await quickPickItemGitPush.click()
 
+  // act
+  await Command.execute('git.push')
+
+  // assert
   // if (useElectron) {
   //   // TODO
   // } else {
