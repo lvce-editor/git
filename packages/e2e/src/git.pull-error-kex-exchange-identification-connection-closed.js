@@ -1,33 +1,19 @@
-import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-import { tmpdir } from 'os'
-import {
-  runWithExtension,
-  useElectron,
-  writeSettings,
-} from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
+// TODO this code is duplcated in many files, have a shared file that exports this function
 
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await getTmpDir()
-  const nodePath = process.argv[0]
-  const gitPath = join(tmpDir, 'git')
-  await writeFile(
+  const tmpDir = await FileSystem.getTmpDir()
+  const nodePath = await Platform.getNodePath()
+  const gitPath = `${tmpDir}/git`
+  await FileSystem.writeFile(
     gitPath,
     `#!${nodePath}
 ${content}`
   )
-  await chmod(gitPath, '755')
+  await FileSystem.chmod(gitPath, '755')
   return gitPath
 }
 
-const main = async () => {
-  const tmpDir = await getTmpDir()
-  await writeFile(join(tmpDir, 'test.txt'), 'div')
+test('git.pull-error-kex-exchange-identification-connection-closed', async () => {
   const gitPath = await createFakeGitBinary(`
 console.error(\`kex_exchange_identification: Connection closed by remote host
 Connection closed by 0000:0000:0000::0000:0000 port 22
@@ -39,40 +25,20 @@ and the repository exists.
 \`)
 process.exit(128)
 `)
-  const configDir = await writeSettings({
+  await Settings.update({
     'git.path': gitPath,
   })
-  const page = await runWithExtension({
-    name: 'builtin.git',
-    folder: tmpDir,
-    env: {
-      XDG_CONFIG_HOME: configDir,
-    },
-  })
-  const testTxt = page.locator('text=test.txt')
-  await testTxt.click()
-  const tokenText = page.locator('.Token.Text')
-  await tokenText.click()
-  await page.keyboard.press('Control+Shift+P')
-  const quickPick = page.locator('#QuickPick')
-  const quickPickInput = quickPick.locator('.InputBox')
-  await expect(quickPickInput).toHaveValue('>')
-  await quickPickInput.type('git pull')
-  const quickPickItemGitPull = quickPick.locator('text=Git: Pull').first()
-  await quickPickItemGitPull.click()
-  if (useElectron) {
-    // TODO
-  } else {
-    const dialogErrorMessage = page.locator('#DialogBodyErrorMessage')
-    await expect(dialogErrorMessage).toBeVisible()
-    // TODO error message could be improved, should include full git error message
-    await expect(dialogErrorMessage).toHaveText(
-      'Error: Git: kex_exchange_identification: Connection closed by remote host'
-    )
-  }
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
 
-main()
+  // act
+  await Command.execute('git.pull')
+
+  // assert
+  const dialogErrorMessage = page.locator('#DialogBodyErrorMessage')
+  await expect(dialogErrorMessage).toBeVisible()
+  // TODO error message could be improved, should include full git error message
+  await expect(dialogErrorMessage).toHaveText(
+    'Error: Git: kex_exchange_identification: Connection closed by remote host'
+  )
+})
+
+export {}

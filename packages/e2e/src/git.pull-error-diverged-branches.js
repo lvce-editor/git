@@ -1,33 +1,18 @@
-import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-import { tmpdir } from 'os'
-import {
-  runWithExtension,
-  useElectron,
-  writeSettings,
-} from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
-
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await getTmpDir()
-  const nodePath = process.argv[0]
-  const gitPath = join(tmpDir, 'git')
-  await writeFile(
+  const tmpDir = await FileSystem.getTmpDir()
+  const nodePath = await Platform.getTmpDir()
+  const gitPath = `${tmpDir}/git`
+  await FileSystem.writeFile(
     gitPath,
     `#!${nodePath}
 ${content}`
   )
-  await chmod(gitPath, '755')
+  await FileSystem.chmod(gitPath, '755')
   return gitPath
 }
 
-const main = async () => {
-  const tmpDir = await getTmpDir()
-  await writeFile(join(tmpDir, 'test.txt'), 'div')
+test('git.pull-error-divergent-branches', async () => {
+  // arrange
   const gitPath = await createFakeGitBinary(`
 console.error(\`> git pull --tags origin main
 From https://github.com/user/repo
@@ -48,42 +33,21 @@ fatal: Need to specify how to reconcile divergent branches.
 \`)
 process.exit(128)
 `)
-  const configDir = await writeSettings({
+  await Settings.update({
     'git.path': gitPath,
   })
-  const page = await runWithExtension({
-    name: 'builtin.git',
-    folder: tmpDir,
-    env: {
-      XDG_CONFIG_HOME: configDir,
-    },
-  })
-  const testTxt = page.locator('text=test.txt')
-  await testTxt.click()
-  const tokenText = page.locator('.Token.Text')
-  await tokenText.click()
-  await page.keyboard.press('Control+Shift+P')
-  const quickPick = page.locator('#QuickPick')
-  const quickPickInput = quickPick.locator('.InputBox')
-  await expect(quickPickInput).toHaveValue('>')
-  await quickPickInput.type('git pull')
-  const quickPickItemGitPull = quickPick.locator('text=Git: Pull').first()
-  await quickPickItemGitPull.click()
 
+  // act
+  await Command.execute('git.pull')
+
+  // assert
   // TODO should show option to rebase (git pull --rebase)
-  if (useElectron) {
-    // TODO
-  } else {
-    const dialogErrorMessage = page.locator('#DialogBodyErrorMessage')
-    await expect(dialogErrorMessage).toBeVisible()
-    // TODO error message could be improved, should include full git error message
-    await expect(dialogErrorMessage).toHaveText(
-      'Error: Git: hint: You have divergent branches and need to specify how to reconcile them.'
-    )
-  }
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
+  const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
+  await expect(dialogErrorMessage).toBeVisible()
+  // TODO error message could be improved, should include full git error message
+  await expect(dialogErrorMessage).toHaveText(
+    'Error: Git: hint: You have divergent branches and need to specify how to reconcile them.'
+  )
+})
 
-main()
+export {}

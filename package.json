@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap --ci",
     "test": "cd packages/extension && npm run test",
-    "dev": "ONLY_EXTENSION=packages/extension npx @lvce-editor/server",
+    "dev": "node ./node_modules/@lvce-editor/server/bin/server.js --only-extension=packages/extension --test-path=packages/e2e",
     "e2e": "cd packages/e2e && npm run e2e",
     "e2e:headless": "cd packages/e2e && npm run e2e:headless"
   },
@@ -16,7 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@lvce-editor/package-extension": "^0.0.4",
-    "@lvce-editor/server": "^0.0.33",
+    "@lvce-editor/server": "file:///home/simon/Documents/levivilet/lvce-editor/packages/server",
     "lerna": "^5.4.3",
     "prettier": "^2.7.1"
   },

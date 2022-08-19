@@ -1,33 +1,18 @@
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-import { tmpdir } from 'os'
-import {
-  runWithExtension,
-  root,
-  useElectron,
-  writeSettings,
-} from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
-
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await getTmpDir()
-  const nodePath = process.argv[0]
-  const gitPath = join(tmpDir, 'git')
-  await writeFile(
+  const tmpDir = await FileSystem.getTmpDir()
+  const nodePath = await Platform.getNodePath()
+  const gitPath = `${tmpDir}/git`
+  await FileSystem.writeFile(
     gitPath,
     `#!${nodePath}
 ${content}`
   )
-  await chmod(gitPath, '755')
+  await FileSystem.chmod(gitPath, '755')
   return gitPath
 }
 
-const main = async () => {
-  const tmpDir = await getTmpDir()
-  await writeFile(join(tmpDir, 'test.txt'), 'div')
+test('git.pull-error-repository-not-found', async () => {
+  // arrange
   const gitPath = await createFakeGitBinary(`
 console.error(\`Repository not found.
 fatal: Could not read from remote repository.
@@ -36,41 +21,19 @@ Please make sure you have the correct access rights
 and the repository exists.\`)
 process.exit(128)
 `)
-  const configDir = await writeSettings({
+  await Settings.update({
     'git.path': gitPath,
   })
-  const page = await runWithExtension({
-    name: 'builtin.git',
-    folder: tmpDir,
-    env: {
-      XDG_CONFIG_HOME: configDir,
-    },
-  })
-  const testTxt = page.locator('text=test.txt')
-  await testTxt.click()
-  const tokenText = page.locator('.Token.Text')
-  await tokenText.click()
-  await page.keyboard.press('Control+Shift+P')
-  await page.waitForSelector('#QuickPick')
-  await page.type('#QuickPick .InputBox', 'git pull')
-  const quickPickItemOne = page.locator('#QuickPickItem-0')
-  await quickPickItemOne.click()
-  if (useElectron) {
-    // TODO
-  } else {
-    const notification = await page.waitForSelector('.Notification')
-    const notificationText = await notification.textContent()
-    if (
-      notificationText !==
-      'GitError: Git: fatal: not a git repository (or any of the parent directories): .git'
-    ) {
-      console.log({ notificationText })
-      return
-    }
-  }
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
 
-main()
+  // act
+  await Command.execute('git.pull')
+
+  // assert
+  const notification = await Locator('.Notification')
+  await expect(notification).toBeVisible()
+  await expect(notification).toHaveText(
+    'GitError: Git: fatal: not a git repository (or any of the parent directories): .git'
+  )
+})
+
+export {}
