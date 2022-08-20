@@ -16,9 +16,9 @@ process.exit(128)
   await QuickPick.selectItem('Git: Pull')
 
   // assert
-  const notification = Locator('.Notification')
+  const notification = Locator('#DialogBodyErrorMessage')
   await expect(notification).toHaveText(
-    'GitError: Git: fatal: not a git repository (or any of the parent directories): .git'
+    'Error: Git: fatal: not a git repository (or any of the parent directories): .git'
   )
 })
 
