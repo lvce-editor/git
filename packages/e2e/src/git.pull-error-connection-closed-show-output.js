@@ -15,7 +15,7 @@ ${content}`
   return gitPath
 }
 
-test('git.pull-error-connection-closed-show-output', async () => {
+test.skip('git.pull-error-connection-closed-show-output', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await createFakeGitBinary(`
@@ -37,7 +37,7 @@ process.exit(128)
   await QuickPick.selectItem('Git: Pull')
   // assert
   const dialog = Locator('dialog')
-  const dialogErrorMessage = dialog.locator('#DialogBodyErrorMessage')
+  const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, should include full git error message
   await expect(dialogErrorMessage).toHaveText(

@@ -28,7 +28,9 @@ process.exit(128)
   })
 
   // act
-  await Command.execute('git.pull')
+  await QuickPick.open()
+  await QuickPick.setValue('>Git: Pull')
+  await QuickPick.selectItem('Git: Pull')
 
   // assert
   const notification = await Locator('.Notification')

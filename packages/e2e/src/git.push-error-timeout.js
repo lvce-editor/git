@@ -21,8 +21,9 @@ test('git.push-error-timeout', async () => {
   })
 
   // act
-  await Command.execute('git.push')
-
+  await QuickPick.open()
+  await QuickPick.setValue('>Git: Push')
+  await QuickPick.selectItem('Git: Push')
   // assert
   // TODO after a fixed amount of time, should show a message that command is running too long
   // with a cancel button

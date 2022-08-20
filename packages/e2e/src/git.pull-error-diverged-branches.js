@@ -43,6 +43,7 @@ process.exit(128)
   await QuickPick.open()
   await QuickPick.setValue('>Git: Pull')
   await QuickPick.selectItem('Git: Pull')
+
   // assert
   // TODO should show option to rebase (git pull --rebase)
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')

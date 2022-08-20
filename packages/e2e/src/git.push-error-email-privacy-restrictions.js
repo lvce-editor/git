@@ -34,7 +34,9 @@ process.exit(128)
   })
 
   // act
-  await Command.execute('git.push')
+  await QuickPick.open()
+  await QuickPick.setValue('>Git: Push')
+  await QuickPick.selectItem('Git: Push')
 
   // assert
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
