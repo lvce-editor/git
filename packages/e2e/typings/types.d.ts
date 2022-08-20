@@ -1,20 +1,27 @@
+declare const Command: {
+  readonly execute: (id: string, ...args: any[]) => Promise<void>
+}
+
 declare const ContextMenu: {
   readonly selectItem: (name: string) => Promise<void>
 }
 
 declare const Editor: {
-  readonly setCursor: (rowIndex: number, columnIndex: number) => Promise<void>
-  readonly openCompletion: () => Promise<void>
-  readonly executeTabCompletion: () => Promise<void>
-  readonly openEditorContextMenu: () => Promise<void>
-  readonly executeBraceCompletion: (brace: string) => Promise<void>
-  readonly cursorUp: () => Promise<void>
+  readonly copyLineDown: () => Promise<void>
+  readonly cursorCharacterLeft: () => Promise<void>
+  readonly cursorCharacterRight: () => Promise<void>
   readonly cursorDown: () => Promise<void>
+  readonly cursorUp: () => Promise<void>
   readonly cursorWordLeft: () => Promise<void>
   readonly cursorWordRight: () => Promise<void>
-  readonly cursorCharacterRight: () => Promise<void>
-  readonly cursorCharacterLeft: () => Promise<void>
-  readonly copyLineDown: () => Promise<void>
+  readonly executeBraceCompletion: (brace: string) => Promise<void>
+  readonly executeTabCompletion: () => Promise<void>
+  readonly goToDefinition: () => Promise<void>
+  readonly goToTypeDefinition: () => Promise<void>
+  readonly openCompletion: () => Promise<void>
+  readonly openEditorContextMenu: () => Promise<void>
+  readonly setCursor: (rowIndex: number, columnIndex: number) => Promise<void>
+  readonly type: (text: string) => Promise<void>
 }
 
 declare const Explorer: {
@@ -34,9 +41,12 @@ declare const Extension: {
 }
 
 declare const FileSystem: {
-  readonly getTmpDir: () => Promise<string>
+  readonly getTmpDir: (options?: {
+    scheme?: 'memfs' | 'file'
+  }) => Promise<string>
   readonly writeFile: (uri: string, content: string) => Promise<void>
   readonly mkdir: (uri: string) => Promise<void>
+  readonly chmod: (uri: string, permissions: string) => Promise<void>
 }
 
 declare const KeyBoard: {
@@ -52,6 +62,11 @@ declare const QuickPick: {
   readonly focusNext: () => Promise<void>
   readonly open: () => Promise<void>
   readonly setValue: (value: string) => Promise<void>
+  readonly selectItem: (value: string) => Promise<void>
+}
+
+declare const Platform: {
+  readonly getNodePath: () => Promise<string>
 }
 
 declare const SideBar: {
@@ -60,6 +75,10 @@ declare const SideBar: {
 
 declare const Search: {
   readonly setValue: (value: string) => Promise<void>
+}
+
+declare const Settings: {
+  readonly update: (newSettings: any) => Promise<void>
 }
 
 declare const Workspace: {

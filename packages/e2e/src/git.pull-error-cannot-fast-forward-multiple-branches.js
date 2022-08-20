@@ -1,5 +1,5 @@
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const nodePath = await Platform.getNodePath()
   const gitPath = `${tmpDir}/git`
   await FileSystem.writeFile(
@@ -13,6 +13,8 @@ ${content}`
 
 test('git.pull-error-cannot-fast-forward-multiple-branches', async () => {
   // arrange
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
   const gitPath = await createFakeGitBinary(`
 console.error("fatal: Cannot fast-forward to multiple branches.")
 process.exit(128)
@@ -22,7 +24,9 @@ process.exit(128)
   })
 
   // act
-  await Command.execute('git.pull')
+  await QuickPick.open()
+  await QuickPick.setValue('>Git: Pull')
+  await QuickPick.selectItem('Git: Pull')
 
   // assert
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')

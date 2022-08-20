@@ -15,7 +15,7 @@ export const getCurrent = async () => {
   }
   const path = vscode.getWorkspaceFolder()
   if (!path) {
-    return undefined
+    throw new VError('no workspace folder is open')
     // throw new VError('no repository path found')
   }
   state.currentRepository = {
