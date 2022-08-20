@@ -1,4 +1,4 @@
-test('git.show-changed-files-in-side-bar', async () => {
+test.skip('git.show-changed-files-in-side-bar', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await createFakeGitBinary(`

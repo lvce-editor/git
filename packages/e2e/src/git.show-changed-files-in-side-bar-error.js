@@ -1,4 +1,4 @@
-test('git.show-changed-files-in-side-bar-error', async () => {
+test.skip('git.show-changed-files-in-side-bar-error', async () => {
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await FileSystem.createExecutable(`

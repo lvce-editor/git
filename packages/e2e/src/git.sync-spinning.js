@@ -1,4 +1,4 @@
-test('git.sync-spinning', async () => {
+test.skip('git.sync-spinning', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await createFakeGitBinary(`

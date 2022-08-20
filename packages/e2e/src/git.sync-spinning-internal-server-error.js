@@ -1,4 +1,4 @@
-test('git.sync-spinning-internal-server-error', async () => {
+test.skip('git.sync-spinning-internal-server-error', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await createFakeGitBinary(`
