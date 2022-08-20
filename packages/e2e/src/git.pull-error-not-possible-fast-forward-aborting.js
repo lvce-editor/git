@@ -1,21 +1,8 @@
-const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  const nodePath = await Platform.getNodePath()
-  const gitPath = `${tmpDir}/git`
-  await FileSystem.writeFile(
-    gitPath,
-    `#!${nodePath}
-${content}`
-  )
-  await FileSystem.chmod(gitPath, '755')
-  return gitPath
-}
-
 test('git.pull-error-not-possible-fast-forward-aborting', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   // arrange
-  const gitPath = await createFakeGitBinary(`
+  const gitPath = await FileSystem.createExecutable(`
 console.error(\`From github.com:user/repo
 * branch                      main       -> FETCH_HEAD
 fatal: Not possible to fast-forward, aborting.

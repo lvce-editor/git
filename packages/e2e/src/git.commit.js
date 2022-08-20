@@ -1,21 +1,8 @@
-const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  const nodePath = await Platform.getNodePath()
-  const gitPath = `${tmpDir}/git`
-  await FileSystem.writeFile(
-    gitPath,
-    `#!${nodePath}
-${content}`
-  )
-  await FileSystem.chmod(gitPath, '755')
-  return gitPath
-}
-
 test.skip('git.commit', async () => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
-  const gitPath = await createFakeGitBinary(`
+  const gitPath = await FileSystem.createExecutable(`
 
 const handleGitStatus = () => {
   console.info('')

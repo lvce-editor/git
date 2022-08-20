@@ -1,21 +1,8 @@
-const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  const nodePath = await Platform.getNodePath()
-  const gitPath = `${tmpDir}/git`
-  await FileSystem.writeFile(
-    gitPath,
-    `#!${nodePath}
-${content}`
-  )
-  await FileSystem.chmod(gitPath, '755')
-  return gitPath
-}
-
 test('git.pull-error-unstaged-changes', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   // arrange
-  const gitPath = await createFakeGitBinary(`
+  const gitPath = await FileSystem.createExecutable(`
 console.error(\`error: Cannot pull with rebase, you have unstaged changes.
 error: please commit or stash them.\`)
 process.exit(128)
@@ -37,3 +24,5 @@ process.exit(128)
     'Error: Git: error: Cannot pull with rebase, you have unstaged changes.'
   )
 })
+
+export {}

@@ -1,22 +1,7 @@
-// TODO this code is duplcated in many files, have a shared file that exports this function
-
-const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  const nodePath = await Platform.getNodePath()
-  const gitPath = `${tmpDir}/git`
-  await FileSystem.writeFile(
-    gitPath,
-    `#!${nodePath}
-${content}`
-  )
-  await FileSystem.chmod(gitPath, '755')
-  return gitPath
-}
-
 test('git.pull-error-kex-exchange-identification-connection-closed', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  const gitPath = await createFakeGitBinary(`
+  const gitPath = await FileSystem.createExecutable(`
 console.error(\`kex_exchange_identification: Connection closed by remote host
 Connection closed by 0000:0000:0000::0000:0000 port 22
 fatal: Could not read from remote repository.

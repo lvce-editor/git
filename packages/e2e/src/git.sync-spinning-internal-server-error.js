@@ -1,32 +1,4 @@
-import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-import { tmpdir } from 'os'
-import {
-  runWithExtension,
-  root,
-  useElectron,
-  writeSettings,
-} from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
-
-const createFakeGitBinary = async (content) => {
-  const tmpDir = await getTmpDir()
-  const nodePath = process.argv[0]
-  const gitPath = join(tmpDir, 'git')
-  await writeFile(
-    gitPath,
-    `#!${nodePath}
-${content}`
-  )
-  await chmod(gitPath, '755')
-  return gitPath
-}
-
-const main = async () => {
+test('git.sync-spinning-internal-server-error', async () => {
   const tmpDir = await getTmpDir()
   await writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await createFakeGitBinary(`
@@ -75,10 +47,4 @@ process.exit(128)
       'Error: Git: remote: Internal Server Error'
     )
   }
-
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+})
