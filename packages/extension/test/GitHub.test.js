@@ -3,6 +3,8 @@ import getPort from 'get-port'
 import * as GitHub from '../src/parts/GitHub/GitHub.js'
 import * as Platform from '../src/parts/Platform/Platform.js'
 
+// TODO maybe use mock service worker instead of express
+
 const runGitHubServer = async (port) => {
   const app = express()
   await new Promise((resolve) => {

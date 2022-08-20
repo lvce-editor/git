@@ -1,30 +1,8 @@
-import { expect } from '@playwright/test'
-import { chmod, mkdtemp, writeFile } from 'fs/promises'
-import { join } from 'node:path'
-import { tmpdir } from 'os'
-import { runWithExtension, writeSettings } from './runWithExtension.js'
-
-const getTmpDir = () => {
-  return mkdtemp(join(tmpdir(), 'foo-'))
-}
-
-const createFakeGitBinary = async (content) => {
-  const tmpDir = await getTmpDir()
-  const nodePath = process.argv[0]
-  const gitPath = join(tmpDir, 'git')
-  await writeFile(
-    gitPath,
-    `#!${nodePath}
-${content}`
-  )
-  await chmod(gitPath, '755')
-  return gitPath
-}
-
-const main = async () => {
-  const tmpDir = await getTmpDir()
-  await writeFile(join(tmpDir, 'test.txt'), 'div')
-  const gitPath = await createFakeGitBinary(`
+test.skip('git.commit', async () => {
+  // arrange
+  const tmpDir = await FileSystem.getTmpDir()
+  await Workspace.setPath(tmpDir)
+  const gitPath = await FileSystem.createExecutable(`
 
 const handleGitStatus = () => {
   console.info('')
@@ -60,36 +38,18 @@ switch(process.argv[2]){
 
 }
 `)
-  const configDir = await writeSettings({
+  await Settings.update({
     'git.path': gitPath,
   })
-  const page = await runWithExtension({
-    name: 'builtin.git',
-    folder: tmpDir,
-    env: {
-      XDG_CONFIG_HOME: configDir,
-    },
-  })
-  const testTxt = page.locator('text=test.txt')
-  await testTxt.click()
-  const token = page.locator('.Token.Text')
-
-  await token.click()
-
-  const activityBarItemSourceControl = page.locator('[title="Source Control"]')
-  await activityBarItemSourceControl.click()
-
-  const sourceControlInput = page.locator('[aria-label="Source Control Input"]')
+  await SideBar.open('Source Control')
+  const sourceControlInput = Locator('[aria-label="Source Control Input"]')
   await sourceControlInput.focus()
   await sourceControlInput.type('test message')
 
+  // act
   // TODO should also test loading indicator
-  await page.keyboard.press('Control+Enter')
+  await KeyBoard.press('Control+Enter')
   await expect(sourceControlInput).toHaveText('')
+})
 
-  if (process.send) {
-    process.send('succeeded')
-  }
-}
-
-main()
+export {}
