@@ -1,5 +1,5 @@
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const nodePath = await Platform.getNodePath()
   const gitPath = `${tmpDir}/git`
   await FileSystem.writeFile(
@@ -12,6 +12,8 @@ ${content}`
 }
 
 test('git.pull-error-divergent-branches', async () => {
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
   // arrange
   const gitPath = await createFakeGitBinary(`
 console.error(\`> git pull --tags origin juwi-modal

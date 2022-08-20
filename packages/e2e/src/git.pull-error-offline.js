@@ -1,5 +1,5 @@
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const nodePath = await Platform.getNodePath()
   const gitPath = `${tmpDir}/git`
   await FileSystem.writeFile(
@@ -12,6 +12,8 @@ ${content}`
 }
 
 test('git.pull-error-offline', async () => {
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
   // arrange
   const gitPath = await createFakeGitBinary(`
 console.error(\`ssh: Could not resolve hostname github.com: Temporary failure in name resolution
@@ -30,7 +32,7 @@ process.exit(128)
   await Command.execute('git.pull')
 
   // assert
-  const dialogErrorMessage = page.locator('#DialogBodyErrorMessage')
+  const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, vscode has very good/short git error messages
   await expect(dialogErrorMessage).toHaveText(

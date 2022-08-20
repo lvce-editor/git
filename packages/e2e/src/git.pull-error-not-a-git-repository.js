@@ -1,5 +1,5 @@
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const nodePath = await Platform.getNodePath()
   const gitPath = `${tmpDir}/git`
   await FileSystem.writeFile(
@@ -12,6 +12,8 @@ ${content}`
 }
 
 test('git.pull-error-not-a-git-repository', async () => {
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
   // arrange
   const gitPath = await createFakeGitBinary(`
 console.error("fatal: not a git repository (or any of the parent directories): .git")

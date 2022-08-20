@@ -1,6 +1,6 @@
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir()
-  const nodePath = await Platform.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const nodePath = await Platform.getNodePath()
   const gitPath = `${tmpDir}/git`
   await FileSystem.writeFile(
     gitPath,
@@ -12,6 +12,8 @@ ${content}`
 }
 
 test('git.pull-error-divergent-branches', async () => {
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
   // arrange
   const gitPath = await createFakeGitBinary(`
 console.error(\`> git pull --tags origin main
@@ -38,8 +40,9 @@ process.exit(128)
   })
 
   // act
-  await Command.execute('git.pull')
-
+  await QuickPick.open()
+  await QuickPick.setValue('>Git: Pull')
+  await QuickPick.selectItem('Git: Pull')
   // assert
   // TODO should show option to rebase (git pull --rebase)
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')

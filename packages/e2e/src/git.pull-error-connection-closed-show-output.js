@@ -3,7 +3,7 @@ const trimLines = (string) => {
 }
 
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const nodePath = await Platform.getNodePath()
   const gitPath = `${tmpDir}/git`
   await FileSystem.writeFile(
@@ -16,6 +16,8 @@ ${content}`
 }
 
 test('git.pull-error-connection-closed-show-output', async () => {
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
   const gitPath = await createFakeGitBinary(`
 console.error(\`Connection closed by 0.0.0.0 port 22
 fatal: Could not read from remote repository.
@@ -30,8 +32,9 @@ process.exit(128)
   })
 
   // act
-  await Command.execute('git.pull')
-
+  await QuickPick.open()
+  await QuickPick.setValue('>Git: Pull')
+  await QuickPick.selectItem('Git: Pull')
   // assert
   const dialog = Locator('dialog')
   const dialogErrorMessage = dialog.locator('#DialogBodyErrorMessage')
@@ -57,3 +60,5 @@ Please make sure you have the correct access rights
 and the repository exists.`)
   )
 })
+
+export {}

@@ -1,5 +1,5 @@
 const createFakeGitBinary = async (content) => {
-  const tmpDir = await FileSystem.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const nodePath = await Platform.getNodePath()
   const gitPath = `${tmpDir}/git`
   await FileSystem.writeFile(
@@ -13,6 +13,8 @@ ${content}`
 
 test('git.push-error-no-configured-push-destination', async () => {
   // arrange
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
   const gitPath = await createFakeGitBinary(`
 console.error(\`fatal: No configured push destination.
 Either specify the URL from the command-line or configure a remote repository using
