@@ -2,11 +2,9 @@ test('git.pull-error-cannot-lock-ref', async () => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutable(`
-console.error(\`error: cannot lock ref 'refs/remotes/origin/master': is at 2e4bfdb24fd137a1d2e87bd480f283cf7001f19a but expected 70ea06a46fd4b38bdba9ab1d64f3fee0f63806a5
-! 70ea06a46f..2e4bfdb24f  master     -> origin/master  (unable to update local ref)\`)
-process.exit(128)
-`)
+  const gitPath = await FileSystem.createExecutableFrom(
+    `fixtures/git.pull-error-cannot-lock-ref/git.js`
+  )
   await Settings.update({
     'git.path': gitPath,
   })

@@ -2,10 +2,10 @@ test('git.push-error-timeout', async () => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutable(
-    `setTimeout(()=>{}, 9999999)`
+  const gitPath = await FileSystem.createExecutableFrom(
+    `fixtures/git.push-error-timeout/git.js`
   )
-  const configDir = await Settings.update({
+  await Settings.update({
     'git.path': gitPath,
   })
 

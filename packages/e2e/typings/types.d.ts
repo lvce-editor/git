@@ -32,7 +32,7 @@ declare const Explorer: {
   readonly focusLast: () => Promise<void>
   readonly focusNext: () => Promise<void>
   readonly clickCurrent: () => Promise<void>
-
+  readonly expandRecursively: () => Promise<void>
   // TODO maybe rename this to collapse
   readonly handleArrowLeft: () => Promise<void>
 }
@@ -48,7 +48,11 @@ declare const FileSystem: {
   readonly writeFile: (uri: string, content: string) => Promise<void>
   readonly mkdir: (uri: string) => Promise<void>
   readonly chmod: (uri: string, permissions: string) => Promise<void>
+  /**
+   * @deprecated use createExecutableFrom instead
+   */
   readonly createExecutable: (content: string) => Promise<void>
+  readonly createExecutableFrom: (path: string) => Promise<void>
 }
 
 declare const KeyBoard: {

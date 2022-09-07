@@ -2,11 +2,9 @@ test('git.pull-error-unstaged-changes', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   // arrange
-  const gitPath = await FileSystem.createExecutable(`
-console.error(\`error: Cannot pull with rebase, you have unstaged changes.
-error: please commit or stash them.\`)
-process.exit(128)
-`)
+  const gitPath = await FileSystem.createExecutableFrom(
+    `fixtures/git.pull-error-unstaged-changes/git.js`
+  )
   await Settings.update({
     'git.path': gitPath,
   })
