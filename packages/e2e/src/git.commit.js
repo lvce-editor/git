@@ -2,7 +2,9 @@ test.skip('git.commit', async () => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.commit`)
+  const gitPath = await FileSystem.createExecutableFrom(
+    `fixtures/git.commit/git.js`
+  )
   await Settings.update({
     'git.path': gitPath,
   })

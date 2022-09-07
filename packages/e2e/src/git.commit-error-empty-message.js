@@ -3,7 +3,7 @@ test.skip('git.commit-error-empty-message', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.commit-error-empty-message`
+    `fixtures/git.commit-error-empty-message/git.js`
   )
   await Settings.update({
     'git.path': gitPath,

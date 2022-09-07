@@ -2,8 +2,8 @@ test('git.pull-error-divergent-branches', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   // arrange
-  const gitPath = await FileSystem.createExecutable(
-    `fixtures/git.pull-error-divergent-branches`
+  const gitPath = await FileSystem.createExecutableFrom(
+    `fixtures/git.pull-error-divergent-branches/git.js`
   )
   await Settings.update({
     'git.path': gitPath,
