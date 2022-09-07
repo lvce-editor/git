@@ -3,7 +3,7 @@ test('git.pull-error-cannot-fast-forward-multiple-branches', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.pull-error-cannot-fast-forward-multiple-branches`
+    `fixtures/git.pull-error-cannot-fast-forward-multiple-branches/git.js`
   )
   await Settings.update({
     'git.path': gitPath,

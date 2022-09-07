@@ -3,7 +3,7 @@ test('git.pull-error-cannot-lock-ref', async () => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.pull-error-cannot-lock-ref`
+    `fixtures/git.pull-error-cannot-lock-ref/git.js`
   )
   await Settings.update({
     'git.path': gitPath,
