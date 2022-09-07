@@ -2,19 +2,9 @@ test('git.push-error-no-configured-push-destination', async () => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutable(`
-console.error(\`fatal: No configured push destination.
-Either specify the URL from the command-line or configure a remote repository using
-
-    git remote add <name> <url>
-
-and then push using the remote name
-
-    git push <name>
-
-\`)
-process.exit(128)
-`)
+  const gitPath = await FileSystem.createExecutableFrom(
+    `fixtures/git.push-error-no-configured-push-destination/git.js`
+  )
   await Settings.update({
     'git.path': gitPath,
   })
