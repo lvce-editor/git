@@ -32,6 +32,7 @@ export const initializeProject = async () => {
 }
 
 export const activate = async () => {
+  console.log('hello from git')
   vscode.registerCommand(ExtensionHostCommandAcceptInput)
   vscode.registerCommand(ExtensionHostCommandGitAddAll)
   vscode.registerCommand(ExtensionHostCommandGitCheckout)
