@@ -1,7 +1,7 @@
 test('git.pull-error-unstaged-changes', async () => {
+  // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  // arrange
   const gitPath = await FileSystem.createExecutableFrom(
     `fixtures/git.pull-error-unstaged-changes/git.js`
   )

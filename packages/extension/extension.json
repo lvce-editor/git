@@ -16,7 +16,8 @@
     "onStartupFinished",
     "onStatusBarItem:git.sync",
     "onStatusBarItem:git.checkout",
-    "onStatusBarItem"
+    "onStatusBarItem",
+    "onSourceControl"
   ],
   "commands": [
     {
