@@ -1,4 +1,4 @@
-console.log(` M extensions/builtin.git/src/parts/GitRequests/GitRequests.js
- M packages/extension-host/src/parts/InternalCommand/InternalCommand.js
+console.log(` M test/file-1.txt
+ M test/file-2.txt
 `)
 process.exit(0)

@@ -14,9 +14,6 @@
     "onCommand:git.fetch",
     "onCommand:git.pr",
     "onStartupFinished",
-    "onStatusBarItem:git.sync",
-    "onStatusBarItem:git.checkout",
-    "onStatusBarItem",
     "onSourceControl"
   ],
   "commands": [

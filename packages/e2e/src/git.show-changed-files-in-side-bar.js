@@ -1,4 +1,4 @@
-test.skip('git.show-changed-files-in-side-bar', async () => {
+test('git.show-changed-files-in-side-bar', async () => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
@@ -13,6 +13,8 @@ test.skip('git.show-changed-files-in-side-bar', async () => {
   await SideBar.open('Source Control')
 
   // assert
-
-  // TODO check that changed files are shown
+  const treeItems = Locator('.TreeItem')
+  await expect(treeItems).toHaveCount(2)
+  await expect(treeItems.nth(0)).toHaveText('file-1.txt')
+  await expect(treeItems.nth(1)).toHaveText('file-2.txt')
 })

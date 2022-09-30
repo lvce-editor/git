@@ -48,8 +48,8 @@ export const activate = async () => {
 
   await initializeProject()
 
-  vscode.registerStatusBarItem(StatusBarCheckout.create())
-  vscode.registerStatusBarItem(StatusBarItemSync)
+  // vscode.registerStatusBarItem(StatusBarCheckout.create())
+  // vscode.registerStatusBarItem(StatusBarItemSync)
 
   // vscode.updateGitDecorations()
 
