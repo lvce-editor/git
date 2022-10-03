@@ -14,6 +14,7 @@ export const getCurrent = async () => {
     throw new VError('git binary not found')
   }
   const path = vscode.getWorkspaceFolder()
+  console.log({ path })
   if (!path) {
     throw new VError('no workspace folder is open')
     // throw new VError('no repository path found')

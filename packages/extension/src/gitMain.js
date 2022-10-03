@@ -32,7 +32,6 @@ export const initializeProject = async () => {
 }
 
 export const activate = async () => {
-  console.log('hello from git')
   vscode.registerCommand(ExtensionHostCommandAcceptInput)
   vscode.registerCommand(ExtensionHostCommandGitAddAll)
   vscode.registerCommand(ExtensionHostCommandGitCheckout)
@@ -49,8 +48,8 @@ export const activate = async () => {
 
   await initializeProject()
 
-  vscode.registerStatusBarItem(StatusBarCheckout.create())
-  vscode.registerStatusBarItem(StatusBarItemSync)
+  // vscode.registerStatusBarItem(StatusBarCheckout.create())
+  // vscode.registerStatusBarItem(StatusBarItemSync)
 
   // vscode.updateGitDecorations()
 
