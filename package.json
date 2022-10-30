@@ -15,9 +15,9 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@lvce-editor/package-extension": "^0.0.4",
-    "@lvce-editor/server": "^0.7.4",
-    "lerna": "^5.5.4",
+    "@lvce-editor/package-extension": "^0.0.5",
+    "@lvce-editor/server": "^0.10.8",
+    "lerna": "^6.0.1",
     "prettier": "^2.7.1"
   },
   "xo": {
