@@ -1,5 +1,4 @@
 import * as GitFind from '../GitFind/GitFind.js'
-import VError from 'verror'
 
 export const state = {
   currentRepository: undefined,
@@ -16,7 +15,7 @@ export const getCurrent = async () => {
   const path = vscode.getWorkspaceFolder()
   console.log({ path })
   if (!path) {
-    throw new VError('no workspace folder is open')
+    throw new vscode.VError('no workspace folder is open')
     // throw new VError('no repository path found')
   }
   state.currentRepository = {

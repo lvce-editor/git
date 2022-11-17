@@ -17,7 +17,6 @@
  *
  */
 
-import VError from 'verror'
 import * as Git from '../Git/Git.js'
 
 // TODO prettier makes the error declarations ugly
