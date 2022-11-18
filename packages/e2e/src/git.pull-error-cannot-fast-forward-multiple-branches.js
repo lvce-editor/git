@@ -1,13 +1,27 @@
+export const mockExec = (command, args, options) => {
+  if (command === 'git') {
+    if (args[0] === '--version') {
+      return {
+        stdout: '0.0.0',
+        stderr: '',
+        exitCode: 0,
+      }
+    }
+    if (args[0] === 'pull') {
+      return {
+        stdout: '',
+        stderr: 'fatal: Cannot fast-forward to multiple branches.',
+        exitCode: 128,
+      }
+    }
+  }
+  throw new Error(`unexpected command ${command}`)
+}
+
 test('git.pull-error-cannot-fast-forward-multiple-branches', async () => {
   // arrange
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.pull-error-cannot-fast-forward-multiple-branches/git.js`
-  )
-  await Settings.update({
-    'git.path': gitPath,
-  })
 
   // act
   await QuickPick.open()

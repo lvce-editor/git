@@ -70,5 +70,6 @@ export class GitError extends vscode.VError {
     if (error && error.stderr) {
       this.stderr = error.stderr
     }
+    this.isExpected = true
   }
 }

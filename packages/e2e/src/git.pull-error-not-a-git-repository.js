@@ -1,13 +1,28 @@
-test('git.pull-error-not-a-git-repository', async () => {
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+export const mockExec = (command, args, options) => {
+  if (command === 'git') {
+    if (args[0] === '--version') {
+      return {
+        stdout: '0.0.0',
+        stderr: '',
+        exitCode: 0,
+      }
+    }
+    if (args[0] === 'pull') {
+      return {
+        stdout: '',
+        stderr:
+          'fatal: not a git repository (or any of the parent directories): .git',
+        exitCode: 128,
+      }
+    }
+  }
+  throw new Error(`unexpected command ${command}`)
+}
+
+test.skip('git.pull-error-not-a-git-repository', async () => {
   // arrange
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.pull-error-not-a-git-repository/git.js`
-  )
-  await Settings.update({
-    'git.path': gitPath,
-  })
+  const tmpDir = await FileSystem.getTmpDir()
+  await Workspace.setPath(tmpDir)
 
   // act
   await QuickPick.open()

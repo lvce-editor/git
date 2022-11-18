@@ -1,13 +1,31 @@
+export const mockExec = (command, args, options) => {
+  if (command === 'git') {
+    if (args[0] === '--version') {
+      return {
+        stdout: '0.0.0',
+        stderr: '',
+        exitCode: 0,
+      }
+    }
+    if (args[0] === 'pull') {
+      return {
+        stdout: '',
+        stderr: `Repository not found.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.`,
+        exitCode: 128,
+      }
+    }
+  }
+  throw new Error(`unexpected command ${command}`)
+}
+
 test('git.pull-error-repository-not-found', async () => {
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
   // arrange
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.pull-error-repository-not-found/git.js`
-  )
-  await Settings.update({
-    'git.path': gitPath,
-  })
+  const tmpDir = await FileSystem.getTmpDir()
+  await Workspace.setPath(tmpDir)
 
   // act
   await QuickPick.open()

@@ -1,4 +1,4 @@
-test('git.push-error-timeout', async () => {
+test.skip('git.push-error-timeout', async () => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
