@@ -1,4 +1,4 @@
-test('git.show-changed-files-in-side-bar', async () => {
+test.skip('git.show-changed-files-in-side-bar', async () => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
