@@ -1,15 +1,6 @@
 import { ModuleMocker } from 'jest-mock'
 import { createContext, runInContext } from 'node:vm'
-
-class VError extends Error {
-  constructor(error, message) {
-    super(message)
-  }
-}
-
-const api = {
-  VError,
-}
+import { api } from './api.js'
 
 export default class CustomEnvironment {
   constructor() {
