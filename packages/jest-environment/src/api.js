@@ -1,6 +1,6 @@
 class VError extends Error {
   constructor(error, message) {
-    super(message)
+    super(`${message}: ${error.message}`)
   }
 }
 
