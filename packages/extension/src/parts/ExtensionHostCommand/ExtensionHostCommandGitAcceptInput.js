@@ -1,7 +1,8 @@
 import * as GitRequests from '../GitRequests/GitRequests.js'
 import * as Repositories from '../GitRepositories/GitRepositories.js'
+import * as CommandId from '../CommandId/CommandId.js'
 
-export const id = 'git.acceptInput'
+export const id = CommandId.GitAcceptInput
 
 export const execute = async (message) => {
   const repository = await Repositories.getCurrent()

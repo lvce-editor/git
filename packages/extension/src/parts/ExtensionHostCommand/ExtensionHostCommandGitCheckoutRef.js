@@ -1,8 +1,9 @@
 import * as Repositories from '../GitRepositories/GitRepositories.js'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.js'
 import * as GitRequests from '../GitRequests/GitRequests.js'
+import * as CommandId from '../CommandId/CommandId.js'
 
-export const id = 'git.checkoutRef'
+export const id = CommandId.GitCheckoutRef
 
 const toPick = (ref) => {
   return {
