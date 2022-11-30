@@ -1,3 +1,6 @@
+/**
+ * @jest-environment lvce-editor
+ */
 import { jest } from '@jest/globals'
 import * as Exec from '../src/parts/Exec/Exec.js'
 import * as GitRequests from '../src/parts/GitRequests/GitRequests.js'
