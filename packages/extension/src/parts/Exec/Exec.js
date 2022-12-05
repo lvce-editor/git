@@ -1,5 +1,3 @@
-import { execa } from 'execa'
-import { performance } from 'perf_hooks'
 import * as Trace from '../Trace/Trace.js'
 
 export const state = {
@@ -11,7 +9,7 @@ export const state = {
    */
   async exec(command, args, options) {
     const start = performance.now()
-    const { stdout, stderr } = await execa(command, args, {
+    const { stdout, stderr } = await vscode.exec(command, args, {
       ...options,
     })
     const end = performance.now()

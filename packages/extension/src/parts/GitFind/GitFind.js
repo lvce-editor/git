@@ -9,6 +9,7 @@ const findGitAtPath = async (path) => {
   let result
   try {
     result = await Exec.exec('git', ['--version'], {})
+    console.log({ result })
   } catch (error) {
     if (!Exec.isExecError(error)) {
       throw error
@@ -28,8 +29,8 @@ const getGitPaths = () => {
     return [configuredGitPath]
   }
   const paths = ['git']
-  if (process.env.GIT_PATH) {
-    paths.unshift(process.env.GIT_PATH)
+  if (vscode.env.GIT_PATH) {
+    paths.unshift(vscode.env.GIT_PATH)
   }
   return paths
 }

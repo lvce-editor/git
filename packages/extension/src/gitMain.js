@@ -1,6 +1,7 @@
 import * as ExtensionHostCommandAcceptInput from './parts/ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.js'
 import * as ExtensionHostCommandGitAddAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitAddAll.js'
 import * as ExtensionHostCommandGitCheckout from './parts/ExtensionHostCommand/ExtensionHostCommandGitCheckout.js'
+import * as ExtensionHostCommandGitCheckoutRef from './parts/ExtensionHostCommand/ExtensionHostCommandGitCheckoutRef.js'
 import * as ExtensionHostCommandGitFetch from './parts/ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
 import * as ExtensionHostCommandGitInit from './parts/ExtensionHostCommand/ExtensionHostCommandGitInit.js'
 import * as ExtensionHostCommandGitPull from './parts/ExtensionHostCommand/ExtensionHostCommandGitPull.js'
@@ -12,9 +13,6 @@ import * as GitFind from './parts/GitFind/GitFind.js'
 import * as Repositories from './parts/GitRepositories/GitRepositories.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
-import * as StatusBarCheckout from './parts/UiStatusBar/StatusBarCheckout.js'
-import * as StatusBarItemSync from './parts/UiStatusBar/StatusBarSync.js'
-import * as ExtensionHostCommandGitCheckoutRef from './parts/ExtensionHostCommand/ExtensionHostCommandGitCheckoutRef.js'
 
 export const initializeProject = async () => {
   const git = await GitFind.findGit()
@@ -27,8 +25,8 @@ export const initializeProject = async () => {
     return
   }
   OutputChannelGit.append(`using git version ${git.version}\n`)
-  const folder = vscode.getWorkspaceFolder()
-  const repository = await Repositories.getCurrent()
+  // const folder = vscode.getWorkspaceFolder()
+  // const repository = await Repositories.getCurrent()
 }
 
 export const activate = async () => {

@@ -1,13 +1,29 @@
+export const mockExec = (command, args, options) => {
+  if (command === 'git') {
+    if (args[0] === '--version') {
+      return {
+        stdout: '0.0.0',
+        stderr: '',
+        exitCode: 0,
+      }
+    }
+    if (args[0] === 'pull') {
+      return {
+        stdout: '',
+        stderr: `error: Cannot pull with rebase, you have unstaged changes.
+error: please commit or stash them.
+`,
+        exitCode: 128,
+      }
+    }
+  }
+  throw new Error(`unexpected command ${command}`)
+}
+
 test('git.pull-error-unstaged-changes', async () => {
   // arrange
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.pull-error-unstaged-changes/git.js`
-  )
-  await Settings.update({
-    'git.path': gitPath,
-  })
 
   // act
   await QuickPick.open()

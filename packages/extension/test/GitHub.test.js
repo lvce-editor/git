@@ -25,7 +25,7 @@ const runGitHubServer = async (port) => {
   }
 }
 
-test('makePullRequest - error - no commits between main and branch', async () => {
+test.skip('makePullRequest - error - no commits between main and branch', async () => {
   const port = await getPort()
   const server = await runGitHubServer(port)
   Platform.state.getGitHubBaseUrl = () => {
@@ -60,7 +60,7 @@ test('makePullRequest - error - no commits between main and branch', async () =>
   )
 })
 
-test('makePullRequest - error - branch not found', async () => {
+test.skip('makePullRequest - error - branch not found', async () => {
   const port = await getPort()
   const server = await runGitHubServer(port)
   Platform.state.getGitHubBaseUrl = () => {
@@ -87,7 +87,7 @@ test('makePullRequest - error - branch not found', async () => {
   ).rejects.toThrowError(new Error("GitHub: Invalid field 'head'"))
 })
 
-test('makePullRequest - error - missing field title', async () => {
+test.skip('makePullRequest - error - missing field title', async () => {
   const port = await getPort()
   const server = await runGitHubServer(port)
   Platform.state.getGitHubBaseUrl = () => {

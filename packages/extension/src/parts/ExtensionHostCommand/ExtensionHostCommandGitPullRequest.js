@@ -1,6 +1,7 @@
 import * as Repositories from '../GitRepositories/GitRepositories.js'
 import * as GitHub from '../GitHub/GitHub.js'
 import * as GitRequests from '../GitRequests/GitRequests.js'
+import * as CommandId from '../CommandId/CommandId.js'
 
 const getGitProvider = (id) => {
   switch (id) {
@@ -18,7 +19,7 @@ const getGitProviderId = (remote) => {
   throw new Error('unknown')
 }
 
-export const id = 'git.pr'
+export const id = CommandId.GitPullRequest
 
 export const execute = async () => {
   const repository = await Repositories.getCurrent()

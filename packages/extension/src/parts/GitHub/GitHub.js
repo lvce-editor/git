@@ -30,7 +30,7 @@ const getErrorMessageFromResponseData = (responseData) => {
 export const makePullRequest = async ({ base, head, owner, repo }) => {
   const { Octokit } = await import('@octokit/rest')
   const octokit = new Octokit({
-    auth: process.env.GITHUB_AUTH,
+    auth: vscode.env.GITHUB_AUTH,
     baseUrl: Platform.getGitHubBaseUrl(),
   })
   try {

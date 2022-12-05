@@ -2,7 +2,7 @@
   "id": "builtin.git",
   "name": "Git",
   "description": "Git SCM Integration",
-  "main": "src/gitMain.js",
+  "browser": "src/gitMain.js",
   "icon": "./icon.png",
   "activation": [
     "onCommand:git.init",

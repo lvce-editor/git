@@ -1,5 +1,3 @@
-import VError from 'verror'
-
 const firstLine = (text) => {
   const newLineIndex = text.indexOf('\n')
   if (newLineIndex === -1) {
@@ -58,7 +56,7 @@ const getErrorMessageAndCause = (error, message) => {
   }
 }
 
-export class GitError extends VError {
+export class GitError extends vscode.VError {
   constructor(error, command) {
     const errorMessage = `Git`
     let cause = new Error()
@@ -72,5 +70,6 @@ export class GitError extends VError {
     if (error && error.stderr) {
       this.stderr = error.stderr
     }
+    this.isExpected = true
   }
 }

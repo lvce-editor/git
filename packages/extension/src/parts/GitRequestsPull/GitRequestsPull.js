@@ -14,6 +14,7 @@ export const pull = async ({ cwd, gitPath }) => {
       gitPath,
     })
   } catch (error) {
+    console.log({ error })
     throw new GitError(error, 'pull')
   }
 }

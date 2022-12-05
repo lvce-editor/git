@@ -1,4 +1,4 @@
-import pTimeout from 'p-timeout'
+// import pTimeout from 'p-timeout'
 import * as Constants from '../Constants/Constants.js'
 
 export const state = {
@@ -23,10 +23,11 @@ export const execute = async ({ id, fn, args }) => {
   runListeners()
   try {
     console.log('before')
-    const r = await pTimeout(fn(args), {
-      milliseconds: Constants.CommandTimeout,
-      message: `Git ${id} timeout out after ${Constants.CommandTimeout}ms`,
-    })
+    const r = await fn(args)
+    // const r = await pTimeout(fn(args), {
+    // milliseconds: Constants.CommandTimeout,
+    // message: `Git ${id} timeout out after ${Constants.CommandTimeout}ms`,
+    // })
     console.log(r)
     console.log('after')
     return r

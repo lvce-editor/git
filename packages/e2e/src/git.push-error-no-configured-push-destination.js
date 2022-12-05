@@ -1,13 +1,36 @@
+export const mockExec = (command, args, options) => {
+  if (command === 'git') {
+    if (args[0] === '--version') {
+      return {
+        stdout: '0.0.0',
+        stderr: '',
+        exitCode: 0,
+      }
+    }
+    if (args[0] === 'push') {
+      return {
+        stdout: '',
+        stderr: `fatal: No configured push destination.
+Either specify the URL from the command-line or configure a remote repository using
+
+    git remote add <name> <url>
+
+and then push using the remote name
+
+    git push <name>
+
+`,
+        exitCode: 128,
+      }
+    }
+  }
+  throw new Error(`unexpected command ${command}`)
+}
+
 test('git.push-error-no-configured-push-destination', async () => {
   // arrange
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.push-error-no-configured-push-destination/git.js`
-  )
-  await Settings.update({
-    'git.path': gitPath,
-  })
 
   // act
   await QuickPick.open()

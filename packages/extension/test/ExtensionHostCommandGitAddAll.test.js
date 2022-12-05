@@ -1,3 +1,6 @@
+/**
+ * @jest-environment lvce-editor
+ */
 import * as ExtensionHostCommandGitAddAll from '../src/parts/ExtensionHostCommand/ExtensionHostCommandGitAddAll.js'
 
 test('id', () => {
