@@ -1,5 +1,7 @@
 import * as Git from '../Git/Git.js'
 import { GitError } from '../GitError/GitError.js'
+import * as FileStateType from '../FileStateType/FileStateType.js'
+import * as GitStatusType from '../GitStatusType/GitStatusType.js'
 
 const parseStatusLine = (line) => {
   const x = line[0]
@@ -52,45 +54,54 @@ export const getModifiedFiles = async ({ cwd, gitPath }) => {
   outer: for (const line of lines) {
     const statusXy = getStatusXY(line)
     switch (statusXy) {
-      case '??':
-        untracked.push({ file: getFile(line), status: 1 })
+      case GitStatusType.Untracked:
+        untracked.push({ file: getFile(line), status: FileStateType.Modified })
         continue outer
-      case '!!':
-        untracked.push({ file: getFile(line), status: 1 })
+      case GitStatusType.Ignored:
+        untracked.push({ file: getFile(line), status: FileStateType.Modified })
         continue outer
       default:
         break
     }
     const statusX = getStatusX(line)
     switch (statusX) {
-      case 'M':
-        index.push({ file: getFile(line), status: 1 })
+      case GitStatusType.IndexModified:
+        index.push({ file: getFile(line), status: FileStateType.Modified })
         break
-      case 'A':
-        index.push({ file: getFile(line), status: 1 })
+      case GitStatusType.IndexAdded:
+        index.push({ file: getFile(line), status: FileStateType.Modified })
         break
-      case 'D':
-        index.push({ file: getFile(line), status: 1 })
+      case GitStatusType.IndexModified:
+        index.push({ file: getFile(line), status: FileStateType.Modified })
         break
-      case 'R':
-        index.push({ file: getFile(line), status: 1 })
+      case GitStatusType.IndexRenamed:
+        index.push({ file: getFile(line), status: FileStateType.Modified })
         break
-      case 'C':
-        index.push({ file: getFile(line), status: 1 })
+      case GitStatusType.IndexCopied:
+        index.push({ file: getFile(line), status: FileStateType.Modified })
         break
       default:
         break
     }
     const statusY = getStatusY(line)
     switch (statusY) {
-      case 'M':
-        workingTree.push({ file: getFile(line), status: 1 })
+      case GitStatusType.Modified:
+        workingTree.push({
+          file: getFile(line),
+          status: FileStateType.Modified,
+        })
         break
-      case 'D':
-        workingTree.push({ file: getFile(line), status: 1 })
+      case GitStatusType.Deleted:
+        workingTree.push({
+          file: getFile(line),
+          status: FileStateType.Modified,
+        })
         break
-      case 'A':
-        workingTree.push({ file: getFile(line), status: 1 })
+      case GitStatusType.Added:
+        workingTree.push({
+          file: getFile(line),
+          status: FileStateType.Modified,
+        })
         break
       default:
         break
