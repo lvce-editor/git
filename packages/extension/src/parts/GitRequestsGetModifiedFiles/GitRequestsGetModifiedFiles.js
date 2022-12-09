@@ -48,17 +48,14 @@ export const getModifiedFiles = async ({ cwd, gitPath }) => {
   }
   const lines = gitResult.stdout === '' ? [] : gitResult.stdout.split('\n')
   const index = []
-  const workingTree = []
-  const merge = []
-  const untracked = []
   outer: for (const line of lines) {
     const statusXy = getStatusXY(line)
     switch (statusXy) {
       case GitStatusType.Untracked:
-        untracked.push({ file: getFile(line), status: FileStateType.Modified })
+        index.push({ file: getFile(line), status: FileStateType.Modified })
         continue outer
       case GitStatusType.Ignored:
-        untracked.push({ file: getFile(line), status: FileStateType.Modified })
+        index.push({ file: getFile(line), status: FileStateType.Modified })
         continue outer
       default:
         break
@@ -86,19 +83,19 @@ export const getModifiedFiles = async ({ cwd, gitPath }) => {
     const statusY = getStatusY(line)
     switch (statusY) {
       case GitStatusType.Modified:
-        workingTree.push({
+        index.push({
           file: getFile(line),
           status: FileStateType.Modified,
         })
         break
       case GitStatusType.Deleted:
-        workingTree.push({
+        index.push({
           file: getFile(line),
           status: FileStateType.Modified,
         })
         break
       case GitStatusType.Added:
-        workingTree.push({
+        index.push({
           file: getFile(line),
           status: FileStateType.Modified,
         })
@@ -108,14 +105,10 @@ export const getModifiedFiles = async ({ cwd, gitPath }) => {
     }
   }
 
-  const count =
-    merge.length + index.length + workingTree.length + untracked.length
+  const count = index.length
 
   return {
-    merge,
     index,
-    workingTree,
-    untracked,
     gitRoot: cwd, // TODO
     count,
   }

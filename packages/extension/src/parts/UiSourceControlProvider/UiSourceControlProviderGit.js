@@ -40,8 +40,8 @@ export const getChangedFiles = async (cwd) => {
     cwd: repository.path,
     gitPath: repository.gitPath,
   })
-  const { workingTree } = modifiedFiles
-  return workingTree
+  const { index } = modifiedFiles
+  return index
 }
 
 export const fetch = CommandFetch

@@ -4,6 +4,7 @@
 import { jest } from '@jest/globals'
 import * as Exec from '../src/parts/Exec/Exec.js'
 import * as GitRequestsGetModifiedFiles from '../src/parts/GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.js'
+import * as FileStateType from '../src/parts/FileStateType/FileStateType.js'
 
 class ExecError extends Error {
   constructor(stderr) {
@@ -29,17 +30,14 @@ test('getModifiedFiles', async () => {
   ).toEqual({
     count: 2,
     gitRoot: '',
-    index: [],
-    merge: [],
-    untracked: [],
-    workingTree: [
+    index: [
       {
         file: 'extensions/builtin.git/src/parts/GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.js',
-        status: 1,
+        status: FileStateType.Modified,
       },
       {
         file: 'packages/extension-host/src/parts/InternalCommand/InternalCommand.js',
-        status: 1,
+        status: FileStateType.Modified,
       },
     ],
   })

@@ -18,7 +18,6 @@ export const exec = async ({ gitPath, cwd, name, args }) => {
     },
     cwd: cwd,
   }
-  console.log({ gitPath })
   const { stdout, stderr, exitCode } = await Exec.exec(gitPath, args, options)
   return {
     stdout,
