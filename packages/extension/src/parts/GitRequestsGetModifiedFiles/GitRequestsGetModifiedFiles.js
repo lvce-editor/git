@@ -2,17 +2,7 @@ import * as Git from '../Git/Git.js'
 import { GitError } from '../GitError/GitError.js'
 import * as FileStateType from '../FileStateType/FileStateType.js'
 import * as GitStatusType from '../GitStatusType/GitStatusType.js'
-
-const parseStatusLine = (line) => {
-  const x = line[0]
-  const y = line[1]
-  const file = line.slice(3)
-  return {
-    x,
-    y,
-    file,
-  }
-}
+import * as ErrorCodes from '../ErrorCodes/ErrorCodes.js'
 
 const getStatusXY = (line) => {
   return line.slice(0, 2)
@@ -43,7 +33,14 @@ export const getModifiedFiles = async ({ cwd, gitPath }) => {
       name: 'getModifiedFiles',
     })
   } catch (error) {
-    console.log({ error })
+    // @ts-ignore
+    if (error && error.code === ErrorCodes.ENOENT) {
+      return {
+        index: [],
+        gitRoot: cwd, // TODO
+        count: 0,
+      }
+    }
     throw new GitError(error, 'getModifiedFiles')
   }
   const lines = gitResult.stdout === '' ? [] : gitResult.stdout.split('\n')
