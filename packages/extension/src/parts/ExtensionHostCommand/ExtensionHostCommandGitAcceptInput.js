@@ -5,7 +5,6 @@ import * as CommandId from '../CommandId/CommandId.js'
 export const id = CommandId.GitAcceptInput
 
 export const execute = async (message) => {
-  console.log({ message })
   const repository = await Repositories.getCurrent()
   await GitRequests.addAllAndCommit({
     message,
