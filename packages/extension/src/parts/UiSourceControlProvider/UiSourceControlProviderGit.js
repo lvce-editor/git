@@ -1,13 +1,36 @@
 import * as GitRequests from '../GitRequests/GitRequests.js'
 import * as Repositories from '../GitRepositories/GitRepositories.js'
 import * as CommandAcceptInput from '../ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.js'
+import * as CommandAdd from '../ExtensionHostCommand/ExtensionHostCommandGitAdd.js'
+import * as CommandDiscard from '../ExtensionHostCommand/ExtensionHostCommandGitDiscard.js'
 import * as CommandFetch from '../ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
+import * as Exec from '../Exec/Exec.js'
 
 export const id = 'git'
 
 export const label = 'Git'
 
-export const acceptInput = CommandAcceptInput
+export const acceptInput = CommandAcceptInput.execute
+
+export const add = CommandAdd.execute
+
+export const discard = CommandAdd.execute
+
+export const isActive = async (scheme, root) => {
+  if (scheme !== '') {
+    return false
+  }
+  try {
+    const {} = await Exec.exec('git', ['rev-parse', '--git-dir'], {
+      cwd: root,
+    })
+    return true
+  } catch (error) {
+    console.log({ error })
+    return false
+  }
+  return true
+}
 
 export const getBadgeCount = async (cwd) => {
   try {
