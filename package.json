@@ -16,9 +16,9 @@
   "license": "MIT",
   "devDependencies": {
     "@lvce-editor/package-extension": "^0.0.5",
-    "@lvce-editor/server": "^0.11.7",
-    "lerna": "^6.1.0",
-    "prettier": "^2.8.1"
+    "@lvce-editor/server": "^0.11.12",
+    "lerna": "^6.4.0",
+    "prettier": "^2.8.2"
   },
   "xo": {
     "rules": {
