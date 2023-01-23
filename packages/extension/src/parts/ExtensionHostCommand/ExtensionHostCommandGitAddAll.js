@@ -1,18 +1,8 @@
-import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.js'
-import * as GitRequests from '../GitRequests/GitRequests.js'
 import * as CommandId from '../CommandId/CommandId.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
 
 export const id = CommandId.GitAddAll
 
 export const execute = async () => {
-  const repository = await Repositories.getCurrent()
-  await GitRepositoriesRequests.execute({
-    id: 'addAll',
-    fn: GitRequests.addAll,
-    args: {
-      cwd: repository.path,
-      gitPath: repository.gitPath,
-    },
-  })
+  await GitWorker.invoke('Git.addAll')
 }
