@@ -10,7 +10,7 @@ import * as ExtensionHostCommandGitPullRequest from './parts/ExtensionHostComman
 import * as ExtensionHostCommandGitPush from './parts/ExtensionHostCommand/ExtensionHostCommandGitPush.js'
 import * as ExtensionHostCommandGitSync from './parts/ExtensionHostCommand/ExtensionHostCommandGitSync.js'
 import * as GitFind from './parts/GitFind/GitFind.js'
-import * as Repositories from './parts/GitRepositories/GitRepositories.js'
+import * as GitWorker from './parts/GitWorker/GitWorker.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
 
@@ -30,6 +30,7 @@ export const initializeProject = async () => {
 }
 
 export const activate = async () => {
+  await GitWorker.intialize()
   vscode.registerCommand(ExtensionHostCommandAcceptInput)
   vscode.registerCommand(ExtensionHostCommandGitAddAll)
   vscode.registerCommand(ExtensionHostCommandGitCheckout)
