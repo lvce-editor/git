@@ -1,3 +1,5 @@
+export const name = 'git.pull-error-connection-closed'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -23,7 +25,14 @@ and the repository exists.
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.pull-error-connection-closed', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  Settings,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(
@@ -44,6 +53,4 @@ test('git.pull-error-connection-closed', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: Connection closed by 0.0.0.0 port 22'
   )
-})
-
-export {}
+}

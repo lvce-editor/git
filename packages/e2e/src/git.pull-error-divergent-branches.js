@@ -1,3 +1,7 @@
+export const name = 'git.pull-error-divergent-branches'
+
+export const skip = true
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -34,7 +38,13 @@ fatal: Need to specify how to reconcile divergent branches.
   throw new Error(`unexpected command ${command}`)
 }
 
-test.skip('git.pull-error-divergent-branches', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -51,6 +61,4 @@ test.skip('git.pull-error-divergent-branches', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: hint: You have divergent branches and need to specify how to reconcile them.'
   )
-})
-
-export {}
+}

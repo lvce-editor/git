@@ -1,3 +1,5 @@
+export const name = 'git.push-error-email-privacy-restrictions'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -27,7 +29,13 @@ error: failed to push some refs to 'github.com:user/repo.git`,
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.push-error-email-privacy-restrictions', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -44,6 +52,4 @@ test('git.push-error-email-privacy-restrictions', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: remote: error: GH007: Your push would publish a private email address.'
   )
-})
-
-export {}
+}

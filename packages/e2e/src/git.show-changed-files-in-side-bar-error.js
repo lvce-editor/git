@@ -1,4 +1,8 @@
-test.skip('git.show-changed-files-in-side-bar-error', async () => {
+export const name = 'git.show-changed-files-in-side-bar-error'
+
+export const skip = true
+
+export const test = async ({ FileSystem, Workspace, Settings, page }) => {
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await FileSystem.createExecutable(`
@@ -30,4 +34,4 @@ process.exit(128)
   // await page.waitForSelector('text=')
   // await page.waitForSelector('.TreeItem:has-text("GitRequests.js")')
   // await page.waitForSelector('.TreeItem:has-text("InternalCommand.js")')
-})
+}

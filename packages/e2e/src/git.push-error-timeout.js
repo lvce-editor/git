@@ -1,4 +1,15 @@
-test.skip('git.push-error-timeout', async () => {
+export const name = 'git.push-error-timeout'
+
+export const skip = true
+
+export const test = async ({
+  FileSystem,
+  Workspace,
+  Settings,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
@@ -24,6 +35,4 @@ test.skip('git.push-error-timeout', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git push timeout out after 3000ms'
   )
-})
-
-export {}
+}

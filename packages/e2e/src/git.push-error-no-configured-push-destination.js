@@ -1,3 +1,5 @@
+export const name = 'git.push-error-no-configured-push-destination'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -27,7 +29,13 @@ and then push using the remote name
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.push-error-no-configured-push-destination', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -46,6 +54,4 @@ test('git.push-error-no-configured-push-destination', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: fatal: No configured push destination.'
   )
-})
-
-export {}
+}

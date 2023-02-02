@@ -1,3 +1,7 @@
+export const name = 'git.pull-error-not-a-git-repository'
+
+export const skip = true
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -19,7 +23,13 @@ export const mockExec = (command, args, options) => {
   throw new Error(`unexpected command ${command}`)
 }
 
-test.skip('git.pull-error-not-a-git-repository', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -34,6 +44,4 @@ test.skip('git.pull-error-not-a-git-repository', async () => {
   await expect(notification).toHaveText(
     'Error: Git: fatal: not a git repository (or any of the parent directories): .git'
   )
-})
-
-export {}
+}

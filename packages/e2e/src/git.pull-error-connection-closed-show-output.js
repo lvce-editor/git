@@ -1,8 +1,19 @@
+export const name = 'git.pull-error-connection-closed-show-output'
+
+export const skip = true
+
 const trimLines = (string) => {
   return string.split('\n').join('')
 }
 
-test.skip('git.pull-error-connection-closed-show-output', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  Settings,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(
@@ -40,6 +51,4 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.`)
   )
-})
-
-export {}
+}

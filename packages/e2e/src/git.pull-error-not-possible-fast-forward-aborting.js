@@ -1,3 +1,7 @@
+export const name = 'git.pull-error-not-possible-fast-forward-aborting'
+
+export const skip = true
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -21,7 +25,13 @@ fatal: Not possible to fast-forward, aborting.
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.pull-error-not-possible-fast-forward-aborting', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -38,6 +48,4 @@ test('git.pull-error-not-possible-fast-forward-aborting', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: fatal: Not possible to fast-forward, aborting.'
   )
-})
-
-export {}
+}

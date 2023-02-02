@@ -1,3 +1,5 @@
+export const name = 'git.pull-error-unstaged-changes'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -20,7 +22,13 @@ error: please commit or stash them.
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.pull-error-unstaged-changes', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -37,6 +45,4 @@ test('git.pull-error-unstaged-changes', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: error: Cannot pull with rebase, you have unstaged changes.'
   )
-})
-
-export {}
+}
