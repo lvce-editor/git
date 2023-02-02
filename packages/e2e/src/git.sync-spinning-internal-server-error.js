@@ -1,4 +1,8 @@
-test.skip('git.sync-spinning-internal-server-error', async () => {
+export const name = 'git.sync-spinning-internal-server-error'
+
+export const skip = true
+
+export const test = async ({ Workspace, FileSystem, Settings }) => {
   const tmpDir = await getTmpDir()
   await writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await createFakeGitBinary(`
@@ -47,4 +51,4 @@ process.exit(128)
       'Error: Git: remote: Internal Server Error'
     )
   }
-})
+}

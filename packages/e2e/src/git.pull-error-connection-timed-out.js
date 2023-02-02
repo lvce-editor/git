@@ -1,3 +1,5 @@
+export const name = 'git.pull-error-connection-timed-out'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -23,7 +25,14 @@ and the repository exists.
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.pull-error-connection-timed-out', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  Settings,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(
@@ -44,6 +53,4 @@ test('git.pull-error-connection-timed-out', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: ssh: connect to host github.com port 22: Connection timed out'
   )
-})
-
-export {}
+}

@@ -1,3 +1,5 @@
+export const name = 'git.pull-error-cannot-lock-ref'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -19,7 +21,13 @@ export const mockExec = (command, args, options) => {
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.pull-error-cannot-lock-ref', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -36,6 +44,4 @@ test('git.pull-error-cannot-lock-ref', async () => {
   await expect(dialogErrorMessage).toHaveText(
     `Error: Git: error: cannot lock ref 'refs/remotes/origin/master': is at 2e4bfdb24fd137a1d2e87bd480f283cf7001f19a but expected 70ea06a46fd4b38bdba9ab1d64f3fee0f63806a5`
   )
-})
-
-export {}
+}

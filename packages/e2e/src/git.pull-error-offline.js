@@ -1,3 +1,5 @@
+export const name = 'git.pull-error-offline'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -23,7 +25,14 @@ and the repository exists.
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.pull-error-offline', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  Settings,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   // arrange
@@ -46,6 +55,4 @@ test('git.pull-error-offline', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: ssh: Could not resolve hostname github.com: Temporary failure in name resolution'
   )
-})
-
-export {}
+}

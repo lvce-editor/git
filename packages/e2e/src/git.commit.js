@@ -1,4 +1,16 @@
-test.skip('git.commit', async () => {
+export const name = 'git.commit'
+
+export const skip = true
+
+export const test = async ({
+  FileSystem,
+  Workspace,
+  Settings,
+  SideBar,
+  KeyBoard,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -17,6 +29,4 @@ test.skip('git.commit', async () => {
   // TODO should also test loading indicator
   await KeyBoard.press('Control+Enter')
   await expect(sourceControlInput).toHaveText('')
-})
-
-export {}
+}

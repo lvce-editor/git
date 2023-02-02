@@ -1,4 +1,16 @@
-test.skip('git.commit-error-empty-message', async () => {
+export const name = 'git.commit-error-empty-message'
+
+export const skip = true
+
+export const test = async ({
+  FileSystem,
+  Workspace,
+  Settings,
+  SideBar,
+  KeyBoard,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
@@ -23,6 +35,4 @@ test.skip('git.commit-error-empty-message', async () => {
   await expect(notificationMessage).toHaveText('There are no changes to commit')
   const notificationOption = notification.locator('.NotificationOption')
   await expect(notificationOption).toHaveText('Create Empty Commit')
-})
-
-export {}
+}

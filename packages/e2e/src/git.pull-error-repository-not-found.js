@@ -1,3 +1,5 @@
+export const name = 'git.pull-error-repository-not-found'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -22,7 +24,13 @@ and the repository exists.`,
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.pull-error-repository-not-found', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -36,6 +44,4 @@ test('git.pull-error-repository-not-found', async () => {
   const notification = await Locator('#DialogBodyErrorMessage')
   await expect(notification).toBeVisible()
   await expect(notification).toHaveText('Error: Git: Repository not found.')
-})
-
-export {}
+}

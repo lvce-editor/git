@@ -1,3 +1,5 @@
+export const name = 'git.push-error-server'
+
 export const mockExec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
@@ -28,7 +30,13 @@ error: failed to push some refs to 'github.com:user/repo.git
   throw new Error(`unexpected command ${command}`)
 }
 
-test('git.push-error-server', async () => {
+export const test = async ({
+  FileSystem,
+  Workspace,
+  QuickPick,
+  Locator,
+  expect,
+}) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -46,6 +54,4 @@ test('git.push-error-server', async () => {
   await expect(dialogErrorMessage).toHaveText(
     'Error: Git: remote: Internal Server Error'
   )
-})
-
-export {}
+}
