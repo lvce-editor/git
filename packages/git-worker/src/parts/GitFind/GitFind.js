@@ -1,5 +1,4 @@
 import * as Exec from '../Exec/Exec.js'
-import * as Trace from '../Trace/Trace.js'
 
 const parseVersion = (raw) => {
   return raw.replace(/^git version /, '')
@@ -42,6 +41,5 @@ export const findGit = async () => {
       return git
     }
   }
-  Trace.trace('git binary not found')
   return undefined
 }

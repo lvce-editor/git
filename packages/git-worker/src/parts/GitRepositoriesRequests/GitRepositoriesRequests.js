@@ -1,5 +1,4 @@
 // import pTimeout from 'p-timeout'
-import * as Constants from '../Constants/Constants.js'
 
 export const state = {
   running: Object.create(null),
