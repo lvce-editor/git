@@ -1,10 +1,11 @@
-import * as GitRequests from '../GitRequests/GitRequests.js'
-import * as Repositories from '../GitRepositories/GitRepositories.js'
+import * as Exec from '../Exec/Exec.js'
 import * as CommandAcceptInput from '../ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.js'
 import * as CommandAdd from '../ExtensionHostCommand/ExtensionHostCommandGitAdd.js'
-import * as CommandDiscard from '../ExtensionHostCommand/ExtensionHostCommandGitDiscard.js'
 import * as CommandFetch from '../ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
-import * as Exec from '../Exec/Exec.js'
+import * as GetDecorationIcon from '../GetDecorationIcon/GetDecorationIcon.js'
+import * as GetStatusText from '../GetStatusText/GetStatusText.js'
+import * as Repositories from '../GitRepositories/GitRepositories.js'
+import * as GitRequests from '../GitRequests/GitRequests.js'
 
 export const id = 'git'
 
@@ -29,7 +30,6 @@ export const isActive = async (scheme, root) => {
     console.log({ error })
     return false
   }
-  return true
 }
 
 export const getBadgeCount = async (cwd) => {
@@ -57,6 +57,18 @@ export const getBadgeCount = async (cwd) => {
   }
 }
 
+const getWithDecoration = (resource) => {
+  return {
+    ...resource,
+    icon: GetDecorationIcon.getDecorationIcon(resource.status),
+    iconTitle: GetStatusText.getStatusText(resource.status),
+  }
+}
+
+const getWithDecorations = (index) => {
+  return index.map(getWithDecoration)
+}
+
 export const getChangedFiles = async (cwd) => {
   const repository = await Repositories.getCurrent()
   const modifiedFiles = await GitRequests.getModifiedFiles({
@@ -64,7 +76,8 @@ export const getChangedFiles = async (cwd) => {
     gitPath: repository.gitPath,
   })
   const { index } = modifiedFiles
-  return index
+  const indexWithDecorations = getWithDecorations(index)
+  return indexWithDecorations
 }
 
 export const fetch = CommandFetch
