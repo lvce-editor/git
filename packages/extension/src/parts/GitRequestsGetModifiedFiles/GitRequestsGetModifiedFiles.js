@@ -20,36 +20,13 @@ const getFile = (line) => {
   return line.slice(3)
 }
 
-/**
- * @param {{cwd:string, gitPath:string }} options
- */
-export const getModifiedFiles = async ({ cwd, gitPath }) => {
-  let gitResult
-  try {
-    gitResult = await Git.exec({
-      args: ['status', '--porcelain'],
-      cwd,
-      gitPath,
-      name: 'getModifiedFiles',
-    })
-  } catch (error) {
-    // @ts-ignore
-    if (error && error.code === ErrorCodes.ENOENT) {
-      return {
-        index: [],
-        gitRoot: cwd, // TODO
-        count: 0,
-      }
-    }
-    throw new GitError(error, 'getModifiedFiles')
-  }
-  const lines = gitResult.stdout === '' ? [] : gitResult.stdout.split('\n')
+const parseLines = (lines) => {
   const index = []
   outer: for (const line of lines) {
     const statusXy = getStatusXY(line)
     switch (statusXy) {
       case GitStatusType.Untracked:
-        index.push({ file: getFile(line), status: FileStateType.Modified })
+        index.push({ file: getFile(line), status: FileStateType.Untracked })
         continue outer
       case GitStatusType.Ignored:
         index.push({ file: getFile(line), status: FileStateType.Modified })
@@ -101,9 +78,35 @@ export const getModifiedFiles = async ({ cwd, gitPath }) => {
         break
     }
   }
+  return index
+}
 
+/**
+ * @param {{cwd:string, gitPath:string }} options
+ */
+export const getModifiedFiles = async ({ cwd, gitPath }) => {
+  let gitResult
+  try {
+    gitResult = await Git.exec({
+      args: ['status', '--porcelain'],
+      cwd,
+      gitPath,
+      name: 'getModifiedFiles',
+    })
+  } catch (error) {
+    // @ts-ignore
+    if (error && error.code === ErrorCodes.ENOENT) {
+      return {
+        index: [],
+        gitRoot: cwd, // TODO
+        count: 0,
+      }
+    }
+    throw new GitError(error, 'getModifiedFiles')
+  }
+  const lines = gitResult.stdout === '' ? [] : gitResult.stdout.split('\n')
+  const index = parseLines(lines)
   const count = index.length
-
   return {
     index,
     gitRoot: cwd, // TODO

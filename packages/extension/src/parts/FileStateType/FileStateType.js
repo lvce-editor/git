@@ -1,1 +1,17 @@
 export const Modified = 1
+export const IndexModified = 2
+export const IndexAdded = 3
+export const IndexDeleted = 4
+export const Deleted = 5
+export const IndexRenamed = 6
+export const IndexCopied = 7
+export const Untracked = 8
+export const Ignored = 9
+export const IntentToAdd = 10
+export const BothDeleted = 11
+export const AddedByUs = 12
+export const DeletedByThem = 13
+export const AddedByThem = 14
+export const DeletedByUs = 15
+export const BothAdded = 16
+export const BothModified = 17

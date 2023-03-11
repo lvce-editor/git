@@ -10,7 +10,6 @@ import * as ExtensionHostCommandGitPullRequest from './parts/ExtensionHostComman
 import * as ExtensionHostCommandGitPush from './parts/ExtensionHostCommand/ExtensionHostCommandGitPush.js'
 import * as ExtensionHostCommandGitSync from './parts/ExtensionHostCommand/ExtensionHostCommandGitSync.js'
 import * as GitFind from './parts/GitFind/GitFind.js'
-import * as Repositories from './parts/GitRepositories/GitRepositories.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
 
@@ -44,7 +43,9 @@ export const activate = async () => {
 
   vscode.registerSourceControlProvider(SourceControlProviderGit)
 
+  console.log('before initialize')
   await initializeProject()
+  console.log('after initialize')
 
   // vscode.registerStatusBarItem(StatusBarCheckout.create())
   // vscode.registerStatusBarItem(StatusBarItemSync)

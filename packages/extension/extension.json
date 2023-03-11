@@ -14,7 +14,8 @@
     "onCommand:git.fetch",
     "onCommand:git.pr",
     "onStartupFinished",
-    "onSourceControl"
+    "onSourceControl",
+    "onSourceControl:"
   ],
   "commands": [
     {
