@@ -1,4 +1,4 @@
-import * as FileStateType from '../src/parts/FileStateType/FileStateType.js'
+import * as FileStateType from '../../extension/src/parts/FileStateType/FileStateType.js'
 import { jest } from '@jest/globals'
 
 beforeEach(() => {
