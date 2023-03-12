@@ -16,3 +16,24 @@ test('parseLines', () => {
     },
   ])
 })
+
+test('parseLines - both deleted', () => {
+  const stdout = `DD index.js
+UA index2.js
+AU new-file.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseLines(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.BothDeleted,
+    },
+    {
+      file: 'index2.js',
+      status: FileStateType.AddedByThem,
+    },
+    {
+      file: 'new-file.js',
+      status: FileStateType.AddedByUs,
+    },
+  ])
+})
