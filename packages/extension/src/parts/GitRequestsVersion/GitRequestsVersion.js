@@ -15,7 +15,7 @@ export const version = async ({ cwd, gitPath }) => {
     })
     const stdout = gitResult.stdout
     if (!stdout.startsWith('git version ')) {
-      throw new vscode.VError('failed to parse git version')
+      throw new Error('failed to parse git version')
     }
     return stdout.slice('git version '.length)
   } catch (error) {

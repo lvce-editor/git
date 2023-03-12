@@ -1,9 +1,21 @@
-/**
- * @jest-environment lvce-editor
- */
 import { jest } from '@jest/globals'
-import * as Exec from '../src/parts/Exec/Exec.js'
-import * as GitRequestsPull from '../src/parts/GitRequestsPull/GitRequestsPull.js'
+
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
+jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
+  return {
+    exec: jest.fn(() => {
+      throw new Error('not implemented')
+    }),
+  }
+})
+
+const GitRequestsPull = await import(
+  '../src/parts/GitRequestsPull/GitRequestsPull.js'
+)
+const Exec = await import('../src/parts/Exec/Exec.js')
 
 class ExecError extends Error {
   constructor(stderr) {
@@ -13,7 +25,8 @@ class ExecError extends Error {
 }
 
 test('pull - error - no user name configured', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('Please tell me who you are.')
   })
   await expect(
@@ -25,7 +38,8 @@ test('pull - error - no user name configured', async () => {
 })
 
 test('pull - error - dirty working tree', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError(
       'Pulling is not possible because you have unmerged files'
     )
@@ -41,7 +55,8 @@ test('pull - error - dirty working tree', async () => {
 })
 
 test('pull - error - cannot lock ref (1)', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('cannot lock ref')
   })
   await expect(
@@ -53,7 +68,8 @@ test('pull - error - cannot lock ref (1)', async () => {
 })
 
 test('pull - error - cannot lock ref (2)', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('unable to update local ref')
   })
   await expect(
@@ -65,7 +81,8 @@ test('pull - error - cannot lock ref (2)', async () => {
 })
 
 test('pull - error - cannot rebase onto multiple branches', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('cannot rebase onto multiple branches')
   })
   await expect(
@@ -77,7 +94,8 @@ test('pull - error - cannot rebase onto multiple branches', async () => {
 })
 
 test('pull - error - remote connection error', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('Could not read from remote repository')
   })
   await expect(
@@ -89,7 +107,8 @@ test('pull - error - remote connection error', async () => {
 })
 
 test('pull - error - not a git repository', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('fatal: not a git repository')
   })
   await expect(
@@ -101,7 +120,8 @@ test('pull - error - not a git repository', async () => {
 })
 
 test('pull - error - unknown git error', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('oops')
   })
   await expect(

@@ -1,9 +1,21 @@
-/**
- * @jest-environment lvce-editor
- */
 import { jest } from '@jest/globals'
-import * as Exec from '../src/parts/Exec/Exec.js'
-import * as GitRequestsAdd from '../src/parts/GitRequestsAdd/GitRequestsAdd.js'
+
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
+jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
+  return {
+    exec: jest.fn(() => {
+      throw new Error('not implemented')
+    }),
+  }
+})
+
+const GitRequestsAdd = await import(
+  '../src/parts/GitRequestsAdd/GitRequestsAdd.js'
+)
+const Exec = await import('../src/parts/Exec/Exec.js')
 
 class ExecError extends Error {
   constructor(stderr) {
@@ -13,7 +25,8 @@ class ExecError extends Error {
 }
 
 test('add - error - not a git repository', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('fatal: not a git repository')
   })
   await expect(
@@ -26,7 +39,8 @@ test('add - error - not a git repository', async () => {
 })
 
 test('add - error - unknown git error', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('oops')
   })
   await expect(

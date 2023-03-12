@@ -11,7 +11,7 @@ export const exec = async ({ gitPath, cwd, name, args }) => {
   }
   const options = {
     env: {
-      ...vscode.env,
+      // ...vscode.env,
       GIT_OPTIONAL_LOCKS: '0',
       LC_ALL: 'en_US',
       LANG: 'en_US.UTF-8',
