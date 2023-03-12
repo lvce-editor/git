@@ -1,12 +1,27 @@
-/**
- * @jest-environment lvce-editor
- */
 import { jest } from '@jest/globals'
-import * as Exec from '../src/parts/Exec/Exec.js'
-import * as GitRequests from '../src/parts/GitRequests/GitRequests.js'
+
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
+jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
+  return {
+    exec: jest.fn(() => {
+      throw new Error('not implemented')
+    }),
+  }
+})
+
+const GitRequestsGetRefs = await import(
+  '../src/parts/GitRequestsGetRefs/GitRequestsGetRefs.js'
+)
+const Exec = await import('../src/parts/Exec/Exec.js')
+
+// TODO mock exec instead
 
 test('getRefs', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     return {
       stdout: `refs/remotes/origin/HEAD 903f9903f4f14e0d7ec1a389b9da617848e7f609\u0020
 refs/remotes/origin/main 903f9903f4f14e0d7ec1a389b9da617848e7f609\u0020
@@ -16,7 +31,7 @@ refs/remotes/origin/lszomoru/product-build-parallel 7ed03031bb8511eada0f8418550e
     }
   })
   expect(
-    await GitRequests.getRefs({
+    await GitRequestsGetRefs.getRefs({
       cwd: '/test/test-folder',
       gitPath: '',
     })
@@ -49,11 +64,12 @@ refs/remotes/origin/lszomoru/product-build-parallel 7ed03031bb8511eada0f8418550e
 })
 
 test('getRefs - error', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new TypeError(`x is not a function`)
   })
   await expect(
-    GitRequests.getRefs({
+    GitRequestsGetRefs.getRefs({
       cwd: '/test/test-folder',
       gitPath: '',
     })

@@ -1,9 +1,21 @@
-/**
- * @jest-environment lvce-editor
- */
 import { jest } from '@jest/globals'
-import * as Exec from '../src/parts/Exec/Exec.js'
-import * as GitRequestsTag from '../src/parts/GitRequestsTag/GitRequestsTag.js'
+
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
+jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
+  return {
+    exec: jest.fn(() => {
+      throw new Error('not implemented')
+    }),
+  }
+})
+
+const GitRequestsTag = await import(
+  '../src/parts/GitRequestsTag/GitRequestsTag.js'
+)
+const Exec = await import('../src/parts/Exec/Exec.js')
 
 class ExecError extends Error {
   constructor(stderr) {
@@ -13,7 +25,8 @@ class ExecError extends Error {
 }
 
 test('tag - error - tag already exists', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError(`fatal: tag 'abc' already exists`)
   })
   await expect(

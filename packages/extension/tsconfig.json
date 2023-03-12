@@ -5,7 +5,7 @@
     "checkJs": true,
     "module": "esnext",
     "types": ["jest", "node"],
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "rootDir": ".",
     "allowJs": true,
     "skipLibCheck": true,
@@ -13,7 +13,8 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "assumeChangesOnlyAffectDirectDependencies": true,
-    "strict": true
+    "strict": true,
+    "noImplicitAny": false
   },
   "include": ["src", "test"]
 }

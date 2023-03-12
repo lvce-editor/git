@@ -1,10 +1,23 @@
-/**
- * @jest-environment lvce-editor
- */
 import { jest } from '@jest/globals'
-import * as Exec from '../src/parts/Exec/Exec.js'
-import * as GitRequestsCheckout from '../src/parts/GitRequestsCheckout/GitRequestsCheckout.js'
 
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
+jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
+  return {
+    exec: jest.fn(() => {
+      throw new Error('not implemented')
+    }),
+  }
+})
+
+const GitRequestsCheckout = await import(
+  '../src/parts/GitRequestsCheckout/GitRequestsCheckout.js'
+)
+const Exec = await import('../src/parts/Exec/Exec.js')
+
+// TODO mock exec instead
 class ExecError extends Error {
   constructor(stderr) {
     super('')
@@ -13,7 +26,8 @@ class ExecError extends Error {
 }
 
 test('checkout - error - pathspec did not match any files known to git', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError(
       `error: pathspec 'abc' did not match any file(s) known to git`
     )
@@ -32,7 +46,8 @@ test('checkout - error - pathspec did not match any files known to git', async (
 })
 
 test('checkout - error - unknown git error', async () => {
-  Exec.state.exec = jest.fn(async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('oops')
   })
   await expect(

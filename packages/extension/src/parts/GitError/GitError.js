@@ -34,7 +34,6 @@ const fatalOrHintOrSshOrRemoteLine = (text) => {
 
 // TODO
 const errorSnippet = (stderr) => {
-  console.log({ stderr })
   if (/nothing to commit/s.test(stderr)) {
     return 'nothing to commit'
   }
@@ -56,9 +55,8 @@ const getErrorMessageAndCause = (error, message) => {
   }
 }
 
-export class GitError extends vscode.VError {
+export class GitError extends Error {
   constructor(error, command) {
-    const errorMessage = `Git`
     let cause = new Error()
     if (error && error.stderr) {
       cause.message = errorSnippet(error.stderr)
@@ -66,7 +64,8 @@ export class GitError extends vscode.VError {
     } else {
       cause.message = error.message
     }
-    super(cause, errorMessage)
+    const message = `Git: ${cause.message}`
+    super(message)
     if (error && error.stderr) {
       this.stderr = error.stderr
     }

@@ -1,12 +1,25 @@
-/**
- * @jest-environment lvce-editor
- */
 import { jest } from '@jest/globals'
-import * as Exec from '../src/parts/Exec/Exec.js'
-import * as GitRequestsVersion from '../src/parts/GitRequestsVersion/GitRequestsVersion.js'
+
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
+jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
+  return {
+    exec: jest.fn(() => {
+      throw new Error('not implemented')
+    }),
+  }
+})
+
+const GitRequestsVersion = await import(
+  '../src/parts/GitRequestsVersion/GitRequestsVersion.js'
+)
+const Exec = await import('../src/parts/Exec/Exec.js')
 
 test('version', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     return {
       stdout: 'git version 2.34.1',
       stderr: '',
@@ -21,7 +34,8 @@ test('version', async () => {
 })
 
 test('version - error', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new TypeError(`x is not a function`)
   })
   await expect(

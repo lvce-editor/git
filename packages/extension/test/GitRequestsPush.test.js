@@ -1,9 +1,21 @@
-/**
- * @jest-environment lvce-editor
- */
 import { jest } from '@jest/globals'
-import * as Exec from '../src/parts/Exec/Exec.js'
-import * as GitRequestsPush from '../src/parts/GitRequestsPush/GitRequestsPush.js'
+
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
+jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
+  return {
+    exec: jest.fn(() => {
+      throw new Error('not implemented')
+    }),
+  }
+})
+
+const GitRequestsPush = await import(
+  '../src/parts/GitRequestsPush/GitRequestsPush.js'
+)
+const Exec = await import('../src/parts/Exec/Exec.js')
 
 class ExecError extends Error {
   constructor(stderr) {
@@ -13,7 +25,8 @@ class ExecError extends Error {
 }
 
 test('push - error - push rejected', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('error: failed to push some refs to')
   })
   await expect(
@@ -25,7 +38,8 @@ test('push - error - push rejected', async () => {
 })
 
 test('push - error - could not read from remote repository', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('Could not read from remote repository')
   })
 
@@ -38,7 +52,8 @@ test('push - error - could not read from remote repository', async () => {
 })
 
 test('push - error - no upstream branch', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('fatal: The current branch abc has no upstream branch')
   })
   await expect(
@@ -52,7 +67,8 @@ test('push - error - no upstream branch', async () => {
 })
 
 test('push - error - no configured push destination', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError(`fatal: No configured push destination.
     Either specify the URL from the command-line or configure a remote repository using
 
@@ -74,7 +90,8 @@ test('push - error - no configured push destination', async () => {
 })
 
 test('push - error - permission denied', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('Permission denied')
   })
   await expect(
@@ -86,7 +103,8 @@ test('push - error - permission denied', async () => {
 })
 
 test('push - error - unknown git error', async () => {
-  Exec.state.exec = jest.fn(async (command, args) => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
     throw new ExecError('oops')
   })
   await expect(
