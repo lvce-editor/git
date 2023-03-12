@@ -3,6 +3,7 @@ import * as CommandAcceptInput from '../ExtensionHostCommand/ExtensionHostComman
 import * as CommandAdd from '../ExtensionHostCommand/ExtensionHostCommandGitAdd.js'
 import * as CommandFetch from '../ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
 import * as GetDecorationIcon from '../GetDecorationIcon/GetDecorationIcon.js'
+import * as GetDecorationStrikeThrough from '../GetDecorationStrikeThrough/GetDecorationStrikeThrough.js'
 import * as GetStatusText from '../GetStatusText/GetStatusText.js'
 import * as Repositories from '../GitRepositories/GitRepositories.js'
 import * as GitRequests from '../GitRequests/GitRequests.js'
@@ -62,6 +63,9 @@ const getWithDecoration = (resource) => {
     ...resource,
     icon: GetDecorationIcon.getDecorationIcon(resource.status),
     iconTitle: GetStatusText.getStatusText(resource.status),
+    strikeThrough: GetDecorationStrikeThrough.getDecorationStrikeThrough(
+      resource.status
+    ),
   }
 }
 
