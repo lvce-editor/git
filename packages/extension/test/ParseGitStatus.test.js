@@ -37,3 +37,36 @@ AU new-file.js`
     },
   ])
 })
+
+test('parseLines - both added', () => {
+  const stdout = `AA index.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseLines(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.BothAdded,
+    },
+  ])
+})
+
+test('parseLines - deleted by us', () => {
+  const stdout = `DU index.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseLines(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.DeletedByUs,
+    },
+  ])
+})
+
+test('parseLines - deleted by them', () => {
+  const stdout = `UD index.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseLines(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.DeletedByThem,
+    },
+  ])
+})
