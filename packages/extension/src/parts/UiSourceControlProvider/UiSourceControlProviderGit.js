@@ -2,6 +2,7 @@ import * as Exec from '../Exec/Exec.js'
 import * as CommandAcceptInput from '../ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.js'
 import * as CommandAdd from '../ExtensionHostCommand/ExtensionHostCommandGitAdd.js'
 import * as CommandFetch from '../ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
+import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.js'
 import * as GetDecorationIcon from '../GetDecorationIcon/GetDecorationIcon.js'
 import * as GetDecorationStrikeThrough from '../GetDecorationStrikeThrough/GetDecorationStrikeThrough.js'
 import * as GetStatusText from '../GetStatusText/GetStatusText.js'
@@ -73,16 +74,7 @@ const getWithDecorations = (index) => {
   return index.map(getWithDecoration)
 }
 
-export const getChangedFiles = async (cwd) => {
-  const repository = await Repositories.getCurrent()
-  const modifiedFiles = await GitRequests.getModifiedFiles({
-    cwd: repository.path,
-    gitPath: repository.gitPath,
-  })
-  const { index } = modifiedFiles
-  const indexWithDecorations = getWithDecorations(index)
-  return indexWithDecorations
-}
+export const getChangedFiles = GetChangedFiles.getChangedFiles
 
 export const fetch = CommandFetch
 
