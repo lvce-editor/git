@@ -2,12 +2,8 @@ import * as Exec from '../Exec/Exec.js'
 import * as CommandAcceptInput from '../ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.js'
 import * as CommandAdd from '../ExtensionHostCommand/ExtensionHostCommandGitAdd.js'
 import * as CommandFetch from '../ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
+import * as GetBadgeCount from '../GetBadgeCount/GetBadgeCount.js'
 import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.js'
-import * as GetDecorationIcon from '../GetDecorationIcon/GetDecorationIcon.js'
-import * as GetDecorationStrikeThrough from '../GetDecorationStrikeThrough/GetDecorationStrikeThrough.js'
-import * as GetStatusText from '../GetStatusText/GetStatusText.js'
-import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitRequests from '../GitRequests/GitRequests.js'
 
 export const id = 'git'
 
@@ -34,45 +30,7 @@ export const isActive = async (scheme, root) => {
   }
 }
 
-export const getBadgeCount = async (cwd) => {
-  try {
-    const repository = await Repositories.getCurrent()
-    // TODO only requesting count can be much faster
-    const modifiedFiles = await GitRequests.getModifiedFiles({
-      cwd: repository.path,
-      gitPath: repository.gitPath,
-    })
-    const count = modifiedFiles.count
-    return count
-  } catch (error) {
-    if (
-      error &&
-      error.message ===
-        `Git.getModifiedFiles failed to execute: fatal: not a git repository (or any of the parent directories): .git`
-    ) {
-      return 0
-    }
-    if (error && error.message === 'no repository path found') {
-      return 0
-    }
-    throw error
-  }
-}
-
-const getWithDecoration = (resource) => {
-  return {
-    ...resource,
-    icon: GetDecorationIcon.getDecorationIcon(resource.status),
-    iconTitle: GetStatusText.getStatusText(resource.status),
-    strikeThrough: GetDecorationStrikeThrough.getDecorationStrikeThrough(
-      resource.status
-    ),
-  }
-}
-
-const getWithDecorations = (index) => {
-  return index.map(getWithDecoration)
-}
+export const getBadgeCount = GetBadgeCount.getBadgeCount
 
 export const getChangedFiles = GetChangedFiles.getChangedFiles
 
