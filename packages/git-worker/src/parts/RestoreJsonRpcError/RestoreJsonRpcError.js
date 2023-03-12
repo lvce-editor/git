@@ -3,7 +3,10 @@ import { JsonRpcError } from '../JsonRpcError/JsonRpcError.js'
 import * as JsonRpcErrorCode from '../JsonRpcErrorCode/JsonRpcErrorCode.js'
 
 const constructError = (message, type, name) => {
-  const ErrorConstructor = GetErrorConstructor.getErrorConstructor(message, type)
+  const ErrorConstructor = GetErrorConstructor.getErrorConstructor(
+    message,
+    type
+  )
   if (ErrorConstructor === DOMException && name) {
     return new ErrorConstructor(message, name)
   }
@@ -44,6 +47,10 @@ export const restoreJsonRpcError = (error) => {
       const indexNewLine = lowerStack.indexOf('\n')
       // @ts-ignore
       restoredError.stack = error.stack + lowerStack.slice(indexNewLine)
+    }
+    if (error.stderr) {
+      // @ts-ignore
+      restoredError.stderr = error.stderr
     }
     return restoredError
   }

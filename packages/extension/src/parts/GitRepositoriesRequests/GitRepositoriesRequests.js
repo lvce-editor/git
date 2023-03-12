@@ -32,6 +32,8 @@ export const execute = async ({ id, fn, args }) => {
     console.log('after')
     return r
   } catch (error) {
+    // @ts-ignore
+    error.isExpected = true
     throw error
   } finally {
     state.running[id]--
