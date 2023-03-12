@@ -1,5 +1,5 @@
 import * as ParseGitStatus from '../src/parts/ParseGitStatus/ParseGitStatus.js'
-import * as FileStateType from '../../extension/src/parts/FileStateType/FileStateType.js'
+import * as FileStateType from '../src/parts/FileStateType/FileStateType.js'
 
 test('parseLines', () => {
   const stdout = ` M extensions/builtin.git/src/parts/GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.js

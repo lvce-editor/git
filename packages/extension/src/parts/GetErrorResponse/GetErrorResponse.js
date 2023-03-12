@@ -40,6 +40,18 @@ export const getErrorResponse = (message, error) => {
       },
     }
   }
+  if (error && 'stderr' in error) {
+    return {
+      jsonrpc: JsonRpcVersion.Two,
+      id: message.id,
+      error: {
+        message: error.message,
+        stderr: error.stderr,
+        name: error.name,
+        stack: error.stack,
+      },
+    }
+  }
   const serializedError = serializeError(error)
   return {
     jsonrpc: JsonRpcVersion.Two,
