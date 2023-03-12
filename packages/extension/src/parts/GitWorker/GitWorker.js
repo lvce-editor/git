@@ -3,6 +3,7 @@ import * as GitWorkerUrl from '../GitWorkerUrl/GitWorkerUrl.js'
 import * as IpcParent from '../IpcParent/IpcParent.js'
 import * as IpcParentType from '../IpcParentType/IpcParentType.js'
 import * as JsonRpc from '../JsonRpc/JsonRpc.js'
+import * as GetResponse from '../GetResponse/GetResponse.js'
 
 export const state = {
   ipc: undefined,
@@ -12,10 +13,16 @@ export const state = {
   rpcPromise: undefined,
 }
 
-const handleMessage = (event) => {
+const handleMessage = async (event) => {
   const message = event.data
   if (message.id) {
-    Callback.resolve(message.id, message)
+    if ('result' in message || 'error' in message) {
+      Callback.resolve(message.id, message)
+    } else if ('method' in message) {
+      const response = await GetResponse.getResponse(message)
+      const target = event.target
+      target.postMessage(response)
+    }
   } else {
     console.log(message)
   }

@@ -20,5 +20,6 @@ export const invoke = async (ipc, method, ...params) => {
   if ('result' in responseMessage) {
     return responseMessage.result
   }
+
   throw new Error('unexpected response message')
 }
