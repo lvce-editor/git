@@ -1,7 +1,6 @@
-import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitHub from '../GitHub/GitHub.js'
-import * as GitRequests from '../GitRequests/GitRequests.js'
 import * as CommandId from '../CommandId/CommandId.js'
+import * as Repositories from '../GitRepositories/GitRepositories.js'
+import * as GitRequests from '../GitRequests/GitRequests.js'
 
 const getGitProvider = (id) => {
   switch (id) {

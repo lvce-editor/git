@@ -1,24 +1,13 @@
-import * as Git from '../Git/Git.js'
-import { GitError } from '../GitError/GitError.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
+import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
 /**
  *
  * @param {{cwd:string, gitPath: string}} options
  */
 export const version = async ({ cwd, gitPath }) => {
-  try {
-    const gitResult = await Git.exec({
-      args: ['--version'],
-      cwd,
-      gitPath,
-      name: 'version',
-    })
-    const stdout = gitResult.stdout
-    if (!stdout.startsWith('git version ')) {
-      throw new Error('failed to parse git version')
-    }
-    return stdout.slice('git version '.length)
-  } catch (error) {
-    throw new GitError(error, 'version')
-  }
+  return GitWorker.invoke(GitWorkerCommandType.GitVersion, {
+    cwd,
+    gitPath,
+  })
 }

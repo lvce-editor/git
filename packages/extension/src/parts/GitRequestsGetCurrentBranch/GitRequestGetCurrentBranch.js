@@ -1,23 +1,17 @@
-import * as Git from '../Git/Git.js'
-import { GitError } from '../GitError/GitError.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
+import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
 /**
  *
  * @param {{cwd:string, gitPath:string }} options
  */
 export const getCurrentBranch = async ({ cwd, gitPath }) => {
-  let gitResult
-  try {
-    gitResult = await Git.exec({
-      args: ['branch', '--show-current'],
+  const branch = await GitWorker.invoke(
+    GitWorkerCommandType.GitGetCurrentBranch,
+    {
       cwd,
       gitPath,
-      name: 'getCurrentBranch',
-    })
-  } catch (error) {
-    throw new GitError(error, 'getCurrentBranch')
-  }
-
-  const branch = gitResult.stdout
+    }
+  )
   return branch
 }

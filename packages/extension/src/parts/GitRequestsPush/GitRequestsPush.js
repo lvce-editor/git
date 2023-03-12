@@ -1,20 +1,13 @@
-import * as Git from '../Git/Git.js'
-import { GitError } from '../GitError/GitError.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
+import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
 /**
  *
  * @param {{cwd:string, gitPath:string }} options
  */
 export const push = async ({ cwd, gitPath }) => {
-  try {
-    await Git.exec({
-      args: ['push', '--porcelain'],
-      cwd,
-      gitPath,
-      name: 'push',
-    })
-    console.log('finished')
-  } catch (error) {
-    throw new GitError(error, 'push')
-  }
+  return GitWorker.invoke(GitWorkerCommandType.GitPush, {
+    cwd,
+    gitPath,
+  })
 }

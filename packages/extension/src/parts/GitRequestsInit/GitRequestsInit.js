@@ -1,19 +1,13 @@
-import * as Git from '../Git/Git.js'
-import { GitError } from '../GitError/GitError.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
+import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
 /**
  *
  * @param {{cwd:string, gitPath: string}} options
  */
 export const init = async ({ cwd, gitPath }) => {
-  try {
-    const gitResult = await Git.exec({
-      args: ['init'],
-      cwd,
-      gitPath,
-      name: 'init',
-    })
-  } catch (error) {
-    throw new GitError(error, 'init')
-  }
+  return GitWorker.invoke(GitWorkerCommandType.GitInit, {
+    cwd,
+    gitPath,
+  })
 }
