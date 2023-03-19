@@ -8,8 +8,13 @@ export const parseGitStatusGroups = (files) => {
   for (const file of files) {
     const { status } = file
     switch (status) {
+      case FileStateType.Modified:
+      case FileStateType.Deleted:
+      case FileStateType.IntentToAdd:
       case FileStateType.Untracked:
       case FileStateType.Ignored:
+        workingTreeGroup.push(file)
+        break
       case FileStateType.IndexModified:
       case FileStateType.IndexAdded:
       case FileStateType.IndexDeleted:

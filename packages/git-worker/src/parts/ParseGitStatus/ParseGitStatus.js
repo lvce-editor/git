@@ -106,19 +106,19 @@ const parseLine = (index, line) => {
   const statusX = getStatusX(line)
   switch (statusX) {
     case GitStatusType.IndexModified:
-      index.push({ file: getFile(line), status: FileStateType.Modified })
+      index.push({ file: getFile(line), status: FileStateType.IndexModified })
       break
     case GitStatusType.IndexAdded:
-      index.push({ file: getFile(line), status: FileStateType.Modified })
+      index.push({ file: getFile(line), status: FileStateType.IndexAdded })
       break
     case GitStatusType.IndexModified:
-      index.push({ file: getFile(line), status: FileStateType.Modified })
+      index.push({ file: getFile(line), status: FileStateType.IndexModified })
       break
     case GitStatusType.IndexRenamed:
-      index.push({ file: getFile(line), status: FileStateType.Modified })
+      index.push({ file: getFile(line), status: FileStateType.IndexModified })
       break
     case GitStatusType.IndexCopied:
-      index.push({ file: getFile(line), status: FileStateType.Modified })
+      index.push({ file: getFile(line), status: FileStateType.IndexModified })
       break
     default:
       break
