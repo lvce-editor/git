@@ -1,5 +1,6 @@
 import { CommandNotFoundError } from '../CommandNotFoundError/CommandNotFoundError.js'
 import * as GitGetChangedFiles from '../GetChangedFiles/GetChangedFiles.js'
+import * as GitGetGroups from '../GetGroups/GetGroups.js'
 import * as GitAdd from '../GitRequestsAdd/GitRequestsAdd.js'
 import * as GitAddAll from '../GitRequestsAddAll/GitRequestsAddAll.js'
 import * as GitAddAllAndCommit from '../GitRequestsAddAllAndCommit/GitRequestsAddAllAndCommit.js'
@@ -60,6 +61,8 @@ export const getFn = (method) => {
       return GitTag.tag
     case GitWorkerCommandType.GitVersion:
       return GitVersion.version
+    case GitWorkerCommandType.GitGetGroups:
+      return GitGetGroups.getGroups
     default:
       throw new CommandNotFoundError(method)
   }
