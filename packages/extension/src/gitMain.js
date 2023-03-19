@@ -43,9 +43,7 @@ export const activate = async () => {
 
   vscode.registerSourceControlProvider(SourceControlProviderGit)
 
-  console.log('before initialize')
   await initializeProject()
-  console.log('after initialize')
 
   // vscode.registerStatusBarItem(StatusBarCheckout.create())
   // vscode.registerStatusBarItem(StatusBarItemSync)

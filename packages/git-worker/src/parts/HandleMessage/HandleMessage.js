@@ -4,7 +4,6 @@ import * as Callback from '../Callback/Callback.js'
 
 export const handleMessage = async (event) => {
   const message = event.data
-  console.log({ message })
   if ('id' in message) {
     Id.maybeIncrement(message.id)
     if ('result' in message || 'error' in message) {
