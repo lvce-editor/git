@@ -15,7 +15,6 @@ export const state = {
 
 const handleMessage = async (event) => {
   const message = event.data
-  console.log({ message })
   if (message.id) {
     if ('result' in message || 'error' in message) {
       Callback.resolve(message.id, message)
