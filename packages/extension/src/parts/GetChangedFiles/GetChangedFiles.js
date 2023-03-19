@@ -3,7 +3,11 @@ import * as GitWorker from '../GitWorker/GitWorker.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
 export const getChangedFiles = async (cwd) => {
-  const result = await GitWorker.invoke(GitWorkerCommandType.GitGetChangedFiles)
+  const path = vscode.getWorkspaceFolder()
+  const result = await GitWorker.invoke(
+    GitWorkerCommandType.GitGetChangedFiles,
+    path
+  )
   Assert.array(result)
   return result
 }

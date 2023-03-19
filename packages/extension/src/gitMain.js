@@ -9,7 +9,7 @@ import * as ExtensionHostCommandGitPullRebase from './parts/ExtensionHostCommand
 import * as ExtensionHostCommandGitPullRequest from './parts/ExtensionHostCommand/ExtensionHostCommandGitPullRequest.js'
 import * as ExtensionHostCommandGitPush from './parts/ExtensionHostCommand/ExtensionHostCommandGitPush.js'
 import * as ExtensionHostCommandGitSync from './parts/ExtensionHostCommand/ExtensionHostCommandGitSync.js'
-import * as GitFind from './parts/GitFind/GitFind.js'
+import * as GitFind from './parts/FindGit/FindGit.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
 

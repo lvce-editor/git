@@ -24,8 +24,7 @@ const getWithDecorations = (index) => {
 }
 
 export const getChangedFiles = async (cwd) => {
-  console.log('get changed files')
-  const repository = await Repositories.getCurrent()
+  const repository = await Repositories.getCurrent(cwd)
   const modifiedFiles = await GitRequestsGetModifiedFiles.getModifiedFiles({
     cwd: repository.path,
     gitPath: repository.gitPath,

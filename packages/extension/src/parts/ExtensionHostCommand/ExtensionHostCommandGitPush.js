@@ -1,20 +1,11 @@
-import * as GitRequests from '../GitRequests/GitRequests.js'
-import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.js'
 import * as CommandId from '../CommandId/CommandId.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
+import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
 export const id = CommandId.GitPush
 
 export const execute = async () => {
-  const repository = await Repositories.getCurrent()
-  await GitRepositoriesRequests.execute({
-    id: 'push',
-    fn: GitRequests.push,
-    args: {
-      cwd: repository.path,
-      gitPath: repository.gitPath,
-    },
-  })
+  return GitWorker.invoke(GitWorkerCommandType.GitPush)
 }
 
 // export const resolveError = (error) => {

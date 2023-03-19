@@ -1,4 +1,4 @@
-import * as GitFind from '../GitFind/GitFind.js'
+import * as GitFind from '../FindGit/FindGit.js'
 
 export const state = {
   currentRepository: undefined,
