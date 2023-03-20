@@ -51,3 +51,15 @@ test('unstageAll - error - not removing . recursively without -r', async () => {
     new Error("Git: fatal: not removing '.' recursively without -r")
   )
 })
+
+test("unstageAll - error - pathspec '.' did not match any files", async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
+    throw new Error(`fatal: pathspec '.' did not match any files`)
+  })
+  await GitRequestsUnstageAll.unstageAll({
+    cwd: '/test/test-folder',
+    gitPath: '',
+  })
+  expect(Exec.exec).toHaveBeenCalledTimes(1)
+})
