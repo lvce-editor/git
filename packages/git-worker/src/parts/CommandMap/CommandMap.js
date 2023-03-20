@@ -16,6 +16,7 @@ import * as GitInit from '../GitRequestsInit/GitRequestsInit.js'
 import * as GitPull from '../GitRequestsPull/GitRequestsPull.js'
 import * as GitPullAndRebase from '../GitRequestsPullAndRebase/GitRequestPullAndRebase.js'
 import * as GitPush from '../GitRequestsPush/GitRequestsPush.js'
+import * as GitStage from '../GitRequestsStage/GitRequestsStage.js'
 import * as GitSync from '../GitRequestsSync/GitRequestsSync.js'
 import * as GitTag from '../GitRequestsTag/GitRequestsTag.js'
 import * as GitUnstage from '../GitRequestsUnstage/GitRequestsUnstage.js'
@@ -66,6 +67,8 @@ export const getFn = (method) => {
       return GitGetGroups.getGroups
     case GitWorkerCommandType.GitUnstage:
       return GitUnstage.unstage
+    case GitWorkerCommandType.GitStage:
+      return GitStage.stage
     default:
       throw new CommandNotFoundError(method)
   }
