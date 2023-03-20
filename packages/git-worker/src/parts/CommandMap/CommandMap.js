@@ -23,6 +23,7 @@ import * as GitUnstage from '../GitRequestsUnstage/GitRequestsUnstage.js'
 import * as GitUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 import * as GitVersion from '../GitRequestsVersion/GitRequestsVersion.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
+import * as GitRequestsStageAll from '../GitRequestsStageAll/GitRequestsStageAll.js'
 
 export const getFn = (method) => {
   switch (method) {
@@ -70,6 +71,8 @@ export const getFn = (method) => {
       return GitUnstage.unstage
     case GitWorkerCommandType.GitStage:
       return GitStage.stage
+    case GitWorkerCommandType.GitStageAll:
+      return GitRequestsStageAll.stageAll
     case GitWorkerCommandType.GitUnstageAll:
       return GitUnstageAll.unstageAll
     default:
