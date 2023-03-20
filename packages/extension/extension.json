@@ -13,6 +13,8 @@
     "onCommand:git.sync",
     "onCommand:git.fetch",
     "onCommand:git.pr",
+    "onCommand:git.stage",
+    "onCommand:git.unstage",
     "onStartupFinished",
     "onSourceControl",
     "onSourceControl:"
@@ -83,5 +85,33 @@
   ],
   "sourceControl": {
     "scheme": ""
+  },
+  "source-control-actions": {
+    "index": [
+      {
+        "command": "git.unstageAll"
+      }
+    ],
+    "index-item": [
+      {
+        "command": "git.openFile"
+      },
+      {
+        "command": "git.unstage"
+      }
+    ],
+    "working-tree": [
+      {
+        "command": "git.stageAll"
+      }
+    ],
+    "working-tree-item": [
+      {
+        "command": "git.openFile"
+      },
+      {
+        "command": "git.stage"
+      }
+    ]
   }
 }
