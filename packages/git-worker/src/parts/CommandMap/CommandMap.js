@@ -20,6 +20,7 @@ import * as GitStage from '../GitRequestsStage/GitRequestsStage.js'
 import * as GitSync from '../GitRequestsSync/GitRequestsSync.js'
 import * as GitTag from '../GitRequestsTag/GitRequestsTag.js'
 import * as GitUnstage from '../GitRequestsUnstage/GitRequestsUnstage.js'
+import * as GitUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 import * as GitVersion from '../GitRequestsVersion/GitRequestsVersion.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
@@ -69,6 +70,8 @@ export const getFn = (method) => {
       return GitUnstage.unstage
     case GitWorkerCommandType.GitStage:
       return GitStage.stage
+    case GitWorkerCommandType.GitUnstageAll:
+      return GitUnstageAll.unstageAll
     default:
       throw new CommandNotFoundError(method)
   }
