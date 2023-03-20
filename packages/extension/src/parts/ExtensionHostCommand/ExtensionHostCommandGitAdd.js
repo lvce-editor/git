@@ -3,7 +3,7 @@ import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitReposito
 import * as GitRequests from '../GitRequests/GitRequests.js'
 import * as CommandId from '../CommandId/CommandId.js'
 
-export const id = CommandId.GitAddAll
+export const id = CommandId.GitAdd
 
 /**
  * @param {string} file

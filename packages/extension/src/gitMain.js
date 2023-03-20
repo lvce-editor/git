@@ -1,21 +1,4 @@
-import * as ExtensionHostCommandAcceptInput from './parts/ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.js'
-import * as ExtensionHostCommandGitAddAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitAddAll.js'
-import * as ExtensionHostCommandGitCheckout from './parts/ExtensionHostCommand/ExtensionHostCommandGitCheckout.js'
-import * as ExtensionHostCommandGitCheckoutRef from './parts/ExtensionHostCommand/ExtensionHostCommandGitCheckoutRef.js'
-import * as ExtensionHostCommandGitFetch from './parts/ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
-import * as ExtensionHostCommandGitInit from './parts/ExtensionHostCommand/ExtensionHostCommandGitInit.js'
-import * as ExtensionHostCommandGitDiscard from './parts/ExtensionHostCommand/ExtensionHostCommandGitDiscard.js'
-import * as ExtensionHostCommandGitPull from './parts/ExtensionHostCommand/ExtensionHostCommandGitPull.js'
-import * as ExtensionHostCommandGitPullRebase from './parts/ExtensionHostCommand/ExtensionHostCommandGitPullRebase.js'
-import * as ExtensionHostCommandGitPullRequest from './parts/ExtensionHostCommand/ExtensionHostCommandGitPullRequest.js'
-import * as ExtensionHostCommandGitPush from './parts/ExtensionHostCommand/ExtensionHostCommandGitPush.js'
-import * as ExtensionHostCommandGitStage from './parts/ExtensionHostCommand/ExtensionHostCommandGitStage.js'
-import * as ExtensionHostCommandGitStageAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitStageAll.js'
-import * as ExtensionHostCommandGitSync from './parts/ExtensionHostCommand/ExtensionHostCommandGitSync.js'
-import * as ExtensionHostCommandGitUnstage from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstage.js'
-import * as ExtensionHostCommandGitUnstageAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstageAll.js'
-import * as ExtensionHostCommandGitCleanAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitCleanAll.js'
-import * as ExtensionHostCommandGitUndoLastCommit from './parts/ExtensionHostCommand/ExtensionHostCommandGitUndoLastCommit.js'
+import * as ExtensionHostCommand from './parts/ExtensionHostCommand/ExtensionHostCommand.js'
 import * as GitFind from './parts/GitFind/GitFind.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
@@ -36,24 +19,9 @@ export const initializeProject = async () => {
 }
 
 export const activate = async () => {
-  vscode.registerCommand(ExtensionHostCommandAcceptInput)
-  vscode.registerCommand(ExtensionHostCommandGitAddAll)
-  vscode.registerCommand(ExtensionHostCommandGitCheckout)
-  vscode.registerCommand(ExtensionHostCommandGitCheckoutRef)
-  vscode.registerCommand(ExtensionHostCommandGitCleanAll)
-  vscode.registerCommand(ExtensionHostCommandGitDiscard)
-  vscode.registerCommand(ExtensionHostCommandGitFetch)
-  vscode.registerCommand(ExtensionHostCommandGitInit)
-  vscode.registerCommand(ExtensionHostCommandGitPull)
-  vscode.registerCommand(ExtensionHostCommandGitPullRebase)
-  vscode.registerCommand(ExtensionHostCommandGitPullRequest)
-  vscode.registerCommand(ExtensionHostCommandGitPush)
-  vscode.registerCommand(ExtensionHostCommandGitStage)
-  vscode.registerCommand(ExtensionHostCommandGitStageAll)
-  vscode.registerCommand(ExtensionHostCommandGitSync)
-  vscode.registerCommand(ExtensionHostCommandGitUndoLastCommit)
-  vscode.registerCommand(ExtensionHostCommandGitUnstage)
-  vscode.registerCommand(ExtensionHostCommandGitUnstageAll)
+  for (const command of Object.values(ExtensionHostCommand)) {
+    vscode.registerCommand(command)
+  }
 
   vscode.registerSourceControlProvider(SourceControlProviderGit)
 
