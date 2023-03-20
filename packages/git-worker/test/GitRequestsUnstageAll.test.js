@@ -12,10 +12,30 @@ jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
   }
 })
 
-const GitRequestsVersion = await import(
-  '../src/parts/GitRequestsVersion/GitRequestsVersion.js'
+const GitRequestsUnstageAll = await import(
+  '../src/parts/GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 )
 const Exec = await import('../src/parts/Exec/Exec.js')
+
+test('unstageAll', async () => {
+  // @ts-ignore
+  Exec.exec.mockImplementation(() => {
+    return {
+      stdout: '',
+      stderr: '',
+      exitCode: 0,
+    }
+  })
+  GitRequestsUnstageAll.unstageAll({
+    cwd: '/test/test-folder',
+    gitPath: 'git',
+  })
+  expect(Exec.exec).toHaveBeenCalledTimes(1)
+  expect(Exec.exec).toHaveBeenCalledWith('git', ['rm', '--cached', '-r', '.'], {
+    cwd: '/test/test-folder',
+    env: expect.anything(),
+  })
+})
 
 test('unstageAll - error - not removing . recursively without -r', async () => {
   // @ts-ignore
@@ -23,7 +43,7 @@ test('unstageAll - error - not removing . recursively without -r', async () => {
     throw new Error(`fatal: not removing '.' recursively without -r`)
   })
   await expect(
-    GitRequestsVersion.version({
+    GitRequestsUnstageAll.unstageAll({
       cwd: '/test/test-folder',
       gitPath: '',
     })
