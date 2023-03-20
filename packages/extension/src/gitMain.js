@@ -13,6 +13,7 @@ import * as ExtensionHostCommandGitStageAll from './parts/ExtensionHostCommand/E
 import * as ExtensionHostCommandGitSync from './parts/ExtensionHostCommand/ExtensionHostCommandGitSync.js'
 import * as ExtensionHostCommandGitUnstage from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstage.js'
 import * as ExtensionHostCommandGitUnstageAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstageAll.js'
+import * as ExtensionHostCommandGitCleanAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitCleanAll.js'
 import * as GitFind from './parts/GitFind/GitFind.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
@@ -37,6 +38,7 @@ export const activate = async () => {
   vscode.registerCommand(ExtensionHostCommandGitAddAll)
   vscode.registerCommand(ExtensionHostCommandGitCheckout)
   vscode.registerCommand(ExtensionHostCommandGitCheckoutRef)
+  vscode.registerCommand(ExtensionHostCommandGitCleanAll)
   vscode.registerCommand(ExtensionHostCommandGitFetch)
   vscode.registerCommand(ExtensionHostCommandGitInit)
   vscode.registerCommand(ExtensionHostCommandGitPull)

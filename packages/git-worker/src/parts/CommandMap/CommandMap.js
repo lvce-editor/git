@@ -5,6 +5,7 @@ import * as GitAdd from '../GitRequestsAdd/GitRequestsAdd.js'
 import * as GitAddAll from '../GitRequestsAddAll/GitRequestsAddAll.js'
 import * as GitAddAllAndCommit from '../GitRequestsAddAllAndCommit/GitRequestsAddAllAndCommit.js'
 import * as GitCheckout from '../GitRequestsCheckout/GitRequestsCheckout.js'
+import * as GitRequestsCleanAll from '../GitRequestsCleanAll/GitRequestsCleanAll.js'
 import * as GitCommit from '../GitRequestsCommit/GitRequestsCommit.js'
 import * as GitDeleteBranch from '../GitRequestsDeleteBranch/GitRequestsDeleteBranch.js'
 import * as GitDiscard from '../GitRequestsDiscard/GitRequestsDiscard.js'
@@ -17,13 +18,13 @@ import * as GitPull from '../GitRequestsPull/GitRequestsPull.js'
 import * as GitPullAndRebase from '../GitRequestsPullAndRebase/GitRequestPullAndRebase.js'
 import * as GitPush from '../GitRequestsPush/GitRequestsPush.js'
 import * as GitStage from '../GitRequestsStage/GitRequestsStage.js'
+import * as GitRequestsStageAll from '../GitRequestsStageAll/GitRequestsStageAll.js'
 import * as GitSync from '../GitRequestsSync/GitRequestsSync.js'
 import * as GitTag from '../GitRequestsTag/GitRequestsTag.js'
 import * as GitUnstage from '../GitRequestsUnstage/GitRequestsUnstage.js'
 import * as GitUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 import * as GitVersion from '../GitRequestsVersion/GitRequestsVersion.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
-import * as GitRequestsStageAll from '../GitRequestsStageAll/GitRequestsStageAll.js'
 
 export const getFn = (method) => {
   switch (method) {
@@ -75,6 +76,8 @@ export const getFn = (method) => {
       return GitRequestsStageAll.stageAll
     case GitWorkerCommandType.GitUnstageAll:
       return GitUnstageAll.unstageAll
+    case GitWorkerCommandType.GitCleanAll:
+      return GitRequestsCleanAll.cleanAll
     default:
       throw new CommandNotFoundError(method)
   }
