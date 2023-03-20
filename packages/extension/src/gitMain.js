@@ -4,6 +4,7 @@ import * as ExtensionHostCommandGitCheckout from './parts/ExtensionHostCommand/E
 import * as ExtensionHostCommandGitCheckoutRef from './parts/ExtensionHostCommand/ExtensionHostCommandGitCheckoutRef.js'
 import * as ExtensionHostCommandGitFetch from './parts/ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
 import * as ExtensionHostCommandGitInit from './parts/ExtensionHostCommand/ExtensionHostCommandGitInit.js'
+import * as ExtensionHostCommandGitDiscard from './parts/ExtensionHostCommand/ExtensionHostCommandGitDiscard.js'
 import * as ExtensionHostCommandGitPull from './parts/ExtensionHostCommand/ExtensionHostCommandGitPull.js'
 import * as ExtensionHostCommandGitPullRebase from './parts/ExtensionHostCommand/ExtensionHostCommandGitPullRebase.js'
 import * as ExtensionHostCommandGitPullRequest from './parts/ExtensionHostCommand/ExtensionHostCommandGitPullRequest.js'
@@ -39,6 +40,7 @@ export const activate = async () => {
   vscode.registerCommand(ExtensionHostCommandGitCheckout)
   vscode.registerCommand(ExtensionHostCommandGitCheckoutRef)
   vscode.registerCommand(ExtensionHostCommandGitCleanAll)
+  vscode.registerCommand(ExtensionHostCommandGitDiscard)
   vscode.registerCommand(ExtensionHostCommandGitFetch)
   vscode.registerCommand(ExtensionHostCommandGitInit)
   vscode.registerCommand(ExtensionHostCommandGitPull)
