@@ -9,6 +9,7 @@ import * as ExtensionHostCommandGitPullRebase from './parts/ExtensionHostCommand
 import * as ExtensionHostCommandGitPullRequest from './parts/ExtensionHostCommand/ExtensionHostCommandGitPullRequest.js'
 import * as ExtensionHostCommandGitPush from './parts/ExtensionHostCommand/ExtensionHostCommandGitPush.js'
 import * as ExtensionHostCommandGitStage from './parts/ExtensionHostCommand/ExtensionHostCommandGitStage.js'
+import * as ExtensionHostCommandGitStageAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitStageAll.js'
 import * as ExtensionHostCommandGitSync from './parts/ExtensionHostCommand/ExtensionHostCommandGitSync.js'
 import * as ExtensionHostCommandGitUnstage from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstage.js'
 import * as GitFind from './parts/GitFind/GitFind.js'
@@ -44,6 +45,7 @@ export const activate = async () => {
   vscode.registerCommand(ExtensionHostCommandGitCheckoutRef)
   vscode.registerCommand(ExtensionHostCommandGitUnstage)
   vscode.registerCommand(ExtensionHostCommandGitStage)
+  vscode.registerCommand(ExtensionHostCommandGitStageAll)
 
   vscode.registerSourceControlProvider(SourceControlProviderGit)
 
