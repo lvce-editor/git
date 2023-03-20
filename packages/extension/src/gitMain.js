@@ -15,6 +15,7 @@ import * as ExtensionHostCommandGitSync from './parts/ExtensionHostCommand/Exten
 import * as ExtensionHostCommandGitUnstage from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstage.js'
 import * as ExtensionHostCommandGitUnstageAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstageAll.js'
 import * as ExtensionHostCommandGitCleanAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitCleanAll.js'
+import * as ExtensionHostCommandGitUndoLastCommit from './parts/ExtensionHostCommand/ExtensionHostCommandGitUndoLastCommit.js'
 import * as GitFind from './parts/GitFind/GitFind.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
@@ -50,6 +51,7 @@ export const activate = async () => {
   vscode.registerCommand(ExtensionHostCommandGitStage)
   vscode.registerCommand(ExtensionHostCommandGitStageAll)
   vscode.registerCommand(ExtensionHostCommandGitSync)
+  vscode.registerCommand(ExtensionHostCommandGitUndoLastCommit)
   vscode.registerCommand(ExtensionHostCommandGitUnstage)
   vscode.registerCommand(ExtensionHostCommandGitUnstageAll)
 

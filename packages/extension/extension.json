@@ -19,6 +19,7 @@
     "onCommand:git.unstageAll",
     "onCommand:git.cleanAll",
     "onCommand:git.discard",
+    "onCommand:git.undoLastCommit",
     "onStartupFinished",
     "onSourceControl",
     "onSourceControl:"
@@ -51,6 +52,10 @@
     {
       "id": "git.fetch",
       "label": "Git: Fetch"
+    },
+    {
+      "id": "git.undoLastCommit",
+      "label": "Git: Undo Last Commit"
     },
     {
       "id": "git.pr",

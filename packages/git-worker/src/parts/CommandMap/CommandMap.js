@@ -24,6 +24,7 @@ import * as GitTag from '../GitRequestsTag/GitRequestsTag.js'
 import * as GitUnstage from '../GitRequestsUnstage/GitRequestsUnstage.js'
 import * as GitUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 import * as GitVersion from '../GitRequestsVersion/GitRequestsVersion.js'
+import * as GitUndoLastCommit from '../GitRequestsUndoLastCommit/GitRequestsUndoLastCommit.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
 export const getFn = (method) => {
@@ -78,6 +79,8 @@ export const getFn = (method) => {
       return GitUnstageAll.unstageAll
     case GitWorkerCommandType.GitCleanAll:
       return GitRequestsCleanAll.cleanAll
+    case GitWorkerCommandType.GitUndoLastCommit:
+      return GitUndoLastCommit.undoLastCommit
     default:
       throw new CommandNotFoundError(method)
   }
