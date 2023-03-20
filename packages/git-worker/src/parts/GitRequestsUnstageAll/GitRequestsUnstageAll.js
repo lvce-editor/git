@@ -15,6 +15,13 @@ export const unstageAll = async ({ cwd, gitPath }) => {
       gitPath,
     })
   } catch (error) {
+    if (
+      error &&
+      error instanceof Error &&
+      error.message.includes(`fatal: pathspec '.' did not match any files`)
+    ) {
+      return
+    }
     throw new GitError(error, 'unstageAll')
   }
 }
