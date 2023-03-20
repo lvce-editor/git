@@ -12,6 +12,7 @@ import * as ExtensionHostCommandGitStage from './parts/ExtensionHostCommand/Exte
 import * as ExtensionHostCommandGitStageAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitStageAll.js'
 import * as ExtensionHostCommandGitSync from './parts/ExtensionHostCommand/ExtensionHostCommandGitSync.js'
 import * as ExtensionHostCommandGitUnstage from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstage.js'
+import * as ExtensionHostCommandGitUnstageAll from './parts/ExtensionHostCommand/ExtensionHostCommandGitUnstageAll.js'
 import * as GitFind from './parts/GitFind/GitFind.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
@@ -35,17 +36,18 @@ export const activate = async () => {
   vscode.registerCommand(ExtensionHostCommandAcceptInput)
   vscode.registerCommand(ExtensionHostCommandGitAddAll)
   vscode.registerCommand(ExtensionHostCommandGitCheckout)
+  vscode.registerCommand(ExtensionHostCommandGitCheckoutRef)
   vscode.registerCommand(ExtensionHostCommandGitFetch)
+  vscode.registerCommand(ExtensionHostCommandGitInit)
   vscode.registerCommand(ExtensionHostCommandGitPull)
   vscode.registerCommand(ExtensionHostCommandGitPullRebase)
-  vscode.registerCommand(ExtensionHostCommandGitInit)
-  vscode.registerCommand(ExtensionHostCommandGitPush)
   vscode.registerCommand(ExtensionHostCommandGitPullRequest)
-  vscode.registerCommand(ExtensionHostCommandGitSync)
-  vscode.registerCommand(ExtensionHostCommandGitCheckoutRef)
-  vscode.registerCommand(ExtensionHostCommandGitUnstage)
+  vscode.registerCommand(ExtensionHostCommandGitPush)
   vscode.registerCommand(ExtensionHostCommandGitStage)
   vscode.registerCommand(ExtensionHostCommandGitStageAll)
+  vscode.registerCommand(ExtensionHostCommandGitSync)
+  vscode.registerCommand(ExtensionHostCommandGitUnstage)
+  vscode.registerCommand(ExtensionHostCommandGitUnstageAll)
 
   vscode.registerSourceControlProvider(SourceControlProviderGit)
 
