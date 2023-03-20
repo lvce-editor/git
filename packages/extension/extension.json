@@ -17,6 +17,7 @@
     "onCommand:git.unstage",
     "onCommand:git.stageAll",
     "onCommand:git.unstageAll",
+    "onCommand:git.cleanAll",
     "onStartupFinished",
     "onSourceControl",
     "onSourceControl:"
