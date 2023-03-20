@@ -19,12 +19,24 @@ export const addAllAndCommit = async ({ cwd, gitPath, message }) => {
       gitPath,
       name: 'addAllAndCommit/commit',
     })
-    await Git.exec({
-      args: ['push'],
-      cwd,
-      gitPath,
-      name: 'addAllAndCommit/push',
-    })
+    try {
+      await Git.exec({
+        args: ['push'],
+        cwd,
+        gitPath,
+        name: 'addAllAndCommit/push',
+      })
+    } catch (error) {
+      if (
+        error &&
+        error instanceof Error &&
+        error.message.includes('No configured push destination')
+      ) {
+        // ignore
+      } else {
+        throw error
+      }
+    }
   } catch (error) {
     throw new GitError(error, 'addAllAndCommit')
   }
