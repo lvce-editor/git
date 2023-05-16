@@ -1,6 +1,6 @@
 export const name = 'git.pull-error-cannot-fast-forward-multiple-branches'
 
-export const mockExec = (command, args, options) => {
+export const mockRpc = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
