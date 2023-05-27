@@ -1,20 +1,20 @@
 export const create = async ({ url, name }) => {
-  const worker = await vscode.createWorker({
+  const ipc = await vscode.createWorker({
     method: 'moduleWorker',
     url,
     name,
   })
-  return worker
+  return ipc
 }
 
-export const wrap = (worker) => {
+export const wrap = (ipc) => {
   return {
-    worker,
+    ipc,
     send(message) {
-      this.worker.postMessage(message)
+      this.ipc.send(message)
     },
     set onmessage(listener) {
-      this.worker.onmessage = listener
+      this.ipc.onmessage = listener
     },
   }
 }

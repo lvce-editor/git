@@ -13,28 +13,27 @@ export const state = {
   rpcPromise: undefined,
 }
 
-const handleMessage = async (event) => {
-  const message = event.data
-  console.log({ message })
-  if (message.id) {
-    if ('result' in message || 'error' in message) {
-      Callback.resolve(message.id, message)
-    } else if ('method' in message) {
-      const response = await GetResponse.getResponse(message)
-      const target = event.target
-      target.postMessage(response)
-    }
-  } else {
-    console.log(message)
-  }
-}
-
 const createIpc = async ({ url, name }) => {
   const ipc = await IpcParent.create({
     method: IpcParentType.ModuleWorker,
     url,
     name,
   })
+
+  const handleMessage = async (message) => {
+    console.log({ message })
+    if (message.id) {
+      if ('result' in message || 'error' in message) {
+        Callback.resolve(message.id, message)
+      } else if ('method' in message) {
+        const response = await GetResponse.getResponse(message)
+        ipc.send(response)
+      }
+    } else {
+      console.log(message)
+    }
+  }
+
   ipc.onmessage = handleMessage
   return ipc
 }
