@@ -6,6 +6,7 @@ import * as ExtensionInfo from './parts/ExtensionInfo/ExtensionInfo.js'
 
 export const initializeProject = async () => {
   const git = await GitFind.findGit()
+  console.log({ git })
   if (!git) {
     console.info('[git] git not found')
     OutputChannelGit.append('git not found')
@@ -39,6 +40,8 @@ export const activate = async ({ path }) => {
   //   setupWatcher()
 
   // })
+
+  console.log('finished activate')
 
   return () => {
     // rootWatcher.dispose()

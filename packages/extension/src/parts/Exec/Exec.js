@@ -10,18 +10,10 @@ import * as Trace from '../Trace/Trace.js'
  */
 export const exec = async (command, args, options) => {
   const start = performance.now()
-  const { stdout, stderr } = await Rpc.invoke(
-    'Exec.exec',
-    command,
-    args,
-    options
-  )
+  const execResult = await Rpc.invoke('Exec.exec', command, args, options)
+  const { stdout, stderr } = execResult
   const end = performance.now()
-  Trace.trace(
-    `git ${args.join(' ')} (${(end - start).toFixed(
-      1
-    )}ms)\n${stdout}\n${stderr}`
-  )
+  Trace.trace(`git ${args.join(' ')} (${(end - start).toFixed(1)}ms)\n${stdout}\n${stderr}`)
   return {
     stdout,
     stderr,
