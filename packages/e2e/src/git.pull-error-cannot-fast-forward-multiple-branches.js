@@ -1,6 +1,6 @@
 export const name = 'git.pull-error-cannot-fast-forward-multiple-branches'
 
-export const mockRpc = (command, args, options) => {
+const exec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -10,14 +10,17 @@ export const mockRpc = (command, args, options) => {
       }
     }
     if (args[0] === 'pull') {
-      return {
-        stdout: '',
-        stderr: 'fatal: Cannot fast-forward to multiple branches.',
-        exitCode: 128,
-      }
+      throw new Error('fatal: Cannot fast-forward to multiple branches.')
     }
   }
   throw new Error(`unexpected command ${command}`)
+}
+
+export const mockRpc = {
+  name: 'Git',
+  commands: {
+    'Exec.exec': exec,
+  },
 }
 
 export const test = async ({

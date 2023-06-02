@@ -1,8 +1,6 @@
 export const name = 'git.pull-error-not-a-git-repository'
 
-export const skip = true
-
-export const mockExec = (command, args, options) => {
+const exec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -12,15 +10,20 @@ export const mockExec = (command, args, options) => {
       }
     }
     if (args[0] === 'pull') {
-      return {
-        stdout: '',
-        stderr:
-          'fatal: not a git repository (or any of the parent directories): .git',
-        exitCode: 128,
-      }
+      const error = new Error(
+        'fatal: not a git repository (or any of the parent directories): .git'
+      )
+      throw error
     }
   }
   throw new Error(`unexpected command ${command}`)
+}
+
+export const mockRpc = {
+  name: 'Git',
+  commands: {
+    'Exec.exec': exec,
+  },
 }
 
 export const test = async ({
