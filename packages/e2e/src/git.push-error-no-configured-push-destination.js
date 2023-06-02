@@ -1,6 +1,6 @@
 export const name = 'git.push-error-no-configured-push-destination'
 
-export const mockExec = (command, args, options) => {
+const exec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -27,6 +27,13 @@ and then push using the remote name
     }
   }
   throw new Error(`unexpected command ${command}`)
+}
+
+export const mockRpc = {
+  name: 'Git',
+  commands: {
+    'Exec.exec': exec,
+  },
 }
 
 export const test = async ({
