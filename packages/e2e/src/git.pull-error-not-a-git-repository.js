@@ -10,10 +10,12 @@ const exec = (command, args, options) => {
       }
     }
     if (args[0] === 'pull') {
-      const error = new Error(
-        'fatal: not a git repository (or any of the parent directories): .git'
-      )
-      throw error
+      return {
+        stdout: '',
+        stderr:
+          'fatal: not a git repository (or any of the parent directories): .git',
+        exitCode: 128,
+      }
     }
   }
   throw new Error(`unexpected command ${command}`)
