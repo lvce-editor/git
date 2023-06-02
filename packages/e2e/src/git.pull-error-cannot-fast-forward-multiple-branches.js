@@ -10,7 +10,11 @@ const exec = (command, args, options) => {
       }
     }
     if (args[0] === 'pull') {
-      throw new Error('fatal: Cannot fast-forward to multiple branches.')
+      return {
+        stdout: '',
+        stderr: 'fatal: Cannot fast-forward to multiple branches.',
+        exitCode: 128,
+      }
     }
   }
   throw new Error(`unexpected command ${command}`)
