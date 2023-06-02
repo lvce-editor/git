@@ -1,37 +1,67 @@
 export const name = 'git.show-changed-files-in-side-bar-error'
 
-export const skip = true
+const gitVersion = () => {
+  return {
+    stdout: '0.0.0',
+    stderr: '',
+    exitCode: 0,
+  }
+}
 
-export const test = async ({ FileSystem, Workspace, Settings, page }) => {
-  const tmpDir = await FileSystem.getTmpDir()
-  await FileSystem.writeFile(`${tmpDir}/test.txt`, 'div')
-  const gitPath = await FileSystem.createExecutable(`
+const gitRevParse = () => {
+  return {
+    stdout: '',
+    stderr: ``,
+    exitCode: 0,
+  }
+}
 
-console.error("oops")
-process.exit(128)
-`)
-  await Settings.update({
-    'git.path': gitPath,
-  })
-  const testTxt = page.locator('text=test.txt')
-  await testTxt.click()
-  const tokenText = page.locator('.Token.Text')
-  await tokenText.click()
-  const viewletSourceControl = page.locator('[title="Source Control"]')
-  await viewletSourceControl.click()
-  const error = await page.waitForSelector('.Error')
-  const errorText = await error.textContent()
+const gitStatus = () => {
+  throw new Error(`oops`)
+}
+
+const exec = (command, args, options) => {
+  if (command !== 'git') {
+    throw new Error(`unexpected command ${command}`)
+  }
+  const subCommand = args[0]
+  switch (subCommand) {
+    case '--version':
+      return gitVersion()
+    case 'rev-parse':
+      return gitRevParse()
+    case 'status':
+      return gitStatus()
+    default:
+      throw new Error(`unexpected command ${subCommand}`)
+  }
+}
+
+export const mockRpc = {
+  name: 'Git',
+  commands: {
+    'Exec.exec': exec,
+  },
+}
+export const test = async ({
+  FileSystem,
+  Workspace,
+  SideBar,
+  Locator,
+  expect,
+}) => {
+  // arrange
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
+
+  // act
+  await SideBar.open('Source Control')
+
+  //  assert
+  const error = await Locator('.Error')
+  await expect(error).toBeVisible()
+  await expect(error).toHaveText('Error: Git: oops')
   // TODO should improve error message and buttons
   // 1. try again button
   // 2. open git log button
-  if (
-    errorText !==
-    'Error: GitError: Git.getModifiedFiles failed to execute: oops'
-  ) {
-    console.log({ errorText })
-    return
-  }
-  // await page.waitForSelector('text=')
-  // await page.waitForSelector('.TreeItem:has-text("GitRequests.js")')
-  // await page.waitForSelector('.TreeItem:has-text("InternalCommand.js")')
 }
