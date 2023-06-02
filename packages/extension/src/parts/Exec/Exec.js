@@ -10,7 +10,7 @@ import * as Trace from '../Trace/Trace.js'
  */
 export const exec = async (command, args, options) => {
   const start = performance.now()
-  const { stdout, stderr } = await Rpc.invoke(
+  const { stdout, stderr, exitCode } = await Rpc.invoke(
     'Exec.exec',
     command,
     args,
@@ -25,6 +25,7 @@ export const exec = async (command, args, options) => {
   return {
     stdout,
     stderr,
+    exitCode,
   }
 }
 
