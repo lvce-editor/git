@@ -1,7 +1,7 @@
 export const name =
   'git.pull-error-kex-exchange-identification-connection-closed'
 
-export const mockExec = (command, args, options) => {
+const exec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -28,6 +28,13 @@ and the repository exists.
   throw new Error(`unexpected command ${command}`)
 }
 
+export const mockRpc = {
+  name: 'Git',
+  commands: {
+    'Exec.exec': exec,
+  },
+}
+
 export const test = async ({
   FileSystem,
   Workspace,
@@ -38,12 +45,6 @@ export const test = async ({
 }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.pull-error-kex-exchange-identification-connection-closed/git.js`
-  )
-  await Settings.update({
-    'git.path': gitPath,
-  })
 
   // act
   await QuickPick.open()
