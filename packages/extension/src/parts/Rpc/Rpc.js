@@ -17,6 +17,7 @@ const createRpc = async () => {
   console.log({ gitClientPath })
   const rpc = await vscode.createNodeRpc({
     path: gitClientPath,
+    name: 'Git',
   })
   return rpc
 }
