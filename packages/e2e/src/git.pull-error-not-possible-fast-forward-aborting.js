@@ -1,8 +1,6 @@
 export const name = 'git.pull-error-not-possible-fast-forward-aborting'
 
-export const skip = true
-
-export const mockExec = (command, args, options) => {
+const exec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -13,16 +11,22 @@ export const mockExec = (command, args, options) => {
     }
     if (args[0] === 'pull') {
       return {
-        stdout: '',
-        stderr: `From github.com:user/repo
-* branch                      main       -> FETCH_HEAD
-fatal: Not possible to fast-forward, aborting.
+        stdout: `From github.com:user/repo
+* branch                      main       -> FETCH_HEAD`,
+        stderr: `fatal: Not possible to fast-forward, aborting.
 `,
         exitCode: 128,
       }
     }
   }
   throw new Error(`unexpected command ${command}`)
+}
+
+export const mockRpc = {
+  name: 'Git',
+  commands: {
+    'Exec.exec': exec,
+  },
 }
 
 export const test = async ({
