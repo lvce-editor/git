@@ -32,6 +32,7 @@ fs.cpSync(join(gitWorker, 'src'), join(root, 'dist', 'git-worker', 'src'), {
 
 fs.cpSync(node, join(root, 'dist', 'node'), {
   recursive: true,
+  verbatimSymlinks: true,
 })
 
 const replace = ({ path, occurrence, replacement }) => {
