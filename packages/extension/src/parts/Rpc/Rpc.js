@@ -1,4 +1,5 @@
 import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.js'
+import * as GetGitClientPath from '../GetGitClientPath/GetGitClientPath.js'
 
 export const state = {
   /**
@@ -7,13 +8,9 @@ export const state = {
   rpcPromise: undefined,
 }
 
-const getGitClientPath = (path) => {
-  return `${path}/../node/src/gitClient.js`
-}
-
 const createRpc = async () => {
   const path = ExtensionInfo.getPath()
-  const gitClientPath = getGitClientPath(path)
+  const gitClientPath = GetGitClientPath.getGitClientPath(path)
   const rpc = await vscode.createNodeRpc({
     path: gitClientPath,
     name: 'Git',
