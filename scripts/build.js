@@ -22,6 +22,7 @@ fs.writeFileSync(join(root, 'dist', 'package.json'), JSON.stringify(packageJson,
 fs.copyFileSync(join(root, 'README.md'), join(root, 'dist', 'README.md'))
 fs.copyFileSync(join(extension, 'icon.png'), join(root, 'dist', 'icon.png'))
 fs.copyFileSync(join(extension, 'extension.json'), join(root, 'dist', 'extension.json'))
+fs.cpSync(join(extension, 'icons'), join(root, 'dist', 'icons'), { recursive: true })
 fs.cpSync(join(extension, 'src'), join(root, 'dist', 'src'), {
   recursive: true,
 })
