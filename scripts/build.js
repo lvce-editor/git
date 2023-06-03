@@ -49,7 +49,7 @@ replace({
 replace({
   path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
   occurrence: '../git-worker/',
-  replacement: 'gitworker/',
+  replacement: 'git-worker/',
 })
 
 await packageExtension({
