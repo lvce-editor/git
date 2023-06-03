@@ -54,6 +54,12 @@ replace({
   replacement: 'git-worker/',
 })
 
+replace({
+  path: join(root, 'dist', 'git-worker', 'src', 'parts', 'IconType', 'IconType.js'),
+  occurrence: '/extension/icons',
+  replacement: '/icons',
+})
+
 await packageExtension({
   highestCompression: true,
   inDir: join(root, 'dist'),
