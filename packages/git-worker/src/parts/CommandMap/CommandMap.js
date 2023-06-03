@@ -1,4 +1,3 @@
-import { CommandNotFoundError } from '../CommandNotFoundError/CommandNotFoundError.js'
 import * as GitGetChangedFiles from '../GetChangedFiles/GetChangedFiles.js'
 import * as GitGetGroups from '../GetGroups/GetGroups.js'
 import * as GitAdd from '../GitRequestsAdd/GitRequestsAdd.js'
@@ -21,67 +20,37 @@ import * as GitStage from '../GitRequestsStage/GitRequestsStage.js'
 import * as GitRequestsStageAll from '../GitRequestsStageAll/GitRequestsStageAll.js'
 import * as GitSync from '../GitRequestsSync/GitRequestsSync.js'
 import * as GitTag from '../GitRequestsTag/GitRequestsTag.js'
+import * as GitUndoLastCommit from '../GitRequestsUndoLastCommit/GitRequestsUndoLastCommit.js'
 import * as GitUnstage from '../GitRequestsUnstage/GitRequestsUnstage.js'
 import * as GitUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 import * as GitVersion from '../GitRequestsVersion/GitRequestsVersion.js'
-import * as GitUndoLastCommit from '../GitRequestsUndoLastCommit/GitRequestsUndoLastCommit.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
-export const getFn = (method) => {
-  switch (method) {
-    case GitWorkerCommandType.GitGetChangedFiles:
-      return GitGetChangedFiles.getChangedFiles
-    case GitWorkerCommandType.GitAddAllAndCommit:
-      return GitAddAllAndCommit.addAllAndCommit
-    case GitWorkerCommandType.GitAdd:
-      return GitAdd.add
-    case GitWorkerCommandType.GitAddAll:
-      return GitAddAll.addAll
-    case GitWorkerCommandType.GitCheckout:
-      return GitCheckout.checkout
-    case GitWorkerCommandType.GitCommit:
-      return GitCommit.commit
-    case GitWorkerCommandType.GitDeleteBranch:
-      return GitDeleteBranch.deleteBranch
-    case GitWorkerCommandType.GitDiscard:
-      return GitDiscard.discard
-    case GitWorkerCommandType.GitFetch:
-      return GitFetch.fetch
-    case GitWorkerCommandType.GitGetAddedFiles:
-      return GitGetAddedFiles.getAddedFiles
-    case GitWorkerCommandType.GitGetCurrentBranch:
-      return GitGetCurrentBranch.getCurrentBranch
-    case GitWorkerCommandType.GitGetFileBefore:
-      return GitGetFileBefore.getFileBefore
-    case GitWorkerCommandType.GitInit:
-      return GitInit.init
-    case GitWorkerCommandType.GitPull:
-      return GitPull.pull
-    case GitWorkerCommandType.GitPullAndRebase:
-      return GitPullAndRebase.pullAndRebase
-    case GitWorkerCommandType.GitPush:
-      return GitPush.push
-    case GitWorkerCommandType.GitSync:
-      return GitSync.sync
-    case GitWorkerCommandType.GitTag:
-      return GitTag.tag
-    case GitWorkerCommandType.GitVersion:
-      return GitVersion.version
-    case GitWorkerCommandType.GitGetGroups:
-      return GitGetGroups.getGroups
-    case GitWorkerCommandType.GitUnstage:
-      return GitUnstage.unstage
-    case GitWorkerCommandType.GitStage:
-      return GitStage.stage
-    case GitWorkerCommandType.GitStageAll:
-      return GitRequestsStageAll.stageAll
-    case GitWorkerCommandType.GitUnstageAll:
-      return GitUnstageAll.unstageAll
-    case GitWorkerCommandType.GitCleanAll:
-      return GitRequestsCleanAll.cleanAll
-    case GitWorkerCommandType.GitUndoLastCommit:
-      return GitUndoLastCommit.undoLastCommit
-    default:
-      throw new CommandNotFoundError(method)
-  }
+export const commandMap = {
+  [GitWorkerCommandType.GitAdd]: GitAdd.add,
+  [GitWorkerCommandType.GitAddAll]: GitAddAll.addAll,
+  [GitWorkerCommandType.GitAddAllAndCommit]: GitAddAllAndCommit.addAllAndCommit,
+  [GitWorkerCommandType.GitCheckout]: GitCheckout.checkout,
+  [GitWorkerCommandType.GitCleanAll]: GitRequestsCleanAll.cleanAll,
+  [GitWorkerCommandType.GitCommit]: GitCommit.commit,
+  [GitWorkerCommandType.GitDeleteBranch]: GitDeleteBranch.deleteBranch,
+  [GitWorkerCommandType.GitDiscard]: GitDiscard.discard,
+  [GitWorkerCommandType.GitFetch]: GitFetch.fetch,
+  [GitWorkerCommandType.GitGetAddedFiles]: GitGetAddedFiles.getAddedFiles,
+  [GitWorkerCommandType.GitGetChangedFiles]: GitGetChangedFiles.getChangedFiles,
+  [GitWorkerCommandType.GitGetCurrentBranch]: GitGetCurrentBranch.getCurrentBranch,
+  [GitWorkerCommandType.GitGetFileBefore]: GitGetFileBefore.getFileBefore,
+  [GitWorkerCommandType.GitGetGroups]: GitGetGroups.getGroups,
+  [GitWorkerCommandType.GitInit]: GitInit.init,
+  [GitWorkerCommandType.GitPull]: GitPull.pull,
+  [GitWorkerCommandType.GitPullAndRebase]: GitPullAndRebase.pullAndRebase,
+  [GitWorkerCommandType.GitPush]: GitPush.push,
+  [GitWorkerCommandType.GitStage]: GitStage.stage,
+  [GitWorkerCommandType.GitStageAll]: GitRequestsStageAll.stageAll,
+  [GitWorkerCommandType.GitSync]: GitSync.sync,
+  [GitWorkerCommandType.GitTag]: GitTag.tag,
+  [GitWorkerCommandType.GitUndoLastCommit]: GitUndoLastCommit.undoLastCommit,
+  [GitWorkerCommandType.GitUnstage]: GitUnstage.unstage,
+  [GitWorkerCommandType.GitUnstageAll]: GitUnstageAll.unstageAll,
+  [GitWorkerCommandType.GitVersion]: GitVersion.version,
 }
