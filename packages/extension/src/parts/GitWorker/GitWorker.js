@@ -1,9 +1,5 @@
-import * as Callback from '../Callback/Callback.js'
 import * as GitWorkerUrl from '../GitWorkerUrl/GitWorkerUrl.js'
-import * as IpcParent from '../IpcParent/IpcParent.js'
-import * as IpcParentType from '../IpcParentType/IpcParentType.js'
-import * as JsonRpc from '../JsonRpc/JsonRpc.js'
-import * as GetResponse from '../GetResponse/GetResponse.js'
+import * as Command from '../Command/Command.js'
 
 export const state = {
   ipc: undefined,
@@ -13,40 +9,16 @@ export const state = {
   rpcPromise: undefined,
 }
 
-const handleMessage = async (event) => {
-  const message = event.data
-  if (message.id) {
-    if ('result' in message || 'error' in message) {
-      Callback.resolve(message.id, message)
-    } else if ('method' in message) {
-      const response = await GetResponse.getResponse(message)
-      const target = event.target
-      target.postMessage(response)
-    }
-  } else {
-    console.log(message)
-  }
-}
-
-const createIpc = async ({ url, name }) => {
-  const ipc = await IpcParent.create({
-    method: IpcParentType.ModuleWorker,
-    url,
-    name,
-  })
-  ipc.onmessage = handleMessage
-  return ipc
-}
-
 const createRpc = async () => {
   const workerUrl = GitWorkerUrl.getGitWorkerUrl()
-  const ipc = await createIpc({ url: workerUrl, name: 'Git Worker' })
-  return {
-    ipc,
-    invoke(method, ...params) {
-      return JsonRpc.invoke(this.ipc, method, ...params)
-    },
-  }
+  console.log({ workerUrl })
+  const rpc = await vscode.createRpc({
+    type: 'worker',
+    url: workerUrl,
+    name: 'Git Worker',
+    execute: Command.execute,
+  })
+  return rpc
 }
 
 const getOrCreateRpc = async () => {

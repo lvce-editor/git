@@ -1,8 +1,6 @@
 export const name = 'git.pull-error-divergent-branches'
 
-export const skip = true
-
-export const mockExec = (command, args, options) => {
+const exec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -13,11 +11,10 @@ export const mockExec = (command, args, options) => {
     }
     if (args[0] === 'pull') {
       return {
-        stdout: '',
-        stderr: `> git pull --tags origin main
+        stdout: `> git pull --tags origin main
 From https://github.com/user/repo
-  * branch              main       -> FETCH_HEAD
-hint: You have divergent branches and need to specify how to reconcile them.
+  * branch              main       -> FETCH_HEAD`,
+        stderr: `hint: You have divergent branches and need to specify how to reconcile them.
 hint: You can do so by running one of the following commands sometime before
 hint: your next pull:
 hint:
@@ -36,6 +33,13 @@ fatal: Need to specify how to reconcile divergent branches.
     }
   }
   throw new Error(`unexpected command ${command}`)
+}
+
+export const mockRpc = {
+  name: 'Git',
+  commands: {
+    'Exec.exec': exec,
+  },
 }
 
 export const test = async ({

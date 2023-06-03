@@ -2,6 +2,7 @@ import * as ExtensionHostCommand from './parts/ExtensionHostCommand/ExtensionHos
 import * as GitFind from './parts/GitFind/GitFind.js'
 import * as OutputChannelGit from './parts/UiOutputChannel/UiOutputChannelGit.js'
 import * as SourceControlProviderGit from './parts/UiSourceControlProvider/UiSourceControlProviderGit.js'
+import * as ExtensionInfo from './parts/ExtensionInfo/ExtensionInfo.js'
 
 export const initializeProject = async () => {
   const git = await GitFind.findGit()
@@ -18,11 +19,12 @@ export const initializeProject = async () => {
   // const repository = await Repositories.getCurrent()
 }
 
-export const activate = async () => {
+export const activate = async ({ path }) => {
   for (const command of Object.values(ExtensionHostCommand)) {
     vscode.registerCommand(command)
   }
 
+  ExtensionInfo.setPath(path)
   vscode.registerSourceControlProvider(SourceControlProviderGit)
 
   await initializeProject()

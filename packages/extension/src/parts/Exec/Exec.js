@@ -1,3 +1,4 @@
+import * as Rpc from '../Rpc/Rpc.js'
 import * as Trace from '../Trace/Trace.js'
 
 /**
@@ -9,9 +10,12 @@ import * as Trace from '../Trace/Trace.js'
  */
 export const exec = async (command, args, options) => {
   const start = performance.now()
-  const { stdout, stderr } = await vscode.exec(command, args, {
-    ...options,
-  })
+  const { stdout, stderr, exitCode } = await Rpc.invoke(
+    'Exec.exec',
+    command,
+    args,
+    options
+  )
   const end = performance.now()
   Trace.trace(
     `git ${args.join(' ')} (${(end - start).toFixed(
@@ -21,6 +25,7 @@ export const exec = async (command, args, options) => {
   return {
     stdout,
     stderr,
+    exitCode,
   }
 }
 

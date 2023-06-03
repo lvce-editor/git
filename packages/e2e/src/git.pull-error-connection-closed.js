@@ -1,6 +1,6 @@
 export const name = 'git.pull-error-connection-closed'
 
-export const mockExec = (command, args, options) => {
+const exec = (command, args, options) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -13,7 +13,7 @@ export const mockExec = (command, args, options) => {
       return {
         stdout: '',
         stderr: `Connection closed by 0.0.0.0 port 22
-        fatal: Could not read from remote repository.
+fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
@@ -23,6 +23,13 @@ and the repository exists.
     }
   }
   throw new Error(`unexpected command ${command}`)
+}
+
+export const mockRpc = {
+  name: 'Git',
+  commands: {
+    'Exec.exec': exec,
+  },
 }
 
 export const test = async ({
