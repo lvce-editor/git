@@ -34,10 +34,23 @@ fs.cpSync(node, join(root, 'dist', 'node'), {
   recursive: true,
 })
 
-const gitClientPath = join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.js')
-const oldContent = readFileSync(gitClientPath, 'utf-8')
-const newContent = oldContent.replace('../node/', 'node/')
-writeFileSync(gitClientPath, newContent)
+const replace = ({ path, occurrence, replacement }) => {
+  const oldContent = readFileSync(path, 'utf-8')
+  const newContent = oldContent.replace(occurrence, replacement)
+  writeFileSync(path, newContent)
+}
+
+replace({
+  path: join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.js'),
+  occurrence: '../node/',
+  replacement: 'node/',
+})
+
+replace({
+  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
+  occurrence: '../git-worker/',
+  replacement: 'gitworker/',
+})
 
 await packageExtension({
   highestCompression: true,
