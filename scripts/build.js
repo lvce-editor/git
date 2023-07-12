@@ -1,5 +1,6 @@
 import { packageExtension } from '@lvce-editor/package-extension'
 import fs, { readFileSync, writeFileSync } from 'fs'
+import { rm } from 'fs/promises'
 import path, { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -59,6 +60,9 @@ replace({
   occurrence: '/extension/icons',
   replacement: '/icons',
 })
+
+await rm(join(root, 'dist', 'node', 'node_modules', '.bin'), { recursive: true, force: true })
+await rm(join(root, 'dist', 'node', 'node_modules', 'which', 'bin'), { recursive: true, force: true })
 
 await packageExtension({
   highestCompression: true,
