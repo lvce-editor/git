@@ -16,7 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@lvce-editor/package-extension": "^0.0.5",
-    "@lvce-editor/server": "^0.16.15",
+    "@lvce-editor/server": "^0.16.16",
     "lerna": "^7.1.4",
     "prettier": "^3.0.0",
     "@lerna/legacy-package-management": "^7.1.4"
