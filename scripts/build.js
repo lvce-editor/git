@@ -1,6 +1,6 @@
 import { packageExtension } from '@lvce-editor/package-extension'
 import fs, { readFileSync, writeFileSync } from 'fs'
-import { rm } from 'fs/promises'
+import { readdir, rm } from 'fs/promises'
 import path, { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -63,6 +63,18 @@ replace({
 
 await rm(join(root, 'dist', 'node', 'node_modules', '.bin'), { recursive: true, force: true })
 await rm(join(root, 'dist', 'node', 'node_modules', 'which', 'bin'), { recursive: true, force: true })
+
+const shouldRemoveNodeModule = (dirent) => {
+  return dirent.endsWith('test') || dirent.endsWith('.d.ts') || dirent.endsWith('.npmignore') || dirent.endsWith('CHANGELOG.md')
+}
+
+const dirents = await readdir(join(root, 'dist', 'node', 'node_modules'), { recursive: true })
+for (const dirent of dirents) {
+  if (shouldRemoveNodeModule(dirent)) {
+    const absolutePath = join(root, 'dist', 'node', 'node_modules', dirent)
+    await rm(absolutePath, { recursive: true, force: true })
+  }
+}
 
 await packageExtension({
   highestCompression: true,
