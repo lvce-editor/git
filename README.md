@@ -1,5 +1,7 @@
 # Git
 
+Git integration for Lvce editor.
+
 ## Contributing
 
 ```sh
@@ -15,4 +17,4 @@ npm test
 
 ## Credits
 
-Extension is based on https://github.com/microsoft/vscode/tree/main/extensions/git by the Microsoft (License MIT)
+This extension is based on https://github.com/microsoft/vscode/tree/main/extensions/git by Microsoft (License MIT)
