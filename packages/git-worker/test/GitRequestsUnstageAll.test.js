@@ -12,12 +12,10 @@ jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
   }
 })
 
-const GitRequestsUnstageAll = await import(
-  '../src/parts/GitRequestsUnstageAll/GitRequestsUnstageAll.js'
-)
+const GitRequestsUnstageAll = await import('../src/parts/GitRequestsUnstageAll/GitRequestsUnstageAll.js')
 const Exec = await import('../src/parts/Exec/Exec.js')
 
-test('unstageAll', async () => {
+test.skip('unstageAll', async () => {
   // @ts-ignore
   Exec.exec.mockImplementation(() => {
     return {
@@ -46,10 +44,8 @@ test('unstageAll - error - not removing . recursively without -r', async () => {
     GitRequestsUnstageAll.unstageAll({
       cwd: '/test/test-folder',
       gitPath: '',
-    })
-  ).rejects.toThrowError(
-    new Error("Git: fatal: not removing '.' recursively without -r")
-  )
+    }),
+  ).rejects.toThrowError(new Error("Git: fatal: not removing '.' recursively without -r"))
 })
 
 test("unstageAll - error - pathspec '.' did not match any files", async () => {

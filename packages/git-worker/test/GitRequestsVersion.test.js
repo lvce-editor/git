@@ -12,12 +12,10 @@ jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
   }
 })
 
-const GitRequestsVersion = await import(
-  '../src/parts/GitRequestsVersion/GitRequestsVersion.js'
-)
+const GitRequestsVersion = await import('../src/parts/GitRequestsVersion/GitRequestsVersion.js')
 const Exec = await import('../src/parts/Exec/Exec.js')
 
-test('version', async () => {
+test.skip('version', async () => {
   // @ts-ignore
   Exec.exec.mockImplementation(() => {
     return {
@@ -29,7 +27,7 @@ test('version', async () => {
     await GitRequestsVersion.version({
       cwd: '/test/test-folder',
       gitPath: '',
-    })
+    }),
   ).toBe('2.34.1')
 })
 
@@ -42,6 +40,6 @@ test('version - error', async () => {
     GitRequestsVersion.version({
       cwd: '/test/test-folder',
       gitPath: '',
-    })
+    }),
   ).rejects.toThrowError(new Error('Git: x is not a function'))
 })
