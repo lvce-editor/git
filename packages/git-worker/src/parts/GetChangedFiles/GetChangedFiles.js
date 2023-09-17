@@ -13,9 +13,7 @@ const getWithDecoration = (resource) => {
     ...resource,
     icon: GetDecorationIcon.getDecorationIcon(resource.status),
     iconTitle: GetStatusText.getStatusText(resource.status),
-    strikeThrough: GetDecorationStrikeThrough.getDecorationStrikeThrough(
-      resource.status
-    ),
+    strikeThrough: GetDecorationStrikeThrough.getDecorationStrikeThrough(resource.status),
   }
 }
 

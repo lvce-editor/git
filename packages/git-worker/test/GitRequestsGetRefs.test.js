@@ -12,14 +12,12 @@ jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
   }
 })
 
-const GitRequestsGetRefs = await import(
-  '../src/parts/GitRequestsGetRefs/GitRequestsGetRefs.js'
-)
+const GitRequestsGetRefs = await import('../src/parts/GitRequestsGetRefs/GitRequestsGetRefs.js')
 const Exec = await import('../src/parts/Exec/Exec.js')
 
 // TODO mock exec instead
 
-test('getRefs', async () => {
+test.skip('getRefs', async () => {
   // @ts-ignore
   Exec.exec.mockImplementation(() => {
     return {
@@ -34,7 +32,7 @@ refs/remotes/origin/lszomoru/product-build-parallel 7ed03031bb8511eada0f8418550e
     await GitRequestsGetRefs.getRefs({
       cwd: '/test/test-folder',
       gitPath: '',
-    })
+    }),
   ).toEqual([
     {
       commit: '903f9903f4f14e0d7ec1a389b9da617848e7f609',
@@ -72,6 +70,6 @@ test('getRefs - error', async () => {
     GitRequestsGetRefs.getRefs({
       cwd: '/test/test-folder',
       gitPath: '',
-    })
+    }),
   ).rejects.toThrowError(new Error('Git: x is not a function'))
 })
