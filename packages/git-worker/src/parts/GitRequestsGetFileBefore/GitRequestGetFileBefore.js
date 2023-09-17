@@ -1,18 +1,21 @@
 import * as Git from '../Git/Git.js'
 import { GitError } from '../GitError/GitError.js'
+import * as Repositories from '../GitRepositories/GitRepositories.js'
 
 /**
  *
- * @param {{cwd:string, gitPath:string}} options
+ * @param {string} uri
  */
-export const getFileBefore = async ({ cwd, gitPath }) => {
+export const getFileBefore = async (uri) => {
   try {
+    const repository = await Repositories.getCurrent()
     const gitResult = await Git.exec({
-      args: ['show', `HEAD:${cwd}`],
-      cwd,
-      gitPath,
+      args: ['show', `HEAD:${uri}`],
+      cwd: repository.path,
+      gitPath: repository.gitPath,
       name: 'getFileBefore',
     })
+    return gitResult.stdout
   } catch (error) {
     throw new GitError(error, 'getFileBefore')
   }

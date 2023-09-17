@@ -4,6 +4,7 @@ import * as CommandAdd from '../ExtensionHostCommand/ExtensionHostCommandGitAdd.
 import * as CommandFetch from '../ExtensionHostCommand/ExtensionHostCommandGitFetch.js'
 import * as GetBadgeCount from '../GetBadgeCount/GetBadgeCount.js'
 import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.js'
+import * as GetFileBefore from '../GetFileBefore/GetFileBefore.js'
 import * as GetGroups from '../GetGroups/GetGroups.js'
 
 export const id = 'git'
@@ -36,6 +37,8 @@ export const getBadgeCount = GetBadgeCount.getBadgeCount
 export const getChangedFiles = GetChangedFiles.getChangedFiles
 
 export const getGroups = GetGroups.getGroups
+
+export const getFileBefore = GetFileBefore.getFileBefore
 
 export const fetch = CommandFetch
 
