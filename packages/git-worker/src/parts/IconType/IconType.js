@@ -1,17 +1,10 @@
-const getRoot = () => {
-  const uri = import.meta.url
-  const parts = uri.split('/')
-  const relevantParts = parts.slice(0, -5)
-  return relevantParts.join('/')
-}
+import * as IconRoot from '../IconRoot/IconRoot.js'
 
-const uri = getRoot() + '/extension/icons/dark'
-
-export const Modified = `${uri}/status-modified.svg`
-export const Added = `${uri}/status-added.svg`
-export const Deleted = `${uri}/status-deleted.svg`
-export const Renamed = `${uri}/status-renamed.svg`
-export const Copied = `${uri}/status-copied.svg`
-export const Untracked = `${uri}/status-untracked.svg`
-export const Ignored = `${uri}/status-ignored.svg`
-export const Conflict = `${uri}/status-conflict.svg`
+export const Modified = `${IconRoot.iconRoot}/status-modified.svg`
+export const Added = `${IconRoot.iconRoot}/status-added.svg`
+export const Deleted = `${IconRoot.iconRoot}/status-deleted.svg`
+export const Renamed = `${IconRoot.iconRoot}/status-renamed.svg`
+export const Copied = `${IconRoot.iconRoot}/status-copied.svg`
+export const Untracked = `${IconRoot.iconRoot}/status-untracked.svg`
+export const Ignored = `${IconRoot.iconRoot}/status-ignored.svg`
+export const Conflict = `${IconRoot.iconRoot}/status-conflict.svg`
