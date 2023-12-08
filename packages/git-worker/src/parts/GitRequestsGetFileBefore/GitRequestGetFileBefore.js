@@ -17,6 +17,10 @@ export const getFileBefore = async (uri) => {
     })
     return gitResult.stdout
   } catch (error) {
+    // @ts-ignore
+    if (error && error.stderr === `fatal: invalid object name 'HEAD'.`) {
+      return ''
+    }
     throw new GitError(error, 'getFileBefore')
   }
 }
