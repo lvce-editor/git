@@ -42,4 +42,8 @@ export const getFileBefore = GetFileBefore.getFileBefore
 
 export const fetch = CommandFetch
 
-export const statusBarCommands = []
+export const statusBarCommands = [
+  {
+    text: 'select branch',
+  },
+]

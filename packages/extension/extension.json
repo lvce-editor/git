@@ -20,9 +20,11 @@
     "onCommand:git.cleanAll",
     "onCommand:git.discard",
     "onCommand:git.undoLastCommit",
+    "onCommand:git.selectBranch",
     "onStartupFinished",
     "onSourceControl",
-    "onSourceControl:"
+    "onSourceControl:",
+    "onStatusBarItem"
   ],
   "commands": [
     {
