@@ -22,14 +22,7 @@ export const execute = async ({ id, fn, args }) => {
   state.running[id]++
   runListeners()
   try {
-    console.log('before')
     const r = await fn(args)
-    // const r = await pTimeout(fn(args), {
-    // milliseconds: Constants.CommandTimeout,
-    // message: `Git ${id} timeout out after ${Constants.CommandTimeout}ms`,
-    // })
-    console.log(r)
-    console.log('after')
     return r
   } catch (error) {
     // @ts-ignore
