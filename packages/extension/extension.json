@@ -100,28 +100,34 @@
   "source-control-actions": {
     "index": [
       {
-        "command": "git.unstageAll"
+        "command": "git.unstageAll",
+        "label": "Unstage All"
       }
     ],
     "index-item": [
       {
-        "command": "git.openFile"
+        "command": "git.openFile",
+        "label": "Open File"
       },
       {
-        "command": "git.unstage"
+        "command": "git.unstage",
+        "label": "Unstage"
       }
     ],
     "working-tree": [
       {
-        "command": "git.stageAll"
+        "command": "git.stageAll",
+        "label": "Stage All"
       }
     ],
     "working-tree-item": [
       {
-        "command": "git.openFile"
+        "command": "git.openFile",
+        "label": "Open File"
       },
       {
-        "command": "git.stage"
+        "command": "git.stage",
+        "label": "Stage"
       }
     ]
   }
