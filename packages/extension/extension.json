@@ -101,33 +101,49 @@
     "index": [
       {
         "command": "git.unstageAll",
-        "label": "Unstage All"
+        "label": "Unstage All",
+        "icon": "Remove"
       }
     ],
     "index-item": [
       {
         "command": "git.openFile",
-        "label": "Open File"
+        "label": "Open File",
+        "icon": "GoToFile"
       },
       {
         "command": "git.unstage",
-        "label": "Unstage"
+        "label": "Unstage",
+        "icon": "Remove"
       }
     ],
     "working-tree": [
       {
+        "command": "git.discardAll",
+        "label": "Discard All",
+        "icon": "Discard"
+      },
+      {
         "command": "git.stageAll",
-        "label": "Stage All"
+        "label": "Stage All",
+        "icon": "Add"
       }
     ],
     "working-tree-item": [
       {
         "command": "git.openFile",
-        "label": "Open File"
+        "label": "Open File",
+        "icon": "GoToFile"
+      },
+      {
+        "command": "git.discard",
+        "label": "Discard",
+        "icon": "Discard"
       },
       {
         "command": "git.stage",
-        "label": "Stage"
+        "label": "Stage",
+        "icon": "Add"
       }
     ]
   }
