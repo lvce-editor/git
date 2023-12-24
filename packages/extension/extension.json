@@ -113,7 +113,7 @@
       },
       {
         "command": "git.unstage",
-        "label": "Unstage",
+        "label": "Unstage Changes",
         "icon": "Remove"
       }
     ],
