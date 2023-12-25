@@ -35,6 +35,16 @@ for (const dirent of ['src']) {
     force: true,
   })
 }
+for (const dirent of ['src']) {
+  await cp(
+    path.join(root, 'packages', 'git-requests', dirent),
+    path.join(root, 'dist', commitHash, 'extensions', 'builtin.git', 'git-requests', dirent),
+    {
+      recursive: true,
+      force: true,
+    },
+  )
+}
 
 const replace = ({ path, occurrence, replacement }) => {
   const oldContent = readFileSync(path, 'utf-8')
