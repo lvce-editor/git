@@ -6,7 +6,7 @@ import { GitError } from '../GitError/GitError.js'
  */
 export const push = async ({ cwd, gitPath, exec }) => {
   try {
-    await Git.exec({
+    await exec({
       args: ['push', '--porcelain'],
       cwd,
       gitPath,
