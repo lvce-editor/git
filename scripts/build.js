@@ -63,7 +63,7 @@ replace({
 })
 
 replace({
-  path: join(root, 'dist', 'git-worker', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
+  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
   occurrence: '/extension',
   replacement: '',
 })
