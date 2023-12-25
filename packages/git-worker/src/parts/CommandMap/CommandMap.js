@@ -29,5 +29,3 @@ export const commandMap = {
   [GitWorkerCommandType.GitUnstageAll]: WrappedGitRequests.wrappedGitRequests.unstageAll,
   [GitWorkerCommandType.GitVersion]: WrappedGitRequests.wrappedGitRequests.version,
 }
-
-console.log({ commandMap })
