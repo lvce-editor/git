@@ -1,21 +1,4 @@
-import { jest } from '@jest/globals'
-
-beforeEach(() => {
-  jest.resetAllMocks()
-})
-
-jest.unstable_mockModule('../src/parts/Exec/Exec.js', () => {
-  return {
-    exec: jest.fn(() => {
-      throw new Error('not implemented')
-    }),
-  }
-})
-
-const GitRequestsCheckout = await import(
-  '../src/parts/GitRequestsCheckout/GitRequestsCheckout.js'
-)
-const Exec = await import('../src/parts/Exec/Exec.js')
+import * as GitRequestsCheckout from '../src/parts/GitRequestsCheckout/GitRequestsCheckout.js'
 
 // TODO mock exec instead
 class ExecError extends Error {
@@ -26,35 +9,29 @@ class ExecError extends Error {
 }
 
 test('checkout - error - pathspec did not match any files known to git', async () => {
-  // @ts-ignore
-  Exec.exec.mockImplementation(() => {
-    throw new ExecError(
-      `error: pathspec 'abc' did not match any file(s) known to git`
-    )
-  })
+  const exec = () => {
+    throw new ExecError(`error: pathspec 'abc' did not match any file(s) known to git`)
+  }
   await expect(
     GitRequestsCheckout.checkout({
       cwd: '',
       ref: 'abc',
       gitPath: '',
-    })
-  ).rejects.toThrowError(
-    new Error(
-      `Git: error: pathspec 'abc' did not match any file(s) known to git`
-    )
-  )
+      exec,
+    }),
+  ).rejects.toThrow(new Error(`Git: error: pathspec 'abc' did not match any file(s) known to git`))
 })
 
 test('checkout - error - unknown git error', async () => {
-  // @ts-ignore
-  Exec.exec.mockImplementation(() => {
+  const exec = () => {
     throw new ExecError('oops')
-  })
+  }
   await expect(
     GitRequestsCheckout.checkout({
       ref: '',
       cwd: '',
       gitPath: '',
-    })
-  ).rejects.toThrowError(new Error('Git: oops'))
+      exec,
+    }),
+  ).rejects.toThrow(new Error('Git: oops'))
 })
