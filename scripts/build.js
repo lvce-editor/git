@@ -35,6 +35,9 @@ fs.cpSync(join(gitWorker, 'src'), join(root, 'dist', 'git-worker', 'src'), {
 fs.cpSync(join(gitArgs, 'src'), join(root, 'dist', 'git-args', 'src'), {
   recursive: true,
 })
+fs.cpSync(join(gitArgs, 'src'), join(root, 'dist', 'git-requests', 'src'), {
+  recursive: true,
+})
 
 fs.cpSync(node, join(root, 'dist', 'node'), {
   recursive: true,
