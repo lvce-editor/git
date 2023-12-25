@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
 const extension = path.join(root, 'packages', 'extension')
 const gitWorker = path.join(root, 'packages', 'git-worker')
-const gitArgs = path.join(root, 'packages', 'git-args')
+const gitRequests = path.join(root, 'packages', 'git-requests')
 const node = path.join(root, 'packages', 'node')
 
 fs.rmSync(join(root, 'dist'), { recursive: true, force: true })
@@ -32,10 +32,8 @@ fs.cpSync(join(extension, 'src'), join(root, 'dist', 'src'), {
 fs.cpSync(join(gitWorker, 'src'), join(root, 'dist', 'git-worker', 'src'), {
   recursive: true,
 })
-fs.cpSync(join(gitArgs, 'src'), join(root, 'dist', 'git-args', 'src'), {
-  recursive: true,
-})
-fs.cpSync(join(gitArgs, 'src'), join(root, 'dist', 'git-requests', 'src'), {
+
+fs.cpSync(join(gitRequests, 'src'), join(root, 'dist', 'git-requests', 'src'), {
   recursive: true,
 })
 

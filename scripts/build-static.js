@@ -30,12 +30,6 @@ for (const dirent of ['src']) {
 }
 
 for (const dirent of ['src']) {
-  await cp(path.join(root, 'packages', 'git-args', dirent), path.join(root, 'dist', commitHash, 'extensions', 'builtin.git', 'git-args', dirent), {
-    recursive: true,
-    force: true,
-  })
-}
-for (const dirent of ['src']) {
   await cp(
     path.join(root, 'packages', 'git-requests', dirent),
     path.join(root, 'dist', commitHash, 'extensions', 'builtin.git', 'git-requests', dirent),
