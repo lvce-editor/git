@@ -1,5 +1,6 @@
 import * as Git from '../Git/Git.js'
 import { GitError } from '../GitError/GitError.js'
+import * as GitArgs from '../GitArgs/GitArgs.js'
 
 /**
  * @param {{cwd:string, gitPath:string }} options
@@ -7,7 +8,7 @@ import { GitError } from '../GitError/GitError.js'
 export const addAll = async ({ cwd, gitPath }) => {
   try {
     const gitResult = await Git.exec({
-      args: ['add', '.'],
+      args: GitArgs.addAll(),
       cwd,
       gitPath,
       name: 'addAll',

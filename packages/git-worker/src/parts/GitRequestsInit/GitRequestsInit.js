@@ -1,5 +1,6 @@
 import * as Git from '../Git/Git.js'
 import { GitError } from '../GitError/GitError.js'
+import * as GitArgs from '../GitArgs/GitArgs.js'
 
 /**
  *
@@ -8,7 +9,7 @@ import { GitError } from '../GitError/GitError.js'
 export const init = async ({ cwd, gitPath }) => {
   try {
     const gitResult = await Git.exec({
-      args: ['init'],
+      args: GitArgs.init(),
       cwd,
       gitPath,
       name: 'init',
