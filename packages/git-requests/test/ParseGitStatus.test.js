@@ -5,7 +5,7 @@ test('parseLines', () => {
   const stdout = ` M extensions/builtin.git/src/parts/GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.js
  M packages/extension-host/src/parts/InternalCommand/InternalCommand.js`
   const lines = stdout.split('\n')
-  expect(ParseGitStatus.parseLines(lines)).toEqual([
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
     {
       file: 'extensions/builtin.git/src/parts/GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.js',
       status: FileStateType.Modified,
@@ -22,7 +22,7 @@ test('parseLines - both deleted', () => {
 UA index2.js
 AU new-file.js`
   const lines = stdout.split('\n')
-  expect(ParseGitStatus.parseLines(lines)).toEqual([
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
     {
       file: 'index.js',
       status: FileStateType.BothDeleted,
@@ -41,7 +41,7 @@ AU new-file.js`
 test('parseLines - both added', () => {
   const stdout = `AA index.js`
   const lines = stdout.split('\n')
-  expect(ParseGitStatus.parseLines(lines)).toEqual([
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
     {
       file: 'index.js',
       status: FileStateType.BothAdded,
@@ -52,7 +52,7 @@ test('parseLines - both added', () => {
 test('parseLines - deleted by us', () => {
   const stdout = `DU index.js`
   const lines = stdout.split('\n')
-  expect(ParseGitStatus.parseLines(lines)).toEqual([
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
     {
       file: 'index.js',
       status: FileStateType.DeletedByUs,
@@ -63,7 +63,7 @@ test('parseLines - deleted by us', () => {
 test('parseLines - deleted by them', () => {
   const stdout = `UD index.js`
   const lines = stdout.split('\n')
-  expect(ParseGitStatus.parseLines(lines)).toEqual([
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
     {
       file: 'index.js',
       status: FileStateType.DeletedByThem,
