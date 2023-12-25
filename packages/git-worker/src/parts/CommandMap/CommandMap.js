@@ -1,56 +1,37 @@
 import * as GitGetChangedFiles from '../GetChangedFiles/GetChangedFiles.js'
 import * as GitGetGroups from '../GetGroups/GetGroups.js'
-import * as GitAdd from '../GitRequestsAdd/GitRequestsAdd.js'
-import * as GitAddAll from '../GitRequestsAddAll/GitRequestsAddAll.js'
-import * as GitAddAllAndCommit from '../GitRequestsAddAllAndCommit/GitRequestsAddAllAndCommit.js'
-import * as GitCheckout from '../GitRequestsCheckout/GitRequestsCheckout.js'
-import * as GitRequestsCleanAll from '../GitRequestsCleanAll/GitRequestsCleanAll.js'
-import * as GitCommit from '../GitRequestsCommit/GitRequestsCommit.js'
-import * as GitDeleteBranch from '../GitRequestsDeleteBranch/GitRequestsDeleteBranch.js'
-import * as GitDiscard from '../GitRequestsDiscard/GitRequestsDiscard.js'
-import * as GitFetch from '../GitRequestsFetch/GitRequestsFetch.js'
 import * as GitGetAddedFiles from '../GitRequestsGetAddedFiles/GitRequestsGetAddedFiles.js'
 import * as GitGetCurrentBranch from '../GitRequestsGetCurrentBranch/GitRequestGetCurrentBranch.js'
 import * as GitGetFileBefore from '../GitRequestsGetFileBefore/GitRequestGetFileBefore.js'
-import * as GitInit from '../GitRequestsInit/GitRequestsInit.js'
-import * as GitPull from '../GitRequestsPull/GitRequestsPull.js'
-import * as GitPullAndRebase from '../GitRequestsPullAndRebase/GitRequestPullAndRebase.js'
-import * as GitPush from '../GitRequestsPush/GitRequestsPush.js'
-import * as GitStage from '../GitRequestsStage/GitRequestsStage.js'
-import * as GitRequestsStageAll from '../GitRequestsStageAll/GitRequestsStageAll.js'
 import * as GitSync from '../GitRequestsSync/GitRequestsSync.js'
-import * as GitTag from '../GitRequestsTag/GitRequestsTag.js'
-import * as GitUndoLastCommit from '../GitRequestsUndoLastCommit/GitRequestsUndoLastCommit.js'
-import * as GitUnstage from '../GitRequestsUnstage/GitRequestsUnstage.js'
-import * as GitUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.js'
-import * as GitVersion from '../GitRequestsVersion/GitRequestsVersion.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
+import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.js'
 
 export const commandMap = {
-  [GitWorkerCommandType.GitAdd]: GitAdd.add,
-  [GitWorkerCommandType.GitAddAll]: GitAddAll.addAll,
-  [GitWorkerCommandType.GitAddAllAndCommit]: GitAddAllAndCommit.addAllAndCommit,
-  [GitWorkerCommandType.GitCheckout]: GitCheckout.checkout,
-  [GitWorkerCommandType.GitCleanAll]: GitRequestsCleanAll.cleanAll,
-  [GitWorkerCommandType.GitCommit]: GitCommit.commit,
-  [GitWorkerCommandType.GitDeleteBranch]: GitDeleteBranch.deleteBranch,
-  [GitWorkerCommandType.GitDiscard]: GitDiscard.discard,
-  [GitWorkerCommandType.GitFetch]: GitFetch.fetch,
+  [GitWorkerCommandType.GitAdd]: WrappedGitRequests.wrappedGitRequests.add,
+  [GitWorkerCommandType.GitAddAll]: WrappedGitRequests.wrappedGitRequests.addAll,
+  [GitWorkerCommandType.GitAddAllAndCommit]: WrappedGitRequests.wrappedGitRequests.addAllAndCommit,
+  [GitWorkerCommandType.GitCheckout]: WrappedGitRequests.wrappedGitRequests.checkout,
+  [GitWorkerCommandType.GitCleanAll]: WrappedGitRequests.wrappedGitRequests.cleanAll,
+  [GitWorkerCommandType.GitCommit]: WrappedGitRequests.wrappedGitRequests.commit,
+  [GitWorkerCommandType.GitDeleteBranch]: WrappedGitRequests.wrappedGitRequests.deleteBranch,
+  [GitWorkerCommandType.GitDiscard]: WrappedGitRequests.wrappedGitRequests.discard,
+  [GitWorkerCommandType.GitFetch]: WrappedGitRequests.wrappedGitRequests.fetch,
   [GitWorkerCommandType.GitGetAddedFiles]: GitGetAddedFiles.getAddedFiles,
   [GitWorkerCommandType.GitGetChangedFiles]: GitGetChangedFiles.getChangedFiles,
   [GitWorkerCommandType.GitGetCurrentBranch]: GitGetCurrentBranch.getCurrentBranch,
   [GitWorkerCommandType.GitGetFileBefore]: GitGetFileBefore.getFileBefore,
   [GitWorkerCommandType.GitGetGroups]: GitGetGroups.getGroups,
-  [GitWorkerCommandType.GitInit]: GitInit.init,
-  [GitWorkerCommandType.GitPull]: GitPull.pull,
-  [GitWorkerCommandType.GitPullAndRebase]: GitPullAndRebase.pullAndRebase,
-  [GitWorkerCommandType.GitPush]: GitPush.push,
-  [GitWorkerCommandType.GitStage]: GitStage.stage,
-  [GitWorkerCommandType.GitStageAll]: GitRequestsStageAll.stageAll,
+  [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
+  [GitWorkerCommandType.GitPull]: WrappedGitRequests.wrappedGitRequests.pull,
+  [GitWorkerCommandType.GitPullAndRebase]: WrappedGitRequests.wrappedGitRequests.pullAndRebase,
+  [GitWorkerCommandType.GitPush]: WrappedGitRequests.wrappedGitRequests.push,
+  [GitWorkerCommandType.GitStage]: WrappedGitRequests.wrappedGitRequests.stage,
+  [GitWorkerCommandType.GitStageAll]: WrappedGitRequests.wrappedGitRequests.stageAll,
   [GitWorkerCommandType.GitSync]: GitSync.sync,
-  [GitWorkerCommandType.GitTag]: GitTag.tag,
-  [GitWorkerCommandType.GitUndoLastCommit]: GitUndoLastCommit.undoLastCommit,
-  [GitWorkerCommandType.GitUnstage]: GitUnstage.unstage,
-  [GitWorkerCommandType.GitUnstageAll]: GitUnstageAll.unstageAll,
-  [GitWorkerCommandType.GitVersion]: GitVersion.version,
+  [GitWorkerCommandType.GitTag]: WrappedGitRequests.wrappedGitRequests.tag,
+  [GitWorkerCommandType.GitUndoLastCommit]: WrappedGitRequests.wrappedGitRequests.undoLastCommit,
+  [GitWorkerCommandType.GitUnstage]: WrappedGitRequests.wrappedGitRequests.unstage,
+  [GitWorkerCommandType.GitUnstageAll]: WrappedGitRequests.wrappedGitRequests.unstageAll,
+  [GitWorkerCommandType.GitVersion]: WrappedGitRequests.wrappedGitRequests.version,
 }

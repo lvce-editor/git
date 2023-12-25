@@ -2,7 +2,7 @@ import * as GetDecorationIcon from '../GetDecorationIcon/GetDecorationIcon.js'
 import * as GetDecorationStrikeThrough from '../GetDecorationStrikeThrough/GetDecorationStrikeThrough.js'
 import * as GetStatusText from '../GetStatusText/GetStatusText.js'
 import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitRequestsGetModifiedFiles from '../GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.js'
+import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.js'
 
 export const id = 'git'
 
@@ -23,7 +23,7 @@ const getWithDecorations = (index) => {
 
 export const getChangedFiles = async (cwd) => {
   const repository = await Repositories.getCurrent()
-  const modifiedFiles = await GitRequestsGetModifiedFiles.getModifiedFiles({
+  const modifiedFiles = await WrappedGitRequests.wrappedGitRequests.getModifiedFiles({
     cwd: repository.path,
     gitPath: repository.gitPath,
   })
