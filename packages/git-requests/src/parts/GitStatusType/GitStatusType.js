@@ -13,6 +13,7 @@ export const IndexAdded = 'A'
 export const IndexDeleted = 'D'
 export const IndexRenamed = 'R'
 export const IndexCopied = 'C'
+export const TypeChanged = 'T'
 
 export const Modified = 'M'
 export const Deleted = 'D'
