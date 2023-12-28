@@ -106,19 +106,34 @@ const parseLine = (index, line) => {
   const statusX = getStatusX(line)
   switch (statusX) {
     case GitStatusType.IndexModified:
-      index.push({ file: getFile(line), status: FileStateType.IndexModified })
+      index.push({
+        file: getFile(line),
+        status: FileStateType.IndexModified,
+      })
       break
     case GitStatusType.IndexAdded:
-      index.push({ file: getFile(line), status: FileStateType.IndexAdded })
+      index.push({
+        file: getFile(line),
+        status: FileStateType.IndexAdded,
+      })
       break
     case GitStatusType.IndexModified:
-      index.push({ file: getFile(line), status: FileStateType.IndexModified })
+      index.push({
+        file: getFile(line),
+        status: FileStateType.IndexModified,
+      })
       break
     case GitStatusType.IndexRenamed:
-      index.push({ file: getFile(line), status: FileStateType.IndexModified })
+      index.push({
+        file: getFile(line),
+        status: FileStateType.IndexModified,
+      })
       break
     case GitStatusType.IndexCopied:
-      index.push({ file: getFile(line), status: FileStateType.IndexModified })
+      index.push({
+        file: getFile(line),
+        status: FileStateType.IndexModified,
+      })
       break
     default:
       break
@@ -134,13 +149,25 @@ const parseLine = (index, line) => {
     case GitStatusType.Deleted:
       index.push({
         file: getFile(line),
-        status: FileStateType.Modified,
+        status: FileStateType.Deleted,
       })
       break
     case GitStatusType.Added:
       index.push({
         file: getFile(line),
-        status: FileStateType.Modified,
+        status: FileStateType.IntentToAdd,
+      })
+      break
+    case GitStatusType.IndexRenamed:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.IntentToRename,
+      })
+      break
+    case GitStatusType.TypeChanged:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.TypeChanged,
       })
       break
     default:

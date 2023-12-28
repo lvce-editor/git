@@ -70,3 +70,58 @@ test('parseLines - deleted by them', () => {
     },
   ])
 })
+
+test('parseLines - y - modified', () => {
+  const stdout = ` M index.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.Modified,
+    },
+  ])
+})
+
+test('parseLines - y - deleted', () => {
+  const stdout = ` D index.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.Deleted,
+    },
+  ])
+})
+
+test('parseLines - y - added', () => {
+  const stdout = ` A index.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.IntentToAdd,
+    },
+  ])
+})
+
+test('parseLines - y - renamed', () => {
+  const stdout = ` R index.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.IntentToRename,
+    },
+  ])
+})
+
+test('parseLines - y - type changed', () => {
+  const stdout = ` T index.js`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
+    {
+      file: 'index.js',
+      status: FileStateType.TypeChanged,
+    },
+  ])
+})
