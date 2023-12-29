@@ -38,39 +38,36 @@ fs.cpSync(join(gitRequests, 'src'), join(root, 'dist', 'git-requests', 'src'), {
   recursive: true,
 })
 
-const output = await rollup({
-  input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.js'),
-})
-
-await output.write({
-  file: join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'),
-  format: 'es',
-})
-
 fs.cpSync(node, join(root, 'dist', 'node'), {
   recursive: true,
   verbatimSymlinks: true,
 })
 
-const replace = ({ path, occurrence, replacement }) => {
+const replace = async ({ path, occurrence, replacement }) => {
   const oldContent = readFileSync(path, 'utf-8')
   const newContent = oldContent.replace(occurrence, replacement)
   writeFileSync(path, newContent)
 }
 
-replace({
+await replace({
   path: join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.js'),
   occurrence: '../node/',
   replacement: 'node/',
 })
 
-replace({
+await replace({
   path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
   occurrence: '../git-worker/',
   replacement: 'git-worker/',
 })
 
-replace({
+await replace({
+  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
+  occurrence: 'src/gitWorkerMain.js',
+  replacement: 'dist/gitWorkerMain.js',
+})
+
+await replace({
   path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
   occurrence: '/extension',
   replacement: '',
@@ -90,6 +87,16 @@ for (const dirent of dirents) {
     await rm(absolutePath, { recursive: true, force: true })
   }
 }
+
+const output = await rollup({
+  input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.js'),
+})
+
+await output.write({
+  file: join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'),
+  format: 'es',
+  sourcemap: true,
+})
 
 await packageExtension({
   highestCompression: true,
