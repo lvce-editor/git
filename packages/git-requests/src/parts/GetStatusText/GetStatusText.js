@@ -1,28 +1,5 @@
 import * as FileTypeState from '../FileStateType/FileStateType.js'
-
-/**
- * @enum {string}
- */
-const UiStrings = {
-  Modified: 'Modified',
-  IndexModified: 'Index Modified',
-  IndexAdded: 'Index Added',
-  IndexDeleted: 'Index Deleted',
-  Deleted: 'Deleted',
-  IndexRenamed: 'Index Renamed',
-  IndexCopied: 'Index Copied',
-  Untracked: 'Untracked',
-  Ignored: 'Ignored',
-  IntentToAdd: 'Intent to Add',
-  BothDeleted: 'Conflict: Both Deleted',
-  AddedByUs: 'Conflict: Added by Us',
-  DeletedByThem: 'Conflict: Deleted by them',
-  AddedByThem: 'Conflict: Added by them',
-  DeletedByUs: 'Conflict: Deleted by Us',
-  BothAdded: 'Conflict: Both Added',
-  BothModified: 'Conflict: Both Modified',
-  Unknown: '',
-}
+import * as Strings from '../Strings/Strings.js'
 
 /**
  *
@@ -32,38 +9,38 @@ const UiStrings = {
 export const getStatusText = (type) => {
   switch (type) {
     case FileTypeState.Modified:
-      return UiStrings.Modified
+      return Strings.Modified
     case FileTypeState.IndexModified:
-      return UiStrings.IndexModified
+      return Strings.IndexModified
     case FileTypeState.IndexAdded:
-      return UiStrings.IndexAdded
+      return Strings.IndexAdded
     case FileTypeState.Deleted:
-      return UiStrings.Deleted
+      return Strings.Deleted
     case FileTypeState.IndexRenamed:
-      return UiStrings.IndexRenamed
+      return Strings.IndexRenamed
     case FileTypeState.IndexCopied:
-      return UiStrings.IndexCopied
+      return Strings.IndexCopied
     case FileTypeState.Untracked:
-      return UiStrings.Untracked
+      return Strings.Untracked
     case FileTypeState.Ignored:
-      return UiStrings.Ignored
+      return Strings.Ignored
     case FileTypeState.IntentToAdd:
-      return UiStrings.IntentToAdd
+      return Strings.IntentToAdd
     case FileTypeState.BothDeleted:
-      return UiStrings.BothDeleted
+      return Strings.BothDeleted
     case FileTypeState.AddedByUs:
-      return UiStrings.AddedByUs
+      return Strings.AddedByUs
     case FileTypeState.DeletedByThem:
-      return UiStrings.DeletedByThem
+      return Strings.DeletedByThem
     case FileTypeState.AddedByThem:
-      return UiStrings.AddedByThem
+      return Strings.AddedByThem
     case FileTypeState.DeletedByUs:
-      return UiStrings.DeletedByUs
+      return Strings.DeletedByUs
     case FileTypeState.BothAdded:
-      return UiStrings.BothAdded
+      return Strings.BothAdded
     case FileTypeState.BothModified:
-      return UiStrings.BothModified
+      return Strings.BothModified
     default:
-      return UiStrings.Unknown
+      return Strings.Unknown
   }
 }

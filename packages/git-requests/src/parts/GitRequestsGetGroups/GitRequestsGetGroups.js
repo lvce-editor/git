@@ -1,19 +1,7 @@
 import * as GitRequestsGetChangedFiles from '../GitRequestsGetChangedFiles/GitRequestsGetChangedFiles.js'
+import * as GroupId from '../GroupId/GroupId.js'
 import * as ParseGitStatusGroups from '../ParseGitStatusGroups/ParseGitStatusGroups.js'
-
-const GroupId = {
-  Merge: 'merge',
-  Index: 'index',
-  WorkingTree: 'working-tree',
-  Untracked: 'untracked',
-}
-
-const UiStrings = {
-  MergeChanges: 'Merge Changes',
-  StagedChanges: 'Staged Changes',
-  Changes: 'Changes',
-  UntrackedChanges: 'Untracked Changes',
-}
+import * as Strings from '../Strings/Strings.js'
 
 export const getGroups = async ({ exec, getRepository }) => {
   const files = await GitRequestsGetChangedFiles.getChangedFiles({ getRepository, exec })
@@ -21,22 +9,22 @@ export const getGroups = async ({ exec, getRepository }) => {
   return [
     {
       id: GroupId.Merge,
-      label: UiStrings.MergeChanges,
+      label: Strings.MergeChanges,
       items: groupItems.mergeGroup,
     },
     {
       id: GroupId.Index,
-      label: UiStrings.StagedChanges,
+      label: Strings.StagedChanges,
       items: groupItems.indexGroup,
     },
     {
       id: GroupId.WorkingTree,
-      label: UiStrings.Changes,
+      label: Strings.Changes,
       items: groupItems.workingTreeGroup,
     },
     {
       id: GroupId.Untracked,
-      label: UiStrings.UntrackedChanges,
+      label: Strings.UntrackedChanges,
       items: groupItems.untrackedGroup,
     },
   ]
