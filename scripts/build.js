@@ -73,6 +73,12 @@ await replace({
   replacement: '',
 })
 
+await replace({
+  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
+  occurrence: `parts.slice(0, -5)`,
+  replacement: `parts.slice(0, -3)`,
+})
+
 await rm(join(root, 'dist', 'node', 'node_modules', '.bin'), { recursive: true, force: true })
 await rm(join(root, 'dist', 'node', 'node_modules', 'which', 'bin'), { recursive: true, force: true })
 
