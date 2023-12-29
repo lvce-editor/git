@@ -3,6 +3,7 @@ import fs, { readFileSync, writeFileSync } from 'fs'
 import { readdir, rm } from 'fs/promises'
 import path, { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
+import { rollup } from 'rollup'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
@@ -35,6 +36,15 @@ fs.cpSync(join(gitWorker, 'src'), join(root, 'dist', 'git-worker', 'src'), {
 
 fs.cpSync(join(gitRequests, 'src'), join(root, 'dist', 'git-requests', 'src'), {
   recursive: true,
+})
+
+const output = await rollup({
+  input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.js'),
+})
+
+await output.write({
+  file: join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'),
+  format: 'es',
 })
 
 fs.cpSync(node, join(root, 'dist', 'node'), {
