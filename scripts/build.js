@@ -96,6 +96,7 @@ await output.write({
   file: join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'),
   format: 'es',
   sourcemap: true,
+  sourcemapExcludeSources: true,
 })
 
 await packageExtension({
