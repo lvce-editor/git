@@ -21,6 +21,7 @@
     "onCommand:git.discard",
     "onCommand:git.undoLastCommit",
     "onCommand:git.selectBranch",
+    "onCommand:git.checkoutRef",
     "onStartupFinished",
     "onSourceControl",
     "onSourceControl:",
