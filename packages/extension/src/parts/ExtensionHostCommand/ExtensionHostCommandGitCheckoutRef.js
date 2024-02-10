@@ -24,7 +24,9 @@ const getPicks = async () => {
   return refs
 }
 
+// TODO move logic to git worker
 export const execute = async () => {
+  console.log('checkout ref')
   const selectedPick = await vscode.showQuickPick({
     getPicks,
     toPick,
