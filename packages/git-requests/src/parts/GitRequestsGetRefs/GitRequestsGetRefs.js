@@ -44,14 +44,12 @@ const parseRefs = (stdout) => {
  */
 export const getRefs = async ({ cwd, gitPath, exec }) => {
   try {
-    console.time('getRefs')
     const gitResult = await exec({
       args: ['for-each-ref', '--format', '%(refname) %(objectname) %(*objectname)'],
       cwd,
       gitPath,
       name: 'init',
     })
-    console.timeEnd('getRefs')
     return parseRefs(gitResult.stdout)
   } catch (error) {
     throw new GitError(error, 'getRefs')
