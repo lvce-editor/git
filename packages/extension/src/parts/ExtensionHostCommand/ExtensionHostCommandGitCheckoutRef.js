@@ -34,6 +34,7 @@ export const execute = async () => {
   if (!selectedPick) {
     return
   }
+  const { label } = selectedPick
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
     id: 'checkout',
@@ -41,7 +42,7 @@ export const execute = async () => {
     args: {
       cwd: repository.path,
       gitPath: repository.gitPath,
-      ref: selectedPick.name,
+      ref: label,
     },
   })
   // console.log({ selectedPick })
