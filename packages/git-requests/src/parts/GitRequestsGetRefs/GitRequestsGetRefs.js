@@ -28,7 +28,6 @@ const parseRef = (line) => {
       type: 'tag',
     }
   }
-  console.log({ line })
   return null
 }
 
