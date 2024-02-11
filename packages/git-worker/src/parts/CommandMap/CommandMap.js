@@ -16,6 +16,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitGetCurrentBranch]: WrappedGitRequests.wrappedGitRequests.getCurrentBranch,
   [GitWorkerCommandType.GitGetFileBefore]: WrappedGitRequests.wrappedGitRequests.getFileBefore,
   [GitWorkerCommandType.GitGetGroups]: WrappedGitRequests.wrappedGitRequests.getGroups,
+  [GitWorkerCommandType.GitGetRefs]: WrappedGitRequests.wrappedGitRequests.getRefs,
   [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
   [GitWorkerCommandType.GitPull]: WrappedGitRequests.wrappedGitRequests.pull,
   [GitWorkerCommandType.GitPullAndRebase]: WrappedGitRequests.wrappedGitRequests.pullAndRebase,
