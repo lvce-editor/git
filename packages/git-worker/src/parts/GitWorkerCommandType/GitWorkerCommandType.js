@@ -1,6 +1,7 @@
 export const CommandAdd = 'Command.gitAdd'
 export const CommandCheckoutRef = 'Command.gitCheckoutRef'
 export const CommandFetch = 'Command.gitFetch'
+export const CommandStageAll = 'Command.gitStageAll'
 export const CommandPull = 'Command.gitPull'
 export const CommandUnstage = 'Command.gitUnstage'
 export const GitAdd = 'Git.add'
