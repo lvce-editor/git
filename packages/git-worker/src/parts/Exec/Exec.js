@@ -1,4 +1,5 @@
 import * as Rpc from '../Rpc/Rpc.js'
+import * as Assert from '../Assert/Assert.js'
 
 /**
  *
@@ -8,6 +9,9 @@ import * as Rpc from '../Rpc/Rpc.js'
  * @returns
  */
 export const exec = async (command, args, options) => {
+  Assert.string(command)
+  Assert.array(args)
+  Assert.object(options)
   return Rpc.invoke('Exec.exec', command, args, options)
 }
 
