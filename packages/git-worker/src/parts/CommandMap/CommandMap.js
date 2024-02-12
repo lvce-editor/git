@@ -4,6 +4,7 @@ import * as CommandAdd from '../CommandAdd/CommandAdd.js'
 import * as CommandPull from '../CommandPull/CommandPull.js'
 import * as CommandCleanAll from '../CommandCleanAll/CommandCleanAll.js'
 import * as CommandUnstage from '../CommandUnstage/CommandUnstage.js'
+import * as CommandSync from '../CommandSync/CommandSync.js'
 import * as CommandStageAll from '../CommandStageAll/CommandStageAll.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.js'
@@ -18,6 +19,7 @@ export const commandMap = {
   [GitWorkerCommandType.CommandPull]: CommandPull.commandPull,
   [GitWorkerCommandType.CommandUnstage]: CommandUnstage.commandUnstage,
   [GitWorkerCommandType.CommandAddAll]: CommandAddAll.commandAddAll,
+  [GitWorkerCommandType.CommandSync]: CommandSync.commandSync,
   [GitWorkerCommandType.GitAdd]: WrappedGitRequests.wrappedGitRequests.add,
   [GitWorkerCommandType.GitAddAll]: WrappedGitRequests.wrappedGitRequests.addAll,
   [GitWorkerCommandType.GitAddAllAndCommit]: WrappedGitRequests.wrappedGitRequests.addAllAndCommit,
