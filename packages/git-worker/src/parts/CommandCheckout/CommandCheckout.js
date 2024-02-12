@@ -1,4 +1,4 @@
-import * as Exec from '../Exec/Exec.js'
+import * as Git from '../Git/Git.js'
 import * as Repositories from '../GitRepositories/GitRepositories.js'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.js'
 import * as GitRequests from '../GitRequests/GitRequests.js'
@@ -23,7 +23,7 @@ const getPicks = async () => {
     args: {
       cwd: repository.path,
       gitPath: repository.gitPath,
-      exec: Exec.exec,
+      exec: Git.exec,
     },
   })
   return refs
@@ -45,7 +45,7 @@ export const commandCheckout = async () => {
       cwd: repository.path,
       gitPath: repository.gitPath,
       ref: label,
-      exec: Exec.exec,
+      exec: Git.exec,
     },
   })
   // console.log({ selectedPick })
