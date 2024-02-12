@@ -1,7 +1,5 @@
-import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.js'
-import * as GitRequests from '../GitRequests/GitRequests.js'
 import * as CommandId from '../CommandId/CommandId.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
 
 export const id = CommandId.GitDiscard
 
@@ -9,14 +7,5 @@ export const id = CommandId.GitDiscard
  * @param {string} file
  */
 export const execute = async (file) => {
-  const repository = await Repositories.getCurrent()
-  await GitRepositoriesRequests.execute({
-    id: 'discard',
-    fn: GitRequests.discard,
-    args: {
-      cwd: repository.path,
-      gitPath: repository.gitPath,
-      file,
-    },
-  })
+  return GitWorker.invoke('Command.gitDiscard', file)
 }
