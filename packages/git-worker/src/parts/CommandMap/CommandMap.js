@@ -1,7 +1,8 @@
-import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
-import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.js'
 import * as CommandCheckout from '../CommandCheckout/CommandCheckout.js'
 import * as CommandFetch from '../CommandFetch/CommandFetch.js'
+import * as CommandPull from '../CommandPull/CommandPull.js'
+import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
+import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.js'
 
 export const commandMap = {
   [GitWorkerCommandType.GitAdd]: WrappedGitRequests.wrappedGitRequests.add,
@@ -33,4 +34,5 @@ export const commandMap = {
   [GitWorkerCommandType.GitVersion]: WrappedGitRequests.wrappedGitRequests.version,
   [GitWorkerCommandType.CommandCheckoutRef]: CommandCheckout.commandCheckout,
   [GitWorkerCommandType.CommandFetch]: CommandFetch.commandFetch,
+  [GitWorkerCommandType.CommandPull]: CommandPull.commandPull,
 }
