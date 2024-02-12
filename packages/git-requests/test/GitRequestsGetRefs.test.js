@@ -1,8 +1,7 @@
 import * as GitRequestsGetRefs from '../src/parts/GitRequestsGetRefs/GitRequestsGetRefs.js'
+import * as GitRefType from '../src/parts/GitRefType/GitRefType.js'
 
-// TODO mock exec instead
-
-test.skip('getRefs', async () => {
+test('getRefs', async () => {
   // @ts-ignore
   const exec = () => {
     return {
@@ -24,25 +23,25 @@ refs/remotes/origin/lszomoru/product-build-parallel 7ed03031bb8511eada0f8418550e
       commit: '903f9903f4f14e0d7ec1a389b9da617848e7f609',
       name: 'origin/HEAD',
       remote: 'origin',
-      type: 'remoteHead',
+      type: GitRefType.RemoteHead,
     },
     {
       commit: '903f9903f4f14e0d7ec1a389b9da617848e7f609',
       name: 'origin/main',
       remote: 'origin',
-      type: 'remoteHead',
+      type: GitRefType.RemoteHead,
     },
     {
       commit: '903f9903f4f14e0d7ec1a389b9da617848e7f609',
       name: 'origin/sandy081/powerful-flea',
       remote: 'origin',
-      type: 'remoteHead',
+      type: GitRefType.RemoteHead,
     },
     {
       commit: '7ed03031bb8511eada0f8418550e33a70e208106',
       name: 'origin/lszomoru/product-build-parallel',
       remote: 'origin',
-      type: 'remoteHead',
+      type: GitRefType.RemoteHead,
     },
   ])
 })

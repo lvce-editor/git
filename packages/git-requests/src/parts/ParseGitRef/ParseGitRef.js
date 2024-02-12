@@ -1,3 +1,5 @@
+import * as GitRefType from '../GitRefType/GitRefType.js'
+
 const RE_REF_1 = /^refs\/heads\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 const RE_REF_2 = /^refs\/remotes\/([^/]+)\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 const RE_REF_3 = /^refs\/tags\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
@@ -8,13 +10,17 @@ const RE_REF_3 = /^refs\/tags\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 export const parseGitRef = (line) => {
   let match
   if ((match = line.match(RE_REF_1))) {
-    return { name: match[1], commit: match[2], type: 'head' }
+    return {
+      name: match[1],
+      commit: match[2],
+      type: GitRefType.Head,
+    }
   }
   if ((match = line.match(RE_REF_2))) {
     return {
       name: `${match[1]}/${match[2]}`,
       commit: match[3],
-      type: 'remoteHead',
+      type: GitRefType.RemoteHead,
       remote: match[1],
     }
   }
@@ -22,7 +28,7 @@ export const parseGitRef = (line) => {
     return {
       name: match[1],
       commit: match[3] ?? match[2],
-      type: 'tag',
+      type: GitRefType.Tag,
     }
   }
   return null
