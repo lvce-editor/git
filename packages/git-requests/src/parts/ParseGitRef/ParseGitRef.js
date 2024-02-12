@@ -14,6 +14,7 @@ export const parseGitRef = (line) => {
       name: match[1],
       commit: match[2],
       type: GitRefType.Head,
+      remote: '',
     }
   }
   if ((match = line.match(RE_REF_2))) {
@@ -29,6 +30,7 @@ export const parseGitRef = (line) => {
       name: match[1],
       commit: match[3] ?? match[2],
       type: GitRefType.Tag,
+      remote: '',
     }
   }
   return null
