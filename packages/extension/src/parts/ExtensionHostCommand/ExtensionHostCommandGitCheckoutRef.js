@@ -5,9 +5,14 @@ import * as CommandId from '../CommandId/CommandId.js'
 
 export const id = CommandId.GitCheckoutRef
 
+const getShortCommit = (commit) => {
+  return commit.slice(0, 8)
+}
+
 const toPick = (ref) => {
   return {
     label: ref.name,
+    description: getShortCommit(ref.commit),
   }
 }
 
