@@ -1,4 +1,5 @@
 export const CommandAdd = 'Command.gitAdd'
+export const CommandDiscard = 'Command.gitDiscard'
 export const CommandPullRebase = 'Command.gitPullRebase'
 export const CommandCleanAll = 'Command.gitCleanAll'
 export const CommandCheckoutRef = 'Command.gitCheckoutRef'
