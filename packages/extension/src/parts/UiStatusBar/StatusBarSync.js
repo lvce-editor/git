@@ -12,13 +12,7 @@ export const getTitle = () => {
   'Synchronize Changes'
 }
 
-const syncOperations = [
-  'sync',
-  'push',
-  'pull',
-  'sync/push',
-  'sync/pullAndRebase',
-]
+const syncOperations = ['sync', 'push', 'pull', 'sync/push', 'sync/pullAndRebase']
 
 const isSyncRunning = () => {
   return syncOperations.some(TrackedGitRequests.isRunning)
@@ -45,15 +39,15 @@ export const dispose = (state) => {
 
 // TODO maybe rename to render
 export const getItem = () => {
-  const currentRepository = Repositories.state.currentRepository
-  if (!currentRepository) {
-    return {
-      id: 'sync n/a',
-      command: '',
-    }
-  }
-  const icon = isSyncRunning() ? `$(sync-spin)` : `$(sync)`
-  const head = currentRepository.head
+  // const currentRepository = Repositories.state.currentRepository
+  // if (!currentRepository) {
+  //   return {
+  //     id: 'sync n/a',
+  //     command: '',
+  //   }
+  // }
+  // const icon = isSyncRunning() ? `$(sync-spin)` : `$(sync)`
+  // const head = currentRepository.head
   return {
     icon,
     id: `sync head`,
