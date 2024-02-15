@@ -1,11 +1,9 @@
 import { jest } from '@jest/globals'
-import * as Repositories from '../src/parts/GitRepositories/GitRepositories.js'
-import * as GitRepositoriesRequests from '../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.js'
 import * as StatusBarSync from '../src/parts/UiStatusBar/StatusBarSync.js'
 
 beforeEach(() => {
-  GitRepositoriesRequests.state.changeListeners = []
-  GitRepositoriesRequests.state.running = Object.create(null)
+  // GitRepositoriesRequests.state.changeListeners = []
+  // GitRepositoriesRequests.state.running = Object.create(null)
 })
 
 test.skip('createSyncStatusBarItem - change events when running git sync', async () => {
