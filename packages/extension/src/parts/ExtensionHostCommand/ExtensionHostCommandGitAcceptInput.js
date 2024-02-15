@@ -1,16 +1,10 @@
-import * as GitRequests from '../GitRequests/GitRequests.js'
-import * as Repositories from '../GitRepositories/GitRepositories.js'
 import * as CommandId from '../CommandId/CommandId.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
 
 export const id = CommandId.GitAcceptInput
 
 export const execute = async (message) => {
-  const repository = await Repositories.getCurrent()
-  await GitRequests.addAllAndCommit({
-    message,
-    cwd: repository.path,
-    gitPath: repository.gitPath,
-  })
+  return GitWorker.invoke('Command.gitAcceptInput', message)
 }
 
 export const resolveError = (error) => {
