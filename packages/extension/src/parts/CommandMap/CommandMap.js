@@ -1,7 +1,8 @@
 import { CommandNotFoundError } from '../CommandNotFoundError/CommandNotFoundError.js'
+import * as Config from '../Config/Config.js'
+import * as Exec from '../Exec/Exec.js'
 import * as ExtensionCommandType from '../ExtensionCommandType/ExtensionCommandType.js'
 import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as Exec from '../Exec/Exec.js'
 import * as QuickPick from '../QuickPick/QuickPick.js'
 
 export const getFn = (method) => {
@@ -12,6 +13,8 @@ export const getFn = (method) => {
       return Exec.exec
     case ExtensionCommandType.QuickPickShow:
       return QuickPick.show
+    case ExtensionCommandType.ConfigGetWorkspaceFolder:
+      return Config.getWorkspaceFolder
     default:
       throw new CommandNotFoundError(method)
   }
