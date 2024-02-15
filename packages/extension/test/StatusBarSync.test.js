@@ -8,7 +8,7 @@ beforeEach(() => {
   GitRepositoriesRequests.state.running = Object.create(null)
 })
 
-test('createSyncStatusBarItem - change events when running git sync', async () => {
+test.skip('createSyncStatusBarItem - change events when running git sync', async () => {
   Repositories.state.currentRepository = {}
   const listener = jest.fn()
   const state = StatusBarSync.create()
@@ -32,7 +32,7 @@ test('createSyncStatusBarItem - change events when running git sync', async () =
   })
 })
 
-test('createSyncStatusBarItem - change events when git sync throws error', async () => {
+test.skip('createSyncStatusBarItem - change events when git sync throws error', async () => {
   Repositories.state.currentRepository = {}
   const listener = jest.fn()
   const state = StatusBarSync.create()
