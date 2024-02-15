@@ -1,6 +1,4 @@
 import * as CommandId from '../CommandId/CommandId.js'
-import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitRequests from '../GitRequests/GitRequests.js'
 
 const getGitProvider = (id) => {
   switch (id) {
@@ -21,19 +19,19 @@ const getGitProviderId = (remote) => {
 export const id = CommandId.GitPullRequest
 
 export const execute = async () => {
-  const repository = await Repositories.getCurrent()
-  console.log('todo make pull request')
-  console.log(repository)
-  const remote = await GitRequests.getRemote({
-    gitPath: repository.gitPath,
-    cwd: repository.path,
-  })
-  const currentBranch = await GitRequests.getCurrentBranch({
-    cwd: repository.path,
-    gitPath: repository.gitPath,
-  })
-  const gitProviderId = getGitProviderId(remote)
-  const gitProvider = await getGitProvider(gitProviderId)
-  // TODO pass remote url and branches to this function
-  await gitProvider.makePullRequest()
+  // const repository = await Repositories.getCurrent()
+  // console.log('todo make pull request')
+  // console.log(repository)
+  // const remote = await GitRequests.getRemote({
+  //   gitPath: repository.gitPath,
+  //   cwd: repository.path,
+  // })
+  // const currentBranch = await GitRequests.getCurrentBranch({
+  //   cwd: repository.path,
+  //   gitPath: repository.gitPath,
+  // })
+  // const gitProviderId = getGitProviderId(remote)
+  // const gitProvider = await getGitProvider(gitProviderId)
+  // // TODO pass remote url and branches to this function
+  // await gitProvider.makePullRequest()
 }
