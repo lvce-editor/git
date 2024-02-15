@@ -15,6 +15,8 @@ export const getFn = (method) => {
       return QuickPick.show
     case ExtensionCommandType.ConfigGetWorkspaceFolder:
       return Config.getWorkspaceFolder
+    case ExtensionCommandType.ConfigGetGitPaths:
+      return Config.getGitPaths
     default:
       throw new CommandNotFoundError(method)
   }
