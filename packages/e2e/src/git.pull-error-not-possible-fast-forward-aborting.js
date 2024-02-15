@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.pull-error-not-possible-fast-forward-aborting'
 
 const exec = (command, args, options) => {

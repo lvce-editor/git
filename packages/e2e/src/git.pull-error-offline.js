@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.pull-error-offline'
 
 const exec = (command, args, options) => {

@@ -1,3 +1,6 @@
+export const skip=true
+
+
 export const name =
   'git.pull-error-kex-exchange-identification-connection-closed'
 

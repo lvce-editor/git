@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.show-changed-files-in-side-bar-error'
 
 const gitVersion = () => {

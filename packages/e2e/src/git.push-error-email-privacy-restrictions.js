@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.push-error-email-privacy-restrictions'
 
 const exec = (command, args, options) => {

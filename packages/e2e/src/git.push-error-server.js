@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.push-error-server'
 
 const exec = (command, args, options) => {

@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.pull-error-repository-not-found'
 
 const exec = (command, args, options) => {

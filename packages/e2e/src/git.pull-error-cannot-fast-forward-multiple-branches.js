@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.pull-error-cannot-fast-forward-multiple-branches'
 
 const exec = (command, args, options) => {

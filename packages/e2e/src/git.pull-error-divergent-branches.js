@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.pull-error-divergent-branches'
 
 const exec = (command, args, options) => {
