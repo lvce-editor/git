@@ -1,5 +1,9 @@
 const getIconRoot = () => {
   // @ts-ignore
+  if (typeof location === 'undefined') {
+    return ''
+  }
+  // @ts-ignore
   const originLength = location.origin.length
   const uri = import.meta.url.slice(originLength)
   const parts = uri.split('/')
