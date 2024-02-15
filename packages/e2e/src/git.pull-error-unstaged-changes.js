@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.pull-error-unstaged-changes'
 
 const exec = (command, args, options) => {

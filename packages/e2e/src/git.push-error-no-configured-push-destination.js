@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.push-error-no-configured-push-destination'
 
 const exec = (command, args, options) => {

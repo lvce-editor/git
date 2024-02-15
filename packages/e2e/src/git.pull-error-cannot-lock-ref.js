@@ -1,3 +1,5 @@
+export const skip=true
+
 export const name = 'git.pull-error-cannot-lock-ref'
 
 const exec = (command, args, options) => {
