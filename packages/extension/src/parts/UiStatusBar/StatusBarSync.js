@@ -1,5 +1,4 @@
 import EventEmitter from 'events'
-import * as TrackedGitRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.js'
 
 export const id = ''
 
