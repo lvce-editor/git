@@ -1,31 +1,37 @@
-import * as CommandCheckout from '../CommandCheckout/CommandCheckout.js'
-import * as CommandFetch from '../CommandFetch/CommandFetch.js'
+import * as CommandAcceptInput from '../CommandAcceptInput/CommandAcceptInput.js'
 import * as CommandAdd from '../CommandAdd/CommandAdd.js'
-import * as CommandPull from '../CommandPull/CommandPull.js'
+import * as CommandAddAll from '../CommandAddAll/CommandAddAll.js'
+import * as CommandCheckout from '../CommandCheckout/CommandCheckout.js'
 import * as CommandCleanAll from '../CommandCleanAll/CommandCleanAll.js'
-import * as CommandUnstage from '../CommandUnstage/CommandUnstage.js'
-import * as CommandSync from '../CommandSync/CommandSync.js'
+import * as CommandDiscard from '../CommandDiscard/CommandDiscard.js'
+import * as CommandFetch from '../CommandFetch/CommandFetch.js'
+import * as CommandInit from '../CommandInit/CommandInit.js'
+import * as CommandPull from '../CommandPull/CommandPull.js'
 import * as CommandPullRebase from '../CommandPullRebase/CommandPullRebase.js'
 import * as CommandStageAll from '../CommandStageAll/CommandStageAll.js'
-import * as CommandDiscard from '../CommandDiscard/CommandDiscard.js'
-import * as CommandAcceptInput from '../CommandAcceptInput/CommandAcceptInput.js'
+import * as CommandSync from '../CommandSync/CommandSync.js'
+import * as CommandUndoLastCommit from '../CommandUndoLastCommit/CommandUndoLastCommit.js'
+import * as CommandUnstage from '../CommandUnstage/CommandUnstage.js'
+import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.js'
-import * as CommandAddAll from '../CommandAddAll/CommandAddAll.js'
 
 export const commandMap = {
-  [GitWorkerCommandType.CommandAdd]: CommandAdd.commandAdd,
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
-  [GitWorkerCommandType.CommandDiscard]: CommandDiscard.commandDiscard,
-  [GitWorkerCommandType.CommandPullRebase]: CommandPullRebase.commandPullRebase,
-  [GitWorkerCommandType.CommandCleanAll]: CommandCleanAll.commandCleanAll,
-  [GitWorkerCommandType.CommandCheckoutRef]: CommandCheckout.commandCheckout,
-  [GitWorkerCommandType.CommandFetch]: CommandFetch.commandFetch,
-  [GitWorkerCommandType.CommandStageAll]: CommandStageAll.commandStageAll,
-  [GitWorkerCommandType.CommandPull]: CommandPull.commandPull,
-  [GitWorkerCommandType.CommandUnstage]: CommandUnstage.commandUnstage,
+  [GitWorkerCommandType.CommandAdd]: CommandAdd.commandAdd,
   [GitWorkerCommandType.CommandAddAll]: CommandAddAll.commandAddAll,
+  [GitWorkerCommandType.CommandCheckoutRef]: CommandCheckout.commandCheckout,
+  [GitWorkerCommandType.CommandCleanAll]: CommandCleanAll.commandCleanAll,
+  [GitWorkerCommandType.CommandDiscard]: CommandDiscard.commandDiscard,
+  [GitWorkerCommandType.CommandFetch]: CommandFetch.commandFetch,
+  [GitWorkerCommandType.CommandInit]: CommandInit.commandInit,
+  [GitWorkerCommandType.CommandPull]: CommandPull.commandPull,
+  [GitWorkerCommandType.CommandPullRebase]: CommandPullRebase.commandPullRebase,
+  [GitWorkerCommandType.CommandStageAll]: CommandStageAll.commandStageAll,
   [GitWorkerCommandType.CommandSync]: CommandSync.commandSync,
+  [GitWorkerCommandType.CommandUndoLastCommit]: CommandUndoLastCommit.commandUndoLastCommit,
+  [GitWorkerCommandType.CommandUnstage]: CommandUnstage.commandUnstage,
+  [GitWorkerCommandType.CommandUnstageAll]: CommandUnstageAll.commandUnstageAll,
   [GitWorkerCommandType.GitAdd]: WrappedGitRequests.wrappedGitRequests.add,
   [GitWorkerCommandType.GitAddAll]: WrappedGitRequests.wrappedGitRequests.addAll,
   [GitWorkerCommandType.GitAddAllAndCommit]: WrappedGitRequests.wrappedGitRequests.addAllAndCommit,

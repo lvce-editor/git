@@ -3,10 +3,7 @@ import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitReposito
 import * as GitRequests from '../GitRequests/GitRequests.js'
 import * as Git from '../Git/Git.js'
 
-/**
- * @param {string} file
- */
-export const commandUnstage = async (file) => {
+export const commandUnstageAll = async () => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
     id: 'unstageAll',
