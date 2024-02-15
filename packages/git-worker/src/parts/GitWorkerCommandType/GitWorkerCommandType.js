@@ -1,4 +1,5 @@
 export const CommandAcceptInput = 'Command.gitAcceptInput'
+export const CommandStage = 'Command.gitStage'
 export const CommandAdd = 'Command.gitAdd'
 export const CommandAddAll = 'Command.gitAddAll'
 export const CommandCheckoutRef = 'Command.gitCheckoutRef'

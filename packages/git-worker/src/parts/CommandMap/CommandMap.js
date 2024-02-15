@@ -8,6 +8,7 @@ import * as CommandFetch from '../CommandFetch/CommandFetch.js'
 import * as CommandInit from '../CommandInit/CommandInit.js'
 import * as CommandPull from '../CommandPull/CommandPull.js'
 import * as CommandPullRebase from '../CommandPullRebase/CommandPullRebase.js'
+import * as CommandStage from '../CommandStage/CommandStage.js'
 import * as CommandStageAll from '../CommandStageAll/CommandStageAll.js'
 import * as CommandSync from '../CommandSync/CommandSync.js'
 import * as CommandUndoLastCommit from '../CommandUndoLastCommit/CommandUndoLastCommit.js'
@@ -18,6 +19,7 @@ import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.js
 
 export const commandMap = {
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
+  [GitWorkerCommandType.CommandStage]: CommandStage.commandStage,
   [GitWorkerCommandType.CommandAdd]: CommandAdd.commandAdd,
   [GitWorkerCommandType.CommandAddAll]: CommandAddAll.commandAddAll,
   [GitWorkerCommandType.CommandCheckoutRef]: CommandCheckout.commandCheckout,
