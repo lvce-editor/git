@@ -29,7 +29,6 @@ const getRawPicks = async () => {
 
 export const getCheckoutPicks = async () => {
   const rawPicks = await getRawPicks()
-  console.log({ rawPicks })
   const picks = rawPicks.map(toPick)
   return picks
 }
