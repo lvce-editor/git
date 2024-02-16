@@ -1,9 +1,6 @@
 import * as Exec from '../Exec/Exec.js'
+import * as ParseGitVersion from '../ParseGitVersion/ParseGitVersion.js'
 import * as Rpc from '../Rpc/Rpc.js'
-
-const parseVersion = (raw) => {
-  return raw.replace(/^git version /, '')
-}
 
 const findGitAtPath = async (path) => {
   let result
@@ -17,7 +14,7 @@ const findGitAtPath = async (path) => {
   }
   return {
     path,
-    version: parseVersion(result.stdout),
+    version: ParseGitVersion.parseGitVersion(result.stdout),
   }
 }
 
