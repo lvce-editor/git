@@ -11,7 +11,7 @@ export const getRefs = async ({ cwd, gitPath, exec }) => {
       args: ['for-each-ref', '--format', '%(refname) %(objectname) %(*objectname)'],
       cwd,
       gitPath,
-      name: 'init',
+      name: 'getRefs',
     })
     return ParseGitRefs.parseGitRefs(gitResult.stdout)
   } catch (error) {

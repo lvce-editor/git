@@ -7,6 +7,7 @@ import * as Rpc from '../Rpc/Rpc.js'
 
 export const commandCheckout = async () => {
   const picks = await GetCheckoutPicks.getCheckoutPicks()
+  console.log({ picks })
   const selectedPick = await Rpc.invoke('QuickPick.show', picks)
   if (!selectedPick) {
     return
