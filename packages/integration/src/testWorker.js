@@ -10,6 +10,9 @@ export const testWorker = async ({ execMap }) => {
       invocations.push(args)
       if (args[0] === 'Exec.exec') {
         const result = execMap[args[2][0]]
+        if (!result) {
+          throw new Error(`exec command not found ${args[2][0]}`)
+        }
         return result
       }
     },
