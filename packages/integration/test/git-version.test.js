@@ -8,10 +8,8 @@ test('git version', async () => {
       exitCode: 0,
     },
   }
-  expect(
-    await testWorker({
-      execMap,
-      command: ['Git.version', { gitPath: '', cwd: '' }],
-    }),
-  ).toBe('2.39.2')
+  const worker = await testWorker({
+    execMap,
+  })
+  expect(await worker.execute('Git.version', { gitPath: '', cwd: '' })).toBe('2.39.2')
 })

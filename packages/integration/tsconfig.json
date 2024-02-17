@@ -16,5 +16,5 @@
     "strict": true,
     "noImplicitAny": false
   },
-  "include": ["src", "test", "typings"]
+  "include": ["src", "test"]
 }
