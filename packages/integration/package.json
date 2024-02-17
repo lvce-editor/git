@@ -1,0 +1,14 @@
+{
+  "name": "integration",
+  "version": "0.0.0-dev",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {}
+}
