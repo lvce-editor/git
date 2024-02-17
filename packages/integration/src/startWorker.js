@@ -12,7 +12,6 @@ export const startWorker = async (rpc) => {
   globalThis.rpc = rpc
   const module = await import(workerUrl)
   const { commandMap } = module
-  console.log({})
   return {
     execute(commandId, ...args) {
       const command = commandMap[commandId]

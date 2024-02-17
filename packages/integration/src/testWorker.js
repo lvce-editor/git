@@ -3,9 +3,11 @@
 
 import { startWorker } from './startWorker.js'
 
-export const testWorker = async ({ execMap, command }) => {
+export const testWorker = async ({ execMap }) => {
+  const invocations = []
   const rpc = {
     invoke(...args) {
+      invocations.push(args)
       if (args[0] === 'Exec.exec') {
         const result = execMap[args[2][0]]
         return result
@@ -13,6 +15,10 @@ export const testWorker = async ({ execMap, command }) => {
     },
   }
   const worker = await startWorker(rpc)
-  const result = await worker.execute(...command)
-  return result
+  return {
+    execute(...args) {
+      return worker.execute(...args)
+    },
+    invocations,
+  }
 }
