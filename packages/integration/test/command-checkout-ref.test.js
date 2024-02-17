@@ -13,7 +13,12 @@ test('command checkout ref', async () => {
       exitCode: 0,
     },
     'for-each-ref': {
-      stdout: '',
+      stdout: [
+        `refs/heads/b f63b3b1b60166f6f3a99e5de7867cc2ae29b9c92 `,
+        `refs/heads/main a205f65eaeedfcc0bae56de354220df552d44a52 `,
+        `refs/remotes/origin/b f63b3b1b60166f6f3a99e5de7867cc2ae29b9c92 `,
+        `refs/remotes/origin/main a205f65eaeedfcc0bae56de354220df552d44a52 `,
+      ].join('\n'),
       stderr: '',
       exitCode: 0,
     },
@@ -49,7 +54,31 @@ test('command checkout ref', async () => {
         reject: false,
       },
     ],
-    ['QuickPick.show', []],
+    [
+      'QuickPick.show',
+      [
+        {
+          description: 'f63b3b1b',
+          icon: 1,
+          label: 'b',
+        },
+        {
+          description: 'a205f65e',
+          icon: 1,
+          label: 'main',
+        },
+        {
+          description: 'f63b3b1b',
+          icon: 2,
+          label: 'origin/b',
+        },
+        {
+          description: 'a205f65e',
+          icon: 2,
+          label: 'origin/main',
+        },
+      ],
+    ],
     ['Config.getGitPaths'],
     ['Exec.exec', 'git', ['--version'], {}],
     ['Config.getWorkspaceFolder'],
