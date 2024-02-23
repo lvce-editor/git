@@ -27,7 +27,7 @@ test('command checkout ref', async () => {
     gitPaths: ['git'],
     workspaceFolder: '/test',
   }
-  const quickPick = (options) => {
+  const quickPick = () => {
     return 'b'
   }
   const worker = await testWorker({
