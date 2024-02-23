@@ -11,5 +11,12 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "devDependencies": {}
+  "devDependencies": {},
+  "jest": {
+    "transform": {
+      "^.+\\.(t|j)sx?$": [
+        "@swc-node/jest"
+      ]
+    }
+  }
 }
