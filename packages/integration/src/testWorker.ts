@@ -1,12 +1,13 @@
 // TODO add integration tests for git worker
 // send and receive messages
 
-import { startWorker } from './startWorker.js'
+import { startWorker } from './startWorker.ts'
 
 export const testWorker = async ({ execMap, config = {}, quickPick = () => {} }) => {
   const invocations = []
   const rpc = {
     invoke(...args) {
+      // @ts-ignore
       invocations.push(args)
       if (args[0] === 'Exec.exec') {
         const result = execMap[args[2][0]]
@@ -30,6 +31,7 @@ export const testWorker = async ({ execMap, config = {}, quickPick = () => {} })
   const worker = await startWorker(rpc)
   return {
     execute(...args) {
+      // @ts-ignore
       return worker.execute(...args)
     },
     invocations,
