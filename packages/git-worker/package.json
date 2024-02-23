@@ -13,10 +13,6 @@
   "license": "MIT",
   "devDependencies": {},
   "jest": {
-    "transform": {
-      "^.+\\.(t|j)sx?$": [
-        "@swc-node/jest"
-      ]
-    }
+    "preset": "ts-jest/presets/js-with-ts-esm"
   }
 }
