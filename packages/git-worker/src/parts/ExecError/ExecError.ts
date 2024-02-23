@@ -1,4 +1,4 @@
-import * as GetFirstLine from '../GetFirstLine/GetFirstLine.js'
+import * as GetFirstLine from '../GetFirstLine/GetFirstLine.ts'
 
 export class ExecError extends Error {
   constructor(stdout, stderr, exitCode) {

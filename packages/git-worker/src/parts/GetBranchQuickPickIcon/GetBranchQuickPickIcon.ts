@@ -1,5 +1,5 @@
-import * as GitRefType from '../GitRefType/GitRefType.js'
-import * as QuickPickIcon from '../QuickPickIcon/QuickPickIcon.js'
+import * as GitRefType from '../GitRefType/GitRefType.ts'
+import * as QuickPickIcon from '../QuickPickIcon/QuickPickIcon.ts'
 
 export const getBranchQuickPickIcon = (refType) => {
   switch (refType) {

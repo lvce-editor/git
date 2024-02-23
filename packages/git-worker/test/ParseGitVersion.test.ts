@@ -1,4 +1,4 @@
-import * as ParseGitVersion from '../src/parts/ParseGitVersion/ParseGitVersion.js'
+import * as ParseGitVersion from '../src/parts/ParseGitVersion/ParseGitVersion.ts'
 
 test('parseGitVersion', () => {
   const raw = 'git version 2.39.2'

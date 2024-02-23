@@ -1,5 +1,5 @@
-import * as Git from '../Git/Git.js'
-import * as GitRepositories from '../GitRepositories/GitRepositories.js'
+import * as Git from '../Git/Git.ts'
+import * as GitRepositories from '../GitRepositories/GitRepositories.ts'
 
 export const wrapGitCommand =
   (fn) =>

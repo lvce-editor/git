@@ -1,9 +1,9 @@
-import * as GetCheckoutPicks from '../GetCheckoutPicks/GetCheckoutPicks.js'
-import * as Git from '../Git/Git.js'
-import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.js'
-import * as GitRequests from '../GitRequests/GitRequests.js'
-import * as Rpc from '../Rpc/Rpc.js'
+import * as GetCheckoutPicks from '../GetCheckoutPicks/GetCheckoutPicks.ts'
+import * as Git from '../Git/Git.ts'
+import * as Repositories from '../GitRepositories/GitRepositories.ts'
+import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
+import * as GitRequests from '../GitRequests/GitRequests.ts'
+import * as Rpc from '../Rpc/Rpc.ts'
 
 export const commandCheckout = async () => {
   const picks = await GetCheckoutPicks.getCheckoutPicks()

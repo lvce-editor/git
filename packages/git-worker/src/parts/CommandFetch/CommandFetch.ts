@@ -1,7 +1,7 @@
-import * as Repositories from '../GitRepositories/GitRepositories.js'
-import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.js'
-import * as GitRequests from '../GitRequests/GitRequests.js'
-import * as Git from '../Git/Git.js'
+import * as Repositories from '../GitRepositories/GitRepositories.ts'
+import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
+import * as GitRequests from '../GitRequests/GitRequests.ts'
+import * as Git from '../Git/Git.ts'
 
 export const commandFetch = async () => {
   const repository = await Repositories.getCurrent()

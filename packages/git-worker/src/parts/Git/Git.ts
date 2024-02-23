@@ -1,7 +1,7 @@
-import * as Exec from '../Exec/Exec.js'
-import { ExecError } from '../ExecError/ExecError.js'
-import * as ExitCode from '../ExitCode/ExitCode.js'
-import * as GetGitEnv from '../GetGitEnv/GetGitEnv.js'
+import * as Exec from '../Exec/Exec.ts'
+import { ExecError } from '../ExecError/ExecError.ts'
+import * as ExitCode from '../ExitCode/ExitCode.ts'
+import * as GetGitEnv from '../GetGitEnv/GetGitEnv.ts'
 
 export const exec = async ({ gitPath, cwd, name, args }) => {
   if (typeof gitPath !== 'string') {

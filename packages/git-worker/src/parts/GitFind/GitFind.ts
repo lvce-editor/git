@@ -1,6 +1,6 @@
-import * as Exec from '../Exec/Exec.js'
-import * as ParseGitVersion from '../ParseGitVersion/ParseGitVersion.js'
-import * as Rpc from '../Rpc/Rpc.js'
+import * as Exec from '../Exec/Exec.ts'
+import * as ParseGitVersion from '../ParseGitVersion/ParseGitVersion.ts'
+import * as Rpc from '../Rpc/Rpc.ts'
 
 const findGitAtPath = async (path) => {
   let result

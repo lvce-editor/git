@@ -1,6 +1,6 @@
-import * as GitFind from '../GitFind/GitFind.js'
-import * as GitRepositoryState from '../GitRepositoryState/GitRepositoryState.js'
-import * as Rpc from '../Rpc/Rpc.js'
+import * as GitFind from '../GitFind/GitFind.ts'
+import * as GitRepositoryState from '../GitRepositoryState/GitRepositoryState.ts'
+import * as Rpc from '../Rpc/Rpc.ts'
 
 // TODO getCurrent shouldn't have side effect of mutating state
 

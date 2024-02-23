@@ -1,5 +1,5 @@
-import * as GitRequests from '../GitRequests/GitRequests.js'
-import * as WrapGitCommand from '../WrapGitCommand/WrapGitCommand.js'
+import * as GitRequests from '../GitRequests/GitRequests.ts'
+import * as WrapGitCommand from '../WrapGitCommand/WrapGitCommand.ts'
 
 const mapEntry = ([key, value]) => {
   return [key, WrapGitCommand.wrapGitCommand(value)]
