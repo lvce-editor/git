@@ -7,6 +7,7 @@ export const state = {
 
 const runListeners = () => {
   for (const listener of state.changeListeners) {
+    // @ts-ignore
     listener()
   }
 }
@@ -41,10 +42,12 @@ export const isRunning = (operationId) => {
 }
 
 export const onChange = (listener) => {
+  // @ts-ignore
   state.changeListeners.push(listener)
 }
 
 export const offChange = (listener) => {
+  // @ts-ignore
   const index = state.changeListeners.indexOf(listener)
   state.changeListeners.splice(index, 1)
 }
