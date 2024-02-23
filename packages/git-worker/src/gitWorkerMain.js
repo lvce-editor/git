@@ -1,1 +1,1 @@
-export * from '../src/parts/CommandMap/CommandMap.js'
+export * from './parts/CommandMap/CommandMap.ts'
