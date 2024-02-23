@@ -4,6 +4,7 @@ import { readdir, rm } from 'fs/promises'
 import path, { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { rollup } from 'rollup'
+import typescript from '@rollup/plugin-typescript'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
@@ -96,6 +97,7 @@ for (const dirent of dirents) {
 
 const output = await rollup({
   input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.js'),
+  plugins: [typescript()],
 })
 
 await output.write({

@@ -13,7 +13,9 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
     "strict": true,
     "noImplicitAny": false,
-    "rootDir": "."
+    "rootDir": ".",
+    "allowImportingTsExtensions": true,
+    "allowJs": true
   },
   "include": ["src", "test"]
 }
