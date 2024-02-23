@@ -97,7 +97,13 @@ for (const dirent of dirents) {
 
 const output = await rollup({
   input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.js'),
-  plugins: [typescript()],
+  plugins: [
+    typescript({
+      allowImportingTsExtensions: true,
+      module: 'esnext',
+      target: 'esnext',
+    }),
+  ],
 })
 
 await output.write({
