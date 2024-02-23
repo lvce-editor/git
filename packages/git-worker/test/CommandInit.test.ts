@@ -4,13 +4,13 @@ beforeEach(() => {
   jest.resetAllMocks()
 })
 
-jest.unstable_mockModule('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.js', () => {
+jest.unstable_mockModule('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts', () => {
   return {
     execute: jest.fn(() => {}),
   }
 })
 
-jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.js', () => {
+jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () => {
   return {
     getCurrent() {
       return {
@@ -21,10 +21,10 @@ jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.js', () =
   }
 })
 
-const CommandInit = await import('../src/parts/CommandInit/CommandInit.js')
-const GitRepositoriesRequests = await import('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.js')
-const GitRequests = await import('../src/parts/GitRequests/GitRequests.js')
-const Git = await import('../src/parts/Git/Git.js')
+const CommandInit = await import('../src/parts/CommandInit/CommandInit.ts')
+const GitRepositoriesRequests = await import('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts')
+const GitRequests = await import('../src/parts/GitRequests/GitRequests.ts')
+const Git = await import('../src/parts/Git/Git.ts')
 
 test('commandInit', async () => {
   await CommandInit.commandInit()
