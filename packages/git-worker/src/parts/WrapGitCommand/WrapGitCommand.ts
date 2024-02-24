@@ -3,9 +3,11 @@ import * as GitRepositories from '../GitRepositories/GitRepositories.ts'
 
 export const wrapGitCommand =
   (fn) =>
-  ({ cwd, gitPath, ...args }) => {
+  async ({ cwd, ...args }) => {
+    const { path, gitPath } = await GitRepositories.getCurrent()
     return fn({
-      cwd,
+      cwd: path,
+      repositoryPath: path,
       gitPath,
       ...args,
       exec: Git.exec,
