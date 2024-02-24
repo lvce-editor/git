@@ -3,7 +3,7 @@ import { jest } from '@jest/globals'
 
 test('discard', async () => {
   const exec = jest.fn()
-  const confirm = jest.fn()
+  const confirm = jest.fn(() => true)
   await GitRequestsDiscard.discard({
     cwd: '/test/test-folder',
     gitPath: 'git',
