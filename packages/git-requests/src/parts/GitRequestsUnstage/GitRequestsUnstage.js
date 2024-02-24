@@ -6,7 +6,7 @@ import { GitError } from '../GitError/GitError.js'
  */
 export const unstage = async ({ cwd, gitPath, file, exec }) => {
   try {
-    const args = ['rm', '--cached', file]
+    const args = ['restore', '--staged', '--', file]
     const gitResult = await exec({
       args,
       name: 'unstage',
