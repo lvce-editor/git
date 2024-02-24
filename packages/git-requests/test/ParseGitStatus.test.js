@@ -125,3 +125,14 @@ test('parseLines - y - type changed', () => {
     },
   ])
 })
+
+test('parseLines - x - deleted', () => {
+  const stdout = `D  static/objects.json`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
+    {
+      file: 'static/objects.json',
+      status: FileStateType.IndexDeleted,
+    },
+  ])
+})
