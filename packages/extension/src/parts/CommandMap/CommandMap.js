@@ -14,6 +14,10 @@ export const getFn = (method) => {
       return Config.getWorkspaceFolder
     case ExtensionCommandType.ConfigGetGitPaths:
       return Config.getGitPaths
+    case ExtensionCommandType.ConfigConfirmDiscard:
+      return Config.confirmDiscard
+    case ExtensionCommandType.ConfirmPrompt:
+      return Config.confirmPrompt
     default:
       throw new CommandNotFoundError(method)
   }
