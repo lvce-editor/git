@@ -1,23 +1,19 @@
 import * as GitRequestsUnstageAll from '../src/parts/GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 import { jest } from '@jest/globals'
 
-test.skip('unstageAll', async () => {
-  const exec = () => {
-    return {
-      stdout: '',
-      stderr: '',
-      exitCode: 0,
-    }
-  }
+test('unstageAll', async () => {
+  const exec = jest.fn()
   await GitRequestsUnstageAll.unstageAll({
     cwd: '/test/test-folder',
     gitPath: 'git',
     exec,
   })
   expect(exec).toHaveBeenCalledTimes(1)
-  expect(exec).toHaveBeenCalledWith('git', ['rm', '--cached', '-r', '.'], {
+  expect(exec).toHaveBeenCalledWith({
+    args: ['restore', '--staged', '.'],
     cwd: '/test/test-folder',
-    env: expect.anything(),
+    gitPath: 'git',
+    name: 'unstageAll',
   })
 })
 
