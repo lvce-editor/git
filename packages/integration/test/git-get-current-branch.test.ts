@@ -13,7 +13,12 @@ test('git get current branch', async () => {
       exitCode: 0,
     },
   }
+  const config = {
+    gitPaths: ['git'],
+    workspaceFolder: '/test',
+  }
   const worker = await testWorker({
+    config,
     execMap,
   })
   expect(await worker.execute('Git.getCurrentBranch', { gitPath: '', cwd: '' })).toBe('main')
