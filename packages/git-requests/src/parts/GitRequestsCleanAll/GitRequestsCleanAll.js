@@ -6,7 +6,7 @@ import { GitError } from '../GitError/GitError.js'
  */
 export const cleanAll = async ({ cwd, gitPath, exec }) => {
   try {
-    const args = ['clean', '--force', '.']
+    const args = ['restore', '--', '.']
     const gitResult = await exec({
       args,
       name: 'cleanAll',
