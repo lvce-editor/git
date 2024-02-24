@@ -120,7 +120,7 @@
     ],
     "working-tree": [
       {
-        "command": "git.discardAll",
+        "command": "git.cleanAll",
         "label": "Discard All",
         "icon": "Discard"
       },
