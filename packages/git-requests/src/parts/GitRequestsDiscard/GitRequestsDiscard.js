@@ -6,7 +6,7 @@ import { GitError } from '../GitError/GitError.js'
 export const discard = async ({ cwd, gitPath, file, exec }) => {
   try {
     const gitResult = await exec({
-      args: ['clean', '-f', '-q', file],
+      args: ['restore', '--', file],
       cwd,
       gitPath,
       name: 'discard',
