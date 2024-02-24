@@ -135,6 +135,12 @@ export const parseGitStatusLine = (index, line) => {
         status: FileStateType.IndexModified,
       })
       break
+    case GitStatusType.IndexDeleted:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.IndexDeleted,
+      })
+      break
     default:
       break
   }
