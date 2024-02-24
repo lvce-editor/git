@@ -21,6 +21,9 @@ export const testWorker = async ({ execMap, config = {}, quickPick = () => {} })
       } else if (args[0] === 'Config.getWorkspaceFolder') {
         // @ts-ignore
         return config.workspaceFolder
+      } else if (args[0] === 'Config.confirmDiscard') {
+        // @ts-ignore
+        return config.confirmDiscard
       } else if (args[0] === 'QuickPick.show') {
         return quickPick()
       } else {

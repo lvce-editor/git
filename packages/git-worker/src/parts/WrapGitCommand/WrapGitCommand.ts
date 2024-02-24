@@ -1,3 +1,4 @@
+import * as Confirm from '../Confirm/Confirm.ts'
 import * as Git from '../Git/Git.ts'
 import * as GitRepositories from '../GitRepositories/GitRepositories.ts'
 
@@ -12,5 +13,6 @@ export const wrapGitCommand =
       ...args,
       exec: Git.exec,
       getRepository: GitRepositories.getCurrent,
+      confirm: Confirm.confirm,
     })
   }

@@ -21,6 +21,7 @@ test('git add all', async () => {
   const config = {
     gitPaths: ['git'],
     workspaceFolder: '/test',
+    confirmDiscard: false,
   }
   const worker = await testWorker({
     execMap,
@@ -31,6 +32,7 @@ test('git add all', async () => {
     ['Config.getGitPaths'],
     ['Exec.exec', 'git', ['--version'], {}],
     ['Config.getWorkspaceFolder'],
+    ['Config.confirmDiscard'],
     [
       'Exec.exec',
       'git',

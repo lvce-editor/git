@@ -15,3 +15,13 @@ export const getGitPaths = () => {
   }
   return paths
 }
+
+export const confirmDiscard = () => {
+  const value = vscode.getConfiguration('git.confirmDiscard')
+  return value
+}
+
+export const confirmPrompt = async (message) => {
+  const result = await vscode.confirm(message)
+  return result
+}
