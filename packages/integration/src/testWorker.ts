@@ -5,25 +5,38 @@ import { startWorker } from './startWorker.ts'
 
 export const testWorker = async ({ execMap, config = {}, quickPick = () => {} }) => {
   const invocations = []
+  const fullExecMap = {
+    '--version': {
+      stdout: 'git version 2.39.2',
+      stderr: '',
+      exitCode: 0,
+    },
+    ...execMap,
+  }
+  const fullConfig = {
+    ...config,
+    gitPaths: ['git'],
+    workspaceFolder: '/test',
+  }
   const rpc = {
     invoke(...args) {
       // @ts-ignore
       invocations.push(args)
       if (args[0] === 'Exec.exec') {
-        const result = execMap[args[2][0]]
+        const result = fullExecMap[args[2][0]]
         if (!result) {
           throw new Error(`exec command not found ${args[2][0]}`)
         }
         return result
       } else if (args[0] === 'Config.getGitPaths') {
         // @ts-ignore
-        return config.gitPaths
+        return fullConfig.gitPaths
       } else if (args[0] === 'Config.getWorkspaceFolder') {
         // @ts-ignore
-        return config.workspaceFolder
+        return fullConfig.workspaceFolder
       } else if (args[0] === 'Config.confirmDiscard') {
         // @ts-ignore
-        return config.confirmDiscard
+        return fullConfig.confirmDiscard
       } else if (args[0] === 'QuickPick.show') {
         return quickPick()
       } else {

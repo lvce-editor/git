@@ -2,21 +2,13 @@ import { testWorker } from '../src/testWorker.js'
 
 test('git add all', async () => {
   const execMap = {
-    '--version': {
-      stdout: 'git version 2.39.2',
-      stderr: '',
-      exitCode: 0,
-    },
     add: {
       stdout: '',
       stderr: '',
       exitCode: 0,
     },
   }
-  const config = {
-    gitPaths: ['git'],
-    workspaceFolder: '/test',
-  }
+  const config = {}
   const worker = await testWorker({
     execMap,
     config,

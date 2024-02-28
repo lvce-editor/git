@@ -2,16 +2,6 @@ import { testWorker } from '../src/testWorker.js'
 
 test('git discard - error pathspec did not match any files', async () => {
   const execMap = {
-    '--version': {
-      stdout: 'git version 2.39.2',
-      stderr: '',
-      exitCode: 0,
-    },
-    add: {
-      stdout: '',
-      stderr: '',
-      exitCode: 0,
-    },
     restore: {
       stdout: '',
       stderr: "error: pathspec 'index.html' did not match any file(s) known to git",
@@ -19,8 +9,6 @@ test('git discard - error pathspec did not match any files', async () => {
     },
   }
   const config = {
-    gitPaths: ['git'],
-    workspaceFolder: '/test',
     confirmDiscard: false,
   }
   const worker = await testWorker({
