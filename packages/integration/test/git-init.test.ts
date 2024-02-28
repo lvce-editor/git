@@ -7,16 +7,8 @@ test('git init', async () => {
       stderr: '',
       exitCode: 0,
     },
-    '--version': {
-      stdout: 'git version 2.39.2',
-      stderr: '',
-      exitCode: 0,
-    },
   }
-  const config = {
-    gitPaths: ['git'],
-    workspaceFolder: '/test',
-  }
+  const config = {}
   const worker = await testWorker({
     execMap,
     config,

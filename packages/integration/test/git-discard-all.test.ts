@@ -2,16 +2,6 @@ import { testWorker } from '../src/testWorker.js'
 
 test('git discard all', async () => {
   const execMap = {
-    '--version': {
-      stdout: 'git version 2.39.2',
-      stderr: '',
-      exitCode: 0,
-    },
-    add: {
-      stdout: '',
-      stderr: '',
-      exitCode: 0,
-    },
     restore: {
       stdout: '',
       stderr: '',

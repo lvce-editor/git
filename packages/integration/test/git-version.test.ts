@@ -1,17 +1,8 @@
 import { testWorker } from '../src/testWorker.js'
 
 test('git version', async () => {
-  const execMap = {
-    '--version': {
-      stdout: 'git version 2.39.2',
-      stderr: '',
-      exitCode: 0,
-    },
-  }
-  const config = {
-    gitPaths: ['git'],
-    workspaceFolder: '/test',
-  }
+  const execMap = {}
+  const config = {}
   const worker = await testWorker({
     execMap,
     config,
@@ -27,10 +18,7 @@ test('git version - fatal unterminated line', async () => {
       exitCode: 1,
     },
   }
-  const config = {
-    gitPaths: ['git'],
-    workspaceFolder: '/test',
-  }
+  const config = {}
   const worker = await testWorker({
     execMap,
     config,
