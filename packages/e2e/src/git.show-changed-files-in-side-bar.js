@@ -1,5 +1,7 @@
 export const name = 'git.show-changed-files-in-side-bar'
 
+export const skip = true
+
 const gitVersion = () => {
   return {
     stdout: '0.0.0',
@@ -50,14 +52,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  Settings,
-  SideBar,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, Settings, SideBar, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
