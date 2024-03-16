@@ -136,3 +136,14 @@ test('parseLines - x - deleted', () => {
     },
   ])
 })
+
+test('parseLines - r - renamed', () => {
+  const stdout = 'R  index.ts\u0000index.js\u0000'
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
+    {
+      file: 'index.ts',
+      status: FileStateType.IndexRenamed,
+    },
+  ])
+})

@@ -105,6 +105,17 @@ export const parseGitStatusLine = (index, line) => {
   }
   const statusX = getStatusX(line)
   switch (statusX) {
+    case GitStatusType.IndexRenamed:
+      const firstIndex = line.indexOf('\0')
+      const lastIndex = line.lastIndexOf('\0')
+      if (firstIndex !== -1 && lastIndex !== -1) {
+        console.log({ partial: line.slice(lastIndex), line })
+        index.push({
+          file: getFile(line.slice(firstIndex, lastIndex)),
+          status: FileStateType.IndexRenamed,
+        })
+      }
+      break
     case GitStatusType.IndexModified:
       index.push({
         file: getFile(line),
