@@ -6,7 +6,6 @@ import * as ParseGitStatusLine from '../ParseGitStatusLine/ParseGitStatusLine.js
  * @returns
  */
 export const parseGitStatus = (lines) => {
-  console.log({lines})
   /**
    * @type{any[]}
    */
