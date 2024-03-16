@@ -3,7 +3,7 @@ import { testWorker } from '../src/testWorker.js'
 test('git get modified files', async () => {
   const execMap = {
     status: {
-      stdout: 'R  index.ts\u0000index.js\u0000',
+      stdout: 'R  index.js -> index.ts',
       stderr: '',
       exitCode: 0,
     },
@@ -35,7 +35,7 @@ test('git get modified files', async () => {
     [
       'Exec.exec',
       'git',
-      ['status', '--porcelain', '-z', '-uall'],
+      ['status', '--porcelain', '-uall'],
       {
         cwd: '/test',
         env: {
