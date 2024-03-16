@@ -9,7 +9,7 @@ export const getModifiedFiles = async ({ cwd, gitPath, exec }) => {
   let gitResult
   try {
     gitResult = await exec({
-      args: ['status', '--porcelain', '-z', '-uall'],
+      args: ['status', '--porcelain', '-uall'],
       cwd,
       gitPath,
       name: 'getModifiedFiles',
