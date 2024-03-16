@@ -138,7 +138,7 @@ test('parseLines - x - deleted', () => {
 })
 
 test('parseLines - r - staged and renamed', () => {
-  const stdout = 'R  index.ts\u0000index.js\u0000'
+  const stdout = 'R  index.js -> index.ts'
   const lines = stdout.split('\n')
   expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
     {
@@ -149,12 +149,17 @@ test('parseLines - r - staged and renamed', () => {
 })
 
 test('parseLines - deleted and updated', () => {
-  const stdout = ' D index.js\u0000?? index.ts\u0000'
+  const stdout = ` D index.js
+?? index.ts`
   const lines = stdout.split('\n')
   expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
     {
+      file: 'index.js',
+      status: FileStateType.Deleted,
+    },
+    {
       file: 'index.ts',
-      status: FileStateType.IndexRenamed,
+      status: FileStateType.Untracked,
     },
   ])
 })
