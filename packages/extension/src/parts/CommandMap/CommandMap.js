@@ -18,6 +18,8 @@ export const getFn = (method) => {
       return Config.confirmDiscard
     case ExtensionCommandType.ConfirmPrompt:
       return Config.confirmPrompt
+    case ExtensionCommandType.ConfigShowErrorMessage:
+      return Config.showErrorMessage
     default:
       throw new CommandNotFoundError(method)
   }

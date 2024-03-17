@@ -21,6 +21,11 @@ export const confirmDiscard = () => {
   return value
 }
 
+export const showErrorMessage = () => {
+  const value = vscode.getConfiguration('git.showErrorMessage')
+  return value
+}
+
 export const confirmPrompt = async (message) => {
   const result = await vscode.confirm(message)
   return result

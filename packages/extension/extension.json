@@ -85,6 +85,10 @@
     "git.autoFetchPeriod": {
       "type": "number",
       "default": 100
+    },
+    "git.showErrorMessage": {
+      "type": "boolean",
+      "default": false
     }
   },
   "statusBarItems": [

@@ -37,6 +37,9 @@ export const testWorker = async ({ execMap, config = {}, quickPick = () => {} })
       } else if (args[0] === 'Config.confirmDiscard') {
         // @ts-ignore
         return fullConfig.confirmDiscard
+      } else if (args[0] === 'Config.showErrorMessage') {
+        // @ts-ignore
+        return fullConfig.showErrorMessage
       } else if (args[0] === 'QuickPick.show') {
         return quickPick()
       } else {
