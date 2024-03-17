@@ -10,6 +10,7 @@ test('git discard - error pathspec did not match any files', async () => {
   }
   const config = {
     confirmDiscard: false,
+    showErrorMessage: true,
   }
   const worker = await testWorker({
     execMap,
@@ -37,5 +38,8 @@ test('git discard - error pathspec did not match any files', async () => {
         reject: false,
       },
     ],
+    // TODO
+    // ['Config.showErrorMessage'],
+    // ['Config.confirmPrompt', "Git: error: pathspec 'index.html' did not match any file(s) known to git"],
   ])
 })

@@ -1,5 +1,7 @@
 // import pTimeout from 'p-timeout'
 
+import * as Rpc from '../Rpc/Rpc.ts'
+
 export const state = {
   running: Object.create(null),
   changeListeners: [],
@@ -27,6 +29,10 @@ export const execute = async ({ id, fn, args }) => {
   } catch (error) {
     // @ts-ignore
     error.isExpected = true
+    const shouldShowError = await Rpc.invoke('Config.showErrorMessage')
+    if (shouldShowError) {
+      await Rpc.invoke('Confirm.prompt', `${error}`)
+    }
     throw error
   } finally {
     state.running[id]--
