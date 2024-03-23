@@ -96,6 +96,7 @@ for (const dirent of dirents) {
 const output = await rollup({
   input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'),
   plugins: [
+    // @ts-ignore
     typescript({
       allowImportingTsExtensions: true,
       module: 'esnext',

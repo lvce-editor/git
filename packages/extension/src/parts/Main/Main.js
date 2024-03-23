@@ -4,10 +4,12 @@ import * as SourceControlProviderGit from '../UiSourceControlProvider/UiSourceCo
 
 export const activate = async ({ path }) => {
   for (const command of Object.values(ExtensionHostCommand)) {
+    // @ts-ignore
     vscode.registerCommand(command)
   }
 
   ExtensionInfo.setPath(path)
+  // @ts-ignore
   vscode.registerSourceControlProvider(SourceControlProviderGit)
 
   // vscode.registerStatusBarItem(StatusBarCheckout.create())

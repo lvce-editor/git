@@ -7,7 +7,7 @@
     "types": ["jest"],
     "moduleResolution": "NodeNext",
     "skipLibCheck": true,
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "assumeChangesOnlyAffectDirectDependencies": true,

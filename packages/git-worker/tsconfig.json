@@ -18,5 +18,10 @@
     "allowJs": true,
     "composite": true
   },
-  "include": ["src", "test"]
+  "include": ["src", "test"],
+  "references": [
+    {
+      "path": "../git-requests/tsconfig.json"
+    }
+  ]
 }
