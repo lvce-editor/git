@@ -10,5 +10,21 @@
   },
   "keywords": [],
   "author": "Lvce Editor",
-  "license": "MIT"
+  "license": "MIT",
+  "jest": {
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transform": {
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    }
+  }
 }
