@@ -1,9 +1,7 @@
-import { packageExtension } from '@lvce-editor/package-extension'
-import typescript from '@rollup/plugin-typescript'
+import { bundleJs, packageExtension } from '@lvce-editor/package-extension'
 import fs, { readFileSync, writeFileSync } from 'fs'
 import { readdir, rm } from 'fs/promises'
 import path, { join } from 'path'
-import { rollup } from 'rollup'
 import { root } from './root.js'
 
 const extension = path.join(root, 'packages', 'extension')
@@ -93,24 +91,7 @@ for (const dirent of dirents) {
   }
 }
 
-const output = await rollup({
-  input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'),
-  plugins: [
-    // @ts-ignore
-    typescript({
-      allowImportingTsExtensions: true,
-      module: 'esnext',
-      target: 'esnext',
-    }),
-  ],
-})
-
-await output.write({
-  file: join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'),
-  format: 'es',
-  sourcemap: true,
-  sourcemapExcludeSources: true,
-})
+await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'))
 
 await packageExtension({
   highestCompression: true,
