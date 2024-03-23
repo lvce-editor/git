@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@lvce-editor/package-extension": "^0.3.0"
+    "@lvce-editor/package-extension": "^0.3.0",
+    "@rollup/plugin-typescript": "^11.1.6"
   }
 }
