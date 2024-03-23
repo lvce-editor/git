@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["esnext"],
+    "lib": ["esnext", "WebWorker"],
     "checkJs": true,
-    "module": "NodeNext",
     "target": "esnext",
-    "types": ["jest"],
+    "types": ["node"],
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "skipLibCheck": true,
     "noEmit": true,
@@ -13,8 +13,11 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
     "strict": true,
     "noImplicitAny": false,
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
     "rootDir": ".",
     "composite": true
   },
-  "include": ["src", "test"]
+  "include": ["src", "test"],
+  "exclude": ["third_party", "coverage"]
 }
