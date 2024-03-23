@@ -1,0 +1,1 @@
+export function getStatusText(type: number): "" | "Modified" | "Index Modified" | "Index Added" | "Deleted" | "Index Renamed" | "Index Copied" | "Untracked" | "Ignored" | "Intent to Add" | "Conflict: Both Deleted" | "Conflict: Added by Us" | "Conflict: Deleted by them" | "Conflict: Added by them" | "Conflict: Deleted by Us" | "Conflict: Both Added" | "Conflict: Both Modified";
