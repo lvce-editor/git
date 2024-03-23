@@ -62,7 +62,7 @@ await replace({
 
 await replace({
   path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
-  occurrence: 'src/gitWorkerMain.js',
+  occurrence: 'src/gitWorkerMain.ts',
   replacement: 'dist/gitWorkerMain.js',
 })
 
@@ -94,7 +94,7 @@ for (const dirent of dirents) {
 }
 
 const output = await rollup({
-  input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.js'),
+  input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'),
   plugins: [
     typescript({
       allowImportingTsExtensions: true,
