@@ -1,88 +1,115 @@
-import { packageExtension, bundleJs } from '@lvce-editor/package-extension'
-import fs, { readFileSync } from 'fs'
+import { packageExtension } from '@lvce-editor/package-extension'
+import typescript from '@rollup/plugin-typescript'
+import fs, { readFileSync, writeFileSync } from 'fs'
+import { readdir, rm } from 'fs/promises'
 import path, { join } from 'path'
-import { replace } from './replace.js'
+import { rollup } from 'rollup'
 import { root } from './root.js'
 
 const extension = path.join(root, 'packages', 'extension')
-const cssWorker = path.join(root, 'packages', 'css-worker')
+const gitWorker = path.join(root, 'packages', 'git-worker')
+const gitRequests = path.join(root, 'packages', 'git-requests')
+const node = path.join(root, 'packages', 'node')
 
 fs.rmSync(join(root, 'dist'), { recursive: true, force: true })
 
 fs.mkdirSync(path.join(root, 'dist'))
 
-const packageJson = JSON.parse(
-  readFileSync(join(extension, 'package.json')).toString()
-)
-delete packageJson.xo
+const packageJson = JSON.parse(readFileSync(join(extension, 'package.json')).toString())
 delete packageJson.jest
-delete packageJson.prettier
 delete packageJson.devDependencies
+delete packageJson.scripts
 
-fs.writeFileSync(
-  join(root, 'dist', 'package.json'),
-  JSON.stringify(packageJson, null, 2) + '\n'
-)
+fs.writeFileSync(join(root, 'dist', 'package.json'), JSON.stringify(packageJson, null, 2) + '\n')
 fs.copyFileSync(join(root, 'README.md'), join(root, 'dist', 'README.md'))
 fs.copyFileSync(join(extension, 'icon.png'), join(root, 'dist', 'icon.png'))
-fs.copyFileSync(
-  join(extension, 'extension.json'),
-  join(root, 'dist', 'extension.json')
-)
+fs.copyFileSync(join(extension, 'extension.json'), join(root, 'dist', 'extension.json'))
+fs.cpSync(join(extension, 'icons'), join(root, 'dist', 'icons'), { recursive: true })
 fs.cpSync(join(extension, 'src'), join(root, 'dist', 'src'), {
   recursive: true,
 })
-fs.cpSync(join(cssWorker, 'src'), join(root, 'dist', 'css-worker', 'src'), {
+
+fs.cpSync(join(gitWorker, 'src'), join(root, 'dist', 'git-worker', 'src'), {
   recursive: true,
 })
-fs.cpSync(join(cssWorker, 'data'), join(root, 'dist', 'css-worker', 'data'), {
+
+fs.cpSync(join(gitRequests, 'src'), join(root, 'dist', 'git-requests', 'src'), {
   recursive: true,
 })
 
-const workerUrlFilePath = path.join(
-  root,
-  'dist',
-  'src',
-  'parts',
-  'CssWorkerUrl',
-  'CssWorkerUrl.ts'
-)
-
-replace({
-  path: workerUrlFilePath,
-  occurrence: '../../../../css-worker/src/cssWorkerMain.ts',
-  replacement: '../css-worker/dist/cssWorkerMain.js',
+fs.cpSync(node, join(root, 'dist', 'node'), {
+  recursive: true,
+  verbatimSymlinks: true,
 })
 
-replace({
-  path: join(
-    root,
-    'dist',
-    'css-worker',
-    'src',
-    'parts',
-    'ImportJson',
-    'ImportJson.ts'
-  ),
-  occurrence: `../../../\${path}`,
-  replacement: `../\${path}`,
+const replace = async ({ path, occurrence, replacement }) => {
+  const oldContent = readFileSync(path, 'utf-8')
+  const newContent = oldContent.replace(occurrence, replacement)
+  writeFileSync(path, newContent)
+}
+
+await replace({
+  path: join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.js'),
+  occurrence: '../node/',
+  replacement: 'node/',
 })
 
-replace({
-  path: join(root, 'dist', 'extension.json'),
-  occurrence: 'src/languageFeaturesCssMain.ts',
-  replacement: 'dist/languageFeaturesCssMain.js',
+await replace({
+  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
+  occurrence: '../git-worker/',
+  replacement: 'git-worker/',
 })
 
-await bundleJs(
-  join(root, 'dist', 'css-worker', 'src', 'cssWorkerMain.ts'),
-  join(root, 'dist', 'css-worker', 'dist', 'cssWorkerMain.js')
-)
+await replace({
+  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
+  occurrence: 'src/gitWorkerMain.js',
+  replacement: 'dist/gitWorkerMain.js',
+})
 
-await bundleJs(
-  join(root, 'dist', 'src', 'languageFeaturesCssMain.ts'),
-  join(root, 'dist', 'dist', 'languageFeaturesCssMain.js')
-)
+await replace({
+  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
+  occurrence: '/extension',
+  replacement: '',
+})
+
+await replace({
+  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
+  occurrence: `parts.slice(0, -5)`,
+  replacement: `parts.slice(0, -3)`,
+})
+
+await rm(join(root, 'dist', 'node', 'node_modules', '.bin'), { recursive: true, force: true })
+await rm(join(root, 'dist', 'node', 'node_modules', 'which', 'bin'), { recursive: true, force: true })
+
+const shouldRemoveNodeModule = (dirent) => {
+  return dirent.endsWith('test') || dirent.endsWith('.d.ts') || dirent.endsWith('.npmignore') || dirent.endsWith('CHANGELOG.md')
+}
+
+const dirents = await readdir(join(root, 'dist', 'node', 'node_modules'), { recursive: true })
+for (const dirent of dirents) {
+  if (shouldRemoveNodeModule(dirent)) {
+    const absolutePath = join(root, 'dist', 'node', 'node_modules', dirent)
+    await rm(absolutePath, { recursive: true, force: true })
+  }
+}
+
+const output = await rollup({
+  input: join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.js'),
+  plugins: [
+    typescript({
+      allowImportingTsExtensions: true,
+      module: 'esnext',
+      target: 'esnext',
+    }),
+  ],
+})
+
+await output.write({
+  file: join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'),
+  format: 'es',
+  sourcemap: true,
+  sourcemapExcludeSources: true,
+})
 
 await packageExtension({
   highestCompression: true,
