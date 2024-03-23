@@ -18,5 +18,6 @@
     "allowJs": true,
     "composite": true
   },
-  "include": ["src", "test"]
+  "include": ["src", "test"],
+  "references": ["../packages/git-requests"]
 }

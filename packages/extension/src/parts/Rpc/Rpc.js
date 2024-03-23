@@ -11,6 +11,7 @@ export const state = {
 const createRpc = async () => {
   const path = ExtensionInfo.getPath()
   const gitClientPath = GetGitClientPath.getGitClientPath(path)
+  // @ts-ignore
   const rpc = await vscode.createNodeRpc({
     path: gitClientPath,
     name: 'Git',
