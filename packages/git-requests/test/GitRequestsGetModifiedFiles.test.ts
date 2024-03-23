@@ -6,6 +6,7 @@ import * as GitRequestsGetModifiedFiles from '../src/parts/GitRequestsGetModifie
 class ExecError extends Error {
   constructor(stderr) {
     super('')
+    // @ts-ignore
     this.stderr = stderr
   }
 }

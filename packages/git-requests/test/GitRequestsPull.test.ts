@@ -3,6 +3,7 @@ import * as GitRequestsPull from '../src/parts/GitRequestsPull/GitRequestsPull.j
 class ExecError extends Error {
   constructor(stderr) {
     super('')
+    // @ts-ignore
     this.stderr = stderr
   }
 }

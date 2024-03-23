@@ -3,6 +3,7 @@ import * as GitRequestsDeleteBranch from '../src/parts/GitRequestsDeleteBranch/G
 class ExecError extends Error {
   constructor(stderr) {
     super('')
+    // @ts-ignore
     this.stderr = stderr
   }
 }

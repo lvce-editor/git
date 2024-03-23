@@ -3,6 +3,7 @@ import * as GitRequestsCommit from '../src/parts/GitRequestsCommit/GitRequestsCo
 class ExecError extends Error {
   constructor(stderr) {
     super('')
+    // @ts-ignore
     this.stderr = stderr
   }
 }

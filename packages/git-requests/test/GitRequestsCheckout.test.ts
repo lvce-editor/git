@@ -4,6 +4,7 @@ import * as GitRequestsCheckout from '../src/parts/GitRequestsCheckout/GitReques
 class ExecError extends Error {
   constructor(stderr) {
     super('')
+    // @ts-ignore
     this.stderr = stderr
   }
 }
