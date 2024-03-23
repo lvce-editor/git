@@ -1,0 +1,13 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./packages/build" },
+    { "path": "./packages/e2e" },
+    { "path": "./packages/extension" },
+    { "path": "./packages/git-requests" },
+    { "path": "./packages/git-worker" },
+    { "path": "./packages/integration" },
+    { "path": "./packages/node" }
+  ]
+}
