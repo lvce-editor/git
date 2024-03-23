@@ -1,9 +1,14 @@
 import { exportStatic } from '@lvce-editor/shared-process'
-import { readFileSync, writeFileSync } from 'node:fs'
 import { cp, readdir } from 'node:fs/promises'
-import path, { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import path from 'node:path'
 import { root } from './root.js'
+
+await import('./build.js')
+
+await cp(path.join(root, 'dist'), path.join(root, 'dist2'), {
+  recursive: true,
+  force: true,
+})
 
 await exportStatic({
   extensionPath: 'packages/extension',
@@ -19,33 +24,4 @@ const isCommitHash = (dirent) => {
 const dirents = await readdir(path.join(root, 'dist'))
 const commitHash = dirents.find(isCommitHash) || ''
 
-for (const dirent of ['src']) {
-  await cp(
-    path.join(root, 'packages', 'git-worker', dirent),
-    path.join(root, 'dist', commitHash, 'extensions', 'builtin.git', 'git-worker', dirent),
-    { recursive: true, force: true },
-  )
-}
-
-for (const dirent of ['src']) {
-  await cp(
-    path.join(root, 'packages', 'git-requests', dirent),
-    path.join(root, 'dist', commitHash, 'extensions', 'builtin.git', 'git-requests', dirent),
-    {
-      recursive: true,
-      force: true,
-    },
-  )
-}
-
-const replace = ({ path, occurrence, replacement }) => {
-  const oldContent = readFileSync(path, 'utf-8')
-  const newContent = oldContent.replace(occurrence, replacement)
-  writeFileSync(path, newContent)
-}
-
-replace({
-  path: join(root, 'dist', commitHash, 'extensions', 'builtin.git', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
-  occurrence: '../git-worker/',
-  replacement: 'git-worker/',
-})
+await cp(path.join(root, 'dist2'), path.join(root, 'dist', commitHash, 'extensions', 'builtin.git'), { recursive: true, force: true })
