@@ -15,6 +15,7 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
     "strict": true,
     "strictNullChecks": false,
+    "noImplicitAny": false,
     "composite": true
   },
   "include": ["src", "test"]
