@@ -1,6 +1,3 @@
 export const getGitWorkerUrl = () => {
-  return new URL(
-    '../../../../git-worker/src/gitWorkerMain.js',
-    import.meta.url
-  ).toString()
+  return new URL('../../../../git-worker/src/gitWorkerMain.ts', import.meta.url).toString()
 }
