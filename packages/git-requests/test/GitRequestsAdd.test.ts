@@ -3,6 +3,7 @@ import * as GitRequestsAdd from '../src/parts/GitRequestsAdd/GitRequestsAdd.js'
 class ExecError extends Error {
   constructor(stderr) {
     super('')
+    // @ts-ignore
     this.stderr = stderr
   }
 }
