@@ -17,8 +17,10 @@ export const add = CommandAdd.execute
 
 export const discard = CommandAdd.execute
 
+const supportedSchemes=['file', '']
+
 export const isActive = async (scheme, root) => {
-  if (scheme !== '') {
+  if (!supportedSchemes.includes(scheme) ) {
     return false
   }
   try {
