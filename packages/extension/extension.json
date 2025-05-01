@@ -25,6 +25,7 @@
     "onStartupFinished",
     "onSourceControl",
     "onSourceControl:",
+    "onSourceControl:file",
     "onStatusBarItem"
   ],
   "commands": [
