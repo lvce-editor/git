@@ -1,4 +1,4 @@
-export const skip=true
+export const skip = true
 
 export const name = 'git.pull-error-cannot-fast-forward-multiple-branches'
 
@@ -29,13 +29,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -49,7 +43,5 @@ export const test = async ({
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO remove error prefix from error
-  await expect(dialogErrorMessage).toHaveText(
-    'Error: Git: fatal: Cannot fast-forward to multiple branches.'
-  )
+  await expect(dialogErrorMessage).toHaveText('Error: Git: fatal: Cannot fast-forward to multiple branches.')
 }

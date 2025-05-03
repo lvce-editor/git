@@ -1,4 +1,4 @@
-export const skip=true
+export const skip = true
 
 export const name = 'git.show-changed-files-in-side-bar-error'
 
@@ -45,13 +45,7 @@ export const mockRpc = {
     'Exec.exec': exec,
   },
 }
-export const test = async ({
-  FileSystem,
-  Workspace,
-  SideBar,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, SideBar, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)

@@ -1,4 +1,4 @@
-export const skip=true
+export const skip = true
 
 export const name = 'git.pull-error-divergent-branches'
 
@@ -44,13 +44,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -64,7 +58,5 @@ export const test = async ({
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, vscode has very good/short git error messages
-  await expect(dialogErrorMessage).toHaveText(
-    'Error: Git: hint: You have divergent branches and need to specify how to reconcile them.'
-  )
+  await expect(dialogErrorMessage).toHaveText('Error: Git: hint: You have divergent branches and need to specify how to reconcile them.')
 }

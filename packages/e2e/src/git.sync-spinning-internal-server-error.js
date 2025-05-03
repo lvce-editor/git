@@ -47,8 +47,6 @@ process.exit(128)
     const dialogErrorMessage = page.locator('#DialogBodyErrorMessage')
     await expect(dialogErrorMessage).toBeVisible()
     // TODO error message could be improved, vscode has very good/short git error messages
-    await expect(dialogErrorMessage).toHaveText(
-      'Error: Git: remote: Internal Server Error'
-    )
+    await expect(dialogErrorMessage).toHaveText('Error: Git: remote: Internal Server Error')
   }
 }

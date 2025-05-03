@@ -2,13 +2,7 @@ export const name = 'git.sync-spinning'
 
 export const skip = true
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  Settings,
-  Locator,
-  expecr,
-}) => {
+export const test = async ({ FileSystem, Workspace, Settings, Locator, expecr }) => {
   const tmpDir = await getTmpDir()
   await writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await createFakeGitBinary(`
@@ -52,9 +46,7 @@ main()
   await quickPickInput.type('git sync')
   const quickPickItemGitSync = quickPick.locator('text=Git: Sync')
   await quickPickItemGitSync.click()
-  const statusBarItemSync = page.locator(
-    '.StatusBarItem[data-name="sync head"]'
-  )
+  const statusBarItemSync = page.locator('.StatusBarItem[data-name="sync head"]')
   const statusBarItemSyncIcon = statusBarItemSync.locator('.StatusBarIcon')
   await expect(statusBarItemSyncIcon).toBeVisible()
   await expect(statusBarItemSyncIcon).toHaveClass('StatusBarIcon AnimationSpin')

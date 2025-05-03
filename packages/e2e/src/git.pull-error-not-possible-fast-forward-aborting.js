@@ -1,4 +1,4 @@
-export const skip=true
+export const skip = true
 
 export const name = 'git.pull-error-not-possible-fast-forward-aborting'
 
@@ -31,13 +31,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -51,7 +45,5 @@ export const test = async ({
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, vscode has very good/short git error messages
-  await expect(dialogErrorMessage).toHaveText(
-    'Error: Git: fatal: Not possible to fast-forward, aborting.'
-  )
+  await expect(dialogErrorMessage).toHaveText('Error: Git: fatal: Not possible to fast-forward, aborting.')
 }

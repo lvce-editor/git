@@ -1,4 +1,4 @@
-export const skip=true
+export const skip = true
 
 export const name = 'git.push-error-no-configured-push-destination'
 
@@ -38,13 +38,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -60,7 +54,5 @@ export const test = async ({
   // TODO remove error prefix from error
   // TODO improve error message
 
-  await expect(dialogErrorMessage).toHaveText(
-    'Error: Git: fatal: No configured push destination.'
-  )
+  await expect(dialogErrorMessage).toHaveText('Error: Git: fatal: No configured push destination.')
 }

@@ -2,21 +2,11 @@ export const name = 'git.commit'
 
 export const skip = true
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  Settings,
-  SideBar,
-  KeyBoard,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, Settings, SideBar, KeyBoard, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.commit/git.js`
-  )
+  const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.commit/git.js`)
   await Settings.update({
     'git.path': gitPath,
   })

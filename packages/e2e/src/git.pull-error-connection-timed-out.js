@@ -1,5 +1,4 @@
-export const skip=true
-
+export const skip = true
 
 export const name = 'git.pull-error-connection-timed-out'
 
@@ -35,19 +34,10 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  Settings,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.pull-error-connection-timed-out/git.js`
-  )
+  const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.pull-error-connection-timed-out/git.js`)
   await Settings.update({
     'git.path': gitPath,
   })
@@ -60,7 +50,5 @@ export const test = async ({
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, should include full git error message
-  await expect(dialogErrorMessage).toHaveText(
-    'Error: Git: ssh: connect to host github.com port 22: Connection timed out'
-  )
+  await expect(dialogErrorMessage).toHaveText('Error: Git: ssh: connect to host github.com port 22: Connection timed out')
 }

@@ -64,7 +64,5 @@ test('parseGitStatusGroups - unknown status', () => {
       status: 123,
     },
   ]
-  expect(() => ParseGitStatusGroups.parseGitStatusGroups(files)).toThrowError(
-    new Error('unexpected file status: 123')
-  )
+  expect(() => ParseGitStatusGroups.parseGitStatusGroups(files)).toThrowError(new Error('unexpected file status: 123'))
 })

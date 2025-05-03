@@ -1,8 +1,6 @@
-export const skip=true
+export const skip = true
 
-
-export const name =
-  'git.pull-error-kex-exchange-identification-connection-closed'
+export const name = 'git.pull-error-kex-exchange-identification-connection-closed'
 
 const exec = (command, args, options) => {
   if (command === 'git') {
@@ -38,14 +36,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  Settings,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
 
@@ -58,7 +49,5 @@ export const test = async ({
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, should include full git error message
-  await expect(dialogErrorMessage).toHaveText(
-    'Error: Git: kex_exchange_identification: Connection closed by remote host'
-  )
+  await expect(dialogErrorMessage).toHaveText('Error: Git: kex_exchange_identification: Connection closed by remote host')
 }
