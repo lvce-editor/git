@@ -1,7 +1,7 @@
 import { GitError } from '../GitError/GitError.js'
 
 const isEmptyGitRepositoryError = (error) => {
-  return error && error.message === 'fatal: could not resolve HEAD'
+  return error && error.stderr && error.stderr === 'fatal: could not resolve HEAD'
 }
 
 /**
@@ -26,6 +26,7 @@ export const unstage = async ({ cwd, gitPath, file, exec }) => {
         cwd,
         gitPath,
       })
+      return
     }
     throw new GitError(error, 'unstage')
   }
