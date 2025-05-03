@@ -1,5 +1,9 @@
 import { GitError } from '../GitError/GitError.js'
 
+const isEmptyGitRepositoryError = (error) => {
+  return error && error.message === 'fatal: could not resolve HEAD'
+}
+
 /**
  *
  * @param {{cwd:string,gitPath:string , file:string, exec:any  }} options
@@ -14,6 +18,15 @@ export const unstage = async ({ cwd, gitPath, file, exec }) => {
       gitPath,
     })
   } catch (error) {
+    if (isEmptyGitRepositoryError(error)) {
+      const args = ['reset', '--', file]
+      const gitResult = await exec({
+        args,
+        name: 'unstage',
+        cwd,
+        gitPath,
+      })
+    }
     throw new GitError(error, 'unstage')
   }
 }
