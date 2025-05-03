@@ -1,4 +1,4 @@
-export const skip=true
+export const skip = true
 
 export const name = 'git.pull-error-repository-not-found'
 
@@ -33,13 +33,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)

@@ -1,4 +1,4 @@
-export const skip=true
+export const skip = true
 
 export const name = 'git.pull-error-not-a-git-repository'
 
@@ -14,8 +14,7 @@ const exec = (command, args, options) => {
     if (args[0] === 'pull') {
       return {
         stdout: '',
-        stderr:
-          'fatal: not a git repository (or any of the parent directories): .git',
+        stderr: 'fatal: not a git repository (or any of the parent directories): .git',
         exitCode: 128,
       }
     }
@@ -30,13 +29,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -48,7 +41,5 @@ export const test = async ({
 
   // assert
   const notification = Locator('#DialogBodyErrorMessage')
-  await expect(notification).toHaveText(
-    'Error: Git: fatal: not a git repository (or any of the parent directories): .git'
-  )
+  await expect(notification).toHaveText('Error: Git: fatal: not a git repository (or any of the parent directories): .git')
 }

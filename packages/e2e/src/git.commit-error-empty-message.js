@@ -2,21 +2,11 @@ export const name = 'git.commit-error-empty-message'
 
 export const skip = true
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  Settings,
-  SideBar,
-  KeyBoard,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, Settings, SideBar, KeyBoard, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(
-    `fixtures/git.commit-error-empty-message/git.js`
-  )
+  const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.commit-error-empty-message/git.js`)
   await Settings.update({
     'git.path': gitPath,
   })

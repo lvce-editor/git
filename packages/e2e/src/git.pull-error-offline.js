@@ -1,4 +1,4 @@
-export const skip=true
+export const skip = true
 
 export const name = 'git.pull-error-offline'
 
@@ -34,14 +34,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({
-  FileSystem,
-  Workspace,
-  Settings,
-  QuickPick,
-  Locator,
-  expect,
-}) => {
+export const test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
@@ -55,7 +48,5 @@ export const test = async ({
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, vscode has very good/short git error messages
-  await expect(dialogErrorMessage).toHaveText(
-    'Error: Git: ssh: Could not resolve hostname github.com: Temporary failure in name resolution'
-  )
+  await expect(dialogErrorMessage).toHaveText('Error: Git: ssh: Could not resolve hostname github.com: Temporary failure in name resolution')
 }
