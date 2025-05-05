@@ -6,7 +6,7 @@ export const unstageAllFallback = async ({ cwd, gitPath, exec }) => {
   const args = ['reset', '.']
   const gitResult = await exec({
     args,
-    name: 'unstage',
+    name: 'unstageAll',
     cwd,
     gitPath,
   })
