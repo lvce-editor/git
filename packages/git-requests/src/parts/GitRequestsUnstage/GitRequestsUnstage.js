@@ -1,8 +1,6 @@
 import { GitError } from '../GitError/GitError.js'
-
-const isEmptyGitRepositoryError = (error) => {
-  return error && error.stderr && error.stderr === 'fatal: could not resolve HEAD'
-}
+import { unstageFallback } from '../GitRequestsUnstageFallback/GitRequestsUnstageFallback.js'
+import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepositoryError.js'
 
 /**
  *
@@ -19,12 +17,11 @@ export const unstage = async ({ cwd, gitPath, file, exec }) => {
     })
   } catch (error) {
     if (isEmptyGitRepositoryError(error)) {
-      const args = ['reset', '--', file]
-      const gitResult = await exec({
-        args,
-        name: 'unstage',
+      await unstageFallback({
         cwd,
         gitPath,
+        exec,
+        file,
       })
       return
     }
