@@ -1,4 +1,5 @@
 import { GitError } from '../GitError/GitError.js'
+import { unstageAllFallback } from '../GitRequestsUnstageAllFallback/GitRequestsUnstageAllFallback.js'
 import { unstageFallback } from '../GitRequestsUnstageFallback/GitRequestsUnstageFallback.js'
 import { isDidNotMatchAnyFilesError } from '../IsDidNotMatchAnyFilesError/IsDidNotMatchAnyFilesError.js'
 import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepositoryError.js'
@@ -21,7 +22,7 @@ export const unstageAll = async ({ cwd, gitPath, exec }) => {
       return
     }
     if (isEmptyGitRepositoryError(error)) {
-      await unstageFallback({
+      await unstageAllFallback({
         cwd,
         gitPath,
         exec,

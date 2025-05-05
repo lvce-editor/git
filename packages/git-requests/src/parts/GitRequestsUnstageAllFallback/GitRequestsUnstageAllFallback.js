@@ -1,8 +1,8 @@
 /**
  *
- * @param {{cwd:string,gitPath:string , file:string, exec:any  }} options
+ * @param {{cwd:string,gitPath:string ,  exec:any  }} options
  */
-export const unstageAllFallback = async ({ cwd, gitPath, file, exec }) => {
+export const unstageAllFallback = async ({ cwd, gitPath, exec }) => {
   const args = ['reset', '.']
   const gitResult = await exec({
     args,
