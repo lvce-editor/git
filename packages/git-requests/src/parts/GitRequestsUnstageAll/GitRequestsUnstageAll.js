@@ -1,6 +1,5 @@
 import { GitError } from '../GitError/GitError.js'
 import { unstageAllFallback } from '../GitRequestsUnstageAllFallback/GitRequestsUnstageAllFallback.js'
-import { unstageFallback } from '../GitRequestsUnstageFallback/GitRequestsUnstageFallback.js'
 import { isDidNotMatchAnyFilesError } from '../IsDidNotMatchAnyFilesError/IsDidNotMatchAnyFilesError.js'
 import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepositoryError.js'
 
