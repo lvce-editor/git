@@ -1,4 +1,7 @@
 import { GitError } from '../GitError/GitError.js'
+import { unstageAllFallback } from '../GitRequestsUnstageAllFallback/GitRequestsUnstageAllFallback.js'
+import { isDidNotMatchAnyFilesError } from '../IsDidNotMatchAnyFilesError/IsDidNotMatchAnyFilesError.js'
+import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepositoryError.js'
 
 /**
  *
@@ -14,7 +17,15 @@ export const unstageAll = async ({ cwd, gitPath, exec }) => {
       gitPath,
     })
   } catch (error) {
-    if (error && error instanceof Error && error.message.includes(`fatal: pathspec '.' did not match any files`)) {
+    if (isDidNotMatchAnyFilesError(error)) {
+      return
+    }
+    if (isEmptyGitRepositoryError(error)) {
+      await unstageAllFallback({
+        cwd,
+        gitPath,
+        exec,
+      })
       return
     }
     throw new GitError(error, 'unstageAll')

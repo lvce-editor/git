@@ -7,13 +7,23 @@ test('git unstage all - error - could not resolve head', async () => {
       stderr: 'fatal: could not resolve HEAD',
       exitCode: 128,
     },
+    reset: {
+      stdout: '',
+      stderr: '',
+      exitCode: 0,
+    },
   }
   const config = {}
   const worker = await testWorker({
     execMap,
     config,
   })
-  await expect(worker.execute('Git.unstageAll', { gitPath: 'git', cwd: '' })).rejects.toThrow(new Error(`Git: fatal: could not resolve HEAD`))
+  await worker.execute('Git.unstageAll', { gitPath: 'git', cwd: '' })
+  const env = {
+    GIT_OPTIONAL_LOCKS: '0',
+    LANG: 'en_US.UTF-8',
+    LC_ALL: 'en_US',
+  }
   expect(worker.invocations).toEqual([
     ['Config.getGitPaths'],
     ['Exec.exec', 'git', ['--version'], {}],
@@ -24,11 +34,17 @@ test('git unstage all - error - could not resolve head', async () => {
       ['restore', '--staged', '.'],
       {
         cwd: '/test',
-        env: {
-          GIT_OPTIONAL_LOCKS: '0',
-          LANG: 'en_US.UTF-8',
-          LC_ALL: 'en_US',
-        },
+        env,
+        reject: false,
+      },
+    ],
+    [
+      'Exec.exec',
+      'git',
+      ['reset', '.'],
+      {
+        cwd: '/test',
+        env,
         reject: false,
       },
     ],
