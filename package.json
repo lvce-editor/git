@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@lerna/legacy-package-management": "^8.2.2",
-    "@lvce-editor/server": "^0.52.15",
+    "@lvce-editor/server": "^0.52.17",
     "@types/jest": "^29.5.14",
     "jest": "^30.0.0",
     "lerna": "^8.2.2",
