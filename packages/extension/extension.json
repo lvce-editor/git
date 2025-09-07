@@ -103,6 +103,16 @@
   "sourceControl": {
     "scheme": ""
   },
+  "source-control-icons": [
+    "icons/dark/status-modified.svg",
+    "icons/dark/status-added.svg",
+    "icons/dark/status-deleted.svg",
+    "icons/dark/status-renamed.svg",
+    "icons/dark/status-copied.svg",
+    "icons/dark/status-untracked.svg",
+    "icons/dark/status-ignored.svg",
+    "icons/dark/status-conflict.svg"
+  ],
   "source-control-actions": {
     "index": [
       {
