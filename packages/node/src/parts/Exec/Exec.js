@@ -1,5 +1,16 @@
 import { execa } from 'execa'
 import * as Assert from '../Assert/Assert.js'
+import { fileURLToPath } from 'node:url'
+
+const getActualOptions = (options) => {
+  if (options && options.cwd && options.cwd.startsWith('file://')) {
+    return {
+      ...options,
+      cwd: fileURLToPath(options.cwd).toString(),
+    }
+  }
+  return options
+}
 
 /**
  *
@@ -12,7 +23,8 @@ export const exec = async (command, args, options) => {
   Assert.string(command)
   Assert.array(args)
   Assert.object(options)
-  const { stdout, stderr, exitCode } = await execa(command, args, options)
+  const actualOptions = getActualOptions(options)
+  const { stdout, stderr, exitCode } = await execa(command, args, actualOptions)
   return {
     stdout,
     stderr,
