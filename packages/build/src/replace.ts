@@ -1,6 +1,12 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
-export const replace = ({ path, occurrence, replacement }) => {
+interface ReplaceOptions {
+  path: string
+  occurrence: string
+  replacement: string
+}
+
+export const replace = ({ path, occurrence, replacement }: ReplaceOptions): void => {
   const oldContent = readFileSync(path, 'utf8')
   const newContent = oldContent.replaceAll(occurrence, replacement)
   writeFileSync(path, newContent)

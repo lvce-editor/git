@@ -2,7 +2,7 @@ import { bundleJs, packageExtension } from '@lvce-editor/package-extension'
 import fs, { readFileSync, writeFileSync } from 'fs'
 import { readdir, rm } from 'fs/promises'
 import path, { join } from 'path'
-import { root } from './root.js'
+import { root } from './root.ts'
 
 const extension = path.join(root, 'packages', 'extension')
 const gitWorker = path.join(root, 'packages', 'git-worker')
@@ -40,7 +40,7 @@ fs.cpSync(node, join(root, 'dist', 'node'), {
   verbatimSymlinks: true,
 })
 
-const replace = async ({ path, occurrence, replacement }) => {
+const replace = async ({ path, occurrence, replacement }: { path: string; occurrence: string; replacement: string }): Promise<void> => {
   const oldContent = readFileSync(path, 'utf-8')
   const newContent = oldContent.replace(occurrence, replacement)
   writeFileSync(path, newContent)
@@ -79,7 +79,7 @@ await replace({
 await rm(join(root, 'dist', 'node', 'node_modules', '.bin'), { recursive: true, force: true })
 await rm(join(root, 'dist', 'node', 'node_modules', 'which', 'bin'), { recursive: true, force: true })
 
-const shouldRemoveNodeModule = (dirent) => {
+const shouldRemoveNodeModule = (dirent: string): boolean => {
   return dirent.endsWith('test') || dirent.endsWith('.d.ts') || dirent.endsWith('.npmignore') || dirent.endsWith('CHANGELOG.md')
 }
 
