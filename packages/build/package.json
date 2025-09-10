@@ -9,7 +9,15 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@lvce-editor/package-extension": "^0.3.0",
-    "@rollup/plugin-typescript": "^11.1.6"
+    "@lvce-editor/package-extension": "^1.6.0",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@babel/preset-typescript": "^7.27.1",
+    "@lvce-editor/verror": "^1.7.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@types/node": "^24.3.1",
+    "esbuild": "^0.25.9",
+    "execa": "^9.6.0",
+    "rollup": "^4.50.1"
   }
 }
