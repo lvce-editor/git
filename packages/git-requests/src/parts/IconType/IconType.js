@@ -1,10 +1,8 @@
-import * as IconRoot from '../IconRoot/IconRoot.js'
-
-export const Modified = `${IconRoot.iconRoot}/status-modified.svg`
-export const Added = `${IconRoot.iconRoot}/status-added.svg`
-export const Deleted = `${IconRoot.iconRoot}/status-deleted.svg`
-export const Renamed = `${IconRoot.iconRoot}/status-renamed.svg`
-export const Copied = `${IconRoot.iconRoot}/status-copied.svg`
-export const Untracked = `${IconRoot.iconRoot}/status-untracked.svg`
-export const Ignored = `${IconRoot.iconRoot}/status-ignored.svg`
-export const Conflict = `${IconRoot.iconRoot}/status-conflict.svg`
+export const Modified = 0
+export const Added = 1
+export const Deleted = 2
+export const Renamed = 3
+export const Copied = 4
+export const Untracked = 5
+export const Ignored = 6
+export const Conflict = 7
