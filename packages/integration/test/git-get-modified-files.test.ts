@@ -19,7 +19,7 @@ test('git get modified files', async () => {
   expect(await worker.execute('Git.getChangedFiles', { gitPath: 'git', cwd: '' })).toEqual([
     {
       file: 'index.ts',
-      icon: '/icons/dark/status-renamed.svg',
+      icon: 3,
       iconTitle: 'Index Renamed',
       status: 6,
       strikeThrough: false,
