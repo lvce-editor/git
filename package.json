@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@lerna/legacy-package-management": "^8.2.4",
-    "@lvce-editor/eslint-config": "^1.61.0",
+    "@lvce-editor/eslint-config": "^1.62.0",
     "@lvce-editor/server": "^0.59.6",
     "@types/jest": "^30.0.0",
     "eslint": "^9.35.0",
