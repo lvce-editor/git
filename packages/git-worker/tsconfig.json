@@ -19,9 +19,5 @@
     "composite": true
   },
   "include": ["src", "test"],
-  "references": [
-    {
-      "path": "../git-requests/tsconfig.json"
-    }
-  ]
+  "references": []
 }
