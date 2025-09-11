@@ -91,9 +91,9 @@ for (const dirent of dirents) {
   }
 }
 
-await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'))
+await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'), false)
 
-await bundleJs(join(root, 'dist', 'src', 'gitMain.js'), join(root, 'dist', 'dist', 'gitMain.js'))
+await bundleJs(join(root, 'dist', 'src', 'gitMain.js'), join(root, 'dist', 'dist', 'gitMain.js'), false)
 
 await packageExtension({
   highestCompression: true,
