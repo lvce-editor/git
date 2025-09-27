@@ -6,7 +6,7 @@ import type { CommandResult } from '../../CommandResult/CommandResult.js'
 export const handleRevParse = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
   const repository = await GitRepository.getRepository(options.cwd)
   const ref = await repository.parseRef(args)
-  
+
   return {
     stdout: ref,
     stderr: '',
