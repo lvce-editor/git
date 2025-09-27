@@ -26,3 +26,4 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
   // TODO error message could be improved, maybe something like Git operations was canceled after 3 seconds
   await expect(dialogErrorMessage).toHaveText('Error: Git push timeout out after 3000ms')
 }
+

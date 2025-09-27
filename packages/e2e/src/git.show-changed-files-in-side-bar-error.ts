@@ -23,3 +23,4 @@ export const test: Test = async ({ FileSystem, Workspace, SideBar, Locator, expe
   // 1. try again button
   // 2. open git log button
 }
+

@@ -15,3 +15,4 @@ export const gitFixtures: GitFixtures = {
     exitCode: 128
   }
 }
+

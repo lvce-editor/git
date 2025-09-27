@@ -1,4 +1,4 @@
-// Git command fixtures for "pull error cannot fast forward multiple branches" test
+// Git command fixtures for "scheme-based routing" test
 import type { GitFixtures } from '../../src/test-helpers/gitMockHelper.js'
 
 export const gitFixtures: GitFixtures = {
@@ -7,10 +7,16 @@ export const gitFixtures: GitFixtures = {
     stderr: '',
     exitCode: 0
   },
-  'pull': {
+  'rev-parse': {
     stdout: '',
-    stderr: 'fatal: Cannot fast-forward to multiple branches.',
-    exitCode: 128
+    stderr: '',
+    exitCode: 0
+  },
+  'status': {
+    stdout: ` M test/file-1.txt
+ M test/file-2.txt
+`,
+    stderr: '',
+    exitCode: 0
   }
 }
-

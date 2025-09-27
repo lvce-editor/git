@@ -16,6 +16,7 @@ import * as CommandUnstage from '../CommandUnstage/CommandUnstage.ts'
 import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
+import * as GitWebExec from 'git-web/src/GitWebExec/GitWebExec.js'
 
 export const commandMap = {
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
@@ -61,4 +62,6 @@ export const commandMap = {
   [GitWorkerCommandType.GitUnstage]: WrappedGitRequests.wrappedGitRequests.unstage,
   [GitWorkerCommandType.GitUnstageAll]: WrappedGitRequests.wrappedGitRequests.unstageAll,
   [GitWorkerCommandType.GitVersion]: WrappedGitRequests.wrappedGitRequests.version,
+  // Git-Web commands for web environments
+  'GitWeb.exec': GitWebExec.exec,
 }

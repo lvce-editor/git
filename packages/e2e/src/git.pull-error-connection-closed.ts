@@ -24,3 +24,4 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
   // TODO error message could be improved, should include full git error message
   await expect(dialogErrorMessage).toHaveText('Error: Git: Connection closed by 0.0.0.0 port 22')
 }
+

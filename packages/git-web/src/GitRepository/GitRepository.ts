@@ -1,0 +1,303 @@
+// Virtual git repository state management for web environments
+
+interface Commit {
+  hash: string
+  author: string
+  date: string
+  message: string
+}
+
+interface Branch {
+  name: string
+  commit: string
+  isCurrent: boolean
+}
+
+interface Ref {
+  name: string
+  hash: string
+  type: 'branch' | 'tag' | 'remote'
+}
+
+// In-memory storage for virtual git repositories
+const repositories = new Map<string, {
+  commits: Commit[]
+  branches: Branch[]
+  refs: Ref[]
+  stagedFiles: string[]
+  workingDirFiles: string[]
+  remotes: Map<string, string>
+  config: Map<string, string>
+}>()
+
+export class GitRepository {
+  private static getRepositoryKey(cwd: string): string {
+    return cwd
+  }
+
+  static async getRepository(cwd: string) {
+    const key = this.getRepositoryKey(cwd)
+
+    if (!repositories.has(key)) {
+      // Initialize a new virtual repository
+      repositories.set(key, {
+        commits: [
+          {
+            hash: 'a1b2c3d4e5f6789012345678901234567890abcd',
+            author: 'User <user@example.com>',
+            date: '2024-01-01 12:00:00 +0000',
+            message: 'Initial commit'
+          }
+        ],
+        branches: [
+          {
+            name: 'main',
+            commit: 'a1b2c3d4e5f6789012345678901234567890abcd',
+            isCurrent: true
+          }
+        ],
+        refs: [
+          {
+            name: 'refs/heads/main',
+            hash: 'a1b2c3d4e5f6789012345678901234567890abcd',
+            type: 'branch'
+          }
+        ],
+        stagedFiles: [],
+        workingDirFiles: ['test/file-1.txt', 'test/file-2.txt'],
+        remotes: new Map([['origin', 'https://github.com/user/repo.git']]),
+        config: new Map([
+          ['user.name', 'User'],
+          ['user.email', 'user@example.com'],
+          ['core.bare', 'false']
+        ])
+      })
+    }
+
+    return new GitRepository(key)
+  }
+
+  constructor(private key: string) {}
+
+  private get repo() {
+    return repositories.get(this.key)!
+  }
+
+  async getStatus(): Promise<string> {
+    const { stagedFiles, workingDirFiles } = this.repo
+
+    let status = ''
+
+    // Show staged files
+    if (stagedFiles.length > 0) {
+      status += 'Changes to be committed:\n'
+      for (const file of stagedFiles) {
+        status += `\tnew file:   ${file}\n`
+      }
+    }
+
+    // Show modified files (simulate some files as modified)
+    const modifiedFiles = workingDirFiles.filter(file =>
+      !stagedFiles.includes(file) && Math.random() > 0.5
+    )
+
+    if (modifiedFiles.length > 0) {
+      status += 'Changes not staged for commit:\n'
+      for (const file of modifiedFiles) {
+        status += `\tmodified:   ${file}\n`
+      }
+    }
+
+    // Show untracked files
+    const untrackedFiles = workingDirFiles.filter(file =>
+      !stagedFiles.includes(file) && !modifiedFiles.includes(file)
+    )
+
+    if (untrackedFiles.length > 0) {
+      status += 'Untracked files:\n'
+      for (const file of untrackedFiles) {
+        status += `\t${file}\n`
+      }
+    }
+
+    return status || 'On branch main\nnothing to commit, working tree clean'
+  }
+
+  async addFiles(files: string[]): Promise<void> {
+    if (files.includes('.')) {
+      // Add all files
+      this.repo.stagedFiles = [...this.repo.workingDirFiles]
+    } else {
+      // Add specific files
+      for (const file of files) {
+        if (!this.repo.stagedFiles.includes(file)) {
+          this.repo.stagedFiles.push(file)
+        }
+      }
+    }
+  }
+
+  async commit(message: string): Promise<string> {
+    const hash = this.generateHash()
+    const commit: Commit = {
+      hash,
+      author: this.repo.config.get('user.name') + ' <' + this.repo.config.get('user.email') + '>',
+      date: new Date().toISOString(),
+      message
+    }
+
+    this.repo.commits.unshift(commit)
+
+    // Update current branch
+    const currentBranch = this.repo.branches.find(b => b.isCurrent)
+    if (currentBranch) {
+      currentBranch.commit = hash
+    }
+
+    // Clear staged files
+    this.repo.stagedFiles = []
+
+    return hash
+  }
+
+  async push(args: string[]): Promise<void> {
+    // Simulate push - in a real implementation, this would push to remote
+    // For now, just simulate success
+  }
+
+  async pull(args: string[]): Promise<void> {
+    // Simulate pull - in a real implementation, this would pull from remote
+    // For now, just simulate success
+  }
+
+  async fetch(args: string[]): Promise<void> {
+    // Simulate fetch - in a real implementation, this would fetch from remote
+    // For now, just simulate success
+  }
+
+  async checkout(branch: string): Promise<void> {
+    // Update current branch
+    for (const b of this.repo.branches) {
+      b.isCurrent = b.name === branch
+    }
+  }
+
+  async listBranches(): Promise<string[]> {
+    return this.repo.branches.map(b => b.isCurrent ? `* ${b.name}` : `  ${b.name}`)
+  }
+
+  async getCommits(): Promise<Commit[]> {
+    return this.repo.commits.slice(0, 10) // Return last 10 commits
+  }
+
+  async getDiff(args: string[]): Promise<string> {
+    // Simulate diff output
+    return `diff --git a/test/file-1.txt b/test/file-1.txt
+index 1234567..abcdefg 100644
+--- a/test/file-1.txt
++++ b/test/file-1.txt
+@@ -1 +1,2 @@
+ test
++modified`
+  }
+
+  async parseRef(args: string[]): Promise<string> {
+    const ref = args[0] || 'HEAD'
+
+    if (ref === 'HEAD') {
+      const currentBranch = this.repo.branches.find(b => b.isCurrent)
+      return currentBranch?.commit || this.repo.commits[0].hash
+    }
+
+    // Look for ref in branches
+    const branch = this.repo.branches.find(b => b.name === ref)
+    if (branch) {
+      return branch.commit
+    }
+
+    // Look for ref in refs
+    const refObj = this.repo.refs.find(r => r.name === ref)
+    if (refObj) {
+      return refObj.hash
+    }
+
+    return ref // Return as-is if not found
+  }
+
+  async listRefs(args: string[]): Promise<string[]> {
+    return this.repo.refs.map(ref => `${ref.name} ${ref.hash} `)
+  }
+
+  async handleRemote(args: string[]): Promise<string> {
+    const subcommand = args[0]
+
+    switch (subcommand) {
+      case 'add':
+        const name = args[1]
+        const url = args[2]
+        if (name && url) {
+          this.repo.remotes.set(name, url)
+          return `Remote '${name}' added with URL '${url}'`
+        }
+        break
+
+      case 'remove':
+      case 'rm':
+        const removeName = args[1]
+        if (removeName && this.repo.remotes.has(removeName)) {
+          this.repo.remotes.delete(removeName)
+          return `Remote '${removeName}' removed`
+        }
+        break
+
+      case 'show':
+        const showName = args[1] || 'origin'
+        const showUrl = this.repo.remotes.get(showName)
+        if (showUrl) {
+          return `${showName}\t${showUrl} (fetch)\n${showName}\t${showUrl} (push)`
+        }
+        break
+
+      case 'list':
+      default:
+        const remotes = Array.from(this.repo.remotes.entries())
+        return remotes.map(([name, url]) => `${name}\t${url}`).join('\n')
+    }
+
+    return ''
+  }
+
+  async handleConfig(args: string[]): Promise<string> {
+    const subcommand = args[0]
+
+    if (subcommand === '--get') {
+      const key = args[1]
+      if (key) {
+        return this.repo.config.get(key) || ''
+      }
+    } else if (subcommand === '--set') {
+      const key = args[1]
+      const value = args[2]
+      if (key && value) {
+        this.repo.config.set(key, value)
+        return ''
+      }
+    } else if (subcommand === '--list') {
+      return Array.from(this.repo.config.entries())
+        .map(([key, value]) => `${key}=${value}`)
+        .join('\n')
+    }
+
+    return ''
+  }
+
+  private generateHash(): string {
+    // Generate a fake git hash
+    const chars = '0123456789abcdef'
+    let result = ''
+    for (let i = 0; i < 40; i++) {
+      result += chars[Math.floor(Math.random() * chars.length)]
+    }
+    return result
+  }
+}

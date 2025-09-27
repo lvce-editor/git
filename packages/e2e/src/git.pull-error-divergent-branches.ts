@@ -21,3 +21,4 @@ export const test: Test = async ({ Command, Extension, FileSystem, Workspace, Qu
   // TODO error message could be improved, vscode has very good/short git error messages
   await expect(dialogErrorMessage).toHaveText('Error: Git: hint: You have divergent branches and need to specify how to reconcile them.')
 }
+

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext"],
+    "module": "NodeNext",
+    "types": [],
+    "moduleResolution": "NodeNext",
+    "rootDir": "src",
+    "outDir": "dist",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmit": false,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "composite": true
+  },
+  "include": ["src"],
+  "exclude": ["dist", "node_modules"]
+}

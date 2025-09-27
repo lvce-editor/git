@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "dependencies": {
+    "git-web": "file:../git-web"
+  },
   "devDependencies": {},
   "jest": {
     "extensionsToTreatAsEsm": [

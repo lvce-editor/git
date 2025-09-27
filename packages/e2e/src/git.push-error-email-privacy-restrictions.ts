@@ -21,3 +21,4 @@ export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, ex
   // TODO error message could be improved, vscode has very good/short git error messages
   await expect(dialogErrorMessage).toHaveText('Error: Git: remote: error: GH007: Your push would publish a private email address.')
 }
+

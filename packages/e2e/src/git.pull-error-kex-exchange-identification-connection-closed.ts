@@ -20,3 +20,4 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
   // TODO error message could be improved, should include full git error message
   await expect(dialogErrorMessage).toHaveText('Error: Git: kex_exchange_identification: Connection closed by remote host')
 }
+

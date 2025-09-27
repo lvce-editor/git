@@ -22,3 +22,4 @@ error: failed to push some refs to 'github.com:user/repo.git`,
     exitCode: 128
   }
 }
+

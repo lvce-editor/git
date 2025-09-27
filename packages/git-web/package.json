@@ -1,0 +1,17 @@
+{
+  "name": "git-web",
+  "version": "0.0.0-dev",
+  "description": "Web-compatible git command emulation",
+  "type": "module",
+  "main": "dist/gitWebMain.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "dependencies": {
+    "@lvce-editor/rpc": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
