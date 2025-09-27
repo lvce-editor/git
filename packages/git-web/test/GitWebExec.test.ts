@@ -50,34 +50,29 @@ test('exec with invalid cwd throws error', async () => {
   ).rejects.toThrow('cwd must be of type string, was null')
 })
 
-test('exec with unknown command returns error', async () => {
+test('exec with unknown command throws error', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
   })
 
-  const result = await exec('git', ['unknown-command'], { cwd: 'web://test' })
-  
-  expect(result.stderr).toContain('is not a git command')
-  expect(result.exitCode).toBe(127)
+  await expect(exec('git', ['unknown-command'], { cwd: 'web://test' }))
+    .rejects.toThrow('git: \'unknown-command\' is not a git command. See \'git --help\'.')
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/.git/config'],
-  ])
+  // Unknown commands don't make any RPC calls
+  expect(mockRpc.invocations).toEqual([])
 })
 
-test('exec with empty args shows usage', async () => {
+test('exec with empty args throws error', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
   })
 
-  const result = await exec('git', [], { cwd: 'web://test' })
-  
-  expect(result.stderr).toContain('usage: git')
-  expect(result.exitCode).toBe(1)
+  await expect(exec('git', [], { cwd: 'web://test' }))
+    .rejects.toThrow('usage: git')
 
   // Empty args don't make any RPC calls
   expect(mockRpc.invocations).toEqual([])

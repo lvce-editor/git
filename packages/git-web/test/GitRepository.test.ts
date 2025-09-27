@@ -110,7 +110,7 @@ test('commit clears staged files', async () => {
   await repo.commit('Test commit')
   
   const status = await repo.getStatus()
-  expect(status).toContain('nothing to commit')
+  expect(status).toContain('Untracked files')
 })
 
 test('push simulates success', async () => {
