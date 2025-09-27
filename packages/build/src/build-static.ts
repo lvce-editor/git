@@ -1,6 +1,6 @@
-import { exportStatic } from '@lvce-editor/shared-process'
 import { cp, readdir } from 'node:fs/promises'
-import path from 'node:path'
+import path, { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { root } from './root.ts'
 
 await import('./build.ts')
@@ -10,7 +10,13 @@ await cp(path.join(root, 'dist'), path.join(root, 'dist2'), {
   force: true,
 })
 
-await exportStatic({
+const sharedProcessPath = join(root, 'packages', 'server', 'node_modules', '@lvce-editor', 'shared-process', 'index.js')
+
+const sharedProcessUrl = pathToFileURL(sharedProcessPath).toString()
+
+const sharedProcess = await import(sharedProcessUrl)
+
+await sharedProcess.exportStatic({
   extensionPath: 'packages/extension',
   testPath: 'packages/e2e',
   root,
