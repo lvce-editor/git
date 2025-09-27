@@ -36,12 +36,13 @@ export const exec = async (gitPath: string, args: string[], options: ExecOptions
   }
 
   try {
-    const result = await GitCommands.executeCommand(args, { cwd })
-
+    const commandOptions: CommandOptions = { cwd }
+    const result = await GitCommands.executeCommand(args, commandOptions)
+    
     if (result.exitCode !== ExitCode.Success) {
       throw new ExecError(result.stdout, result.stderr, result.exitCode)
     }
-
+    
     return result
   } catch (error) {
     if (error instanceof ExecError) {
