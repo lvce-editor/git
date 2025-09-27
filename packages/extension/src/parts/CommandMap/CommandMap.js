@@ -22,6 +22,8 @@ export const getFn = (method) => {
       return Config.showErrorMessage
     case 'FileSystem.exists':
       return Config.exists
+    case 'FileSystem.mkdir':
+      return Config.mkdir
     default:
       throw new CommandNotFoundError(method)
   }
