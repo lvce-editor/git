@@ -1,4 +1,13 @@
-console.log(` M test/file-1.txt
- M test/file-2.txt
-`)
-process.exit(0)
+export const actions = [
+  {
+    type: 'git-init',
+  },
+  {
+    type: 'touch',
+    fileName: 'file-1.txt',
+  },
+  {
+    type: 'touch',
+    fileName: 'file-2.txt',
+  },
+]
