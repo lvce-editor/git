@@ -1,7 +1,14 @@
 import { test, expect } from '@jest/globals'
 import { GitRepository } from '../src/GitRepository/GitRepository.ts'
+import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
 test('getRepository creates new repository for new cwd', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      return false // No git config exists
+    },
+  })
+
   const repo1 = await GitRepository.getRepository('web://test1')
   const repo2 = await GitRepository.getRepository('web://test2')
   
@@ -11,6 +18,12 @@ test('getRepository creates new repository for new cwd', async () => {
 })
 
 test('getRepository returns same instance for same cwd', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      return false // No git config exists
+    },
+  })
+
   const repo1 = await GitRepository.getRepository('web://test')
   const repo2 = await GitRepository.getRepository('web://test')
   
@@ -18,6 +31,21 @@ test('getRepository returns same instance for same cwd', async () => {
 })
 
 test('getStatus returns initial status', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-status')
   const status = await repo.getStatus()
   
@@ -26,6 +54,15 @@ test('getStatus returns initial status', async () => {
 })
 
 test('addFiles with specific files', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-add')
   await repo.addFiles(['file1.txt', 'file2.txt'])
   
@@ -36,6 +73,15 @@ test('addFiles with specific files', async () => {
 })
 
 test('addFiles with dot adds all files', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-add-all')
   await repo.addFiles(['.'])
   
@@ -44,6 +90,24 @@ test('addFiles with dot adds all files', async () => {
 })
 
 test('commit creates new commit', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+    'FileSystem.write'(path: string, content: string) {
+      // Mock write calls
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-commit')
   await repo.addFiles(['test.txt'])
   
@@ -53,6 +117,24 @@ test('commit creates new commit', async () => {
 })
 
 test('commit clears staged files', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+    'FileSystem.write'(path: string, content: string) {
+      // Mock write calls
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-commit-clear')
   await repo.addFiles(['test.txt'])
   await repo.commit('Test commit')
