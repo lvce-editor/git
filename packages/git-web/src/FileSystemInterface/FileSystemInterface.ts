@@ -4,7 +4,7 @@ export interface FileSystem {
   write(path: string, content: string): Promise<void>
   read(path: string): Promise<string>
   readdir(path: string): Promise<string[]>
-  stat(path: string): Promise<{ isFile: boolean; isDirectory: boolean; size: number }>
+  stat(path: string): Promise<{ readonly isFile: boolean; readonly isDirectory: boolean; readonly size: number }>
   unlink(path: string): Promise<void>
   rmdir(path: string): Promise<void>
 }

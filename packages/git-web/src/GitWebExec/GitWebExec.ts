@@ -1,7 +1,7 @@
-import { ExecError } from '../ExecError/ExecError.js'
-import * as ExitCode from '../ExitCode/ExitCode.js'
-import * as GitCommands from '../GitCommands/GitCommands.js'
-import type { CommandOptions } from '../CommandOptions/CommandOptions.js'
+import { ExecError } from '../ExecError/ExecError.ts'
+import * as ExitCode from '../ExitCode/ExitCode.ts'
+import * as GitCommands from '../GitCommands/GitCommands.ts'
+import type { CommandOptions } from '../CommandOptions/CommandOptions.ts'
 
 export interface ExecOptions {
   readonly cwd: string

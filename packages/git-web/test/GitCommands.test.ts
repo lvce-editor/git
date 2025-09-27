@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { executeCommand, registerCommand, unregisterCommand, getRegisteredCommands, isCommandRegistered } from '../src/GitCommands/GitCommands.js'
+import { executeCommand, registerCommand, unregisterCommand, getRegisteredCommands, isCommandRegistered } from '../src/GitCommands/GitCommands.ts'
 
 test('executeCommand with --version', async () => {
   const result = await executeCommand(['--version'], { cwd: 'web://test' })

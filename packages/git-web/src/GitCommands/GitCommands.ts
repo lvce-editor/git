@@ -1,7 +1,7 @@
-import * as ExitCode from '../ExitCode/ExitCode.js'
-import type { CommandOptions } from '../CommandOptions/CommandOptions.js'
-import type { CommandResult } from '../CommandResult/CommandResult.js'
-import type { CommandHandler } from '../CommandHandler/CommandHandler.js'
+import * as ExitCode from '../ExitCode/ExitCode.ts'
+import type { CommandOptions } from '../CommandOptions/CommandOptions.ts'
+import type { CommandResult } from '../CommandResult/CommandResult.ts'
+import type { CommandHandler } from '../CommandHandler/CommandHandler.ts'
 
 export type { CommandOptions, CommandResult, CommandHandler }
 

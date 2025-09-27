@@ -1,6 +1,6 @@
-import { defaultFileSystem } from '../FileSystem/FileSystem.js'
-import { join } from '../Path/Path.js'
-import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.js'
+import { defaultFileSystem } from '../FileSystem/FileSystem.ts'
+import { join } from '../Path/Path.ts'
+import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.ts'
 
 interface Commit {
   readonly hash: string

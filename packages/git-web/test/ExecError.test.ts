@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { ExecError } from '../src/ExecError/ExecError.js'
+import { ExecError } from '../src/ExecError/ExecError.ts'
 
 test('ExecError creates error with message', () => {
   const error = new ExecError('stdout', 'stderr', 1)

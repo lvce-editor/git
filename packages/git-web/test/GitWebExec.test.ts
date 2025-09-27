@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { GitWebExec } from '../src/GitWebExec/GitWebExec.js'
+import { GitWebExec } from '../src/GitWebExec/GitWebExec.ts'
 
 test('exec with valid git command', async () => {
   const result = await GitWebExec.exec('git', ['--version'], { cwd: 'web://test' })

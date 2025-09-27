@@ -1,6 +1,6 @@
-import * as ExitCode from '../ExitCode/ExitCode.js'
-import type { CommandOptions } from '../CommandOptions/CommandOptions.js'
-import type { CommandResult } from '../CommandResult/CommandResult.js'
+import * as ExitCode from '../ExitCode/ExitCode.ts'
+import type { CommandOptions } from '../CommandOptions/CommandOptions.ts'
+import type { CommandResult } from '../CommandResult/CommandResult.ts'
 
 export const handleVersion = async (): Promise<CommandResult> => {
   return {

@@ -1,7 +1,7 @@
 import { test, expect } from '@jest/globals'
-import { RpcFileSystem } from '../src/FileSystem/FileSystem.js'
-import type { FileSystem } from '../src/FileSystemInterface/FileSystemInterface.js'
-import { createMockRpc, setupRpcMock, teardownRpcMock, createFileSystemCommandMap } from './test-helpers/mockRpcHelper.js'
+import { RpcFileSystem } from '../src/FileSystem/FileSystem.ts'
+import type { FileSystem } from '../src/FileSystemInterface/FileSystemInterface.ts'
+import { createMockRpc, setupRpcMock, teardownRpcMock, createFileSystemCommandMap } from './test-helpers/mockRpcHelper.ts'
 
 let mockRpc: ReturnType<typeof createMockRpc>
 

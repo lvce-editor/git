@@ -1,8 +1,8 @@
-import * as ExitCode from '../ExitCode/ExitCode.js'
-import { defaultFileSystem } from '../FileSystem/FileSystem.js'
-import { join } from '../Path/Path.js'
-import type { CommandOptions } from '../CommandOptions/CommandOptions.js'
-import type { CommandResult } from '../CommandResult/CommandResult.js'
+import * as ExitCode from '../ExitCode/ExitCode.ts'
+import { defaultFileSystem } from '../FileSystem/FileSystem.ts'
+import { join } from '../Path/Path.ts'
+import type { CommandOptions } from '../CommandOptions/CommandOptions.ts'
+import type { CommandResult } from '../CommandResult/CommandResult.ts'
 
 /**
  * Initialize a new repository

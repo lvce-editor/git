@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { GitRepository } from '../src/GitRepository/GitRepository.js'
+import { GitRepository } from '../src/GitRepository/GitRepository.ts'
 
 test('getRepository creates new repository for new cwd', async () => {
   const repo1 = await GitRepository.getRepository('web://test1')

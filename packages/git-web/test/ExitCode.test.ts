@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import * as ExitCode from '../src/ExitCode/ExitCode.js'
+import * as ExitCode from '../src/ExitCode/ExitCode.ts'
 
 test('Success is 0', () => {
   expect(ExitCode.Success).toBe(0)
