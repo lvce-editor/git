@@ -3,7 +3,11 @@ import { handleAdd } from '../src/AddCommand/AddCommand.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
 test.only('handleAdd with specific files', async () => {
-  const mockRpc = registerMockRpc({})
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'() {
+      return true
+    },
+  })
   const result = await handleAdd(['file1.txt', 'file2.txt'], { cwd: 'web://test-add' })
 
   expect(result).toEqual({
