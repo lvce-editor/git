@@ -301,13 +301,19 @@ export class GitRepository {
         
         if (stat.isFile) {
           // Add relative path from working directory
-          // Ensure we have the correct base directory length
           if (fullPath.startsWith(baseDir + '/')) {
             const relativePath = fullPath.substring(baseDir.length + 1)
             files.push(relativePath)
           } else if (fullPath.startsWith(baseDir)) {
             const relativePath = fullPath.substring(baseDir.length)
             files.push(relativePath)
+          } else {
+            // Try to handle the protocol difference (web:// vs web:/)
+            const normalizedBaseDir = baseDir.replace('://', ':/')
+            if (fullPath.startsWith(normalizedBaseDir + '/')) {
+              const relativePath = fullPath.substring(normalizedBaseDir.length + 1)
+              files.push(relativePath)
+            }
           }
         } else if (stat.isDirectory) {
           await this.collectFiles(fullPath, files, baseDir)

@@ -26,10 +26,7 @@ test('handleAdd with specific files', async () => {
       return ''
     },
     'FileSystem.write'(path: string, content: string) {
-      // Just log for debugging, don't assert here
-      if (path.endsWith('.git/index')) {
-        console.log('Index content:', content)
-      }
+      // Mock implementation - no assertions here
     },
     'FileSystem.readdir'(path: string) {
       if (path === 'web://test-add') {
@@ -84,10 +81,7 @@ test('handleAdd with dot adds all files', async () => {
       return ''
     },
     'FileSystem.write'(path: string, content: string) {
-      if (path.endsWith('.git/index')) {
-        // Just log for debugging, don't assert here
-        console.log('Index content:', content)
-      }
+      // Mock implementation - no assertions here
     },
     'FileSystem.readdir'(path: string) {
       if (path === 'web://test-add-all') {
@@ -108,6 +102,9 @@ test('handleAdd with dot adds all files', async () => {
   expect(result.stdout).toBe('')
   expect(result.stderr).toBe('')
   expect(result.exitCode).toBe(0)
+  
+  // Check all invocations
+  console.log('All mockRpc invocations:', mockRpc.invocations)
   
   // Verify filesystem operations
   expect(mockRpc.invocations).toContainEqual(['FileSystem.exists', 'web:/test-add-all/.git/config'])
