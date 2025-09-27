@@ -1,3 +1,1 @@
-import * as Main from './Main/Main.ts'
-
-Main.Main()
+export * from './CommandMap/CommandMap.ts'
