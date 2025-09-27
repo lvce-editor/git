@@ -59,6 +59,7 @@ main()
   await expect(statusBarItemSyncIcon).toHaveClass('StatusBarIcon AnimationSpin')
 
   // wait for some time, not sure how long, then spin animation should be over
+  // @ts-ignore
   await expect(statusBarItemSyncIcon).toHaveClass('StatusBarIcon', {
     timeout: 10_000,
   })

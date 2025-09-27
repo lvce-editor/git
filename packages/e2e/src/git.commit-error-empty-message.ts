@@ -14,6 +14,7 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, SideBar, Key
   })
   await SideBar.open('Source Control')
   const sourceControlInput = Locator('[aria-label="Source Control Input"]')
+  // @ts-ignore
   await sourceControlInput.focus()
 
   // act
