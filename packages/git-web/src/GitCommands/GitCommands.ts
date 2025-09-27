@@ -3,8 +3,6 @@ import type { CommandOptions } from '../CommandOptions/CommandOptions.ts'
 import type { CommandResult } from '../CommandResult/CommandResult.ts'
 import * as ExitCode from '../ExitCode/ExitCode.ts'
 
-
-
 // Command registry - starts empty
 const commandRegistry = new Map<string, CommandHandler>()
 
@@ -43,8 +41,9 @@ export const executeCommand = async (args: string[], options: CommandOptions): P
   if (!args || args.length === 0) {
     return {
       stdout: '',
-      stderr: 'usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n           <command> [<args>]',
-      exitCode: ExitCode.GeneralError
+      stderr:
+        'usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n           <command> [<args>]',
+      exitCode: ExitCode.GeneralError,
     }
   }
 
@@ -58,7 +57,7 @@ export const executeCommand = async (args: string[], options: CommandOptions): P
       return {
         stdout: '',
         stderr: `git: '${command}' is not a git command. See 'git --help'.`,
-        exitCode: ExitCode.CommandNotFound
+        exitCode: ExitCode.CommandNotFound,
       }
     }
 
@@ -67,11 +66,11 @@ export const executeCommand = async (args: string[], options: CommandOptions): P
     return {
       stdout: '',
       stderr: error instanceof Error ? error.message : String(error),
-      exitCode: ExitCode.GeneralError
+      exitCode: ExitCode.GeneralError,
     }
   }
 }
 
-export {type CommandOptions} from '../CommandOptions/CommandOptions.ts'
-export {type CommandResult} from '../CommandResult/CommandResult.ts'
-export {type CommandHandler} from '../CommandHandler/CommandHandler.ts'
+export { type CommandOptions } from '../CommandOptions/CommandOptions.ts'
+export { type CommandResult } from '../CommandResult/CommandResult.ts'
+export { type CommandHandler } from '../CommandHandler/CommandHandler.ts'

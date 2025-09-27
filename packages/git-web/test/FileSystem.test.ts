@@ -14,9 +14,7 @@ test('RpcFileSystem exists returns true when file exists', async () => {
   const result = await fs.exists('/test/path')
 
   expect(result).toBe(true)
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', '/test/path']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', '/test/path']])
 })
 
 test('RpcFileSystem exists returns false when file does not exist', async () => {
@@ -30,9 +28,7 @@ test('RpcFileSystem exists returns false when file does not exist', async () => 
   const result = await fs.exists('/nonexistent/path')
 
   expect(result).toBe(false)
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', '/nonexistent/path']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', '/nonexistent/path']])
 })
 
 test('RpcFileSystem exists handles errors gracefully', async () => {
@@ -46,9 +42,7 @@ test('RpcFileSystem exists handles errors gracefully', async () => {
   const result = await fs.exists('/error/path')
 
   expect(result).toBe(false)
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', '/error/path']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', '/error/path']])
 })
 
 test('RpcFileSystem mkdir calls RPC', async () => {
@@ -61,9 +55,7 @@ test('RpcFileSystem mkdir calls RPC', async () => {
   const fs = new RpcFileSystem()
   await fs.mkdir('/test/dir')
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.mkdir', '/test/dir']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.mkdir', '/test/dir']])
 })
 
 test('RpcFileSystem write calls RPC', async () => {
@@ -76,9 +68,7 @@ test('RpcFileSystem write calls RPC', async () => {
   const fs = new RpcFileSystem()
   await fs.write('/test/file', 'content')
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.write', '/test/file', 'content']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.write', '/test/file', 'content']])
 })
 
 test('RpcFileSystem read calls RPC', async () => {
@@ -92,9 +82,7 @@ test('RpcFileSystem read calls RPC', async () => {
   const result = await fs.read('/test/file')
 
   expect(result).toBe('file content')
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.read', '/test/file']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.read', '/test/file']])
 })
 
 test('RpcFileSystem readdir calls RPC', async () => {
@@ -108,9 +96,7 @@ test('RpcFileSystem readdir calls RPC', async () => {
   const result = await fs.readdir('/test/dir')
 
   expect(result).toEqual(['file1.txt', 'file2.txt'])
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.readdir', '/test/dir']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.readdir', '/test/dir']])
 })
 
 test('RpcFileSystem stat calls RPC', async () => {
@@ -124,9 +110,7 @@ test('RpcFileSystem stat calls RPC', async () => {
   const result = await fs.stat('/test/file')
 
   expect(result).toEqual({ isFile: true, isDirectory: false, size: 1024 })
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.stat', '/test/file']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.stat', '/test/file']])
 })
 
 test('RpcFileSystem unlink calls RPC', async () => {
@@ -139,9 +123,7 @@ test('RpcFileSystem unlink calls RPC', async () => {
   const fs = new RpcFileSystem()
   await fs.unlink('/test/file')
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.unlink', '/test/file']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.unlink', '/test/file']])
 })
 
 test('RpcFileSystem rmdir calls RPC', async () => {
@@ -154,7 +136,5 @@ test('RpcFileSystem rmdir calls RPC', async () => {
   const fs = new RpcFileSystem()
   await fs.rmdir('/test/dir')
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.rmdir', '/test/dir']
-  ])
+  expect(mockRpc.invocations).toEqual([['FileSystem.rmdir', '/test/dir']])
 })

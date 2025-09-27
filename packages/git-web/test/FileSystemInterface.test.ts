@@ -44,14 +44,14 @@ class MockFileSystem implements FileSystem {
       return {
         isFile: true,
         isDirectory: false,
-        size: this.files.get(path)!.length
+        size: this.files.get(path)!.length,
       }
     }
     if (this.directories.has(path)) {
       return {
         isFile: false,
         isDirectory: true,
-        size: 0
+        size: 0,
       }
     }
     throw new Error(`Path not found: ${path}`)

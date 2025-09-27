@@ -47,9 +47,9 @@ test('all exit codes are numbers', () => {
     ExitCode.InvalidExitArgument,
     ExitCode.FatalError,
     ExitCode.TerminatedByCtrlC,
-    ExitCode.OutOfRange
+    ExitCode.OutOfRange,
   ]
-  
+
   for (const code of codes) {
     expect(typeof code).toBe('number')
     expect(Number.isInteger(code)).toBe(true)

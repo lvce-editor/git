@@ -22,15 +22,18 @@ interface Ref {
 }
 
 // In-memory storage for virtual git repositories (fallback when filesystem is not available)
-const repositories = new Map<string, {
-  commits: Commit[]
-  branches: Branch[]
-  refs: Ref[]
-  stagedFiles: string[]
-  workingDirFiles: string[]
-  remotes: Map<string, string>
-  config: Map<string, string>
-}>()
+const repositories = new Map<
+  string,
+  {
+    commits: Commit[]
+    branches: Branch[]
+    refs: Ref[]
+    stagedFiles: string[]
+    workingDirFiles: string[]
+    remotes: Map<string, string>
+    config: Map<string, string>
+  }
+>()
 
 export class GitRepository {
   private static getRepositoryKey(cwd: string): string {
@@ -56,22 +59,22 @@ export class GitRepository {
             hash: 'a1b2c3d4e5f6789012345678901234567890abcd',
             author: 'User <user@example.com>',
             date: '2024-01-01 12:00:00 +0000',
-            message: 'Initial commit'
-          }
+            message: 'Initial commit',
+          },
         ],
         branches: [
           {
             name: 'main',
             commit: 'a1b2c3d4e5f6789012345678901234567890abcd',
-            isCurrent: true
-          }
+            isCurrent: true,
+          },
         ],
         refs: [
           {
             name: 'refs/heads/main',
             hash: 'a1b2c3d4e5f6789012345678901234567890abcd',
-            type: 'branch'
-          }
+            type: 'branch',
+          },
         ],
         stagedFiles: [],
         workingDirFiles: ['test/file-1.txt', 'test/file-2.txt'],
@@ -79,15 +82,18 @@ export class GitRepository {
         config: new Map([
           ['user.name', 'User'],
           ['user.email', 'user@example.com'],
-          ['core.bare', 'false']
-        ])
+          ['core.bare', 'false'],
+        ]),
       })
     }
 
     return new GitRepository(key, false) // Use in-memory storage
   }
 
-  constructor(private key: string, private useFileSystem: boolean = false) {}
+  constructor(
+    private key: string,
+    private useFileSystem: boolean = false,
+  ) {}
 
   private get repo() {
     return repositories.get(this.key)!
@@ -122,7 +128,7 @@ export class GitRepository {
       }
 
       return config
-    } catch (error) {
+    } catch {
       return new Map()
     }
   }
@@ -136,7 +142,7 @@ export class GitRepository {
       const headPath = join(this.gitdir, 'HEAD')
       const content = await defaultFileSystem.read(headPath)
       return content.trim()
-    } catch (error) {
+    } catch {
       return 'refs/heads/main'
     }
   }
@@ -159,9 +165,7 @@ export class GitRepository {
     }
 
     // Show modified files (simulate some files as modified)
-    const modifiedFiles = workingDirFiles.filter(file =>
-      !stagedFiles.includes(file) && Math.random() > 0.5
-    )
+    const modifiedFiles = workingDirFiles.filter((file) => !stagedFiles.includes(file) && Math.random() > 0.5)
 
     if (modifiedFiles.length > 0) {
       status += 'Changes not staged for commit:\n'
@@ -171,9 +175,7 @@ export class GitRepository {
     }
 
     // Show untracked files
-    const untrackedFiles = workingDirFiles.filter(file =>
-      !stagedFiles.includes(file) && !modifiedFiles.includes(file)
-    )
+    const untrackedFiles = workingDirFiles.filter((file) => !stagedFiles.includes(file) && !modifiedFiles.includes(file))
 
     if (untrackedFiles.length > 0) {
       status += 'Untracked files:\n'
@@ -198,7 +200,7 @@ export class GitRepository {
       status += 'nothing to commit, working tree clean'
 
       return status
-    } catch (error) {
+    } catch {
       return 'On branch main\nnothing to commit, working tree clean'
     }
   }
@@ -241,7 +243,7 @@ export class GitRepository {
       // Parse existing staged files from index (simplified format)
       const stagedFiles = new Set<string>()
       if (indexContent) {
-        const lines = indexContent.split('\n').filter(line => line.trim())
+        const lines = indexContent.split('\n').filter((line) => line.trim())
         for (const line of lines) {
           if (line.startsWith('file:')) {
             stagedFiles.add(line.slice(5)) // Remove 'file:' prefix
@@ -264,14 +266,12 @@ export class GitRepository {
       }
 
       // Write updated index
-      const newIndexContent = [...stagedFiles]
-        .map(file => `file:${file}`)
-        .join('\n') + '\n'
+      const newIndexContent = [...stagedFiles].map((file) => `file:${file}`).join('\n') + '\n'
 
       await defaultFileSystem.write(indexPath, newIndexContent)
-        } catch (error) {
-          // In a real implementation, this might throw or handle the error differently
-        }
+    } catch {
+      // In a real implementation, this might throw or handle the error differently
+    }
   }
 
   private async getWorkingDirFiles(): Promise<string[]> {
@@ -280,7 +280,7 @@ export class GitRepository {
       const files: string[] = []
       await this.collectFiles(this.key, files, this.key)
       return files
-    } catch (error) {
+    } catch {
       return []
     }
   }
@@ -314,9 +314,9 @@ export class GitRepository {
           await this.collectFiles(fullPath, files, baseDir)
         }
       }
-        } catch (error) {
-          // Ignore errors when collecting files
-        }
+    } catch {
+      // Ignore errors when collecting files
+    }
   }
 
   async commit(message: string): Promise<string> {
@@ -329,13 +329,13 @@ export class GitRepository {
         hash,
         author: this.repo.config.get('user.name') + ' <' + this.repo.config.get('user.email') + '>',
         date: new Date().toISOString(),
-        message
+        message,
       }
 
       this.repo.commits.unshift(commit)
 
       // Update current branch
-      const currentBranch = this.repo.branches.find(b => b.isCurrent)
+      const currentBranch = this.repo.branches.find((b) => b.isCurrent)
       if (currentBranch) {
         currentBranch.commit = hash
       }
@@ -361,7 +361,7 @@ export class GitRepository {
       // - Create the commit object in objects/
       // - Update the index
       // - Handle the working directory
-    } catch (error) {
+    } catch {
       // In a real implementation, this might throw or handle the error differently
     }
   }
@@ -389,7 +389,7 @@ export class GitRepository {
   }
 
   async listBranches(): Promise<string[]> {
-    return this.repo.branches.map(b => b.isCurrent ? `* ${b.name}` : `  ${b.name}`)
+    return this.repo.branches.map((b) => (b.isCurrent ? `* ${b.name}` : `  ${b.name}`))
   }
 
   async getCommits(): Promise<Commit[]> {
@@ -411,18 +411,18 @@ index 1234567..abcdefg 100644
     const ref = args[0] || 'HEAD'
 
     if (ref === 'HEAD') {
-      const currentBranch = this.repo.branches.find(b => b.isCurrent)
+      const currentBranch = this.repo.branches.find((b) => b.isCurrent)
       return currentBranch?.commit || this.repo.commits[0].hash
     }
 
     // Look for ref in branches
-    const branch = this.repo.branches.find(b => b.name === ref)
+    const branch = this.repo.branches.find((b) => b.name === ref)
     if (branch) {
       return branch.commit
     }
 
     // Look for ref in refs
-    const refObj = this.repo.refs.find(r => r.name === ref)
+    const refObj = this.repo.refs.find((r) => r.name === ref)
     if (refObj) {
       return refObj.hash
     }
@@ -431,7 +431,7 @@ index 1234567..abcdefg 100644
   }
 
   async listRefs(args: string[]): Promise<string[]> {
-    return this.repo.refs.map(ref => `${ref.name} ${ref.hash} `)
+    return this.repo.refs.map((ref) => `${ref.name} ${ref.hash} `)
   }
 
   async handleRemote(args: string[]): Promise<string> {
@@ -477,30 +477,28 @@ index 1234567..abcdefg 100644
     const subcommand = args[0]
 
     switch (subcommand) {
-    case '--get': {
-      const key = args[1]
-      if (key) {
-        return this.repo.config.get(key) || ''
+      case '--get': {
+        const key = args[1]
+        if (key) {
+          return this.repo.config.get(key) || ''
+        }
+
+        break
       }
-    
-    break;
-    }
-    case '--set': {
-      const key = args[1]
-      const value = args[2]
-      if (key && value) {
-        this.repo.config.set(key, value)
-        return ''
+      case '--set': {
+        const key = args[1]
+        const value = args[2]
+        if (key && value) {
+          this.repo.config.set(key, value)
+          return ''
+        }
+
+        break
       }
-    
-    break;
-    }
-    case '--list': {
-      return [...this.repo.config.entries()]
-        .map(([key, value]) => `${key}=${value}`)
-        .join('\n')
-    }
-    // No default
+      case '--list': {
+        return [...this.repo.config.entries()].map(([key, value]) => `${key}=${value}`).join('\n')
+      }
+      // No default
     }
 
     return ''

@@ -5,17 +5,13 @@ export class RpcFileSystem implements FileSystem {
   async exists(path: string): Promise<boolean> {
     try {
       return await Rpc.invoke('FileSystem.exists', path)
-    } catch (error) {
+    } catch {
       return false
     }
   }
 
   async mkdir(path: string): Promise<void> {
-    try {
-      await Rpc.invoke('FileSystem.mkdir', path)
-    } catch (error) {
-      throw error
-    }
+    await Rpc.invoke('FileSystem.mkdir', path)
   }
 
   async write(path: string, content: string): Promise<void> {
@@ -37,7 +33,7 @@ export class RpcFileSystem implements FileSystem {
   async readdir(path: string): Promise<string[]> {
     try {
       return await Rpc.invoke('FileSystem.readdir', path)
-    } catch (error) {
+    } catch {
       return []
     }
   }
@@ -45,7 +41,7 @@ export class RpcFileSystem implements FileSystem {
   async stat(path: string): Promise<FileStat> {
     try {
       return await Rpc.invoke('FileSystem.stat', path)
-    } catch (error) {
+    } catch {
       return { isFile: false, isDirectory: false, size: 0 }
     }
   }
