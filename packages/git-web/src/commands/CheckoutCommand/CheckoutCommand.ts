@@ -7,7 +7,7 @@ export const handleCheckout = async (args: string[], options: CommandOptions): P
   const repository = await GitRepository.getRepository(options.cwd)
   const branch = args[0] || 'main'
   await repository.checkout(branch)
-  
+
   return {
     stdout: `Switched to branch '${branch}'`,
     stderr: '',
