@@ -278,8 +278,8 @@ test('parseRef with unknown ref returns as-is', async () => {
       return true // Git config exists, use filesystem mode
     },
     'FileSystem.read'(path: string) {
-      // Return empty for unknown refs
-      return ''
+      // Throw error for unknown refs to simulate file not found
+      throw new Error('File not found')
     },
   })
 
