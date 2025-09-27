@@ -1,23 +1,22 @@
 import { test, expect } from '@jest/globals'
 import { handleInit } from '../src/InitCommand/InitCommand.ts'
-import { createMockRpc, setupRpcMock, teardownRpcMock, createFileSystemCommandMap } from '../test-helpers/mockRpcHelper.ts'
-
-let mockRpc: ReturnType<typeof createMockRpc>
-
-test.beforeEach(() => {
-  mockRpc = createMockRpc(createFileSystemCommandMap())
-  setupRpcMock(mockRpc)
-})
-
-test.afterEach(() => {
-  teardownRpcMock()
-})
+import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
 test('handleInit returns success message', async () => {
-  // Mock filesystem calls
-  mockRpc.commandMap['FileSystem.exists'] = jest.fn().mockResolvedValue(false) // config doesn't exist
-  mockRpc.commandMap['FileSystem.mkdir'] = jest.fn().mockResolvedValue(undefined) // mkdir calls
-  mockRpc.commandMap['FileSystem.write'] = jest.fn().mockResolvedValue(undefined) // write calls
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return false // config doesn't exist
+      }
+      return false
+    },
+    'FileSystem.mkdir'(path: string) {
+      // Mock mkdir calls
+    },
+    'FileSystem.write'(path: string, content: string) {
+      // Mock write calls
+    },
+  })
 
   const result = await handleInit([], { cwd: 'web://test' })
 
@@ -26,6 +25,18 @@ test('handleInit returns success message', async () => {
     stderr: '',
     exitCode: 0,
   })
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+    ['FileSystem.mkdir', 'web:/test/.git/hooks'],
+    ['FileSystem.mkdir', 'web:/test/.git/info'],
+    ['FileSystem.mkdir', 'web:/test/.git/objects/info'],
+    ['FileSystem.mkdir', 'web:/test/.git/objects/pack'],
+    ['FileSystem.mkdir', 'web:/test/.git/refs/heads'],
+    ['FileSystem.mkdir', 'web:/test/.git/refs/tags'],
+    ['FileSystem.write', 'web:/test/.git/config', expect.stringContaining('[core]')],
+    ['FileSystem.write', 'web:/test/.git/HEAD', 'ref: refs/heads/main\n'],
+  ])
 })
 
 test('handleInit with --bare flag', async () => {
