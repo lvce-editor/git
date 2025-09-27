@@ -1,6 +1,7 @@
 import { ExecError } from '../ExecError/ExecError.js'
 import * as ExitCode from '../ExitCode/ExitCode.js'
 import * as GitCommands from '../GitCommands/GitCommands.js'
+import type { CommandOptions } from '../CommandOptions/CommandOptions.js'
 
 export interface ExecOptions {
   cwd: string

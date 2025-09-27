@@ -9,7 +9,13 @@
     "build:watch": "tsc --watch"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@jest/globals": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
   "jest": {
     "extensionsToTreatAsEsm": [
       ".ts"
