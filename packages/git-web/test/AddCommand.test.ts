@@ -49,7 +49,18 @@ test('handleAdd with specific files', async () => {
     exitCode: 0,
   })
 
-  expect(mockRpc.invocations).toEqual([])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test-add/.git/config'],
+    ['FileSystem.read', 'web:/test-add/.git/index'],
+    [
+      'FileSystem.write',
+      'web:/test-add/.git/index',
+      `file:existing.txt
+    file:file1.txt
+    file:file2.txt
+    `,
+    ],
+  ])
 })
 
 test('handleAdd with dot adds all files', async () => {
