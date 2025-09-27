@@ -1,9 +1,9 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
 interface ReplaceOptions {
-  path: string
-  occurrence: string
-  replacement: string
+  readonly path: string
+  readonly occurrence: string
+  readonly replacement: string
 }
 
 export const replace = ({ path, occurrence, replacement }: ReplaceOptions): void => {
