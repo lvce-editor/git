@@ -1,4 +1,4 @@
-import * as Rpc from '@lvce-editor/rpc'
+import * as Rpc from '../Rpc/Rpc.ts'
 import { RpcId } from '../RpcId/RpcId.ts'
 import type { FileSystem, FileStat } from '../FileSystemInterface/FileSystemInterface.ts'
 
