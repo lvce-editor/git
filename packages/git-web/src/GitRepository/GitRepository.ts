@@ -40,7 +40,7 @@ export class GitRepository {
     return cwd
   }
 
-  static async getRepository(cwd: string) {
+  static async getRepository(cwd: string): Promise<GitRepository> {
     const key = this.getRepositoryKey(cwd)
 
     // Try to use real filesystem first

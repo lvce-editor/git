@@ -15,19 +15,11 @@ export class RpcFileSystem implements FileSystem {
   }
 
   async write(path: string, content: string): Promise<void> {
-    try {
-      await Rpc.invoke('FileSystem.write', path, content)
-    } catch (error) {
-      throw error
-    }
+    await Rpc.invoke('FileSystem.write', path, content)
   }
 
   async read(path: string): Promise<string> {
-    try {
-      return await Rpc.invoke('FileSystem.read', path)
-    } catch (error) {
-      throw error
-    }
+    return await Rpc.invoke('FileSystem.read', path)
   }
 
   async readdir(path: string): Promise<string[]> {
@@ -47,19 +39,11 @@ export class RpcFileSystem implements FileSystem {
   }
 
   async unlink(path: string): Promise<void> {
-    try {
-      await Rpc.invoke('FileSystem.unlink', path)
-    } catch (error) {
-      throw error
-    }
+    await Rpc.invoke('FileSystem.unlink', path)
   }
 
   async rmdir(path: string): Promise<void> {
-    try {
-      await Rpc.invoke('FileSystem.rmdir', path)
-    } catch (error) {
-      throw error
-    }
+    await Rpc.invoke('FileSystem.rmdir', path)
   }
 }
 
