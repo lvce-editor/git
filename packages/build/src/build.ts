@@ -7,6 +7,7 @@ import { root } from './root.ts'
 const extension = path.join(root, 'packages', 'extension')
 const gitWorker = path.join(root, 'packages', 'git-worker')
 const gitRequests = path.join(root, 'packages', 'git-requests')
+const gitWeb = path.join(root, 'packages', 'git-web')
 const node = path.join(root, 'packages', 'node')
 
 fs.rmSync(join(root, 'dist'), { recursive: true, force: true })
@@ -32,6 +33,10 @@ fs.cpSync(join(gitWorker, 'src'), join(root, 'dist', 'git-worker', 'src'), {
 })
 
 fs.cpSync(join(gitRequests, 'src'), join(root, 'dist', 'git-requests', 'src'), {
+  recursive: true,
+})
+
+fs.cpSync(join(gitWeb, 'src'), join(root, 'dist', 'git-web', 'src'), {
   recursive: true,
 })
 
@@ -92,6 +97,8 @@ for (const dirent of dirents) {
 }
 
 await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'), false)
+
+await bundleJs(join(root, 'dist', 'git-web', 'src', 'gitWebMain.ts'), join(root, 'dist', 'git-web', 'dist', 'gitWebMain.js'), false)
 
 await bundleJs(join(root, 'dist', 'src', 'gitMain.js'), join(root, 'dist', 'dist', 'gitMain.js'), false)
 
