@@ -227,7 +227,7 @@ export class GitRepository {
     }
   }
 
-  private async addFilesToFileSystem(files: string[]): Promise<void> {
+  private async addFilesToFileSystem(files: readonly string[]): Promise<void> {
     try {
       const indexPath = join(this.gitdir, 'index')
 
@@ -366,12 +366,12 @@ export class GitRepository {
     }
   }
 
-  async push(args: string[]): Promise<void> {
+  async push(args: readonly string[]): Promise<void> {
     // Simulate push - in a real implementation, this would push to remote
     // For now, just simulate success
   }
 
-  async pull(args: string[]): Promise<void> {
+  async pull(args: readonly string[]): Promise<void> {
     // Simulate pull - in a real implementation, this would pull from remote
     // For now, just simulate success
   }
