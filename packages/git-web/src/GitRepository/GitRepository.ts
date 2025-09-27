@@ -231,7 +231,7 @@ export class GitRepository {
   private async addFilesToFileSystem(files: string[]): Promise<void> {
     try {
       const indexPath = join(this.gitdir, 'index')
-      
+
       // Read current index (simplified - in real git this would be a binary format)
       let indexContent = ''
       try {
@@ -270,7 +270,7 @@ export class GitRepository {
       const newIndexContent = Array.from(stagedFiles)
         .map(file => `file:${file}`)
         .join('\n') + '\n'
-      
+
       await defaultFileSystem.write(indexPath, newIndexContent)
     } catch (error) {
       console.warn('Failed to add files to filesystem:', error)
@@ -295,10 +295,10 @@ export class GitRepository {
       const entries = await defaultFileSystem.readdir(dir)
       for (const entry of entries) {
         if (entry === '.git') continue // Skip .git directory
-        
+
         const fullPath = join(dir, entry)
         const stat = await defaultFileSystem.stat(fullPath)
-        
+
         if (stat.isFile) {
           // Add relative path from working directory
           if (fullPath.startsWith(baseDir + '/')) {
