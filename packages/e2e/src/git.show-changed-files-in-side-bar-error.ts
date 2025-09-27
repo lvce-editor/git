@@ -5,13 +5,13 @@ export const skip = true
 
 export const name = 'git.show-changed-files-in-side-bar-error'
 
-export const test: Test = async ({ FileSystem, Workspace, SideBar, Locator, expect }) => {
+export const test: Test = async ({ Command, FileSystem, Workspace, SideBar, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
 
   // act
-  await SideBar.open('Source Control')
+  await Command.execute('SideBar.open', 'Source Control')
 
   //  assert
   const error = Locator('.Error')
