@@ -1,5 +1,5 @@
 export interface CommandResult {
-  stdout: string
-  stderr: string
-  exitCode: number
+  readonly stdout: string
+  readonly stderr: string
+  readonly exitCode: number
 }

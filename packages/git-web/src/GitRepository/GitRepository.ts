@@ -3,22 +3,22 @@ import { join } from '../Path/Path.js'
 import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.js'
 
 interface Commit {
-  hash: string
-  author: string
-  date: string
-  message: string
+  readonly hash: string
+  readonly author: string
+  readonly date: string
+  readonly message: string
 }
 
 interface Branch {
-  name: string
-  commit: string
-  isCurrent: boolean
+  readonly name: string
+  readonly commit: string
+  readonly isCurrent: boolean
 }
 
 interface Ref {
-  name: string
-  hash: string
-  type: 'branch' | 'tag' | 'remote'
+  readonly name: string
+  readonly hash: string
+  readonly type: 'branch' | 'tag' | 'remote'
 }
 
 // In-memory storage for virtual git repositories (fallback when filesystem is not available)

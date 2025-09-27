@@ -1,3 +1,3 @@
 export interface CommandOptions {
-  cwd: string
+  readonly cwd: string
 }

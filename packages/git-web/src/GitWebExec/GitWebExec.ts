@@ -4,15 +4,15 @@ import * as GitCommands from '../GitCommands/GitCommands.js'
 import type { CommandOptions } from '../CommandOptions/CommandOptions.js'
 
 export interface ExecOptions {
-  cwd: string
-  env?: Record<string, string>
-  reject?: boolean
+  readonly cwd: string
+  readonly env?: Record<string, string>
+  readonly reject?: boolean
 }
 
 export interface ExecResult {
-  stdout: string
-  stderr: string
-  exitCode: number
+  readonly stdout: string
+  readonly stderr: string
+  readonly exitCode: number
 }
 
 /**
