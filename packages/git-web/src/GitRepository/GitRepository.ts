@@ -1,5 +1,5 @@
 import { defaultFileSystem } from '../FileSystem/FileSystem.js'
-import { join } from '../utils/join.js'
+import { join } from '../path.js'
 import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.js'
 
 interface Commit {

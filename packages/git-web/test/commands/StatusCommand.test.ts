@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { handleStatus } from '../../src/commands/StatusCommand/StatusCommand.js'
+import { handleStatus } from '../../src/StatusCommand/StatusCommand.js'
 
 test('handleStatus returns status for new repository', async () => {
   const result = await handleStatus([], { cwd: 'web://test-status' })

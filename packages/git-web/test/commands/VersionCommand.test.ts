@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { handleVersion } from '../../src/commands/VersionCommand/VersionCommand.js'
+import { handleVersion } from '../../src/VersionCommand/VersionCommand.js'
 
 test('handleVersion returns correct version', async () => {
   const result = await handleVersion()
@@ -7,7 +7,7 @@ test('handleVersion returns correct version', async () => {
   expect(result).toEqual({
     stdout: 'git version 2.34.1 (web-emulated)',
     stderr: '',
-    exitCode: 0
+    exitCode: 0,
   })
 })
 

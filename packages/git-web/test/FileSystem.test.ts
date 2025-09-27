@@ -1,5 +1,6 @@
 import { test, expect } from '@jest/globals'
 import { RpcFileSystem } from '../src/FileSystem/FileSystem.js'
+import type { FileSystem } from '../src/FileSystemInterface/FileSystemInterface.js'
 
 // Mock RPC for testing
 const mockRpc = {
