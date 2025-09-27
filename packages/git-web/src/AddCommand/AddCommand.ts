@@ -5,7 +5,6 @@ import type { CommandResult } from '../CommandResult/CommandResult.ts'
 
 export const handleAdd = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
   const repository = await GitRepository.getRepository(options.cwd)
-  console.log({ repository })
   await repository.addFiles(args)
 
   return {
