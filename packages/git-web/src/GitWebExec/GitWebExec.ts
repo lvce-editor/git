@@ -34,7 +34,7 @@ export const exec = async (gitPath: string, args: string[], options: ExecOptions
   const { cwd } = options
 
   if (typeof cwd !== 'string') {
-    throw new TypeError(`cwd must be of type string, was ${cwd}`)
+    // throw new TypeError(`cwd must be of type string, was ${cwd}`)
   }
 
   try {

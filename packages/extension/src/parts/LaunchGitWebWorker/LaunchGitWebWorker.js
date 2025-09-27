@@ -3,6 +3,7 @@ import * as GitWebWorkerUrl from '../GitWebWorkerUrl/GitWebWorkerUrl.js'
 
 export const launchGitWebWorker = async () => {
   const workerUrl = GitWebWorkerUrl.getGitWebWorkerUrl()
+
   // @ts-ignore
   const rpc = await vscode.createRpc({
     type: 'worker',

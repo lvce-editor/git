@@ -1,6 +1,9 @@
-const gitInit = () => {
+import { commandInit } from '../CommandInit/CommandInit.ts'
+
+const gitInit = async () => {
   // TODO
   console.log('init')
+  await commandInit()
 }
 
 const touch = (fileName: string) => {

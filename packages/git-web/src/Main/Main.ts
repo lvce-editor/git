@@ -38,7 +38,7 @@ const registerGitCommands = (): void => {
   GitCommands.registerCommand('config', handleConfig)
 }
 
-export const Main = (): void => {
+export const main = (): void => {
   // Register all commands
   registerGitCommands()
 }
