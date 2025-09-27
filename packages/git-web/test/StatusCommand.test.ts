@@ -25,8 +25,8 @@ test('handleStatus returns status for new repository', async () => {
   expect(result.stdout).toContain('On branch main')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test-status/.git/config'],
-    ['FileSystem.read', 'web:/test-status/.git/HEAD'],
+    ['FileSystem.exists', 'web://test-status/.git/config'],
+    ['FileSystem.read', 'web://test-status/.git/HEAD'],
   ])
 })
 
@@ -53,8 +53,8 @@ test('handleStatus works with different cwd', async () => {
   expect(result.stdout).toContain('On branch main')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/different-repo/.git/config'],
-    ['FileSystem.read', 'web:/different-repo/.git/HEAD'],
+    ['FileSystem.exists', 'web://different-repo/.git/config'],
+    ['FileSystem.read', 'web://different-repo/.git/HEAD'],
   ])
 })
 
@@ -81,7 +81,7 @@ test('handleStatus works with args', async () => {
   expect(result.stdout).toContain('On branch main')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test-status-args/.git/config'],
-    ['FileSystem.read', 'web:/test-status-args/.git/HEAD'],
+    ['FileSystem.exists', 'web://test-status-args/.git/config'],
+    ['FileSystem.read', 'web://test-status-args/.git/HEAD'],
   ])
 })

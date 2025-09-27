@@ -56,9 +56,9 @@ test('handleAdd with specific files', async () => {
   })
 
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test-add/.git/config'],
-    ['FileSystem.read', 'web:/test-add/.git/index'],
-    ['FileSystem.write', 'web:/test-add/.git/index', 'file:existing.txt\nfile:file1.txt\nfile:file2.txt\n'],
+    ['FileSystem.exists', 'web://test-add/.git/config'],
+    ['FileSystem.read', 'web://test-add/.git/index'],
+    ['FileSystem.write', 'web://test-add/.git/index', 'file:existing.txt\nfile:file1.txt\nfile:file2.txt\n'],
   ])
 })
 
@@ -108,13 +108,13 @@ test('handleAdd with dot adds all files', async () => {
   expect(result.exitCode).toBe(0)
 
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test-add-all/.git/config'],
-    ['FileSystem.read', 'web:/test-add-all/.git/index'],
+    ['FileSystem.exists', 'web://test-add-all/.git/config'],
+    ['FileSystem.read', 'web://test-add-all/.git/index'],
     ['FileSystem.readdir', 'web://test-add-all'],
-    ['FileSystem.stat', 'web:/test-add-all/file1.txt'],
-    ['FileSystem.stat', 'web:/test-add-all/file2.txt'],
-    ['FileSystem.stat', 'web:/test-add-all/other.txt'],
-    ['FileSystem.write', 'web:/test-add-all/.git/index', 'file:already-staged.txt\nfile:file1.txt\nfile:file2.txt\nfile:other.txt\n'],
+    ['FileSystem.stat', 'web://test-add-all/file1.txt'],
+    ['FileSystem.stat', 'web://test-add-all/file2.txt'],
+    ['FileSystem.stat', 'web://test-add-all/other.txt'],
+    ['FileSystem.write', 'web://test-add-all/.git/index', 'file:already-staged.txt\nfile:file1.txt\nfile:file2.txt\nfile:other.txt\n'],
   ])
 })
 
@@ -133,5 +133,5 @@ test('handleAdd with empty args', async () => {
 
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test-add-empty/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test-add-empty/.git/config']])
 })
