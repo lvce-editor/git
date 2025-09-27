@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { handleInit } from '../../src/InitCommand/InitCommand.js'
+import { handleInit } from '../src/InitCommand/InitCommand.ts'
 
 // Mock RPC for testing
 const mockRpc = {
