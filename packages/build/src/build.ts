@@ -1,7 +1,7 @@
+import fs, { readFileSync, writeFileSync } from 'node:fs'
+import { readdir, rm } from 'node:fs/promises'
+import path, { join } from 'node:path'
 import { bundleJs, packageExtension } from '@lvce-editor/package-extension'
-import fs, { readFileSync, writeFileSync } from 'fs'
-import { readdir, rm } from 'fs/promises'
-import path, { join } from 'path'
 import { root } from './root.ts'
 
 const extension = path.join(root, 'packages', 'extension')
@@ -72,8 +72,8 @@ await replace({
 
 await replace({
   path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
-  occurrence: `parts.slice(0, -5)`,
-  replacement: `parts.slice(0, -3)`,
+  occurrence: 'parts.slice(0, -5)',
+  replacement: 'parts.slice(0, -3)',
 })
 
 await rm(join(root, 'dist', 'node', 'node_modules', '.bin'), { recursive: true, force: true })

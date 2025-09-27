@@ -11,6 +11,7 @@ const getPackageLocations = (): string[] => {
   for (const dirent of dirents) {
     packageLocations.push(`packages/${dirent}/package-lock.json`)
   }
+
   packageLocations.push('package-lock.json')
   return packageLocations
 }
@@ -35,7 +36,7 @@ const getAbsolutePath = (relativePath: string): string => {
   return join(root, relativePath)
 }
 
-const getContent = (absolutePath: string): Promise<string> => {
+const getContent = async (absolutePath: string): Promise<string> => {
   return readFile(absolutePath, 'utf8')
 }
 
@@ -48,6 +49,7 @@ export const computeHash = (contents: string | string[]): string => {
   } else if (typeof contents === 'string') {
     hash.update(contents)
   }
+
   return hash.digest('hex')
 }
 

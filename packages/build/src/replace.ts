@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
-interface ReplaceOptions {
+type ReplaceOptions = {
   path: string
   occurrence: string
   replacement: string
