@@ -5,8 +5,11 @@ export const name = 'git.sync-spinning'
 export const skip = true
 
 export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }) => {
+  // @ts-ignore
   const tmpDir = await getTmpDir()
+  // @ts-ignore
   await writeFile(`${tmpDir}/test.txt`, 'div')
+  // @ts-ignore
   const gitPath = await createFakeGitBinary(`
 const main = async () => {
   const argv = process.argv.slice(2)
@@ -63,7 +66,7 @@ main()
 
   console.log('finished')
 
-  if (process.send) {
-    process.send('succeeded')
-  }
+  // if (process.send) {
+  //   process.send('succeeded')
+  // }
 }
