@@ -6,5 +6,5 @@ export const id = CommandId.GitLoadFixture
 /**
  */
 export const execute = async (uri) => {
-  return GitWorker.invoke('Command.loadFixture', uri)
+  return GitWorker.invoke('Git.loadFixture', uri)
 }
