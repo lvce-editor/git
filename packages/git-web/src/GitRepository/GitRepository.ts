@@ -95,7 +95,7 @@ export class GitRepository {
     private useFileSystem: boolean = false,
   ) {}
 
-  private get repo() {
+  private get repo(): Repository {
     return repositories.get(this.key)!
   }
 
@@ -205,7 +205,7 @@ export class GitRepository {
     }
   }
 
-  async addFiles(files: string[]): Promise<void> {
+  async addFiles(files: readonly string[]): Promise<void> {
     if (this.useFileSystem) {
       // In filesystem mode, if no files specified, do nothing (like real git add with no args)
       if (files.length === 0) {
