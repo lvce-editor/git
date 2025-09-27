@@ -1,10 +1,10 @@
 export interface FileSystem {
-  exists(path: string): Promise<boolean>
-  mkdir(path: string): Promise<void>
-  write(path: string, content: string): Promise<void>
-  read(path: string): Promise<string>
-  readdir(path: string): Promise<string[]>
-  stat(path: string): Promise<{ readonly isFile: boolean; readonly isDirectory: boolean; readonly size: number }>
-  unlink(path: string): Promise<void>
-  rmdir(path: string): Promise<void>
+  readonly exists: (path: string) => Promise<boolean>
+  readonly mkdir: (path: string) => Promise<void>
+  readonly write: (path: string, content: string) => Promise<void>
+  readonly read: (path: string) => Promise<string>
+  readonly readdir: (path: string) => Promise<string[]>
+  readonly stat: (path: string) => Promise<{ readonly isFile: boolean; readonly isDirectory: boolean; readonly size: number }>
+  readonly unlink: (path: string) => Promise<void>
+  readonly rmdir: (path: string) => Promise<void>
 }
