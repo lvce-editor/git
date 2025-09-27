@@ -37,7 +37,7 @@ export const isCommandRegistered = (command: string): boolean => {
 /**
  * Execute a git command with web-compatible emulation
  */
-export const executeCommand = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
+export const executeCommand = async (args: readonly string[], options: CommandOptions): Promise<CommandResult> => {
   if (!args || args.length === 0) {
     return {
       stdout: '',
