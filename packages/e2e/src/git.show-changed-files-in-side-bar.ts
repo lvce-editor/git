@@ -10,6 +10,7 @@ export const test: Test = async ({ Command, Extension, SourceControl, FileSystem
   await Command.execute(`mock-git-exec`, 'show-change-files-in-side-bar')
 
   // act
+  // @ts-ignore
   await SourceControl.show()
 
   // assert

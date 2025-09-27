@@ -30,9 +30,11 @@ const main = async () => {
 
 main()
 `)
+  // @ts-ignore
   const configDir = await writeSettings({
     'git.path': gitPath,
   })
+  // @ts-ignore
   const page = await runWithExtension({
     name: 'builtin.git',
     folder: tmpDir,

@@ -1,4 +1,5 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
+// @ts-ignore
 import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 
 export const name = 'git.sync-spinning-internal-server-error.clean'

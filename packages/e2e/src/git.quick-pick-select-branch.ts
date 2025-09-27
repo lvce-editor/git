@@ -14,6 +14,7 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, S
   await QuickPick.executeCommand('Git: Checkout')
 
   // assert
+  // @ts-ignore
   await QuickPick.showHaveItems([
     {
       label: 'b',

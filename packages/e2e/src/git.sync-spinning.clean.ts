@@ -1,3 +1,4 @@
+// @ts-ignore
 import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 
 import type { Test } from '@lvce-editor/test-with-playwright'
