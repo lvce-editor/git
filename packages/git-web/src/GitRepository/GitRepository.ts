@@ -123,7 +123,6 @@ export class GitRepository {
 
       return config
     } catch (error) {
-      console.warn('Failed to read git config:', error)
       return new Map()
     }
   }
@@ -138,7 +137,6 @@ export class GitRepository {
       const content = await defaultFileSystem.read(headPath)
       return content.trim()
     } catch (error) {
-      console.warn('Failed to read HEAD:', error)
       return 'refs/heads/main'
     }
   }
@@ -201,7 +199,6 @@ export class GitRepository {
 
       return status
     } catch (error) {
-      console.warn('Failed to get filesystem status:', error)
       return 'On branch main\nnothing to commit, working tree clean'
     }
   }
@@ -272,10 +269,9 @@ export class GitRepository {
         .join('\n') + '\n'
 
       await defaultFileSystem.write(indexPath, newIndexContent)
-    } catch (error) {
-      console.warn('Failed to add files to filesystem:', error)
-      // In a real implementation, this might throw or handle the error differently
-    }
+        } catch (error) {
+          // In a real implementation, this might throw or handle the error differently
+        }
   }
 
   private async getWorkingDirFiles(): Promise<string[]> {
