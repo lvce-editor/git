@@ -2,63 +2,15 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.show-changed-files-in-side-bar'
 
-const gitVersion = () => {
-  return {
-    stdout: '0.0.0',
-    stderr: '',
-    exitCode: 0,
-  }
-}
-
-const gitRevParse = () => {
-  return {
-    stdout: '',
-    stderr: ``,
-    exitCode: 0,
-  }
-}
-
-const gitStatus = () => {
-  return {
-    stdout: ` M test/file-1.txt
- M test/file-2.txt
-`,
-    stderr: ``,
-    exitCode: 0,
-  }
-}
-
-const exec = (command: string, args: string[], options: any) => {
-  if (command !== 'git') {
-    throw new Error(`unexpected command ${command}`)
-  }
-  const subCommand = args[0]
-  switch (subCommand) {
-    case '--version':
-      return gitVersion()
-    case 'rev-parse':
-      return gitRevParse()
-    case 'status':
-      return gitStatus()
-    default:
-      throw new Error(`unexpected command ${subCommand}`)
-  }
-}
-
-export const mockRpc = {
-  name: 'Git',
-  commands: {
-    'Exec.exec': exec,
-  },
-}
-
-export const test: Test = async ({ FileSystem, Workspace, Settings, SideBar, Locator, expect }) => {
+export const test: Test = async ({ Command, Extension, SourceControl, FileSystem, Workspace, Settings, SideBar, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
+  await Extension.addWebExtension('../fixtures/mock-git-exec')
+  await Command.execute(`mock-git-exec`, 'show-change-files-in-side-bar')
 
   // act
-  await SideBar.open('Source Control')
+  await SourceControl.show()
 
   // assert
   const treeItems = Locator('.TreeItem')
