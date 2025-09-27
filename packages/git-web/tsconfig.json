@@ -5,8 +5,7 @@
     "module": "NodeNext",
     "types": [],
     "moduleResolution": "NodeNext",
-  "rootDir": ".",
-  "outDir": "dist",
+    "rootDir": ".",
     "allowJs": true,
     "skipLibCheck": true,
     "noEmit": false,
@@ -15,8 +14,8 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
     "strict": true,
     "noImplicitAny": false,
-    "composite": true
+    "composite": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["src", "test"],
-  "exclude": ["dist", "node_modules"]
+  "include": ["src", "test"]
 }

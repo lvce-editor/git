@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { join } from '../../src/utils/join.js'
+import { join } from '../src/Path/Path.js'
 
 test('join with multiple segments', () => {
   expect(join('a', 'b', 'c')).toBe('a/b/c')

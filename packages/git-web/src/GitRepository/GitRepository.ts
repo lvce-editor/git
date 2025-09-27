@@ -1,5 +1,5 @@
 import { defaultFileSystem } from '../FileSystem/FileSystem.js'
-import { join } from '../path.js'
+import { join } from '../Path/Path.js'
 import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.js'
 
 interface Commit {
@@ -39,15 +39,15 @@ export class GitRepository {
 
   static async getRepository(cwd: string) {
     const key = this.getRepositoryKey(cwd)
-    
+
     // Try to use real filesystem first
     const gitdir = join(cwd, '.git')
     const configExists = await defaultFileSystem.exists(join(gitdir, 'config'))
-    
+
     if (configExists) {
       return new GitRepository(key, true) // Use real filesystem
     }
-    
+
     // Fallback to in-memory storage
     if (!repositories.has(key)) {
       repositories.set(key, {
@@ -83,7 +83,7 @@ export class GitRepository {
         ])
       })
     }
-    
+
     return new GitRepository(key, false) // Use in-memory storage
   }
 
@@ -106,11 +106,11 @@ export class GitRepository {
       const configPath = join(this.gitdir, 'config')
       const content = await defaultFileSystem.read(configPath)
       const config = new Map<string, string>()
-      
+
       // Simple config parser
       const lines = content.split('\n')
       let currentSection = ''
-      
+
       for (const line of lines) {
         const trimmed = line.trim()
         if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
@@ -120,7 +120,7 @@ export class GitRepository {
           config.set(`${currentSection}.${key.trim()}`, value.trim())
         }
       }
-      
+
       return config
     } catch (error) {
       console.warn('Failed to read git config:', error)
@@ -147,11 +147,11 @@ export class GitRepository {
     if (this.useFileSystem) {
       return await this.getFileSystemStatus()
     }
-    
+
     const { stagedFiles, workingDirFiles } = this.repo
-    
+
     let status = ''
-    
+
     // Show staged files
     if (stagedFiles.length > 0) {
       status += 'Changes to be committed:\n'
@@ -159,31 +159,31 @@ export class GitRepository {
         status += `\tnew file:   ${file}\n`
       }
     }
-    
+
     // Show modified files (simulate some files as modified)
-    const modifiedFiles = workingDirFiles.filter(file => 
+    const modifiedFiles = workingDirFiles.filter(file =>
       !stagedFiles.includes(file) && Math.random() > 0.5
     )
-    
+
     if (modifiedFiles.length > 0) {
       status += 'Changes not staged for commit:\n'
       for (const file of modifiedFiles) {
         status += `\tmodified:   ${file}\n`
       }
     }
-    
+
     // Show untracked files
-    const untrackedFiles = workingDirFiles.filter(file => 
+    const untrackedFiles = workingDirFiles.filter(file =>
       !stagedFiles.includes(file) && !modifiedFiles.includes(file)
     )
-    
+
     if (untrackedFiles.length > 0) {
       status += 'Untracked files:\n'
       for (const file of untrackedFiles) {
         status += `\t${file}\n`
       }
     }
-    
+
     return status || 'On branch main\nnothing to commit, working tree clean'
   }
 
@@ -192,13 +192,13 @@ export class GitRepository {
       // Read current branch from HEAD
       const headRef = await this.readHead()
       const branch = headRef.replace('ref: refs/heads/', '')
-      
+
       let status = `On branch ${branch}\n`
-      
+
       // For now, simulate a clean working tree
       // In a real implementation, this would check the index and working directory
       status += 'nothing to commit, working tree clean'
-      
+
       return status
     } catch (error) {
       console.warn('Failed to get filesystem status:', error)
@@ -222,7 +222,7 @@ export class GitRepository {
 
   async commit(message: string): Promise<string> {
     const hash = this.generateHash()
-    
+
     if (this.useFileSystem) {
       await this.commitToFileSystem(hash, message)
     } else {
@@ -232,19 +232,19 @@ export class GitRepository {
         date: new Date().toISOString(),
         message
       }
-      
+
       this.repo.commits.unshift(commit)
-      
+
       // Update current branch
       const currentBranch = this.repo.branches.find(b => b.isCurrent)
       if (currentBranch) {
         currentBranch.commit = hash
       }
-      
+
       // Clear staged files
       this.repo.stagedFiles = []
     }
-    
+
     return hash
   }
 
@@ -253,11 +253,11 @@ export class GitRepository {
       // Read current branch from HEAD
       const headRef = await this.readHead()
       const branch = headRef.replace('ref: refs/heads/', '')
-      
+
       // Update the branch ref
       const refPath = join(this.gitdir, 'refs', 'heads', branch)
       await defaultFileSystem.write(refPath, hash + '\n')
-      
+
       // In a real implementation, we would also:
       // - Create the commit object in objects/
       // - Update the index
