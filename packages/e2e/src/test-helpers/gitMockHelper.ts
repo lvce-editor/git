@@ -63,7 +63,7 @@ export const createMockExec = async (fixtureName: string): Promise<MockExecFunct
         resolve({
           stdout: fixture.stdout || '',
           stderr: fixture.stderr || '',
-          exitCode: fixture.exitCode || 0
+          exitCode: fixture.exitCode || 0,
         })
       }, delay)
     })
@@ -79,7 +79,7 @@ export const createGitMockRpc = async (fixtureName: string): Promise<MockRpc> =>
   return {
     name: 'Git',
     commands: {
-      'Exec.exec': mockExec
-    }
+      'Exec.exec': mockExec,
+    },
   }
 }

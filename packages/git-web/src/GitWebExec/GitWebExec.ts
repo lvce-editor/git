@@ -3,13 +3,13 @@ import { ExecError } from '../ExecError/ExecError.ts'
 import * as ExitCode from '../ExitCode/ExitCode.ts'
 import * as GitCommands from '../GitCommands/GitCommands.ts'
 
-export interface ExecOptions {
+export type ExecOptions = {
   readonly cwd: string
   readonly env?: Record<string, string>
   readonly reject?: boolean
 }
 
-export interface ExecResult {
+export type ExecResult = {
   readonly stdout: string
   readonly stderr: string
   readonly exitCode: number
@@ -22,9 +22,11 @@ export const exec = async (gitPath: string, args: string[], options: ExecOptions
   if (typeof gitPath !== 'string') {
     throw new TypeError(`gitPath must be of type string, was ${gitPath}`)
   }
+
   if (!Array.isArray(args)) {
     throw new TypeError(`args must be an array, was ${args}`)
   }
+
   if (typeof options !== 'object' || options === null) {
     throw new Error(`options must be an object, was ${options}`)
   }
@@ -48,6 +50,7 @@ export const exec = async (gitPath: string, args: string[], options: ExecOptions
     if (error instanceof ExecError) {
       throw error
     }
+
     throw new ExecError('', error instanceof Error ? error.message : String(error), 1)
   }
 }

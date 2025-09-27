@@ -21,4 +21,3 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
   // TODO error message could be improved, vscode has very good/short git error messages
   await expect(dialogErrorMessage).toHaveText('Error: Git: ssh: Could not resolve hostname github.com: Temporary failure in name resolution')
 }
-

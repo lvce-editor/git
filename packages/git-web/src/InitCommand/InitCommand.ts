@@ -7,7 +7,7 @@ import { join } from '../Path/Path.ts'
 /**
  * Initialize a new repository
  */
-const initRepository = async (cwd: string, bare: boolean = false, defaultBranch: string = 'main'): Promise<void> => {
+const initRepository = async (cwd: string, bare = false, defaultBranch = 'main'): Promise<void> => {
   const gitdir = bare ? cwd : join(cwd, '.git')
 
   // Don't overwrite an existing config

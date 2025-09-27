@@ -5,12 +5,11 @@ export const gitFixtures: GitFixtures = {
   '--version': {
     stdout: 'git version 2.34.1',
     stderr: '',
-    exitCode: 0
+    exitCode: 0,
   },
-  'pull': {
+  pull: {
     stdout: '',
     stderr: 'fatal: Cannot fast-forward to multiple branches.',
-    exitCode: 128
-  }
+    exitCode: 128,
+  },
 }
-

@@ -38,5 +38,5 @@ test('join with relative path', () => {
 })
 
 test('join with mixed separators', () => {
-  expect(join('a\\b', 'c/d', 'e')).toBe('a\\b/c/d/e')
+  expect(join(String.raw`a\b`, 'c/d', 'e')).toBe(String.raw`a\b/c/d/e`)
 })

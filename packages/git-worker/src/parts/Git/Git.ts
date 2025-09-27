@@ -55,7 +55,7 @@ const execGitWeb = async ({ gitPath, cwd, name, args }) => {
   try {
     const result = await Rpc.invoke('GitWeb.exec', gitPath, args, {
       cwd,
-      reject: false
+      reject: false,
     })
 
     if (result.exitCode !== ExitCode.Success) {

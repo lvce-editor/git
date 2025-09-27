@@ -8,12 +8,14 @@ test('handleCommit with message', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       return false
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/HEAD')) {
         return 'ref: refs/heads/main\n'
       }
+
       return ''
     },
     'FileSystem.write'(path: string, content: string) {
@@ -29,7 +31,7 @@ test('handleCommit with message', async () => {
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.exists', 'web:/test-commit/.git/config'],
     ['FileSystem.read', 'web:/test-commit/.git/HEAD'],
-    ['FileSystem.write', 'web:/test-commit/.git/refs/heads/main', expect.stringMatching(/^[a-f0-9]{40}\n$/)],
+    ['FileSystem.write', 'web:/test-commit/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
   ])
 })
 
@@ -39,12 +41,14 @@ test('handleCommit without message uses default', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       return false
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/HEAD')) {
         return 'ref: refs/heads/main\n'
       }
+
       return ''
     },
     'FileSystem.write'(path: string, content: string) {
@@ -60,7 +64,7 @@ test('handleCommit without message uses default', async () => {
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.exists', 'web:/test-commit-default/.git/config'],
     ['FileSystem.read', 'web:/test-commit-default/.git/HEAD'],
-    ['FileSystem.write', 'web:/test-commit-default/.git/refs/heads/main', expect.stringMatching(/^[a-f0-9]{40}\n$/)],
+    ['FileSystem.write', 'web:/test-commit-default/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
   ])
 })
 
@@ -70,12 +74,14 @@ test('handleCommit with multiple args', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       return false
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/HEAD')) {
         return 'ref: refs/heads/main\n'
       }
+
       return ''
     },
     'FileSystem.write'(path: string, content: string) {
@@ -91,6 +97,6 @@ test('handleCommit with multiple args', async () => {
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.exists', 'web:/test-commit-complex/.git/config'],
     ['FileSystem.read', 'web:/test-commit-complex/.git/HEAD'],
-    ['FileSystem.write', 'web:/test-commit-complex/.git/refs/heads/main', expect.stringMatching(/^[a-f0-9]{40}\n$/)],
+    ['FileSystem.write', 'web:/test-commit-complex/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
   ])
 })

@@ -17,11 +17,10 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
 
   // act
   await QuickPick.executeCommand('Git: Pull')
-  
+
   // assert
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, should include full git error message
   await expect(dialogErrorMessage).toHaveText('Error: Git: ssh: connect to host github.com port 22: Connection timed out')
 }
-

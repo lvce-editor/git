@@ -12,17 +12,16 @@ export const detectScheme = (path: string): 'file' | 'web' | 'other' => {
   }
 
   // Check for web schemes
-  if (path.startsWith('web://') ||
-      path.startsWith('vscode://') ||
-      path.startsWith('https://') ||
-      path.startsWith('http://')) {
+  if (path.startsWith('web://') || path.startsWith('vscode://') || path.startsWith('https://') || path.startsWith('http://')) {
     return 'web'
   }
 
   // Check if it's a local file path (no scheme)
-  if (path.startsWith('/') ||
-      /^[A-Za-z]:/.test(path) || // Windows drive letter
-      !path.includes('://')) {
+  if (
+    path.startsWith('/') ||
+    /^[A-Za-z]:/.test(path) || // Windows drive letter
+    !path.includes('://')
+  ) {
     return 'file'
   }
 

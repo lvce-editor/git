@@ -36,12 +36,14 @@ test('getStatus returns initial status', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       return false
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/HEAD')) {
         return 'ref: refs/heads/main\n'
       }
+
       return ''
     },
   })
@@ -95,7 +97,7 @@ test('commit creates new commit', async () => {
 
   const hash = await repo.commit('Test commit message')
 
-  expect(hash).toMatch(/^[a-f0-9]{40}$/)
+  expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
 test('commit clears staged files', async () => {
@@ -222,7 +224,7 @@ test('parseRef with HEAD returns current commit', async () => {
   const repo = await GitRepository.getRepository('web://test-parse-ref')
   const hash = await repo.parseRef(['HEAD'])
 
-  expect(hash).toMatch(/^[a-f0-9]{40}$/)
+  expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
 test('parseRef with branch name returns commit hash', async () => {
@@ -235,7 +237,7 @@ test('parseRef with branch name returns commit hash', async () => {
   const repo = await GitRepository.getRepository('web://test-parse-branch')
   const hash = await repo.parseRef(['main'])
 
-  expect(hash).toMatch(/^[a-f0-9]{40}$/)
+  expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
 test('parseRef with unknown ref returns as-is', async () => {
@@ -376,6 +378,6 @@ test('generateHash creates valid git hash', async () => {
   // Access private method through any type
   const hash = (repo as any).generateHash()
 
-  expect(hash).toMatch(/^[a-f0-9]{40}$/)
+  expect(hash).toMatch(/^[a-f\d]{40}$/)
   expect(hash.length).toBe(40)
 })

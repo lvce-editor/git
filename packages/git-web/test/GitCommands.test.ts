@@ -253,7 +253,7 @@ test('executeCommand with rev-parse', async () => {
 
   const result = await executeCommand(['rev-parse', 'HEAD'], { cwd: 'web://test' })
 
-  expect(result.stdout).toMatch(/^[a-f0-9]{40}$/)
+  expect(result.stdout).toMatch(/^[a-f\d]{40}$/)
   expect(result.exitCode).toBe(0)
 
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])

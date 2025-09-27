@@ -5,18 +5,18 @@ export const gitFixtures: GitFixtures = {
   '--version': {
     stdout: 'git version 2.34.1',
     stderr: '',
-    exitCode: 0
+    exitCode: 0,
   },
-  'pull': {
+  pull: {
     stdout: '',
     stderr: '',
     exitCode: 0,
-    delay: 500
+    delay: 500,
   },
-  'push': {
+  push: {
     stdout: '',
     stderr: '',
     exitCode: 0,
-    delay: 500
-  }
+    delay: 500,
+  },
 }

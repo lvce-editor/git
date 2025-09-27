@@ -23,16 +23,12 @@ export const unregisterCommand = (command: string): void => {
 /**
  * Get all registered commands
  */
-export const getRegisteredCommands = (): string[] => {
-  return [...commandRegistry.keys()]
-}
+export const getRegisteredCommands = (): string[] => [...commandRegistry.keys()]
 
 /**
  * Check if a command is registered
  */
-export const isCommandRegistered = (command: string): boolean => {
-  return commandRegistry.has(command)
-}
+export const isCommandRegistered = (command: string): boolean => commandRegistry.has(command)
 
 /**
  * Execute a git command with web-compatible emulation

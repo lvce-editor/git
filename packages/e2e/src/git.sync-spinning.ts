@@ -67,4 +67,3 @@ main()
     process.send('succeeded')
   }
 }
-

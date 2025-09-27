@@ -19,7 +19,7 @@ export class RpcFileSystem implements FileSystem {
   }
 
   async read(path: string): Promise<string> {
-    return await Rpc.invoke('FileSystem.read', path)
+    return Rpc.invoke('FileSystem.read', path)
   }
 
   async readdir(path: string): Promise<string[]> {

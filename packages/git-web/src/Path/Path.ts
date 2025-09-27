@@ -3,9 +3,8 @@
  * @param {...string} segments - Path segments to join
  * @returns {string} Joined path
  */
-export const join = (...segments: string[]): string => {
-  return segments
+export const join = (...segments: string[]): string =>
+  segments
     .filter((segment) => segment !== '')
     .join('/')
     .replaceAll(/\/+/g, '/') // Replace multiple slashes with single slash
-}

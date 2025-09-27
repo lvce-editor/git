@@ -8,6 +8,7 @@ const extractCommitMessage = (args: string[]): string => {
   if (messageIndex !== -1 && messageIndex + 1 < args.length) {
     return args[messageIndex + 1]
   }
+
   return 'Web commit'
 }
 

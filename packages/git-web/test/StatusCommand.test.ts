@@ -8,12 +8,14 @@ test('handleStatus returns status for new repository', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       return false
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/HEAD')) {
         return 'ref: refs/heads/main\n'
       }
+
       return ''
     },
   })
@@ -34,12 +36,14 @@ test('handleStatus works with different cwd', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       return false
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/HEAD')) {
         return 'ref: refs/heads/main\n'
       }
+
       return ''
     },
   })
@@ -60,12 +64,14 @@ test('handleStatus works with args', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       return false
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/HEAD')) {
         return 'ref: refs/heads/main\n'
       }
+
       return ''
     },
   })

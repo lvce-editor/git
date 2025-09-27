@@ -3,8 +3,8 @@ import type { FileSystem, FileStat } from '../src/FileSystemInterface/FileSystem
 
 // Mock implementation for testing the interface
 class MockFileSystem implements FileSystem {
-  private files = new Map<string, string>()
-  private directories = new Set<string>()
+  private readonly files = new Map<string, string>()
+  private readonly directories = new Set<string>()
 
   async exists(path: string): Promise<boolean> {
     return this.files.has(path) || this.directories.has(path)
@@ -23,6 +23,7 @@ class MockFileSystem implements FileSystem {
     if (content === undefined) {
       throw new Error(`File not found: ${path}`)
     }
+
     return content
   }
 
@@ -36,6 +37,7 @@ class MockFileSystem implements FileSystem {
         }
       }
     }
+
     return files
   }
 
@@ -47,6 +49,7 @@ class MockFileSystem implements FileSystem {
         size: this.files.get(path)!.length,
       }
     }
+
     if (this.directories.has(path)) {
       return {
         isFile: false,
@@ -54,6 +57,7 @@ class MockFileSystem implements FileSystem {
         size: 0,
       }
     }
+
     throw new Error(`Path not found: ${path}`)
   }
 
@@ -61,6 +65,7 @@ class MockFileSystem implements FileSystem {
     if (!this.files.has(path)) {
       throw new Error(`File not found: ${path}`)
     }
+
     this.files.delete(path)
   }
 
@@ -68,6 +73,7 @@ class MockFileSystem implements FileSystem {
     if (!this.directories.has(path)) {
       throw new Error(`Directory not found: ${path}`)
     }
+
     this.directories.delete(path)
   }
 }

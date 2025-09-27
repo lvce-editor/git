@@ -6,8 +6,9 @@ test('handleInit returns success message', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
-        return false // config doesn't exist
+        return false // Config doesn't exist
       }
+
       return false
     },
     'FileSystem.mkdir'(path: string) {
@@ -43,8 +44,9 @@ test('handleInit with --bare flag', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
-        return false // config doesn't exist
+        return false // Config doesn't exist
       }
+
       return false
     },
     'FileSystem.mkdir'(path: string) {
@@ -77,8 +79,9 @@ test('handleInit skips if config already exists', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
-        return true // config exists
+        return true // Config exists
       }
+
       return false
     },
   })

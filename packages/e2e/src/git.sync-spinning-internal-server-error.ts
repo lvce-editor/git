@@ -52,4 +52,3 @@ process.exit(128)
     await expect(dialogErrorMessage).toHaveText('Error: Git: remote: Internal Server Error')
   }
 }
-

@@ -23,4 +23,3 @@ export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, ex
 
   await expect(dialogErrorMessage).toHaveText('Error: Git: fatal: No configured push destination.')
 }
-

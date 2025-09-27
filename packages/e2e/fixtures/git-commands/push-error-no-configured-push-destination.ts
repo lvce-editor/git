@@ -5,9 +5,9 @@ export const gitFixtures: GitFixtures = {
   '--version': {
     stdout: 'git version 2.34.1',
     stderr: '',
-    exitCode: 0
+    exitCode: 0,
   },
-  'push': {
+  push: {
     stdout: '',
     stderr: `fatal: No configured push destination.
 Either specify the URL from the command-line or configure a remote repository using
@@ -19,7 +19,6 @@ and then push using the remote name
     git push <name>
 
 `,
-    exitCode: 128
-  }
+    exitCode: 128,
+  },
 }
-

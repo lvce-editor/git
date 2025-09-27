@@ -1,10 +1,10 @@
-export interface FileStat {
+export type FileStat = {
   readonly isFile: boolean
   readonly isDirectory: boolean
   readonly size: number
 }
 
-export interface FileSystem {
+export type FileSystem = {
   readonly exists: (path: string) => Promise<boolean>
   readonly mkdir: (path: string) => Promise<void>
   readonly write: (path: string, content: string) => Promise<void>

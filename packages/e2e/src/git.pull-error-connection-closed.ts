@@ -17,11 +17,10 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
 
   // act
   await QuickPick.executeCommand('Git: Pull')
-  
+
   // assert
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, should include full git error message
   await expect(dialogErrorMessage).toHaveText('Error: Git: Connection closed by 0.0.0.0 port 22')
 }
-

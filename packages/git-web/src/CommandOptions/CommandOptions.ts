@@ -1,3 +1,3 @@
-export interface CommandOptions {
+export type CommandOptions = {
   readonly cwd: string
 }

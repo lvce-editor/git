@@ -9,20 +9,24 @@ test('handleAdd with specific files', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       // Return true for .git/index to simulate existing index
       if (path.endsWith('.git/index')) {
         return true
       }
+
       // Return true for files we want to add
       if (path.includes('file1.txt') || path.includes('file2.txt')) {
         return true
       }
+
       return false
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/index')) {
         return 'file:existing.txt\n'
       }
+
       return ''
     },
     'FileSystem.write'(path: string, content: string) {
@@ -32,12 +36,14 @@ test('handleAdd with specific files', async () => {
       if (path === 'web://test-add') {
         return ['file1.txt', 'file2.txt', 'other.txt']
       }
+
       return []
     },
     'FileSystem.stat'(path: string) {
       if (path.includes('file1.txt') || path.includes('file2.txt') || path.includes('other.txt')) {
         return { isFile: true, isDirectory: false, size: 100 }
       }
+
       return { isFile: false, isDirectory: true, size: 0 }
     },
   })
@@ -62,15 +68,18 @@ test('handleAdd with dot adds all files', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       if (path.endsWith('.git/index')) {
         return true
       }
+
       return true // All files exist
     },
     'FileSystem.read'(path: string) {
       if (path.endsWith('.git/index')) {
         return 'file:already-staged.txt\n'
       }
+
       return ''
     },
     'FileSystem.write'(path: string, content: string) {
@@ -80,12 +89,14 @@ test('handleAdd with dot adds all files', async () => {
       if (path === 'web://test-add-all') {
         return ['file1.txt', 'file2.txt', 'other.txt']
       }
+
       return []
     },
     'FileSystem.stat'(path: string) {
       if (path.includes('file1.txt') || path.includes('file2.txt') || path.includes('other.txt')) {
         return { isFile: true, isDirectory: false, size: 100 }
       }
+
       return { isFile: false, isDirectory: true, size: 0 }
     },
   })
@@ -113,6 +124,7 @@ test('handleAdd with empty args', async () => {
       if (path.endsWith('.git/config')) {
         return true
       }
+
       return false
     },
   })

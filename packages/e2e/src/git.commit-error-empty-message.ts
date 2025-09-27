@@ -28,4 +28,3 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, SideBar, Key
   const notificationOption = notification.locator('.NotificationOption')
   await expect(notificationOption).toHaveText('Create Empty Commit')
 }
-

@@ -5,14 +5,13 @@ export const gitFixtures: GitFixtures = {
   '--version': {
     stdout: 'git version 2.34.1',
     stderr: '',
-    exitCode: 0
+    exitCode: 0,
   },
-  'pull': {
+  pull: {
     stdout: `From github.com:user/repo
 * branch                      main       -> FETCH_HEAD`,
     stderr: `fatal: Not possible to fast-forward, aborting.
 `,
-    exitCode: 128
-  }
+    exitCode: 128,
+  },
 }
-

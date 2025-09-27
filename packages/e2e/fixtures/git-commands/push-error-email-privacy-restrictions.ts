@@ -5,9 +5,9 @@ export const gitFixtures: GitFixtures = {
   '--version': {
     stdout: 'git version 2.34.1',
     stderr: '',
-    exitCode: 0
+    exitCode: 0,
   },
-  'push': {
+  push: {
     stdout: `Enumerating objects: 23, done.
 Counting objects: 100% (23/23), done.
 Delta compression using up to 8 threads
@@ -19,7 +19,6 @@ remote: Resolving deltas: 100% (8/8), completed with 8 local objects.`,
 To github.com:user/repo.git
   ! [remote rejected] master -> master (push declined due to email privacy restrictions)
 error: failed to push some refs to 'github.com:user/repo.git`,
-    exitCode: 128
-  }
+    exitCode: 128,
+  },
 }
-

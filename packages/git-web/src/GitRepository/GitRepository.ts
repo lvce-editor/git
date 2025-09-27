@@ -2,26 +2,26 @@ import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.ts'
 import { defaultFileSystem } from '../FileSystem/FileSystem.ts'
 import { join } from '../Path/Path.ts'
 
-interface Commit {
+type Commit = {
   hash: string
   author: string
   date: string
   message: string
 }
 
-interface Branch {
+type Branch = {
   name: string
   commit: string
   isCurrent: boolean
 }
 
-interface Ref {
+type Ref = {
   name: string
   hash: string
   type: 'branch' | 'tag' | 'remote'
 }
 
-interface Repository {
+type Repository = {
   commits: Commit[]
   branches: Branch[]
   refs: Ref[]
@@ -90,8 +90,8 @@ export class GitRepository {
   }
 
   constructor(
-    private key: string,
-    private useFileSystem: boolean = false,
+    private readonly key: string,
+    private readonly useFileSystem = false,
   ) {}
 
   private get repo(): Repository {
@@ -148,7 +148,7 @@ export class GitRepository {
 
   async getStatus(): Promise<string> {
     if (this.useFileSystem) {
-      return await this.getFileSystemStatus()
+      return this.getFileSystemStatus()
     }
 
     const { stagedFiles, workingDirFiles } = this.repo
@@ -210,17 +210,16 @@ export class GitRepository {
       if (files.length === 0) {
         return
       }
+
       await this.addFilesToFileSystem(files)
+    } else if (files.includes('.')) {
+      // Add all files
+      this.repo.stagedFiles = [...this.repo.workingDirFiles]
     } else {
-      if (files.includes('.')) {
-        // Add all files
-        this.repo.stagedFiles = [...this.repo.workingDirFiles]
-      } else {
-        // Add specific files
-        for (const file of files) {
-          if (!this.repo.stagedFiles.includes(file)) {
-            this.repo.stagedFiles.push(file)
-          }
+      // Add specific files
+      for (const file of files) {
+        if (!this.repo.stagedFiles.includes(file)) {
+          this.repo.stagedFiles.push(file)
         }
       }
     }
@@ -288,7 +287,9 @@ export class GitRepository {
     try {
       const entries = await defaultFileSystem.readdir(dir)
       for (const entry of entries) {
-        if (entry === '.git') continue // Skip .git directory
+        if (entry === '.git') {
+          continue
+        } // Skip .git directory
 
         const fullPath = join(dir, entry)
         const stat = await defaultFileSystem.stat(fullPath)
@@ -421,9 +422,9 @@ index 1234567..abcdefg 100644
     }
 
     // Look for ref in refs
-    const refObj = this.repo.refs.find((r) => r.name === ref)
-    if (refObj) {
-      return refObj.hash
+    const refObject = this.repo.refs.find((r) => r.name === ref)
+    if (refObject) {
+      return refObject.hash
     }
 
     return ref // Return as-is if not found
@@ -437,36 +438,43 @@ index 1234567..abcdefg 100644
     const subcommand = args[0]
 
     switch (subcommand) {
-      case 'add':
+      case 'add': {
         const name = args[1]
         const url = args[2]
         if (name && url) {
           this.repo.remotes.set(name, url)
           return `Remote '${name}' added with URL '${url}'`
         }
+
         break
+      }
 
       case 'remove':
-      case 'rm':
+      case 'rm': {
         const removeName = args[1]
         if (removeName && this.repo.remotes.has(removeName)) {
           this.repo.remotes.delete(removeName)
           return `Remote '${removeName}' removed`
         }
-        break
 
-      case 'show':
+        break
+      }
+
+      case 'show': {
         const showName = args[1] || 'origin'
         const showUrl = this.repo.remotes.get(showName)
         if (showUrl) {
           return `${showName}\t${showUrl} (fetch)\n${showName}\t${showUrl} (push)`
         }
+
         break
+      }
 
       case 'list':
-      default:
+      default: {
         const remotes = [...this.repo.remotes.entries()]
         return remotes.map(([name, url]) => `${name}\t${url}`).join('\n')
+      }
     }
 
     return ''
@@ -484,6 +492,7 @@ index 1234567..abcdefg 100644
 
         break
       }
+
       case '--set': {
         const key = args[1]
         const value = args[2]
@@ -494,6 +503,7 @@ index 1234567..abcdefg 100644
 
         break
       }
+
       case '--list': {
         return [...this.repo.config.entries()].map(([key, value]) => `${key}=${value}`).join('\n')
       }
@@ -510,6 +520,7 @@ index 1234567..abcdefg 100644
     for (let i = 0; i < 40; i++) {
       result += chars[Math.floor(Math.random() * chars.length)]
     }
+
     return result
   }
 }

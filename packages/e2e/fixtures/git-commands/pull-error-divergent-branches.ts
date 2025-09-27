@@ -5,9 +5,9 @@ export const gitFixtures: GitFixtures = {
   '--version': {
     stdout: 'git version 2.34.1',
     stderr: '',
-    exitCode: 0
+    exitCode: 0,
   },
-  'pull': {
+  pull: {
     stdout: `> git pull --tags origin main
 From https://github.com/user/repo
   * branch              main       -> FETCH_HEAD`,
@@ -25,7 +25,6 @@ hint: or --ff-only on the command line to override the configured default per
 hint: invocation.
 fatal: Need to specify how to reconcile divergent branches.
 `,
-    exitCode: 128
-  }
+    exitCode: 128,
+  },
 }
-
