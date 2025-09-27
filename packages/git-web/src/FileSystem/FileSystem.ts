@@ -1,6 +1,6 @@
 import * as Rpc from '@lvce-editor/rpc'
 import { RpcId } from '../RpcId/RpcId.ts'
-import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.ts'
+import type { FileSystem, FileStat } from '../FileSystemInterface/FileSystemInterface.ts'
 
 export class RpcFileSystem implements FileSystem {
   async exists(path: string): Promise<boolean> {
@@ -48,7 +48,7 @@ export class RpcFileSystem implements FileSystem {
     }
   }
 
-  async stat(path: string): Promise<{ readonly isFile: boolean; readonly isDirectory: boolean; readonly size: number }> {
+  async stat(path: string): Promise<FileStat> {
     try {
       return await Rpc.invoke(RpcId, 'FileSystem.stat', path)
     } catch (error) {

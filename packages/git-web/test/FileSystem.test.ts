@@ -1,6 +1,6 @@
 import { test, expect } from '@jest/globals'
 import { RpcFileSystem } from '../src/FileSystem/FileSystem.ts'
-import type { FileSystem } from '../src/FileSystemInterface/FileSystemInterface.ts'
+import type { FileSystem, FileStat } from '../src/FileSystemInterface/FileSystemInterface.ts'
 import { createMockRpc, setupRpcMock, teardownRpcMock, createFileSystemCommandMap } from './test-helpers/mockRpcHelper.ts'
 
 let mockRpc: ReturnType<typeof createMockRpc>
@@ -97,7 +97,7 @@ test('RpcFileSystem readdir calls RPC', async () => {
 })
 
 test('RpcFileSystem stat calls RPC', async () => {
-  mockRpc.commandMap['FileSystem.stat'] = jest.fn().mockResolvedValue({ isFile: true, isDirectory: false, size: 1024 })
+  mockRpc.commandMap['FileSystem.stat'] = jest.fn().mockResolvedValue({ isFile: true, isDirectory: false, size: 1024 } as FileStat)
 
   const fs = new RpcFileSystem()
   const result = await fs.stat('/test/file')
