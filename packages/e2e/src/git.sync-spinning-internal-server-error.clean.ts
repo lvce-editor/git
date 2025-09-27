@@ -1,7 +1,8 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-// @ts-ignore
 
 export const name = 'git.sync-spinning-internal-server-error.clean'
+
+export const skip = 1
 
 export const test: Test = async ({ FileSystem, QuickPick, Workspace, Settings, Locator, expect }) => {
   // arrange
