@@ -1,7 +1,9 @@
 import { test, expect } from '@jest/globals'
 import { handleAdd } from '../src/AddCommand/AddCommand.ts'
+import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
-test('handleAdd with specific files', async () => {
+test.only('handleAdd with specific files', async () => {
+  const mockRpc = registerMockRpc({})
   const result = await handleAdd(['file1.txt', 'file2.txt'], { cwd: 'web://test-add' })
 
   expect(result).toEqual({
@@ -9,6 +11,7 @@ test('handleAdd with specific files', async () => {
     stderr: '',
     exitCode: 0,
   })
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('handleAdd with dot adds all files', async () => {
