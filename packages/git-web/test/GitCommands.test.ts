@@ -94,16 +94,25 @@ test('executeCommand with init', async () => {
 test('executeCommand with status', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      return false // No git config exists, use in-memory mode
+      return true // Git config exists, use filesystem mode
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
     },
   })
 
   const result = await executeCommand(['status'], { cwd: 'web://test' })
 
-  expect(result.stdout).toMatch(/Changes not staged for commit|Untracked files/)
+  expect(result.stdout).toContain('On branch main')
+  expect(result.stdout).toContain('nothing to commit, working tree clean')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.read', 'web:/test/.git/HEAD'],
+  ])
 })
 
 test('executeCommand with add', async () => {
