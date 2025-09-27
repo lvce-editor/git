@@ -19,7 +19,7 @@ import { handleStatus } from '../StatusCommand/StatusCommand.ts'
 import { handleVersion } from '../VersionCommand/VersionCommand.ts'
 
 // Register all git commands
-const registerGitCommands = () => {
+const registerGitCommands = (): void => {
   GitCommands.registerCommand('--version', handleVersion)
   GitCommands.registerCommand('init', handleInit)
   GitCommands.registerCommand('status', handleStatus)

@@ -3,22 +3,22 @@ import { defaultFileSystem } from '../FileSystem/FileSystem.ts'
 import { join } from '../Path/Path.ts'
 
 interface Commit {
-  readonly hash: string
-  readonly author: string
-  readonly date: string
-  readonly message: string
+  hash: string
+  author: string
+  date: string
+  message: string
 }
 
 interface Branch {
-  readonly name: string
-  readonly commit: string
-  readonly isCurrent: boolean
+  name: string
+  commit: string
+  isCurrent: boolean
 }
 
 interface Ref {
-  readonly name: string
-  readonly hash: string
-  readonly type: 'branch' | 'tag' | 'remote'
+  name: string
+  hash: string
+  type: 'branch' | 'tag' | 'remote'
 }
 
 interface Repository {
