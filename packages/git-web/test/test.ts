@@ -1,4 +1,4 @@
-import { GitWebExec } from '../GitWebExec/GitWebExec.js'
+import { GitWebExec } from '../src/GitWebExec/GitWebExec.js'
 
 // Test the git-web functionality
 const testGitWeb = async () => {
