@@ -1,5 +1,3 @@
-import type { Test } from '@lvce-editor/test-with-playwright'
-
 export const skip = true
 
 export const name = 'quick-pick-select-branch'
