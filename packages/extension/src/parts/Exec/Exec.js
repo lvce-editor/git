@@ -1,6 +1,7 @@
 import * as Rpc from '../Rpc/Rpc.js'
 import * as Trace from '../Trace/Trace.js'
 import * as Assert from '../Assert/Assert.js'
+import { getInvoke } from '../GetInvoke/GetInvoke.js'
 
 /**
  *
@@ -14,7 +15,8 @@ export const exec = async (command, args, options) => {
   Assert.array(args)
   Assert.object(options)
   const start = performance.now()
-  const { stdout, stderr, exitCode } = await Rpc.invoke('Exec.exec', command, args, options)
+  const invoke = getInvoke(options.cwd)
+  const { stdout, stderr, exitCode } = await invoke('Exec.exec', command, args, options)
   const end = performance.now()
   Trace.trace(`git ${args.join(' ')} (${(end - start).toFixed(1)}ms)\n${stdout}\n${stderr}`)
   return {
