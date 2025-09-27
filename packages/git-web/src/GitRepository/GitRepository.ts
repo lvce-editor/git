@@ -21,19 +21,18 @@ interface Ref {
   readonly type: 'branch' | 'tag' | 'remote'
 }
 
+interface Repository {
+  commits: Commit[]
+  branches: Branch[]
+  refs: Ref[]
+  stagedFiles: string[]
+  workingDirFiles: string[]
+  remotes: Map<string, string>
+  config: Map<string, string>
+}
+
 // In-memory storage for virtual git repositories (fallback when filesystem is not available)
-const repositories = new Map<
-  string,
-  {
-    commits: Commit[]
-    branches: Branch[]
-    refs: Ref[]
-    stagedFiles: string[]
-    workingDirFiles: string[]
-    remotes: Map<string, string>
-    config: Map<string, string>
-  }
->()
+const repositories = new Map<string, Repository>()
 
 export class GitRepository {
   private static getRepositoryKey(cwd: string): string {
@@ -376,7 +375,7 @@ export class GitRepository {
     // For now, just simulate success
   }
 
-  async fetch(args: string[]): Promise<void> {
+  async fetch(args: readonly string[]): Promise<void> {
     // Simulate fetch - in a real implementation, this would fetch from remote
     // For now, just simulate success
   }
@@ -396,7 +395,7 @@ export class GitRepository {
     return this.repo.commits.slice(0, 10) // Return last 10 commits
   }
 
-  async getDiff(args: string[]): Promise<string> {
+  async getDiff(args: readonly string[]): Promise<string> {
     // Simulate diff output
     return `diff --git a/test/file-1.txt b/test/file-1.txt
 index 1234567..abcdefg 100644
@@ -407,7 +406,7 @@ index 1234567..abcdefg 100644
 +modified`
   }
 
-  async parseRef(args: string[]): Promise<string> {
+  async parseRef(args: readonly string[]): Promise<string> {
     const ref = args[0] || 'HEAD'
 
     if (ref === 'HEAD') {
@@ -430,7 +429,7 @@ index 1234567..abcdefg 100644
     return ref // Return as-is if not found
   }
 
-  async listRefs(args: string[]): Promise<string[]> {
+  async listRefs(args: readonly string[]): Promise<string[]> {
     return this.repo.refs.map((ref) => `${ref.name} ${ref.hash} `)
   }
 

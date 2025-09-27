@@ -8,7 +8,7 @@ import { handleDiff } from '../DiffCommand/DiffCommand.ts'
 import { handleFetch } from '../FetchCommand/FetchCommand.ts'
 import { handleForEachRef } from '../ForEachRefCommand/ForEachRefCommand.ts'
 import * as GitCommands from '../GitCommands/GitCommands.ts'
-import { GitWebExec } from '../GitWebExec/GitWebExec.ts'
+import { exec } from '../GitWebExec/GitWebExec.ts'
 import { handleInit } from '../InitCommand/InitCommand.ts'
 import { handleLog } from '../LogCommand/LogCommand.ts'
 import { handlePull } from '../PullCommand/PullCommand.ts'
@@ -38,15 +38,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('config', handleConfig)
 }
 
-export const Main = () => {
+export const Main = (): void => {
   // Register all commands
   registerGitCommands()
-
-  // RPC command map for the git-web package
-  const commandMap = {
-    'GitWeb.exec': GitWebExec.exec,
-  }
-
-  // Initialize the RPC system
-  Rpc.createMain(commandMap)
 }
