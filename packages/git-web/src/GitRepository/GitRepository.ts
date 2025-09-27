@@ -208,6 +208,10 @@ export class GitRepository {
 
   async addFiles(files: string[]): Promise<void> {
     if (this.useFileSystem) {
+      // In filesystem mode, if no files specified, do nothing (like real git add with no args)
+      if (files.length === 0) {
+        return
+      }
       await this.addFilesToFileSystem(files)
     } else {
       if (files.includes('.')) {
@@ -278,7 +282,7 @@ export class GitRepository {
     try {
       // Get all files in the working directory
       const files: string[] = []
-      await this.collectFiles(this.key, files)
+      await this.collectFiles(this.key, files, this.key)
       return files
     } catch (error) {
       console.warn('Failed to get working directory files:', error)
@@ -286,7 +290,7 @@ export class GitRepository {
     }
   }
 
-  private async collectFiles(dir: string, files: string[]): Promise<void> {
+  private async collectFiles(dir: string, files: string[], baseDir: string): Promise<void> {
     try {
       const entries = await defaultFileSystem.readdir(dir)
       for (const entry of entries) {
@@ -297,10 +301,16 @@ export class GitRepository {
         
         if (stat.isFile) {
           // Add relative path from working directory
-          const relativePath = fullPath.substring(this.key.length + 1)
-          files.push(relativePath)
+          // Ensure we have the correct base directory length
+          if (fullPath.startsWith(baseDir + '/')) {
+            const relativePath = fullPath.substring(baseDir.length + 1)
+            files.push(relativePath)
+          } else if (fullPath.startsWith(baseDir)) {
+            const relativePath = fullPath.substring(baseDir.length)
+            files.push(relativePath)
+          }
         } else if (stat.isDirectory) {
-          await this.collectFiles(fullPath, files)
+          await this.collectFiles(fullPath, files, baseDir)
         }
       }
     } catch (error) {
