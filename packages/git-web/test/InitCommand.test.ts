@@ -93,10 +93,10 @@ test('handleInit skips if config already exists', async () => {
 test('handleInit handles filesystem errors', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      throw new Error('Filesystem error')
+      return false // Config doesn't exist, so we proceed
     },
     'FileSystem.mkdir'(path: string) {
-      // Mock mkdir calls
+      throw new Error('Filesystem error')
     },
     'FileSystem.write'(path: string, content: string) {
       // Mock write calls
@@ -107,5 +107,8 @@ test('handleInit handles filesystem errors', async () => {
 
   expect(result.stderr).toContain('Filesystem error')
   expect(result.exitCode).toBe(1)
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+    ['FileSystem.mkdir', 'web:/test/.git/hooks'],
+  ])
 })
