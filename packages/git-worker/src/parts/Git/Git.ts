@@ -5,10 +5,10 @@ import * as GetGitEnv from '../GetGitEnv/GetGitEnv.ts'
 
 export const exec = async ({ gitPath, cwd, name, args }) => {
   if (typeof gitPath !== 'string') {
-    throw new Error(`gitPath must be of type string, was ${gitPath}`)
+    throw new TypeError(`gitPath must be of type string, was ${gitPath}`)
   }
   if (typeof cwd !== 'string') {
-    throw new Error(`cwd must be of type string, was ${cwd}`)
+    throw new TypeError(`cwd must be of type string, was ${cwd}`)
   }
   const env = GetGitEnv.getGitEnv()
   const options = {

@@ -1,5 +1,5 @@
-import * as GitRequestsUnstageAll from '../src/parts/GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 import { jest } from '@jest/globals'
+import * as GitRequestsUnstageAll from '../src/parts/GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 
 test('unstageAll', async () => {
   const exec = jest.fn()

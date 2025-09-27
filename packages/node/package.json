@@ -2,12 +2,12 @@
   "name": "node",
   "version": "0.0.0-dev",
   "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {},
   "keywords": [],
-  "author": "",
   "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {},
   "dependencies": {
     "execa": "^7.1.1"
   }

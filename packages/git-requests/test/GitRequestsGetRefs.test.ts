@@ -1,5 +1,5 @@
-import * as GitRequestsGetRefs from '../src/parts/GitRequestsGetRefs/GitRequestsGetRefs.js'
 import * as GitRefType from '../src/parts/GitRefType/GitRefType.js'
+import * as GitRequestsGetRefs from '../src/parts/GitRequestsGetRefs/GitRequestsGetRefs.js'
 
 test('getRefs', async () => {
   // @ts-ignore
