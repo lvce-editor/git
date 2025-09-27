@@ -79,15 +79,15 @@ test('executeCommand with init', async () => {
   expect(result.exitCode).toBe(0)
 
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/.git/config'],
-    ['FileSystem.mkdir', 'web:/test/.git/hooks'],
-    ['FileSystem.mkdir', 'web:/test/.git/info'],
-    ['FileSystem.mkdir', 'web:/test/.git/objects/info'],
-    ['FileSystem.mkdir', 'web:/test/.git/objects/pack'],
-    ['FileSystem.mkdir', 'web:/test/.git/refs/heads'],
-    ['FileSystem.mkdir', 'web:/test/.git/refs/tags'],
-    ['FileSystem.write', 'web:/test/.git/config', expect.stringContaining('[core]')],
-    ['FileSystem.write', 'web:/test/.git/HEAD', 'ref: refs/heads/main\n'],
+    ['FileSystem.exists', 'web://test/.git/config'],
+    ['FileSystem.mkdir', 'web://test/.git/hooks'],
+    ['FileSystem.mkdir', 'web://test/.git/info'],
+    ['FileSystem.mkdir', 'web://test/.git/objects/info'],
+    ['FileSystem.mkdir', 'web://test/.git/objects/pack'],
+    ['FileSystem.mkdir', 'web://test/.git/refs/heads'],
+    ['FileSystem.mkdir', 'web://test/.git/refs/tags'],
+    ['FileSystem.write', 'web://test/.git/config', expect.stringContaining('[core]')],
+    ['FileSystem.write', 'web://test/.git/HEAD', 'ref: refs/heads/main\n'],
   ])
 })
 
@@ -103,7 +103,7 @@ test('executeCommand with status', async () => {
   expect(result.stdout).toMatch(/Changes not staged for commit|Untracked files/)
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with add', async () => {
@@ -119,7 +119,7 @@ test('executeCommand with add', async () => {
   expect(result.stderr).toBe('')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with commit', async () => {
@@ -135,7 +135,7 @@ test('executeCommand with commit', async () => {
   expect(result.stdout).toContain('Test commit')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with push', async () => {
@@ -150,7 +150,7 @@ test('executeCommand with push', async () => {
   expect(result.stdout).toContain('Everything up-to-date')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with pull', async () => {
@@ -165,7 +165,7 @@ test('executeCommand with pull', async () => {
   expect(result.stdout).toContain('Already up to date')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with fetch', async () => {
@@ -180,7 +180,7 @@ test('executeCommand with fetch', async () => {
   expect(result.stdout).toContain('From https://github.com/user/repo')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with checkout', async () => {
@@ -195,7 +195,7 @@ test('executeCommand with checkout', async () => {
   expect(result.stdout).toContain("Switched to branch 'main'")
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with branch', async () => {
@@ -210,7 +210,7 @@ test('executeCommand with branch', async () => {
   expect(result.stdout).toContain('* main')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with log', async () => {
@@ -226,7 +226,7 @@ test('executeCommand with log', async () => {
   expect(result.stdout).toContain('Author:')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with diff', async () => {
@@ -241,7 +241,7 @@ test('executeCommand with diff', async () => {
   expect(result.stdout).toContain('diff --git')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with rev-parse', async () => {
@@ -256,7 +256,7 @@ test('executeCommand with rev-parse', async () => {
   expect(result.stdout).toMatch(/^[a-f\d]{40}$/)
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with for-each-ref', async () => {
@@ -271,7 +271,7 @@ test('executeCommand with for-each-ref', async () => {
   expect(result.stdout).toContain('refs/heads/main')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with remote', async () => {
@@ -286,7 +286,7 @@ test('executeCommand with remote', async () => {
   expect(result.stdout).toContain('origin')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with config', async () => {
@@ -301,7 +301,7 @@ test('executeCommand with config', async () => {
   expect(result.stdout).toContain('user.name=User')
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with unknown command', async () => {

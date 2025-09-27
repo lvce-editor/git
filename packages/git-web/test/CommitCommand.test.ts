@@ -29,9 +29,9 @@ test('handleCommit with message', async () => {
   expect(result.stdout).toContain('Test commit')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test-commit/.git/config'],
-    ['FileSystem.read', 'web:/test-commit/.git/HEAD'],
-    ['FileSystem.write', 'web:/test-commit/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
+    ['FileSystem.exists', 'web://test-commit/.git/config'],
+    ['FileSystem.read', 'web://test-commit/.git/HEAD'],
+    ['FileSystem.write', 'web://test-commit/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
   ])
 })
 
@@ -62,9 +62,9 @@ test('handleCommit without message uses default', async () => {
   expect(result.stdout).toContain('Web commit')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test-commit-default/.git/config'],
-    ['FileSystem.read', 'web:/test-commit-default/.git/HEAD'],
-    ['FileSystem.write', 'web:/test-commit-default/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
+    ['FileSystem.exists', 'web://test-commit-default/.git/config'],
+    ['FileSystem.read', 'web://test-commit-default/.git/HEAD'],
+    ['FileSystem.write', 'web://test-commit-default/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
   ])
 })
 

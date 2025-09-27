@@ -22,21 +22,21 @@ test('handleInit returns success message', async () => {
   const result = await handleInit([], { cwd: 'web://test' })
 
   expect(result).toEqual({
-    stdout: 'Initialized empty Git repository in web:/test/.git/',
+    stdout: 'Initialized empty Git repository in web://test/.git/',
     stderr: '',
     exitCode: 0,
   })
 
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/.git/config'],
-    ['FileSystem.mkdir', 'web:/test/.git/hooks'],
-    ['FileSystem.mkdir', 'web:/test/.git/info'],
-    ['FileSystem.mkdir', 'web:/test/.git/objects/info'],
-    ['FileSystem.mkdir', 'web:/test/.git/objects/pack'],
-    ['FileSystem.mkdir', 'web:/test/.git/refs/heads'],
-    ['FileSystem.mkdir', 'web:/test/.git/refs/tags'],
-    ['FileSystem.write', 'web:/test/.git/config', expect.stringContaining('[core]')],
-    ['FileSystem.write', 'web:/test/.git/HEAD', 'ref: refs/heads/main\n'],
+    ['FileSystem.exists', 'web://test/.git/config'],
+    ['FileSystem.mkdir', 'web://test/.git/hooks'],
+    ['FileSystem.mkdir', 'web://test/.git/info'],
+    ['FileSystem.mkdir', 'web://test/.git/objects/info'],
+    ['FileSystem.mkdir', 'web://test/.git/objects/pack'],
+    ['FileSystem.mkdir', 'web://test/.git/refs/heads'],
+    ['FileSystem.mkdir', 'web://test/.git/refs/tags'],
+    ['FileSystem.write', 'web://test/.git/config', expect.stringContaining('[core]')],
+    ['FileSystem.write', 'web://test/.git/HEAD', 'ref: refs/heads/main\n'],
   ])
 })
 

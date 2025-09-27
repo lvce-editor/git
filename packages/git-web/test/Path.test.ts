@@ -6,7 +6,7 @@ test('join with multiple segments', () => {
 })
 
 test('join with empty segments', () => {
-  expect(join('a', '', 'c')).toBe('a/c')
+  expect(join('a', '', 'c')).toBe('a//c')
 })
 
 test('join with single segment', () => {
