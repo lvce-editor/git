@@ -1,0 +1,3 @@
+stdout: fatal: not a git repository (or any of the parent directories): .git')
+stdout:
+exit: 128
