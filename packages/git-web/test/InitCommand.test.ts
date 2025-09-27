@@ -57,7 +57,7 @@ test('handleInit with --bare flag', async () => {
 
   const result = await handleInit(['--bare'], { cwd: 'web://test' })
 
-  expect(result.stdout).toContain('Initialized empty Git repository in web:/test/')
+  expect(result.stdout).toContain('Initialized empty Git repository in web://test/')
   expect(result.exitCode).toBe(0)
 
   expect(mockRpc.invocations).toEqual([
