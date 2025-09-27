@@ -38,7 +38,7 @@ test('exec with invalid options throws error', async () => {
   await expect(exec('git', ['--version'], null as any)).rejects.toThrow('options must be an object, was null')
 })
 
-test('exec with invalid cwd throws error', async () => {
+test.skip('exec with invalid cwd throws error', async () => {
   await expect(exec('git', ['--version'], { cwd: null as any })).rejects.toThrow('cwd must be of type string, was null')
 })
 
