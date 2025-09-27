@@ -1,7 +1,14 @@
 import { test, expect } from '@jest/globals'
 import { executeCommand, registerCommand, unregisterCommand, getRegisteredCommands, isCommandRegistered } from '../src/GitCommands/GitCommands.ts'
+import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
 test('executeCommand with --version', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      return false // No git config exists
+    },
+  })
+
   const result = await executeCommand(['--version'], { cwd: 'web://test' })
 
   expect(result).toEqual({
@@ -9,16 +16,62 @@ test('executeCommand with --version', async () => {
     stderr: '',
     exitCode: 0
   })
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with init', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return false // No git config exists
+      }
+      return false
+    },
+    'FileSystem.mkdir'(path: string) {
+      // Mock mkdir calls
+    },
+    'FileSystem.write'(path: string, content: string) {
+      // Mock write calls
+    },
+  })
+
   const result = await executeCommand(['init'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('Initialized empty Git repository')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+    ['FileSystem.mkdir', 'web:/test/.git/hooks'],
+    ['FileSystem.mkdir', 'web:/test/.git/info'],
+    ['FileSystem.mkdir', 'web:/test/.git/objects/info'],
+    ['FileSystem.mkdir', 'web:/test/.git/objects/pack'],
+    ['FileSystem.mkdir', 'web:/test/.git/refs/heads'],
+    ['FileSystem.mkdir', 'web:/test/.git/refs/tags'],
+    ['FileSystem.write', 'web:/test/.git/config', expect.stringContaining('[core]')],
+    ['FileSystem.write', 'web:/test/.git/HEAD', 'ref: refs/heads/main\n'],
+  ])
 })
 
 test('executeCommand with status', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+  })
+
   const result = await executeCommand(['status'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('On branch main')
@@ -26,6 +79,15 @@ test('executeCommand with status', async () => {
 })
 
 test('executeCommand with add', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['add', '.'], { cwd: 'web://test' })
 
   expect(result.stdout).toBe('')
@@ -34,6 +96,24 @@ test('executeCommand with add', async () => {
 })
 
 test('executeCommand with commit', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+    'FileSystem.write'(path: string, content: string) {
+      // Mock write calls
+    },
+  })
+
   const result = await executeCommand(['commit', '-m', 'Test commit'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('[main')
@@ -42,6 +122,15 @@ test('executeCommand with commit', async () => {
 })
 
 test('executeCommand with push', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['push'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('Everything up-to-date')
@@ -49,6 +138,15 @@ test('executeCommand with push', async () => {
 })
 
 test('executeCommand with pull', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['pull'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('Already up to date')
@@ -56,6 +154,15 @@ test('executeCommand with pull', async () => {
 })
 
 test('executeCommand with fetch', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['fetch'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('From https://github.com/user/repo')
@@ -63,6 +170,15 @@ test('executeCommand with fetch', async () => {
 })
 
 test('executeCommand with checkout', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['checkout', 'main'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain("Switched to branch 'main'")
@@ -70,6 +186,15 @@ test('executeCommand with checkout', async () => {
 })
 
 test('executeCommand with branch', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['branch'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('* main')
@@ -77,6 +202,15 @@ test('executeCommand with branch', async () => {
 })
 
 test('executeCommand with log', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['log'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('commit')
@@ -85,6 +219,15 @@ test('executeCommand with log', async () => {
 })
 
 test('executeCommand with diff', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['diff'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('diff --git')
@@ -92,6 +235,15 @@ test('executeCommand with diff', async () => {
 })
 
 test('executeCommand with rev-parse', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['rev-parse', 'HEAD'], { cwd: 'web://test' })
 
   expect(result.stdout).toMatch(/^[a-f0-9]{40}$/)
@@ -99,6 +251,15 @@ test('executeCommand with rev-parse', async () => {
 })
 
 test('executeCommand with for-each-ref', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['for-each-ref'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('refs/heads/main')
@@ -106,6 +267,15 @@ test('executeCommand with for-each-ref', async () => {
 })
 
 test('executeCommand with remote', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['remote'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('origin')
@@ -113,6 +283,15 @@ test('executeCommand with remote', async () => {
 })
 
 test('executeCommand with config', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const result = await executeCommand(['config', '--list'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('user.name=User')

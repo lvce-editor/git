@@ -144,6 +144,15 @@ test('commit clears staged files', async () => {
 })
 
 test('push simulates success', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-push')
   
   // Should not throw
@@ -151,6 +160,15 @@ test('push simulates success', async () => {
 })
 
 test('pull simulates success', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-pull')
   
   // Should not throw
@@ -158,6 +176,15 @@ test('pull simulates success', async () => {
 })
 
 test('fetch simulates success', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-fetch')
   
   // Should not throw
@@ -165,6 +192,15 @@ test('fetch simulates success', async () => {
 })
 
 test('checkout switches branch', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-checkout')
   await repo.checkout('feature-branch')
   
@@ -173,6 +209,15 @@ test('checkout switches branch', async () => {
 })
 
 test('listBranches returns branch list', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-branches')
   const branches = await repo.listBranches()
   
@@ -181,6 +226,15 @@ test('listBranches returns branch list', async () => {
 })
 
 test('getCommits returns commit list', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-commits')
   const commits = await repo.getCommits()
   
@@ -192,6 +246,15 @@ test('getCommits returns commit list', async () => {
 })
 
 test('getDiff returns diff output', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-diff')
   const diff = await repo.getDiff([])
   
@@ -201,6 +264,15 @@ test('getDiff returns diff output', async () => {
 })
 
 test('parseRef with HEAD returns current commit', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-parse-ref')
   const hash = await repo.parseRef(['HEAD'])
   
@@ -208,6 +280,15 @@ test('parseRef with HEAD returns current commit', async () => {
 })
 
 test('parseRef with branch name returns commit hash', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-parse-branch')
   const hash = await repo.parseRef(['main'])
   
@@ -215,6 +296,15 @@ test('parseRef with branch name returns commit hash', async () => {
 })
 
 test('parseRef with unknown ref returns as-is', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-parse-unknown')
   const result = await repo.parseRef(['unknown-ref'])
   
@@ -222,6 +312,15 @@ test('parseRef with unknown ref returns as-is', async () => {
 })
 
 test('listRefs returns ref list', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-refs')
   const refs = await repo.listRefs([])
   
@@ -231,6 +330,15 @@ test('listRefs returns ref list', async () => {
 })
 
 test('handleRemote with add adds remote', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-remote-add')
   const result = await repo.handleRemote(['add', 'upstream', 'https://github.com/upstream/repo.git'])
   
@@ -238,6 +346,15 @@ test('handleRemote with add adds remote', async () => {
 })
 
 test('handleRemote with remove removes remote', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-remote-remove')
   const result = await repo.handleRemote(['remove', 'origin'])
   
@@ -245,6 +362,15 @@ test('handleRemote with remove removes remote', async () => {
 })
 
 test('handleRemote with show shows remote', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-remote-show')
   const result = await repo.handleRemote(['show', 'origin'])
   
@@ -253,6 +379,15 @@ test('handleRemote with show shows remote', async () => {
 })
 
 test('handleRemote with list lists remotes', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-remote-list')
   const result = await repo.handleRemote(['list'])
   
@@ -261,6 +396,15 @@ test('handleRemote with list lists remotes', async () => {
 })
 
 test('handleConfig with --get gets config value', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-config-get')
   const result = await repo.handleConfig(['--get', 'user.name'])
   
@@ -268,6 +412,15 @@ test('handleConfig with --get gets config value', async () => {
 })
 
 test('handleConfig with --set sets config value', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-config-set')
   const result = await repo.handleConfig(['--set', 'user.name', 'NewUser'])
   
@@ -279,6 +432,15 @@ test('handleConfig with --set sets config value', async () => {
 })
 
 test('handleConfig with --list lists all config', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-config-list')
   const result = await repo.handleConfig(['--list'])
   
@@ -287,6 +449,15 @@ test('handleConfig with --list lists all config', async () => {
 })
 
 test('generateHash creates valid git hash', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
+      }
+      return false
+    },
+  })
+
   const repo = await GitRepository.getRepository('web://test-hash')
   
   // Access private method through any type
