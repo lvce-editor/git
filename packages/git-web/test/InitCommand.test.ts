@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { handleInit } from '../src/commands/InitCommand/InitCommand.ts'
+import { handleInit } from '../src/InitCommand/InitCommand.ts'
 import { createMockRpc, setupRpcMock, teardownRpcMock, createFileSystemCommandMap } from '../test-helpers/mockRpcHelper.ts'
 
 let mockRpc: ReturnType<typeof createMockRpc>
