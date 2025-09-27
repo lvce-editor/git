@@ -4,17 +4,42 @@ import { dirname, join } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+interface GitFixture {
+  stdout?: string
+  stderr?: string
+  exitCode?: number
+  error?: string
+  delay?: number
+}
+
+interface GitFixtures {
+  [command: string]: GitFixture
+}
+
+interface ExecResult {
+  stdout: string
+  stderr: string
+  exitCode: number
+}
+
+type MockExecFunction = (command: string, args: string[], options: any) => Promise<ExecResult>
+
+interface MockRpc {
+  name: string
+  commands: {
+    'Exec.exec': MockExecFunction
+  }
+}
+
 /**
  * Creates a mock exec function from git command fixtures
- * @param {string} fixtureName - Name of the git command fixture to use
- * @returns {Promise<Function>}
  */
-export const createMockExec = async (fixtureName) => {
+export const createMockExec = async (fixtureName: string): Promise<MockExecFunction> => {
   // Load the git command fixtures
   const fixturePath = join(__dirname, '../../fixtures/git-commands', `${fixtureName}.js`)
-  const { gitFixtures } = await import(fixturePath)
+  const { gitFixtures }: { gitFixtures: GitFixtures } = await import(fixturePath)
   
-  return (command, args, options) => {
+  return (command: string, args: string[], options: any): Promise<ExecResult> => {
     if (command !== 'git') {
       throw new Error(`Unexpected command: ${command}`)
     }
@@ -47,10 +72,8 @@ export const createMockExec = async (fixtureName) => {
 
 /**
  * Creates a mockRpc object for git e2e tests
- * @param {string} fixtureName - Name of the git command fixture to use
- * @returns {Promise<object>}
  */
-export const createGitMockRpc = async (fixtureName) => {
+export const createGitMockRpc = async (fixtureName: string): Promise<MockRpc> => {
   const mockExec = await createMockExec(fixtureName)
   
   return {

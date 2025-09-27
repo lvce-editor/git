@@ -1,8 +1,9 @@
 import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
+import type { TestContext } from '../typings/e2e-types.js'
 
 export const mockRpc = await createGitMockRpc('sync-spinning')
 
-export const test = async ({ FileSystem, Workspace, Settings, Locator, expect }) => {
+export const test = async ({ FileSystem, Workspace, Settings, Locator, expect }: TestContext) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/test.txt`, 'div')
