@@ -15,7 +15,7 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
 
   // act
   await QuickPick.executeCommand('Git: Push')
-  
+
   // assert
   // TODO after a fixed amount of time, should show a message that command is running too long
   // with a cancel button

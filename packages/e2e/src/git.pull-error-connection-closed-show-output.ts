@@ -18,7 +18,7 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
 
   // act
   await QuickPick.executeCommand('Git: Pull')
-  
+
   // assert
   const dialog = Locator('dialog')
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
