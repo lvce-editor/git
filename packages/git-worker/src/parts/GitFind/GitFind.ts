@@ -3,10 +3,12 @@ import * as Exec from '../Exec/Exec.ts'
 import * as ParseGitVersion from '../ParseGitVersion/ParseGitVersion.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
-const findGitAtPath = async (path) => {
+const findGitAtPath = async (path: string, cwd: string) => {
   let result
   try {
-    result = await Exec.exec('git', ['--version'], {})
+    result = await Exec.exec('git', ['--version'], {
+      cwd,
+    })
   } catch (error) {
     if (!Exec.isExecError(error)) {
       throw error
@@ -23,10 +25,10 @@ const getGitPaths = () => {
   return Rpc.invoke('Config.getGitPaths')
 }
 
-export const findGit = async () => {
+export const findGit = async (cwd: string) => {
   const paths = await getGitPaths()
   for (const path of paths) {
-    const git = await findGitAtPath(path)
+    const git = await findGitAtPath(path, cwd)
     if (git) {
       return git
     }
