@@ -1,6 +1,6 @@
+import { exportStatic } from '@lvce-editor/shared-process'
 import { cp, readdir } from 'node:fs/promises'
 import path from 'node:path'
-import { exportStatic } from '@lvce-editor/shared-process'
 import { root } from './root.ts'
 
 await import('./build.ts')
@@ -18,7 +18,7 @@ await exportStatic({
 
 const RE_COMMIT_HASH = /^[a-z\d]+$/
 const isCommitHash = (dirent: string): boolean => {
-  return dirent.length === 7 && RE_COMMIT_HASH.exec(dirent) !== null
+  return dirent.length === 7 && dirent.match(RE_COMMIT_HASH) !== null
 }
 
 const dirents = await readdir(path.join(root, 'dist'))
