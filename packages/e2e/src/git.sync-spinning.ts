@@ -1,10 +1,15 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const name = 'git.sync-spinning'
 
 export const skip = true
 
-export const test = async ({ FileSystem, Workspace, Settings, Locator, expecr }) => {
+export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }) => {
+  // @ts-ignore
   const tmpDir = await getTmpDir()
+  // @ts-ignore
   await writeFile(`${tmpDir}/test.txt`, 'div')
+  // @ts-ignore
   const gitPath = await createFakeGitBinary(`
 const main = async () => {
   const argv = process.argv.slice(2)
@@ -25,9 +30,11 @@ const main = async () => {
 
 main()
 `)
+  // @ts-ignore
   const configDir = await writeSettings({
     'git.path': gitPath,
   })
+  // @ts-ignore
   const page = await runWithExtension({
     name: 'builtin.git',
     folder: tmpDir,
@@ -52,6 +59,7 @@ main()
   await expect(statusBarItemSyncIcon).toHaveClass('StatusBarIcon AnimationSpin')
 
   // wait for some time, not sure how long, then spin animation should be over
+  // @ts-ignore
   await expect(statusBarItemSyncIcon).toHaveClass('StatusBarIcon', {
     timeout: 10_000,
   })
@@ -61,7 +69,7 @@ main()
 
   console.log('finished')
 
-  if (process.send) {
-    process.send('succeeded')
-  }
+  // if (process.send) {
+  //   process.send('succeeded')
+  // }
 }

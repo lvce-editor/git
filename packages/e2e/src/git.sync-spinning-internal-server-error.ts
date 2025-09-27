@@ -1,10 +1,15 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const name = 'git.sync-spinning-internal-server-error'
 
 export const skip = true
 
-export const test = async ({ Workspace, FileSystem, Settings }) => {
+export const test: Test = async ({ Workspace, FileSystem, Settings }) => {
+  // @ts-ignore
   const tmpDir = await getTmpDir()
+  // @ts-ignore
   await writeFile(`${tmpDir}/test.txt`, 'div')
+  // @ts-ignore
   const gitPath = await createFakeGitBinary(`
 console.info(\`Enumerating objects: 23, done.
 Counting objects: 100% (23/23), done.
@@ -19,9 +24,11 @@ To github.com:user/repo.git
 error: failed to push some refs to 'github.com:user/repo.git\`)
 process.exit(128)
 `)
+  // @ts-ignore
   const configDir = await writeSettings({
     'git.path': gitPath,
   })
+  // @ts-ignore
   const page = await runWithExtension({
     name: 'builtin.git',
     folder: tmpDir,
@@ -36,11 +43,13 @@ process.exit(128)
   await page.keyboard.press('Control+Shift+P')
   const quickPick = page.locator('#QuickPick')
   const quickPickInput = quickPick.locator('.InputBox')
+  // @ts-ignore
   await expect(quickPickInput).toHaveValue('>')
   await quickPickInput.type('git sync')
   const quickPickItemGitSync = quickPick.locator('text=Git: Sync')
   await quickPickItemGitSync.click()
 
+  // @ts-ignore
   if (useElectron) {
     // TODO
   } else {

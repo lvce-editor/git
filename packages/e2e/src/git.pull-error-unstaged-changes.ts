@@ -1,8 +1,10 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const skip = true
 
-export const name = 'git.pull-error-not-possible-fast-forward-aborting'
+export const name = 'git.pull-error-unstaged-changes'
 
-const exec = (command, args, options) => {
+const exec = (command: string, args: string[], options: any) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -13,9 +15,9 @@ const exec = (command, args, options) => {
     }
     if (args[0] === 'pull') {
       return {
-        stdout: `From github.com:user/repo
-* branch                      main       -> FETCH_HEAD`,
-        stderr: `fatal: Not possible to fast-forward, aborting.
+        stdout: '',
+        stderr: `error: Cannot pull with rebase, you have unstaged changes.
+error: please commit or stash them.
 `,
         exitCode: 128,
       }
@@ -31,7 +33,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -44,6 +46,6 @@ export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }
   // assert
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
-  // TODO error message could be improved, vscode has very good/short git error messages
-  await expect(dialogErrorMessage).toHaveText('Error: Git: fatal: Not possible to fast-forward, aborting.')
+  // TODO remove error prefix from error
+  await expect(dialogErrorMessage).toHaveText('Error: Git: error: Cannot pull with rebase, you have unstaged changes.')
 }

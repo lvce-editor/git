@@ -1,8 +1,10 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const name = 'git.commit'
 
 export const skip = true
 
-export const test = async ({ FileSystem, Workspace, Settings, SideBar, KeyBoard, Locator, expect }) => {
+export const test: Test = async ({ SourceControl, FileSystem, Workspace, Settings, SideBar, KeyBoard, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -11,12 +13,11 @@ export const test = async ({ FileSystem, Workspace, Settings, SideBar, KeyBoard,
     'git.path': gitPath,
   })
   await SideBar.open('Source Control')
-  const sourceControlInput = Locator('[aria-label="Source Control Input"]')
-  await sourceControlInput.focus()
-  await sourceControlInput.type('test message')
+  await SourceControl.handleInput('test message')
 
   // act
   // TODO should also test loading indicator
-  await KeyBoard.press('Control+Enter')
-  await expect(sourceControlInput).toHaveText('')
+  // TODO call source control accept
+  // await KeyBoard.press('Control+Enter')
+  // await expect(sourceControlInput).toHaveText('')
 }
