@@ -1,9 +1,11 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-// @ts-ignore
+import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 
 export const skip = true
 
 export const name = 'git.pull-error-kex-exchange-identification-connection-closed'
+
+export const mockRpc = await createGitMockRpc('pull-error-kex-exchange-identification-connection-closed')
 
 export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })

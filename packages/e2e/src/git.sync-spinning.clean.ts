@@ -1,10 +1,10 @@
-// @ts-ignore
+import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.sync-spinning.clean'
 
-export const skip = 1
+export const mockRpc = await createGitMockRpc('sync-spinning')
 
 export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }) => {
   // arrange
@@ -21,7 +21,6 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, exp
   const quickPickInput = quickPick.locator('.InputBox')
   await quickPickInput.type('git sync')
   const quickPickItemGitSync = quickPick.locator('text=Git: Sync')
-  // @ts-ignore
   await quickPickItemGitSync.click()
 
   // assert
@@ -31,7 +30,6 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, exp
   await expect(statusBarItemSyncIcon).toHaveClass('StatusBarIcon AnimationSpin')
 
   // Wait for animation to complete
-  // @ts-ignore
   await expect(statusBarItemSyncIcon).toHaveClass('StatusBarIcon', {
     timeout: 10_000,
   })

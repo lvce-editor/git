@@ -27,11 +27,9 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, L
   await expect(dialogErrorMessage).toHaveText('Error: Git: Connection closed by 0.0.0.0 port 22')
 
   // act
-  // @ts-ignore
   const buttonShowCommandOutput = dialog.locator('button', {
     hasText: 'Show Command Output',
   })
-  // @ts-ignore
   await buttonShowCommandOutput.click()
 
   // assert

@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.show-changed-files-in-side-bar'
 
-export const skip = 1
-
 export const test: Test = async ({ Command, Extension, SourceControl, FileSystem, Workspace, Settings, SideBar, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
@@ -12,7 +10,6 @@ export const test: Test = async ({ Command, Extension, SourceControl, FileSystem
   await Command.execute(`mock-git-exec`, 'show-change-files-in-side-bar')
 
   // act
-  // @ts-ignore
   await SourceControl.show()
 
   // assert

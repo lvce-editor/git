@@ -1,9 +1,11 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-// @ts-ignore
+import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 
 export const skip = true
 
 export const name = 'git.pull-error-not-possible-fast-forward-aborting'
+
+export const mockRpc = await createGitMockRpc('pull-error-not-possible-fast-forward-aborting')
 
 export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange

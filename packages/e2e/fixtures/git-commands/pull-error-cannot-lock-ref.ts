@@ -1,6 +1,12 @@
 // Git command fixtures for "pull error cannot lock ref" test
+<<<<<<< HEAD
+import type { GitFixtures } from '../../src/test-helpers/gitMockHelper.js'
+
+export const gitFixtures: GitFixtures = {
+=======
 
 export const gitFixtures = {
+>>>>>>> origin/main
   '--version': {
     stdout: 'git version 2.34.1',
     stderr: '',

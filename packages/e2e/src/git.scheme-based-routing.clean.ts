@@ -1,9 +1,9 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
-// @ts-ignore
+import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 
 export const name = 'git.scheme-based-routing.clean'
 
-export const skip = 1
+export const mockRpc = await createGitMockRpc('show-changed-files')
 
 export const test: Test = async ({ FileSystem, Workspace, SideBar, Locator, expect }) => {
   // Test file:// scheme (should use native git)
