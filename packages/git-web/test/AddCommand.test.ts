@@ -131,6 +131,5 @@ test('handleAdd with empty args', async () => {
 
   expect(result.exitCode).toBe(0)
 
-  // Should only check for git config, no other filesystem operations
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test-add-empty/.git/config']])
 })
