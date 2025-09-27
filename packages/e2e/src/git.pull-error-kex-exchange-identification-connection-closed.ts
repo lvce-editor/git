@@ -5,8 +5,6 @@ export const skip = true
 
 export const name = 'git.pull-error-kex-exchange-identification-connection-closed'
 
-export const mockRpc = await createGitMockRpc('pull-error-kex-exchange-identification-connection-closed')
-
 export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)

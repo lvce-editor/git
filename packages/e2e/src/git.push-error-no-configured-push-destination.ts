@@ -5,8 +5,6 @@ export const skip = true
 
 export const name = 'git.push-error-no-configured-push-destination'
 
-export const mockRpc = await createGitMockRpc('push-error-no-configured-push-destination')
-
 export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()

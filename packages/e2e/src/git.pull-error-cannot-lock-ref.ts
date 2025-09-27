@@ -5,8 +5,6 @@ export const skip = true
 
 export const name = 'git.pull-error-cannot-lock-ref'
 
-export const mockRpc = await createGitMockRpc('pull-error-cannot-lock-ref')
-
 export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()

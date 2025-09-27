@@ -5,8 +5,6 @@ export const skip = true
 
 export const name = 'git.pull-error-offline'
 
-export const mockRpc = await createGitMockRpc('pull-error-offline')
-
 export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })

@@ -3,8 +3,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.sync-spinning-internal-server-error.clean'
 
-export const mockRpc = await createGitMockRpc('sync-spinning-internal-server-error')
-
 export const test: Test = async ({ FileSystem, QuickPick, Workspace, Settings, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()

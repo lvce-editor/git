@@ -5,8 +5,6 @@ export const skip = true
 
 export const name = 'git.show-changed-files-in-side-bar-error'
 
-export const mockRpc = await createGitMockRpc('show-changed-files-error')
-
 export const test: Test = async ({ FileSystem, Workspace, SideBar, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })

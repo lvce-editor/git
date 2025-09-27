@@ -4,8 +4,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.sync-spinning.clean'
 
-export const mockRpc = await createGitMockRpc('sync-spinning')
-
 export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()

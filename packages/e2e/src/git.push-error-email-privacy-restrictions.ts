@@ -5,8 +5,6 @@ export const skip = true
 
 export const name = 'git.push-error-email-privacy-restrictions'
 
-export const mockRpc = await createGitMockRpc('push-error-email-privacy-restrictions')
-
 export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()

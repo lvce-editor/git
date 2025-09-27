@@ -5,7 +5,6 @@ export const skip = true
 export const name = 'git.pull-error-cannot-fast-forward-multiple-branches'
 
 //
-// export const mockRpc = await createGitMockRpc('pull-error-cannot-fast-forward-multiple-branches')
 
 export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
