@@ -20,6 +20,8 @@ export const getFn = (method) => {
       return Config.confirmPrompt
     case ExtensionCommandType.ConfigShowErrorMessage:
       return Config.showErrorMessage
+    case 'FileSystem.exists':
+      return Config.exists
     default:
       throw new CommandNotFoundError(method)
   }

@@ -32,6 +32,13 @@ export const showErrorMessage = () => {
   return value
 }
 
+export const exists = async (uri) => {
+  console.log({ uri })
+  // @ts-ignore
+  const value = await vscode.exists(uri)
+  return value
+}
+
 export const confirmPrompt = async (message) => {
   // @ts-ignore
   const result = await vscode.confirm(message)
