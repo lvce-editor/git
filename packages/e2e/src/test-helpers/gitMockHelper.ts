@@ -12,7 +12,7 @@ interface GitFixture {
   delay?: number
 }
 
-interface GitFixtures {
+export interface GitFixtures {
   [command: string]: GitFixture
 }
 
