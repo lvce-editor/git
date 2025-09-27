@@ -207,16 +207,104 @@ export class GitRepository {
   }
 
   async addFiles(files: string[]): Promise<void> {
-    if (files.includes('.')) {
-      // Add all files
-      this.repo.stagedFiles = [...this.repo.workingDirFiles]
+    if (this.useFileSystem) {
+      await this.addFilesToFileSystem(files)
     } else {
-      // Add specific files
-      for (const file of files) {
-        if (!this.repo.stagedFiles.includes(file)) {
-          this.repo.stagedFiles.push(file)
+      if (files.includes('.')) {
+        // Add all files
+        this.repo.stagedFiles = [...this.repo.workingDirFiles]
+      } else {
+        // Add specific files
+        for (const file of files) {
+          if (!this.repo.stagedFiles.includes(file)) {
+            this.repo.stagedFiles.push(file)
+          }
         }
       }
+    }
+  }
+
+  private async addFilesToFileSystem(files: string[]): Promise<void> {
+    try {
+      const indexPath = join(this.gitdir, 'index')
+      
+      // Read current index (simplified - in real git this would be a binary format)
+      let indexContent = ''
+      try {
+        indexContent = await defaultFileSystem.read(indexPath)
+      } catch (error) {
+        // Index doesn't exist yet, start with empty content
+        indexContent = ''
+      }
+
+      // Parse existing staged files from index (simplified format)
+      const stagedFiles = new Set<string>()
+      if (indexContent) {
+        const lines = indexContent.split('\n').filter(line => line.trim())
+        for (const line of lines) {
+          if (line.startsWith('file:')) {
+            stagedFiles.add(line.substring(5)) // Remove 'file:' prefix
+          }
+        }
+      }
+
+      // Add new files to staged set
+      if (files.includes('.')) {
+        // Add all files in working directory
+        const workingDirFiles = await this.getWorkingDirFiles()
+        for (const file of workingDirFiles) {
+          stagedFiles.add(file)
+        }
+      } else {
+        // Add specific files
+        for (const file of files) {
+          stagedFiles.add(file)
+        }
+      }
+
+      // Write updated index
+      const newIndexContent = Array.from(stagedFiles)
+        .map(file => `file:${file}`)
+        .join('\n') + '\n'
+      
+      await defaultFileSystem.write(indexPath, newIndexContent)
+    } catch (error) {
+      console.warn('Failed to add files to filesystem:', error)
+      // In a real implementation, this might throw or handle the error differently
+    }
+  }
+
+  private async getWorkingDirFiles(): Promise<string[]> {
+    try {
+      // Get all files in the working directory
+      const files: string[] = []
+      await this.collectFiles(this.key, files)
+      return files
+    } catch (error) {
+      console.warn('Failed to get working directory files:', error)
+      return []
+    }
+  }
+
+  private async collectFiles(dir: string, files: string[]): Promise<void> {
+    try {
+      const entries = await defaultFileSystem.readdir(dir)
+      for (const entry of entries) {
+        if (entry === '.git') continue // Skip .git directory
+        
+        const fullPath = join(dir, entry)
+        const stat = await defaultFileSystem.stat(fullPath)
+        
+        if (stat.isFile) {
+          // Add relative path from working directory
+          const relativePath = fullPath.substring(this.key.length + 1)
+          files.push(relativePath)
+        } else if (stat.isDirectory) {
+          await this.collectFiles(fullPath, files)
+        }
+      }
+    } catch (error) {
+      console.warn(`Failed to collect files from ${dir}:`, error)
     }
   }
 
