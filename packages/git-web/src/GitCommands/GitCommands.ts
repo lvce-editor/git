@@ -53,7 +53,7 @@ export const executeCommand = async (args: string[], options: CommandOptions): P
 
   try {
     const handler = commandRegistry.get(command)
-    
+
     if (!handler) {
       return {
         stdout: '',
@@ -71,4 +71,3 @@ export const executeCommand = async (args: string[], options: CommandOptions): P
     }
   }
 }
-

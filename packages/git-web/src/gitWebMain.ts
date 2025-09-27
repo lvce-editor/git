@@ -26,7 +26,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('status', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     const status = await repository.getStatus()
-    
+
     return {
       stdout: status,
       stderr: '',
@@ -38,7 +38,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('add', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     await repository.addFiles(args)
-    
+
     return {
       stdout: '',
       stderr: '',
@@ -51,7 +51,7 @@ const registerGitCommands = () => {
     const repository = await GitRepository.getRepository(options.cwd)
     const message = extractCommitMessage(args)
     const commitHash = await repository.commit(message)
-    
+
     return {
       stdout: `[main ${commitHash}] ${message}`,
       stderr: '',
@@ -63,7 +63,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('push', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     await repository.push(args)
-    
+
     return {
       stdout: 'Everything up-to-date',
       stderr: '',
@@ -75,7 +75,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('pull', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     await repository.pull(args)
-    
+
     return {
       stdout: 'Already up to date.',
       stderr: '',
@@ -87,7 +87,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('fetch', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     await repository.fetch(args)
-    
+
     return {
       stdout: 'From https://github.com/user/repo\n * branch            main       -> FETCH_HEAD',
       stderr: '',
@@ -100,7 +100,7 @@ const registerGitCommands = () => {
     const repository = await GitRepository.getRepository(options.cwd)
     const branch = args[0] || 'main'
     await repository.checkout(branch)
-    
+
     return {
       stdout: `Switched to branch '${branch}'`,
       stderr: '',
@@ -112,7 +112,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('branch', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     const branches = await repository.listBranches()
-    
+
     return {
       stdout: branches.map(b => `* ${b}`).join('\n'),
       stderr: '',
@@ -124,7 +124,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('log', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     const commits = await repository.getCommits()
-    
+
     return {
       stdout: commits.map(c => `commit ${c.hash}\nAuthor: ${c.author}\nDate: ${c.date}\n\n    ${c.message}`).join('\n\n'),
       stderr: '',
@@ -136,7 +136,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('diff', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     const diff = await repository.getDiff(args)
-    
+
     return {
       stdout: diff,
       stderr: '',
@@ -148,7 +148,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('rev-parse', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     const ref = await repository.parseRef(args)
-    
+
     return {
       stdout: ref,
       stderr: '',
@@ -160,7 +160,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('for-each-ref', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     const refs = await repository.listRefs(args)
-    
+
     return {
       stdout: refs.join('\n'),
       stderr: '',
@@ -172,7 +172,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('remote', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     const result = await repository.handleRemote(args)
-    
+
     return {
       stdout: result,
       stderr: '',
@@ -184,7 +184,7 @@ const registerGitCommands = () => {
   GitCommands.registerCommand('config', async (args: string[], options: CommandOptions) => {
     const repository = await GitRepository.getRepository(options.cwd)
     const result = await repository.handleConfig(args)
-    
+
     return {
       stdout: result,
       stderr: '',
