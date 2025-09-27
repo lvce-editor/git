@@ -11,9 +11,7 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, S
   await SideBar.open('Source Control')
 
   // act
-  await QuickPick.open()
-  await QuickPick.setValue('>Checkout')
-  await QuickPick.selectItem('Git Checkout')
+  await QuickPick.executeCommand('Git: Checkout')
 
   // assert
   await QuickPick.showHaveItems([
