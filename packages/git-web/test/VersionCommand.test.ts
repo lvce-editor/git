@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { handleVersion } from '../src/VersionCommand/VersionCommand.ts'
+import { handleVersion } from '../src/commands/VersionCommand/VersionCommand.ts'
 
 test('handleVersion returns correct version', async () => {
   const result = await handleVersion()

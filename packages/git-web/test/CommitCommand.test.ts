@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { handleCommit } from '../src/CommitCommand/CommitCommand.ts'
+import { handleCommit } from '../src/commands/CommitCommand/CommitCommand.ts'
 
 test('handleCommit with message', async () => {
   const result = await handleCommit(['-m', 'Test commit'], { cwd: 'web://test-commit' })

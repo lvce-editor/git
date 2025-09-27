@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { handleAdd } from '../src/AddCommand/AddCommand.ts'
+import { handleAdd } from '../src/commands/AddCommand/AddCommand.ts'
 
 test('handleAdd with specific files', async () => {
   const result = await handleAdd(['file1.txt', 'file2.txt'], { cwd: 'web://test-add' })
