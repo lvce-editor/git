@@ -1,0 +1,28 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
+export const skip = true
+
+export const name = 'quick-pick-select-branch'
+
+export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, SideBar }) => {
+  // arrange
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  await Workspace.setPath(tmpDir)
+  await SideBar.open('Source Control')
+
+  // act
+  await QuickPick.executeCommand('Git: Checkout')
+
+  // assert
+  await QuickPick.showHaveItems([
+    {
+      label: 'b',
+    },
+    {
+      label: 'main',
+    },
+    {
+      label: 'origin/b',
+    },
+  ])
+}

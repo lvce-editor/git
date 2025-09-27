@@ -1,8 +1,10 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const name = 'git.push-error-timeout'
 
 export const skip = true
 
-export const test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
@@ -12,9 +14,8 @@ export const test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator
   })
 
   // act
-  await QuickPick.open()
-  await QuickPick.setValue('>Git: Push')
-  await QuickPick.selectItem('Git: Push')
+  await QuickPick.executeCommand('Git: Push')
+
   // assert
   // TODO after a fixed amount of time, should show a message that command is running too long
   // with a cancel button

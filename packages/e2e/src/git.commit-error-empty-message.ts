@@ -1,8 +1,10 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const name = 'git.commit-error-empty-message'
 
 export const skip = true
 
-export const test = async ({ FileSystem, Workspace, Settings, SideBar, KeyBoard, Locator, expect }) => {
+export const test: Test = async ({ FileSystem, Workspace, Settings, SideBar, KeyBoard, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
