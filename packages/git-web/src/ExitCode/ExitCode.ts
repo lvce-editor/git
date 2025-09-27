@@ -1,0 +1,9 @@
+export const Success = 0
+export const GeneralError = 1
+export const MisuseOfShellBuiltins = 2
+export const CommandCannotExecute = 126
+export const CommandNotFound = 127
+export const InvalidExitArgument = 128
+export const FatalError = 128
+export const TerminatedByCtrlC = 130
+export const OutOfRange = 255

@@ -34,6 +34,7 @@ cd packages/server                                  && updateDependencies && cd 
 cd packages/e2e                                     && updateDependencies && cd ../.. &&
 cd packages/extension                               && updateDependencies && cd ../.. &&
 cd packages/git-worker                              && updateDependencies && cd ../.. &&
+cd packages/git-web                                 && updateDependencies && cd ../.. &&
 
 echo "Great Success!"
 
