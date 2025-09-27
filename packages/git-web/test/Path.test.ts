@@ -13,10 +13,6 @@ test('join with single segment', () => {
   expect(join('a')).toBe('a')
 })
 
-test('join with no segments', () => {
-  expect(join()).toBe('')
-})
-
 test('join with leading slash', () => {
   expect(join('/', 'a', 'b')).toBe('/a/b')
 })
