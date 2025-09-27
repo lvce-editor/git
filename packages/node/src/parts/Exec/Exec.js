@@ -1,6 +1,6 @@
+import { fileURLToPath } from 'node:url'
 import { execa } from 'execa'
 import * as Assert from '../Assert/Assert.js'
-import { fileURLToPath } from 'node:url'
 
 const getActualOptions = (options) => {
   if (options && options.cwd && options.cwd.startsWith('file://')) {
@@ -9,6 +9,7 @@ const getActualOptions = (options) => {
       cwd: fileURLToPath(options.cwd).toString(),
     }
   }
+
   return options
 }
 

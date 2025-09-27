@@ -1,6 +1,6 @@
+import { join } from 'node:path'
 import { execa } from 'execa'
 import { root } from './root.ts'
-import { join } from 'node:path'
 
 const main = async () => {
   const binaryName = process.platform === 'win32' ? 'esbuild.exe' : 'esbuild'
