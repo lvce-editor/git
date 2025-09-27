@@ -1,3 +1,4 @@
+import * as GitWebExec from 'git-web/src/GitWebExec/GitWebExec.js'
 import * as CommandAcceptInput from '../CommandAcceptInput/CommandAcceptInput.ts'
 import * as CommandAdd from '../CommandAdd/CommandAdd.ts'
 import * as CommandAddAll from '../CommandAddAll/CommandAddAll.ts'
@@ -16,7 +17,6 @@ import * as CommandUnstage from '../CommandUnstage/CommandUnstage.ts'
 import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
-import * as GitWebExec from 'git-web/src/GitWebExec/GitWebExec.js'
 
 export const commandMap = {
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,

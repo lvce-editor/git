@@ -50,8 +50,8 @@ test('all exit codes are numbers', () => {
     ExitCode.OutOfRange
   ]
   
-  codes.forEach(code => {
+  for (const code of codes) {
     expect(typeof code).toBe('number')
     expect(Number.isInteger(code)).toBe(true)
-  })
+  }
 })

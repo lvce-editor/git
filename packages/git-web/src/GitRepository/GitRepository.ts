@@ -1,6 +1,6 @@
+import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.ts'
 import { defaultFileSystem } from '../FileSystem/FileSystem.ts'
 import { join } from '../Path/Path.ts'
-import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.ts'
 
 interface Commit {
   readonly hash: string
@@ -236,7 +236,7 @@ export class GitRepository {
       let indexContent = ''
       try {
         indexContent = await defaultFileSystem.read(indexPath)
-      } catch (error) {
+      } catch {
         // Index doesn't exist yet, start with empty content
         indexContent = ''
       }
@@ -247,7 +247,7 @@ export class GitRepository {
         const lines = indexContent.split('\n').filter(line => line.trim())
         for (const line of lines) {
           if (line.startsWith('file:')) {
-            stagedFiles.add(line.substring(5)) // Remove 'file:' prefix
+            stagedFiles.add(line.slice(5)) // Remove 'file:' prefix
           }
         }
       }
@@ -267,7 +267,7 @@ export class GitRepository {
       }
 
       // Write updated index
-      const newIndexContent = Array.from(stagedFiles)
+      const newIndexContent = [...stagedFiles]
         .map(file => `file:${file}`)
         .join('\n') + '\n'
 
@@ -302,16 +302,16 @@ export class GitRepository {
         if (stat.isFile) {
           // Add relative path from working directory
           if (fullPath.startsWith(baseDir + '/')) {
-            const relativePath = fullPath.substring(baseDir.length + 1)
+            const relativePath = fullPath.slice(Math.max(0, baseDir.length + 1))
             files.push(relativePath)
           } else if (fullPath.startsWith(baseDir)) {
-            const relativePath = fullPath.substring(baseDir.length)
+            const relativePath = fullPath.slice(baseDir.length)
             files.push(relativePath)
           } else {
             // Try to handle the protocol difference (web:// vs web:/)
             const normalizedBaseDir = baseDir.replace('://', ':/')
             if (fullPath.startsWith(normalizedBaseDir + '/')) {
-              const relativePath = fullPath.substring(normalizedBaseDir.length + 1)
+              const relativePath = fullPath.slice(Math.max(0, normalizedBaseDir.length + 1))
               files.push(relativePath)
             }
           }
@@ -471,7 +471,7 @@ index 1234567..abcdefg 100644
 
       case 'list':
       default:
-        const remotes = Array.from(this.repo.remotes.entries())
+        const remotes = [...this.repo.remotes.entries()]
         return remotes.map(([name, url]) => `${name}\t${url}`).join('\n')
     }
 
@@ -481,22 +481,31 @@ index 1234567..abcdefg 100644
   async handleConfig(args: string[]): Promise<string> {
     const subcommand = args[0]
 
-    if (subcommand === '--get') {
+    switch (subcommand) {
+    case '--get': {
       const key = args[1]
       if (key) {
         return this.repo.config.get(key) || ''
       }
-    } else if (subcommand === '--set') {
+    
+    break;
+    }
+    case '--set': {
       const key = args[1]
       const value = args[2]
       if (key && value) {
         this.repo.config.set(key, value)
         return ''
       }
-    } else if (subcommand === '--list') {
-      return Array.from(this.repo.config.entries())
+    
+    break;
+    }
+    case '--list': {
+      return [...this.repo.config.entries()]
         .map(([key, value]) => `${key}=${value}`)
         .join('\n')
+    }
+    // No default
     }
 
     return ''

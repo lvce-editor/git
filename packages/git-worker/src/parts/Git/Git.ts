@@ -2,15 +2,15 @@ import * as Exec from '../Exec/Exec.ts'
 import { ExecError } from '../ExecError/ExecError.ts'
 import * as ExitCode from '../ExitCode/ExitCode.ts'
 import * as GetGitEnv from '../GetGitEnv/GetGitEnv.ts'
-import * as SchemeDetector from '../SchemeDetector/SchemeDetector.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
+import * as SchemeDetector from '../SchemeDetector/SchemeDetector.ts'
 
 export const exec = async ({ gitPath, cwd, name, args }) => {
   if (typeof gitPath !== 'string') {
-    throw new Error(`gitPath must be of type string, was ${gitPath}`)
+    throw new TypeError(`gitPath must be of type string, was ${gitPath}`)
   }
   if (typeof cwd !== 'string') {
-    throw new Error(`cwd must be of type string, was ${cwd}`)
+    throw new TypeError(`cwd must be of type string, was ${cwd}`)
   }
 
   // Detect the scheme of the current working directory

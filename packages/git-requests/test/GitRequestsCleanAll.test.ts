@@ -1,5 +1,5 @@
-import * as GitRequestsCleanAll from '../src/parts/GitRequestsCleanAll/GitRequestsCleanAll.js'
 import { jest } from '@jest/globals'
+import * as GitRequestsCleanAll from '../src/parts/GitRequestsCleanAll/GitRequestsCleanAll.js'
 
 test('cleanAll', async () => {
   const exec = jest.fn()

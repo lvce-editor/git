@@ -7,5 +7,5 @@ export const join = (...segments: string[]): string => {
   return segments
     .filter(segment => segment !== '')
     .join('/')
-    .replace(/\/+/g, '/') // Replace multiple slashes with single slash
+    .replaceAll(/\/+/g, '/') // Replace multiple slashes with single slash
 }

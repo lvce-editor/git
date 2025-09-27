@@ -1,9 +1,9 @@
-import * as ExitCode from '../ExitCode/ExitCode.ts'
+import type { CommandHandler } from '../CommandHandler/CommandHandler.ts'
 import type { CommandOptions } from '../CommandOptions/CommandOptions.ts'
 import type { CommandResult } from '../CommandResult/CommandResult.ts'
-import type { CommandHandler } from '../CommandHandler/CommandHandler.ts'
+import * as ExitCode from '../ExitCode/ExitCode.ts'
 
-export type { CommandOptions, CommandResult, CommandHandler }
+
 
 // Command registry - starts empty
 const commandRegistry = new Map<string, CommandHandler>()
@@ -26,7 +26,7 @@ export const unregisterCommand = (command: string): void => {
  * Get all registered commands
  */
 export const getRegisteredCommands = (): string[] => {
-  return Array.from(commandRegistry.keys())
+  return [...commandRegistry.keys()]
 }
 
 /**
@@ -71,3 +71,7 @@ export const executeCommand = async (args: string[], options: CommandOptions): P
     }
   }
 }
+
+export {type CommandOptions} from '../CommandOptions/CommandOptions.ts'
+export {type CommandResult} from '../CommandResult/CommandResult.ts'
+export {type CommandHandler} from '../CommandHandler/CommandHandler.ts'

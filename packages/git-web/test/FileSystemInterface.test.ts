@@ -30,7 +30,7 @@ class MockFileSystem implements FileSystem {
     const files: string[] = []
     for (const filePath of this.files.keys()) {
       if (filePath.startsWith(path + '/')) {
-        const relativePath = filePath.substring(path.length + 1)
+        const relativePath = filePath.slice(Math.max(0, path.length + 1))
         if (!relativePath.includes('/')) {
           files.push(relativePath)
         }

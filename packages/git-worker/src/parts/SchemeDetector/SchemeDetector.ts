@@ -21,7 +21,7 @@ export const detectScheme = (path: string): 'file' | 'web' | 'other' => {
 
   // Check if it's a local file path (no scheme)
   if (path.startsWith('/') ||
-      path.match(/^[A-Za-z]:/) || // Windows drive letter
+      /^[A-Za-z]:/.test(path) || // Windows drive letter
       !path.includes('://')) {
     return 'file'
   }

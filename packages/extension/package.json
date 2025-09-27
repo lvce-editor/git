@@ -2,6 +2,9 @@
   "name": "builtin.git",
   "version": "0.0.0-dev",
   "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
   "type": "module",
   "main": "src/gitMain.js",
   "scripts": {
@@ -9,9 +12,6 @@
     "#test:watch": "node --unhandled-rejections=warn --experimental-vm-modules ../../node_modules/jest/bin/jest.js --watch",
     "build-min": "microbundle --entry src/gitMain.js --output distmin --format modern"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "@types/express": "^5.0.3",

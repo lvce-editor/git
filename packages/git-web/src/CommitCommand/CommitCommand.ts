@@ -1,7 +1,7 @@
-import * as ExitCode from '../ExitCode/ExitCode.ts'
-import { GitRepository } from '../GitRepository/GitRepository.ts'
 import type { CommandOptions } from '../CommandOptions/CommandOptions.ts'
 import type { CommandResult } from '../CommandResult/CommandResult.ts'
+import * as ExitCode from '../ExitCode/ExitCode.ts'
+import { GitRepository } from '../GitRepository/GitRepository.ts'
 
 const extractCommitMessage = (args: string[]): string => {
   const messageIndex = args.indexOf('-m')

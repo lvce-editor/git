@@ -1,6 +1,6 @@
 import { test, expect } from '@jest/globals'
-import { handleStatus } from '../src/StatusCommand/StatusCommand.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
+import { handleStatus } from '../src/StatusCommand/StatusCommand.ts'
 
 test('handleStatus returns status for new repository', async () => {
   const mockRpc = registerMockRpc({
