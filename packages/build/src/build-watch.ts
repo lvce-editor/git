@@ -17,10 +17,22 @@ const main = async () => {
       stdio: 'inherit',
     },
   )
-  execa(esbuildPath, ['--format=esm', '--bundle', '--watch', 'packages/git-web/src/gitWebMain.ts', '--outfile=packages/git-web/dist/gitWebMain.js'], {
-    cwd: root,
-    stdio: 'inherit',
-  })
+  execa(
+    esbuildPath,
+    [
+      '--format=esm',
+      '--bundle',
+      '--watch',
+      'packages/git-web/src/gitWebMain.ts',
+      '--outfile=packages/git-web/dist/gitWebMain.js',
+      '--external:electron',
+      '--external:node*',
+    ],
+    {
+      cwd: root,
+      stdio: 'inherit',
+    },
+  )
 }
 
 main()
