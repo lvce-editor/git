@@ -1,4 +1,5 @@
-// Virtual git repository state management for web environments
+import { defaultFileSystem } from '../FileSystem/FileSystem.js'
+import { join } from '../utils/join.js'
 
 interface Commit {
   hash: string
@@ -19,7 +20,7 @@ interface Ref {
   type: 'branch' | 'tag' | 'remote'
 }
 
-// In-memory storage for virtual git repositories
+// In-memory storage for virtual git repositories (fallback when filesystem is not available)
 const repositories = new Map<string, {
   commits: Commit[]
   branches: Branch[]
@@ -37,9 +38,17 @@ export class GitRepository {
 
   static async getRepository(cwd: string) {
     const key = this.getRepositoryKey(cwd)
-
+    
+    // Try to use real filesystem first
+    const gitdir = join(cwd, '.git')
+    const configExists = await defaultFileSystem.exists(join(gitdir, 'config'))
+    
+    if (configExists) {
+      return new GitRepository(key, true) // Use real filesystem
+    }
+    
+    // Fallback to in-memory storage
     if (!repositories.has(key)) {
-      // Initialize a new virtual repository
       repositories.set(key, {
         commits: [
           {
@@ -73,21 +82,75 @@ export class GitRepository {
         ])
       })
     }
-
-    return new GitRepository(key)
+    
+    return new GitRepository(key, false) // Use in-memory storage
   }
 
-  constructor(private key: string) {}
+  constructor(private key: string, private useFileSystem: boolean = false) {}
 
   private get repo() {
     return repositories.get(this.key)!
   }
 
+  private get gitdir(): string {
+    return join(this.key, '.git')
+  }
+
+  private async readConfig(): Promise<Map<string, string>> {
+    if (!this.useFileSystem) {
+      return this.repo.config
+    }
+
+    try {
+      const configPath = join(this.gitdir, 'config')
+      const content = await defaultFileSystem.read(configPath)
+      const config = new Map<string, string>()
+      
+      // Simple config parser
+      const lines = content.split('\n')
+      let currentSection = ''
+      
+      for (const line of lines) {
+        const trimmed = line.trim()
+        if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+          currentSection = trimmed.slice(1, -1)
+        } else if (trimmed.includes('=')) {
+          const [key, value] = trimmed.split('=', 2)
+          config.set(`${currentSection}.${key.trim()}`, value.trim())
+        }
+      }
+      
+      return config
+    } catch (error) {
+      console.warn('Failed to read git config:', error)
+      return new Map()
+    }
+  }
+
+  private async readHead(): Promise<string> {
+    if (!this.useFileSystem) {
+      return 'refs/heads/main'
+    }
+
+    try {
+      const headPath = join(this.gitdir, 'HEAD')
+      const content = await defaultFileSystem.read(headPath)
+      return content.trim()
+    } catch (error) {
+      console.warn('Failed to read HEAD:', error)
+      return 'refs/heads/main'
+    }
+  }
+
   async getStatus(): Promise<string> {
+    if (this.useFileSystem) {
+      return await this.getFileSystemStatus()
+    }
+    
     const { stagedFiles, workingDirFiles } = this.repo
-
+    
     let status = ''
-
+    
     // Show staged files
     if (stagedFiles.length > 0) {
       status += 'Changes to be committed:\n'
@@ -95,32 +158,51 @@ export class GitRepository {
         status += `\tnew file:   ${file}\n`
       }
     }
-
+    
     // Show modified files (simulate some files as modified)
-    const modifiedFiles = workingDirFiles.filter(file =>
+    const modifiedFiles = workingDirFiles.filter(file => 
       !stagedFiles.includes(file) && Math.random() > 0.5
     )
-
+    
     if (modifiedFiles.length > 0) {
       status += 'Changes not staged for commit:\n'
       for (const file of modifiedFiles) {
         status += `\tmodified:   ${file}\n`
       }
     }
-
+    
     // Show untracked files
-    const untrackedFiles = workingDirFiles.filter(file =>
+    const untrackedFiles = workingDirFiles.filter(file => 
       !stagedFiles.includes(file) && !modifiedFiles.includes(file)
     )
-
+    
     if (untrackedFiles.length > 0) {
       status += 'Untracked files:\n'
       for (const file of untrackedFiles) {
         status += `\t${file}\n`
       }
     }
-
+    
     return status || 'On branch main\nnothing to commit, working tree clean'
+  }
+
+  private async getFileSystemStatus(): Promise<string> {
+    try {
+      // Read current branch from HEAD
+      const headRef = await this.readHead()
+      const branch = headRef.replace('ref: refs/heads/', '')
+      
+      let status = `On branch ${branch}\n`
+      
+      // For now, simulate a clean working tree
+      // In a real implementation, this would check the index and working directory
+      status += 'nothing to commit, working tree clean'
+      
+      return status
+    } catch (error) {
+      console.warn('Failed to get filesystem status:', error)
+      return 'On branch main\nnothing to commit, working tree clean'
+    }
   }
 
   async addFiles(files: string[]): Promise<void> {
@@ -139,25 +221,49 @@ export class GitRepository {
 
   async commit(message: string): Promise<string> {
     const hash = this.generateHash()
-    const commit: Commit = {
-      hash,
-      author: this.repo.config.get('user.name') + ' <' + this.repo.config.get('user.email') + '>',
-      date: new Date().toISOString(),
-      message
+    
+    if (this.useFileSystem) {
+      await this.commitToFileSystem(hash, message)
+    } else {
+      const commit: Commit = {
+        hash,
+        author: this.repo.config.get('user.name') + ' <' + this.repo.config.get('user.email') + '>',
+        date: new Date().toISOString(),
+        message
+      }
+      
+      this.repo.commits.unshift(commit)
+      
+      // Update current branch
+      const currentBranch = this.repo.branches.find(b => b.isCurrent)
+      if (currentBranch) {
+        currentBranch.commit = hash
+      }
+      
+      // Clear staged files
+      this.repo.stagedFiles = []
     }
-
-    this.repo.commits.unshift(commit)
-
-    // Update current branch
-    const currentBranch = this.repo.branches.find(b => b.isCurrent)
-    if (currentBranch) {
-      currentBranch.commit = hash
-    }
-
-    // Clear staged files
-    this.repo.stagedFiles = []
-
+    
     return hash
+  }
+
+  private async commitToFileSystem(hash: string, message: string): Promise<void> {
+    try {
+      // Read current branch from HEAD
+      const headRef = await this.readHead()
+      const branch = headRef.replace('ref: refs/heads/', '')
+      
+      // Update the branch ref
+      const refPath = join(this.gitdir, 'refs', 'heads', branch)
+      await defaultFileSystem.write(refPath, hash + '\n')
+      
+      // In a real implementation, we would also:
+      // - Create the commit object in objects/
+      // - Update the index
+      // - Handle the working directory
+    } catch (error) {
+      console.warn('Failed to commit to filesystem:', error)
+    }
   }
 
   async push(args: string[]): Promise<void> {
