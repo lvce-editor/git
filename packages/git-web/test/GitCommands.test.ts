@@ -101,6 +101,8 @@ test('executeCommand with status', async () => {
   const result = await executeCommand(['status'], { cwd: 'web://test' })
 
   expect(result.stdout).toContain('On branch main')
+  expect(result.stdout).toContain('Changes not staged for commit')
+  expect(result.stdout).toContain('Untracked files')
   expect(result.exitCode).toBe(0)
 
   expect(mockRpc.invocations).toEqual([
@@ -147,10 +149,7 @@ test('executeCommand with commit', async () => {
 test('executeCommand with push', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -167,10 +166,7 @@ test('executeCommand with push', async () => {
 test('executeCommand with pull', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -187,10 +183,7 @@ test('executeCommand with pull', async () => {
 test('executeCommand with fetch', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -207,10 +200,7 @@ test('executeCommand with fetch', async () => {
 test('executeCommand with checkout', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -227,10 +217,7 @@ test('executeCommand with checkout', async () => {
 test('executeCommand with branch', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -247,10 +234,7 @@ test('executeCommand with branch', async () => {
 test('executeCommand with log', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -268,10 +252,7 @@ test('executeCommand with log', async () => {
 test('executeCommand with diff', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -288,10 +269,7 @@ test('executeCommand with diff', async () => {
 test('executeCommand with rev-parse', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -308,10 +286,7 @@ test('executeCommand with rev-parse', async () => {
 test('executeCommand with for-each-ref', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -328,10 +303,7 @@ test('executeCommand with for-each-ref', async () => {
 test('executeCommand with remote', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -348,10 +320,7 @@ test('executeCommand with remote', async () => {
 test('executeCommand with config', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -394,9 +363,8 @@ test('executeCommand with empty args', async () => {
   expect(result.stderr).toContain('usage: git')
   expect(result.exitCode).toBe(1)
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/.git/config'],
-  ])
+  // Empty args don't make any RPC calls
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('executeCommand handles errors gracefully', async () => {

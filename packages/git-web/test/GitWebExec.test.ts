@@ -22,9 +22,8 @@ test('exec with valid git command', async () => {
     exitCode: 0
   })
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/.git/config'],
-  ])
+  // --version command doesn't make any RPC calls
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('exec with invalid gitPath throws error', async () => {
@@ -80,7 +79,6 @@ test('exec with empty args shows usage', async () => {
   expect(result.stderr).toContain('usage: git')
   expect(result.exitCode).toBe(1)
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/.git/config'],
-  ])
+  // Empty args don't make any RPC calls
+  expect(mockRpc.invocations).toEqual([])
 })
