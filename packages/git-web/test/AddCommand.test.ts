@@ -103,17 +103,18 @@ test('handleAdd with dot adds all files', async () => {
   expect(result.stderr).toBe('')
   expect(result.exitCode).toBe(0)
 
-  // Verify filesystem operations
-  expect(mockRpc.invocations).toContainEqual(['FileSystem.exists', 'web:/test-add-all/.git/config'])
-  expect(mockRpc.invocations).toContainEqual(['FileSystem.readdir', 'web://test-add-all'])
-
-  // Find the write call and verify its content
-  const writeCall = mockRpc.invocations.find((call) => call[0] === 'FileSystem.write' && call[1].endsWith('.git/index'))
-  expect(writeCall).toBeDefined()
-  expect(writeCall![2]).toContain('file:already-staged.txt')
-  expect(writeCall![2]).toContain('file:file1.txt')
-  expect(writeCall![2]).toContain('file:file2.txt')
-  expect(writeCall![2]).toContain('file:other.txt')
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test-add/.git/config'],
+    ['FileSystem.read', 'web:/test-add/.git/index'],
+    [
+      'FileSystem.write',
+      'web:/test-add/.git/index',
+      `file:existing.txt
+    file:file1.txt
+    file:file2.txt
+    `,
+    ],
+  ])
 })
 
 test('handleAdd with empty args', async () => {
