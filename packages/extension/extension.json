@@ -34,6 +34,10 @@
       "label": "Git: Init"
     },
     {
+      "id": "git.loadFixture",
+      "label": "Git: Load Fixture"
+    },
+    {
       "id": "git.pull",
       "label": "Git: Pull"
     },
