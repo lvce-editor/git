@@ -63,15 +63,15 @@ test('handleInit with --bare flag', async () => {
   expect(result.exitCode).toBe(0)
 
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/config'],
-    ['FileSystem.mkdir', 'web:/test/hooks'],
-    ['FileSystem.mkdir', 'web:/test/info'],
-    ['FileSystem.mkdir', 'web:/test/objects/info'],
-    ['FileSystem.mkdir', 'web:/test/objects/pack'],
-    ['FileSystem.mkdir', 'web:/test/refs/heads'],
-    ['FileSystem.mkdir', 'web:/test/refs/tags'],
-    ['FileSystem.write', 'web:/test/config', expect.stringContaining('[core]')],
-    ['FileSystem.write', 'web:/test/HEAD', 'ref: refs/heads/main\n'],
+    ['FileSystem.exists', 'web://test/config'],
+    ['FileSystem.mkdir', 'web://test/hooks'],
+    ['FileSystem.mkdir', 'web://test/info'],
+    ['FileSystem.mkdir', 'web://test/objects/info'],
+    ['FileSystem.mkdir', 'web://test/objects/pack'],
+    ['FileSystem.mkdir', 'web://test/refs/heads'],
+    ['FileSystem.mkdir', 'web://test/refs/tags'],
+    ['FileSystem.write', 'web://test/config', expect.stringContaining('[core]')],
+    ['FileSystem.write', 'web://test/HEAD', 'ref: refs/heads/main\n'],
   ])
 })
 
@@ -90,7 +90,7 @@ test('handleInit skips if config already exists', async () => {
 
   expect(result.stdout).toContain('Initialized empty Git repository')
   expect(result.exitCode).toBe(0)
-  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web:/test/.git/config']])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('handleInit handles filesystem errors', async () => {
@@ -111,7 +111,7 @@ test('handleInit handles filesystem errors', async () => {
   expect(result.stderr).toContain('Filesystem error')
   expect(result.exitCode).toBe(1)
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/.git/config'],
-    ['FileSystem.mkdir', 'web:/test/.git/hooks'],
+    ['FileSystem.exists', 'web://test/.git/config'],
+    ['FileSystem.mkdir', 'web://test/.git/hooks'],
   ])
 })

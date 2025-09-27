@@ -95,8 +95,8 @@ test('handleCommit with multiple args', async () => {
   expect(result.stdout).toContain('Complex commit')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test-commit-complex/.git/config'],
-    ['FileSystem.read', 'web:/test-commit-complex/.git/HEAD'],
-    ['FileSystem.write', 'web:/test-commit-complex/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
+    ['FileSystem.exists', 'web://test-commit-complex/.git/config'],
+    ['FileSystem.read', 'web://test-commit-complex/.git/HEAD'],
+    ['FileSystem.write', 'web://test-commit-complex/.git/refs/heads/main', expect.stringMatching(/^[a-f\d]{40}\n$/)],
   ])
 })
