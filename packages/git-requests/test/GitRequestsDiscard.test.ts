@@ -1,5 +1,5 @@
-import * as GitRequestsDiscard from '../src/parts/GitRequestsDiscard/GitRequestsDiscard.js'
 import { jest } from '@jest/globals'
+import * as GitRequestsDiscard from '../src/parts/GitRequestsDiscard/GitRequestsDiscard.js'
 
 test('discard', async () => {
   const exec = jest.fn()

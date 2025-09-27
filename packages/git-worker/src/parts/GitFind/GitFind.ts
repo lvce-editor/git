@@ -1,7 +1,7 @@
+import * as EmptyGit from '../EmptyGit/EmptyGit.ts'
 import * as Exec from '../Exec/Exec.ts'
 import * as ParseGitVersion from '../ParseGitVersion/ParseGitVersion.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
-import * as EmptyGit from '../EmptyGit/EmptyGit.ts'
 
 const findGitAtPath = async (path) => {
   let result

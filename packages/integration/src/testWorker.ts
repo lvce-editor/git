@@ -22,28 +22,36 @@ export const testWorker = async ({ execMap, config = {}, quickPick = () => {} })
     invoke(...args) {
       // @ts-ignore
       invocations.push(args)
-      if (args[0] === 'Exec.exec') {
-        const result = fullExecMap[args[2][0]]
-        if (!result) {
-          throw new Error(`exec command not found ${args[2][0]}`)
+      switch (args[0]) {
+        case 'Exec.exec': {
+          const result = fullExecMap[args[2][0]]
+          if (!result) {
+            throw new Error(`exec command not found ${args[2][0]}`)
+          }
+          return result
         }
-        return result
-      } else if (args[0] === 'Config.getGitPaths') {
-        // @ts-ignore
-        return fullConfig.gitPaths
-      } else if (args[0] === 'Config.getWorkspaceFolder') {
-        // @ts-ignore
-        return fullConfig.workspaceFolder
-      } else if (args[0] === 'Config.confirmDiscard') {
-        // @ts-ignore
-        return fullConfig.confirmDiscard
-      } else if (args[0] === 'Config.showErrorMessage') {
-        // @ts-ignore
-        return fullConfig.showErrorMessage
-      } else if (args[0] === 'QuickPick.show') {
-        return quickPick()
-      } else {
-        throw new Error(`unknown command ${args[0]}`)
+        case 'Config.getGitPaths': {
+          // @ts-ignore
+          return fullConfig.gitPaths
+        }
+        case 'Config.getWorkspaceFolder': {
+          // @ts-ignore
+          return fullConfig.workspaceFolder
+        }
+        case 'Config.confirmDiscard': {
+          // @ts-ignore
+          return fullConfig.confirmDiscard
+        }
+        case 'Config.showErrorMessage': {
+          // @ts-ignore
+          return fullConfig.showErrorMessage
+        }
+        case 'QuickPick.show': {
+          return quickPick()
+        }
+        default: {
+          throw new Error(`unknown command ${args[0]}`)
+        }
       }
     },
   }
