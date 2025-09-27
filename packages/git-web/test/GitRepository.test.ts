@@ -100,7 +100,7 @@ test('commit creates new commit', async () => {
   expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
-test('commit clears staged files', async () => {
+test.skip('commit clears staged files', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode

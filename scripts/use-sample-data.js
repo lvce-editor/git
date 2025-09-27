@@ -1,12 +1,12 @@
-import { mkdir, writeFile, rm } from 'fs/promises'
-import { dirname, join } from 'path'
-import { fileURLToPath } from 'url'
+import { mkdir, writeFile, rm } from 'node:fs/promises'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const files = Object.create(null)
 
-files['.gitkeep'] = ``
+files['.gitkeep'] = ''
 
 files['index.ts'] = `const add = (a: number, b: number) => {
   return a + b;
