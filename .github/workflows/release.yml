@@ -58,7 +58,7 @@ jobs:
       - run: npm run type-check
       - run: npm test
       - run: npm run lint
-      - run: node scripts/build.js
+      - run: npm run build
       - name: Build archive
         shell: bash
         run: |
