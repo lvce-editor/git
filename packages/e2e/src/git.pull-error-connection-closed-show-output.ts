@@ -1,12 +1,14 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const name = 'git.pull-error-connection-closed-show-output'
 
 export const skip = true
 
-const trimLines = (string) => {
+const trimLines = (string: string): string => {
   return string.split('\n').join('')
 }
 
-export const test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.pull-error-connection-closed-show-output/git.js`)
@@ -15,9 +17,8 @@ export const test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator
   })
 
   // act
-  await QuickPick.open()
-  await QuickPick.setValue('>Git: Pull')
-  await QuickPick.selectItem('Git: Pull')
+  await QuickPick.executeCommand('Git: Pull')
+  
   // assert
   const dialog = Locator('dialog')
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')

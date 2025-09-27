@@ -1,8 +1,10 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const name = 'git.sync-spinning-internal-server-error'
 
 export const skip = true
 
-export const test = async ({ Workspace, FileSystem, Settings }) => {
+export const test: Test = async ({ Workspace, FileSystem, Settings }) => {
   const tmpDir = await getTmpDir()
   await writeFile(`${tmpDir}/test.txt`, 'div')
   const gitPath = await createFakeGitBinary(`
