@@ -1,8 +1,10 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const skip = true
 
-export const name = 'git.pull-error-unstaged-changes'
+export const name = 'git.pull-error-not-a-git-repository'
 
-const exec = (command, args, options) => {
+const exec = (command: string, args: string[], options: any) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
@@ -14,9 +16,7 @@ const exec = (command, args, options) => {
     if (args[0] === 'pull') {
       return {
         stdout: '',
-        stderr: `error: Cannot pull with rebase, you have unstaged changes.
-error: please commit or stash them.
-`,
+        stderr: 'fatal: not a git repository (or any of the parent directories): .git',
         exitCode: 128,
       }
     }
@@ -31,7 +31,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
@@ -42,8 +42,6 @@ export const test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }
   await QuickPick.selectItem('Git: Pull')
 
   // assert
-  const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
-  await expect(dialogErrorMessage).toBeVisible()
-  // TODO remove error prefix from error
-  await expect(dialogErrorMessage).toHaveText('Error: Git: error: Cannot pull with rebase, you have unstaged changes.')
+  const notification = Locator('#DialogBodyErrorMessage')
+  await expect(notification).toHaveText('Error: Git: fatal: not a git repository (or any of the parent directories): .git')
 }

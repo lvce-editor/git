@@ -1,3 +1,5 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
 export const name = 'git.show-changed-files-in-side-bar'
 
 const gitVersion = () => {
@@ -26,7 +28,7 @@ const gitStatus = () => {
   }
 }
 
-const exec = (command, args, options) => {
+const exec = (command: string, args: string[], options: any) => {
   if (command !== 'git') {
     throw new Error(`unexpected command ${command}`)
   }
@@ -50,7 +52,7 @@ export const mockRpc = {
   },
 }
 
-export const test = async ({ FileSystem, Workspace, Settings, SideBar, Locator, expect }) => {
+export const test: Test = async ({ FileSystem, Workspace, Settings, SideBar, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
