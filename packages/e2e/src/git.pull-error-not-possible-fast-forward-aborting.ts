@@ -3,14 +3,14 @@ import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 
 export const skip = true
 
-export const name = 'git.pull-error-divergent-branches'
+export const name = 'git.pull-error-not-possible-fast-forward-aborting'
 
-export const test: Test = async ({ Command, Extension, FileSystem, Workspace, QuickPick, Locator, expect }) => {
+export const mockRpc = await createGitMockRpc('pull-error-not-possible-fast-forward-aborting')
+
+export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
-  await Extension.addWebExtension('../fixtures/mock-git-exec')
-  await Command.execute('mock-exec.setup', 'pull-error-divergent-branches')
 
   // act
   await QuickPick.executeCommand('Git: Pull')
@@ -19,5 +19,5 @@ export const test: Test = async ({ Command, Extension, FileSystem, Workspace, Qu
   const dialogErrorMessage = Locator('#DialogBodyErrorMessage')
   await expect(dialogErrorMessage).toBeVisible()
   // TODO error message could be improved, vscode has very good/short git error messages
-  await expect(dialogErrorMessage).toHaveText('Error: Git: hint: You have divergent branches and need to specify how to reconcile them.')
+  await expect(dialogErrorMessage).toHaveText('Error: Git: fatal: Not possible to fast-forward, aborting.')
 }
