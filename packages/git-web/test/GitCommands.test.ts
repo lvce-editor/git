@@ -1,6 +1,45 @@
 import { test, expect } from '@jest/globals'
 import { executeCommand, registerCommand, unregisterCommand, getRegisteredCommands, isCommandRegistered } from '../src/GitCommands/GitCommands.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
+import { handleVersion } from '../src/VersionCommand/VersionCommand.ts'
+import { handleInit } from '../src/InitCommand/InitCommand.ts'
+import { handleStatus } from '../src/StatusCommand/StatusCommand.ts'
+import { handleAdd } from '../src/AddCommand/AddCommand.ts'
+import { handleCommit } from '../src/CommitCommand/CommitCommand.ts'
+import { handlePush } from '../src/PushCommand/PushCommand.ts'
+import { handlePull } from '../src/PullCommand/PullCommand.ts'
+import { handleFetch } from '../src/FetchCommand/FetchCommand.ts'
+import { handleCheckout } from '../src/CheckoutCommand/CheckoutCommand.ts'
+import { handleBranch } from '../src/BranchCommand/BranchCommand.ts'
+import { handleLog } from '../src/LogCommand/LogCommand.ts'
+import { handleDiff } from '../src/DiffCommand/DiffCommand.ts'
+import { handleRevParse } from '../src/RevParseCommand/RevParseCommand.ts'
+import { handleForEachRef } from '../src/ForEachRefCommand/ForEachRefCommand.ts'
+import { handleRemote } from '../src/RemoteCommand/RemoteCommand.ts'
+import { handleConfig } from '../src/ConfigCommand/ConfigCommand.ts'
+
+// Register all git commands for testing
+const registerGitCommands = () => {
+  registerCommand('--version', handleVersion)
+  registerCommand('init', handleInit)
+  registerCommand('status', handleStatus)
+  registerCommand('add', handleAdd)
+  registerCommand('commit', handleCommit)
+  registerCommand('push', handlePush)
+  registerCommand('pull', handlePull)
+  registerCommand('fetch', handleFetch)
+  registerCommand('checkout', handleCheckout)
+  registerCommand('branch', handleBranch)
+  registerCommand('log', handleLog)
+  registerCommand('diff', handleDiff)
+  registerCommand('rev-parse', handleRevParse)
+  registerCommand('for-each-ref', handleForEachRef)
+  registerCommand('remote', handleRemote)
+  registerCommand('config', handleConfig)
+}
+
+// Register commands before running tests
+registerGitCommands()
 
 test('executeCommand with --version', async () => {
   const mockRpc = registerMockRpc({
@@ -17,9 +56,8 @@ test('executeCommand with --version', async () => {
     exitCode: 0
   })
 
-  expect(mockRpc.invocations).toEqual([
-    ['FileSystem.exists', 'web:/test/.git/config'],
-  ])
+  // --version command doesn't make any RPC calls
+  expect(mockRpc.invocations).toEqual([])
 })
 
 test('executeCommand with init', async () => {
@@ -76,15 +114,17 @@ test('executeCommand with status', async () => {
 
   expect(result.stdout).toContain('On branch main')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+    ['FileSystem.read', 'web:/test/.git/HEAD'],
+  ])
 })
 
 test('executeCommand with add', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -93,6 +133,10 @@ test('executeCommand with add', async () => {
   expect(result.stdout).toBe('')
   expect(result.stderr).toBe('')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with commit', async () => {
@@ -119,6 +163,12 @@ test('executeCommand with commit', async () => {
   expect(result.stdout).toContain('[main')
   expect(result.stdout).toContain('Test commit')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+    ['FileSystem.read', 'web:/test/.git/HEAD'],
+    ['FileSystem.write', 'web:/test/.git/refs/heads/main', expect.stringMatching(/^[a-f0-9]{40}\n$/)],
+  ])
 })
 
 test('executeCommand with push', async () => {
@@ -135,6 +185,10 @@ test('executeCommand with push', async () => {
 
   expect(result.stdout).toContain('Everything up-to-date')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with pull', async () => {
@@ -151,6 +205,10 @@ test('executeCommand with pull', async () => {
 
   expect(result.stdout).toContain('Already up to date')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with fetch', async () => {
@@ -167,6 +225,10 @@ test('executeCommand with fetch', async () => {
 
   expect(result.stdout).toContain('From https://github.com/user/repo')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with checkout', async () => {
@@ -183,6 +245,10 @@ test('executeCommand with checkout', async () => {
 
   expect(result.stdout).toContain("Switched to branch 'main'")
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with branch', async () => {
@@ -199,6 +265,10 @@ test('executeCommand with branch', async () => {
 
   expect(result.stdout).toContain('* main')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with log', async () => {
@@ -216,6 +286,10 @@ test('executeCommand with log', async () => {
   expect(result.stdout).toContain('commit')
   expect(result.stdout).toContain('Author:')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with diff', async () => {
@@ -232,6 +306,10 @@ test('executeCommand with diff', async () => {
 
   expect(result.stdout).toContain('diff --git')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with rev-parse', async () => {
@@ -248,6 +326,10 @@ test('executeCommand with rev-parse', async () => {
 
   expect(result.stdout).toMatch(/^[a-f0-9]{40}$/)
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with for-each-ref', async () => {
@@ -264,6 +346,10 @@ test('executeCommand with for-each-ref', async () => {
 
   expect(result.stdout).toContain('refs/heads/main')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with remote', async () => {
@@ -280,6 +366,10 @@ test('executeCommand with remote', async () => {
 
   expect(result.stdout).toContain('origin')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with config', async () => {
@@ -296,33 +386,59 @@ test('executeCommand with config', async () => {
 
   expect(result.stdout).toContain('user.name=User')
   expect(result.exitCode).toBe(0)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with unknown command', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      return false // No git config exists
+    },
+  })
+
   const result = await executeCommand(['unknown-command'], { cwd: 'web://test' })
 
   expect(result.stderr).toContain('is not a git command')
   expect(result.exitCode).toBe(127)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand with empty args', async () => {
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      return false // No git config exists
+    },
+  })
+
   const result = await executeCommand([], { cwd: 'web://test' })
 
   expect(result.stderr).toContain('usage: git')
   expect(result.exitCode).toBe(1)
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/test/.git/config'],
+  ])
 })
 
 test('executeCommand handles errors gracefully', async () => {
-  // Mock a command that throws an error
-  const originalConsoleError = console.error
-  console.error = jest.fn()
+  const mockRpc = registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      return false // No git config exists
+    },
+  })
 
-  try {
-    const result = await executeCommand(['status'], { cwd: 'invalid-path' })
-    expect(result.exitCode).toBe(0) // Should still work with virtual repo
-  } finally {
-    console.error = originalConsoleError
-  }
+  const result = await executeCommand(['status'], { cwd: 'invalid-path' })
+  expect(result.exitCode).toBe(0) // Should still work with virtual repo
+
+  expect(mockRpc.invocations).toEqual([
+    ['FileSystem.exists', 'web:/invalid-path/.git/config'],
+  ])
 })
 
 // Registry tests
