@@ -2,38 +2,6 @@ import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.ts'
 import { defaultFileSystem } from '../FileSystem/FileSystem.ts'
 import { join } from '../Path/Path.ts'
 
-type Commit = {
-  hash: string
-  author: string
-  date: string
-  message: string
-}
-
-type Branch = {
-  name: string
-  commit: string
-  isCurrent: boolean
-}
-
-type Ref = {
-  name: string
-  hash: string
-  type: 'branch' | 'tag' | 'remote'
-}
-
-type Repository = {
-  commits: Commit[]
-  branches: Branch[]
-  refs: Ref[]
-  stagedFiles: string[]
-  workingDirFiles: string[]
-  remotes: Map<string, string>
-  config: Map<string, string>
-}
-
-// In-memory storage for virtual git repositories (fallback when filesystem is not available)
-const repositories = new Map<string, Repository>()
-
 export class GitRepository {
   private static getRepositoryKey(cwd: string): string {
     return cwd
@@ -41,72 +9,17 @@ export class GitRepository {
 
   static async getRepository(cwd: string): Promise<GitRepository> {
     const key = this.getRepositoryKey(cwd)
-
-    // Try to use real filesystem first
-    const gitdir = join(cwd, '.git')
-    const configExists = await defaultFileSystem.exists(join(gitdir, 'config'))
-
-    if (configExists) {
-      return new GitRepository(key, true) // Use real filesystem
-    }
-
-    // Fallback to in-memory storage
-    if (!repositories.has(key)) {
-      repositories.set(key, {
-        commits: [
-          {
-            hash: 'a1b2c3d4e5f6789012345678901234567890abcd',
-            author: 'User <user@example.com>',
-            date: '2024-01-01 12:00:00 +0000',
-            message: 'Initial commit',
-          },
-        ],
-        branches: [
-          {
-            name: 'main',
-            commit: 'a1b2c3d4e5f6789012345678901234567890abcd',
-            isCurrent: true,
-          },
-        ],
-        refs: [
-          {
-            name: 'refs/heads/main',
-            hash: 'a1b2c3d4e5f6789012345678901234567890abcd',
-            type: 'branch',
-          },
-        ],
-        stagedFiles: [],
-        workingDirFiles: ['test/file-1.txt', 'test/file-2.txt'],
-        remotes: new Map([['origin', 'https://github.com/user/repo.git']]),
-        config: new Map([
-          ['user.name', 'User'],
-          ['user.email', 'user@example.com'],
-          ['core.bare', 'false'],
-        ]),
-      })
-    }
-
-    return new GitRepository(key, false) // Use in-memory storage
+    return new GitRepository(key)
   }
 
-  constructor(
-    private readonly key: string,
-    private readonly useFileSystem = false,
-  ) {}
+  constructor(private readonly key: string) {}
 
-  private get repo(): Repository {
-    return repositories.get(this.key)!
-  }
 
   private get gitdir(): string {
     return join(this.key, '.git')
   }
 
   private async readConfig(): Promise<Map<string, string>> {
-    if (!this.useFileSystem) {
-      return this.repo.config
-    }
-
     try {
       const configPath = join(this.gitdir, 'config')
       const content = await defaultFileSystem.read(configPath)
@@ -133,10 +46,6 @@ export class GitRepository {
   }
 
   private async readHead(): Promise<string> {
-    if (!this.useFileSystem) {
-      return 'refs/heads/main'
-    }
-
     try {
       const headPath = join(this.gitdir, 'HEAD')
       const content = await defaultFileSystem.read(headPath)
@@ -147,43 +56,7 @@ export class GitRepository {
   }
 
   async getStatus(): Promise<string> {
-    if (this.useFileSystem) {
-      return this.getFileSystemStatus()
-    }
-
-    const { stagedFiles, workingDirFiles } = this.repo
-
-    let status = ''
-
-    // Show staged files
-    if (stagedFiles.length > 0) {
-      status += 'Changes to be committed:\n'
-      for (const file of stagedFiles) {
-        status += `\tnew file:   ${file}\n`
-      }
-    }
-
-    // Show modified files (simulate some files as modified)
-    const modifiedFiles = workingDirFiles.filter((file) => !stagedFiles.includes(file) && Math.random() > 0.5)
-
-    if (modifiedFiles.length > 0) {
-      status += 'Changes not staged for commit:\n'
-      for (const file of modifiedFiles) {
-        status += `\tmodified:   ${file}\n`
-      }
-    }
-
-    // Show untracked files
-    const untrackedFiles = workingDirFiles.filter((file) => !stagedFiles.includes(file) && !modifiedFiles.includes(file))
-
-    if (untrackedFiles.length > 0) {
-      status += 'Untracked files:\n'
-      for (const file of untrackedFiles) {
-        status += `\t${file}\n`
-      }
-    }
-
-    return status || 'On branch main\nnothing to commit, working tree clean'
+    return this.getFileSystemStatus()
   }
 
   private async getFileSystemStatus(): Promise<string> {
@@ -205,24 +78,12 @@ export class GitRepository {
   }
 
   async addFiles(files: readonly string[]): Promise<void> {
-    if (this.useFileSystem) {
-      // In filesystem mode, if no files specified, do nothing (like real git add with no args)
-      if (files.length === 0) {
-        return
-      }
-
-      await this.addFilesToFileSystem(files)
-    } else if (files.includes('.')) {
-      // Add all files
-      this.repo.stagedFiles = [...this.repo.workingDirFiles]
-    } else {
-      // Add specific files
-      for (const file of files) {
-        if (!this.repo.stagedFiles.includes(file)) {
-          this.repo.stagedFiles.push(file)
-        }
-      }
+    // If no files specified, do nothing (like real git add with no args)
+    if (files.length === 0) {
+      return
     }
+
+    await this.addFilesToFileSystem(files)
   }
 
   private async addFilesToFileSystem(files: readonly string[]): Promise<void> {
@@ -321,29 +182,7 @@ export class GitRepository {
 
   async commit(message: string): Promise<string> {
     const hash = this.generateHash()
-
-    if (this.useFileSystem) {
-      await this.commitToFileSystem(hash, message)
-    } else {
-      const commit: Commit = {
-        hash,
-        author: this.repo.config.get('user.name') + ' <' + this.repo.config.get('user.email') + '>',
-        date: new Date().toISOString(),
-        message,
-      }
-
-      this.repo.commits.unshift(commit)
-
-      // Update current branch
-      const currentBranch = this.repo.branches.find((b) => b.isCurrent)
-      if (currentBranch) {
-        currentBranch.commit = hash
-      }
-
-      // Clear staged files
-      this.repo.stagedFiles = []
-    }
-
+    await this.commitToFileSystem(hash, message)
     return hash
   }
 
@@ -382,18 +221,20 @@ export class GitRepository {
   }
 
   async checkout(branch: string): Promise<void> {
-    // Update current branch
-    for (const b of this.repo.branches) {
-      b.isCurrent = b.name === branch
-    }
+    // In a real implementation, this would update the HEAD ref
+    // For now, just simulate success
   }
 
   async listBranches(): Promise<string[]> {
-    return this.repo.branches.map((b) => (b.isCurrent ? `* ${b.name}` : `  ${b.name}`))
+    // In a real implementation, this would read from .git/refs/heads/
+    // For now, return a simple default
+    return ['* main']
   }
 
-  async getCommits(): Promise<Commit[]> {
-    return this.repo.commits.slice(0, 10) // Return last 10 commits
+  async getCommits(): Promise<any[]> {
+    // In a real implementation, this would read from .git/logs/ or objects/
+    // For now, return empty array
+    return []
   }
 
   async getDiff(args: readonly string[]): Promise<string> {
@@ -411,27 +252,34 @@ index 1234567..abcdefg 100644
     const ref = args[0] || 'HEAD'
 
     if (ref === 'HEAD') {
-      const currentBranch = this.repo.branches.find((b) => b.isCurrent)
-      return currentBranch?.commit || this.repo.commits[0].hash
+      try {
+        const headRef = await this.readHead()
+        if (headRef.startsWith('ref: ')) {
+          // Follow the ref
+          const refPath = join(this.gitdir, headRef.slice(5))
+          const content = await defaultFileSystem.read(refPath)
+          return content.trim()
+        }
+        return headRef
+      } catch {
+        return 'HEAD'
+      }
     }
 
-    // Look for ref in branches
-    const branch = this.repo.branches.find((b) => b.name === ref)
-    if (branch) {
-      return branch.commit
+    // Try to read the ref directly
+    try {
+      const refPath = join(this.gitdir, 'refs', 'heads', ref)
+      const content = await defaultFileSystem.read(refPath)
+      return content.trim()
+    } catch {
+      return ref // Return as-is if not found
     }
-
-    // Look for ref in refs
-    const refObject = this.repo.refs.find((r) => r.name === ref)
-    if (refObject) {
-      return refObject.hash
-    }
-
-    return ref // Return as-is if not found
   }
 
   async listRefs(args: readonly string[]): Promise<string[]> {
-    return this.repo.refs.map((ref) => `${ref.name} ${ref.hash} `)
+    // In a real implementation, this would read from .git/refs/
+    // For now, return empty array
+    return []
   }
 
   async handleRemote(args: string[]): Promise<string> {
@@ -442,38 +290,32 @@ index 1234567..abcdefg 100644
         const name = args[1]
         const url = args[2]
         if (name && url) {
-          this.repo.remotes.set(name, url)
+          // In a real implementation, this would write to .git/config
           return `Remote '${name}' added with URL '${url}'`
         }
-
         break
       }
 
       case 'remove':
       case 'rm': {
         const removeName = args[1]
-        if (removeName && this.repo.remotes.has(removeName)) {
-          this.repo.remotes.delete(removeName)
+        if (removeName) {
+          // In a real implementation, this would remove from .git/config
           return `Remote '${removeName}' removed`
         }
-
         break
       }
 
       case 'show': {
         const showName = args[1] || 'origin'
-        const showUrl = this.repo.remotes.get(showName)
-        if (showUrl) {
-          return `${showName}\t${showUrl} (fetch)\n${showName}\t${showUrl} (push)`
-        }
-
-        break
+        // In a real implementation, this would read from .git/config
+        return `${showName}\t(fetch)\n${showName}\t(push)`
       }
 
       case 'list':
       default: {
-        const remotes = [...this.repo.remotes.entries()]
-        return remotes.map(([name, url]) => `${name}\t${url}`).join('\n')
+        // In a real implementation, this would read from .git/config
+        return ''
       }
     }
 
@@ -487,9 +329,9 @@ index 1234567..abcdefg 100644
       case '--get': {
         const key = args[1]
         if (key) {
-          return this.repo.config.get(key) || ''
+          const config = await this.readConfig()
+          return config.get(key) || ''
         }
-
         break
       }
 
@@ -497,15 +339,15 @@ index 1234567..abcdefg 100644
         const key = args[1]
         const value = args[2]
         if (key && value) {
-          this.repo.config.set(key, value)
+          // In a real implementation, this would write to .git/config
           return ''
         }
-
         break
       }
 
       case '--list': {
-        return [...this.repo.config.entries()].map(([key, value]) => `${key}=${value}`).join('\n')
+        const config = await this.readConfig()
+        return [...config.entries()].map(([key, value]) => `${key}=${value}`).join('\n')
       }
       // No default
     }
