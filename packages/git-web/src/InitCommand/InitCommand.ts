@@ -1,6 +1,6 @@
 import * as ExitCode from '../ExitCode/ExitCode.js'
 import { defaultFileSystem } from '../FileSystem/FileSystem.js'
-import { join } from '../../utils/join.js'
+import { join } from '../Path/Path.js'
 import type { CommandOptions } from '../CommandOptions/CommandOptions.js'
 import type { CommandResult } from '../CommandResult/CommandResult.js'
 
