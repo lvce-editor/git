@@ -9,7 +9,7 @@ export const test: Test = async ({ Command, Extension, SourceControl, FileSystem
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)
   // await Extension.addWebExtension(import.meta.resolve('../../extension'))
-  const fixtureUrl = import.meta.resolve('../fixtures/git.show-change-files-in-side-bar')
+  const fixtureUrl = import.meta.resolve('../fixtures/git.show-changed-files-in-side-bar')
   await Command.execute('ExtensionHost.executeCommand', `git.loadFixture`, fixtureUrl)
 
   // act
