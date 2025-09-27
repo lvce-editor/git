@@ -33,9 +33,14 @@ export const showErrorMessage = () => {
 }
 
 export const exists = async (uri) => {
-  console.log({ uri })
   // @ts-ignore
   const value = await vscode.exists(uri)
+  return value
+}
+
+export const mkdir = async (uri) => {
+  // @ts-ignore
+  const value = await vscode.mkdir(uri)
   return value
 }
 
