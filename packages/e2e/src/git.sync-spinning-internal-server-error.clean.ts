@@ -6,7 +6,7 @@ export const name = 'git.sync-spinning-internal-server-error.clean'
 
 export const mockRpc = await createGitMockRpc('sync-spinning-internal-server-error')
 
-export const test: Test = async ({ FileSystem, QuickPick, Workspace, Settings, Locator, expect }: TestContext) => {
+export const test: Test = async ({ FileSystem, QuickPick, Workspace, Settings, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/test.txt`, 'div')

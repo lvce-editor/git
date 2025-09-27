@@ -6,7 +6,7 @@ export const name = 'git.sync-spinning.clean'
 
 export const mockRpc = await createGitMockRpc('sync-spinning')
 
-export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }: TestContext) => {
+export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/test.txt`, 'div')
@@ -15,7 +15,7 @@ export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, exp
   await Settings.update({
     'git.path': 'git',
   })
-  
+
   // Open quick pick and execute git sync
   const quickPick = Locator('#QuickPick')
   const quickPickInput = quickPick.locator('.InputBox')
