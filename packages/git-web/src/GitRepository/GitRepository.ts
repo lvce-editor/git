@@ -281,7 +281,6 @@ export class GitRepository {
       await this.collectFiles(this.key, files, this.key)
       return files
     } catch (error) {
-      console.warn('Failed to get working directory files:', error)
       return []
     }
   }
@@ -315,9 +314,9 @@ export class GitRepository {
           await this.collectFiles(fullPath, files, baseDir)
         }
       }
-    } catch (error) {
-      console.warn(`Failed to collect files from ${dir}:`, error)
-    }
+        } catch (error) {
+          // Ignore errors when collecting files
+        }
   }
 
   async commit(message: string): Promise<string> {
@@ -363,7 +362,7 @@ export class GitRepository {
       // - Update the index
       // - Handle the working directory
     } catch (error) {
-      console.warn('Failed to commit to filesystem:', error)
+      // In a real implementation, this might throw or handle the error differently
     }
   }
 
