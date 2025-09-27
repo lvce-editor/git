@@ -11,7 +11,7 @@ test.only('handleAdd with specific files', async () => {
     stderr: '',
     exitCode: 0,
   })
-  expect(mockRpc.invocations).toEqual([])
+  expect(mockRpc.invocations).toEqual([1, 'FileSystem.exists', 'web:/test-add/.git/config'])
 })
 
 test('handleAdd with dot adds all files', async () => {
