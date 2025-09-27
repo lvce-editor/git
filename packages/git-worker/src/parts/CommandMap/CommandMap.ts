@@ -13,13 +13,13 @@ import * as CommandStageAll from '../CommandStageAll/CommandStageAll.ts'
 import * as CommandSync from '../CommandSync/CommandSync.ts'
 import * as CommandUndoLastCommit from '../CommandUndoLastCommit/CommandUndoLastCommit.ts'
 import * as CommandUnstage from '../CommandUnstage/CommandUnstage.ts'
+import * as CommandLoadFixture from '../CommandLoadFixture/CommandLoadFixture.ts'
 import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
 export const commandMap = {
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
-  [GitWorkerCommandType.CommandStage]: CommandStage.commandStage,
   [GitWorkerCommandType.CommandAdd]: CommandAdd.commandAdd,
   [GitWorkerCommandType.CommandAddAll]: CommandAddAll.commandAddAll,
   [GitWorkerCommandType.CommandCheckoutRef]: CommandCheckout.commandCheckout,
@@ -29,7 +29,9 @@ export const commandMap = {
   [GitWorkerCommandType.CommandInit]: CommandInit.commandInit,
   [GitWorkerCommandType.CommandPull]: CommandPull.commandPull,
   [GitWorkerCommandType.CommandPullRebase]: CommandPullRebase.commandPullRebase,
+  [GitWorkerCommandType.CommandStage]: CommandStage.commandStage,
   [GitWorkerCommandType.CommandStageAll]: CommandStageAll.commandStageAll,
+  [GitWorkerCommandType.CommandLoadFixture]: CommandLoadFixture.commandLoadFixture,
   [GitWorkerCommandType.CommandSync]: CommandSync.commandSync,
   [GitWorkerCommandType.CommandUndoLastCommit]: CommandUndoLastCommit.commandUndoLastCommit,
   [GitWorkerCommandType.CommandUnstage]: CommandUnstage.commandUnstage,
