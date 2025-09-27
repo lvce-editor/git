@@ -1,7 +1,5 @@
 export const name = 'git.show-changed-files-in-side-bar'
 
-export const skip = true
-
 const gitVersion = () => {
   return {
     stdout: '0.0.0',
