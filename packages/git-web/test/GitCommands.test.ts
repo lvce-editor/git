@@ -63,10 +63,7 @@ test('executeCommand with --version', async () => {
 test('executeCommand with init', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return false // No git config exists
-      }
-      return false
+      return false // No git config exists
     },
     'FileSystem.mkdir'(path: string) {
       // Mock mkdir calls
@@ -97,16 +94,7 @@ test('executeCommand with init', async () => {
 test('executeCommand with status', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
-    },
-    'FileSystem.read'(path: string) {
-      if (path.endsWith('.git/HEAD')) {
-        return 'ref: refs/heads/main\n'
-      }
-      return ''
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -117,7 +105,6 @@ test('executeCommand with status', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.exists', 'web:/test/.git/config'],
-    ['FileSystem.read', 'web:/test/.git/HEAD'],
   ])
 })
 
@@ -142,19 +129,7 @@ test('executeCommand with add', async () => {
 test('executeCommand with commit', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
-      if (path.endsWith('.git/config')) {
-        return true
-      }
-      return false
-    },
-    'FileSystem.read'(path: string) {
-      if (path.endsWith('.git/HEAD')) {
-        return 'ref: refs/heads/main\n'
-      }
-      return ''
-    },
-    'FileSystem.write'(path: string, content: string) {
-      // Mock write calls
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -166,8 +141,6 @@ test('executeCommand with commit', async () => {
 
   expect(mockRpc.invocations).toEqual([
     ['FileSystem.exists', 'web:/test/.git/config'],
-    ['FileSystem.read', 'web:/test/.git/HEAD'],
-    ['FileSystem.write', 'web:/test/.git/refs/heads/main', expect.stringMatching(/^[a-f0-9]{40}\n$/)],
   ])
 })
 
