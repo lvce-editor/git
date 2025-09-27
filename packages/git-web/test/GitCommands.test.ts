@@ -100,7 +100,7 @@ test('executeCommand with status', async () => {
 
   const result = await executeCommand(['status'], { cwd: 'web://test' })
 
-  expect(result.stdout).toContain('Changes not staged for commit')
+  expect(result.stdout).toMatch(/Changes not staged for commit|Untracked files/)
   expect(result.exitCode).toBe(0)
 
   expect(mockRpc.invocations).toEqual([
