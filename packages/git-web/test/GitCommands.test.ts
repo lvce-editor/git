@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { executeCommand } from '../src/GitCommands/GitCommands.js'
+import { executeCommand, registerCommand, unregisterCommand, getRegisteredCommands, isCommandRegistered } from '../src/GitCommands/GitCommands.js'
 
 test('executeCommand with --version', async () => {
   const result = await executeCommand(['--version'], { cwd: 'web://test' })
@@ -144,4 +144,65 @@ test('executeCommand handles errors gracefully', async () => {
   } finally {
     console.error = originalConsoleError
   }
+})
+
+// Registry tests
+test('registerCommand adds command to registry', () => {
+  const handler = async () => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  
+  registerCommand('test-command', handler)
+  
+  expect(isCommandRegistered('test-command')).toBe(true)
+  expect(getRegisteredCommands()).toContain('test-command')
+})
+
+test('unregisterCommand removes command from registry', () => {
+  const handler = async () => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  
+  registerCommand('test-command', handler)
+  expect(isCommandRegistered('test-command')).toBe(true)
+  
+  unregisterCommand('test-command')
+  expect(isCommandRegistered('test-command')).toBe(false)
+  expect(getRegisteredCommands()).not.toContain('test-command')
+})
+
+test('executeCommand with registered custom command', async () => {
+  const handler = async () => ({ stdout: 'custom output', stderr: '', exitCode: 0 })
+  
+  registerCommand('custom-command', handler)
+  
+  const result = await executeCommand(['custom-command'], { cwd: 'web://test' })
+  
+  expect(result.stdout).toBe('custom output')
+  expect(result.exitCode).toBe(0)
+})
+
+test('executeCommand with unregistered command returns error', async () => {
+  const result = await executeCommand(['unregistered-command'], { cwd: 'web://test' })
+  
+  expect(result.stderr).toContain('is not a git command')
+  expect(result.exitCode).toBe(127)
+})
+
+test('getRegisteredCommands returns all registered commands', () => {
+  const handler = async () => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  
+  registerCommand('command1', handler)
+  registerCommand('command2', handler)
+  
+  const commands = getRegisteredCommands()
+  
+  expect(commands).toContain('command1')
+  expect(commands).toContain('command2')
+  expect(commands.length).toBeGreaterThanOrEqual(2)
+})
+
+test('isCommandRegistered returns correct status', () => {
+  const handler = async () => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  
+  expect(isCommandRegistered('nonexistent')).toBe(false)
+  
+  registerCommand('existent', handler)
+  expect(isCommandRegistered('existent')).toBe(true)
 })
