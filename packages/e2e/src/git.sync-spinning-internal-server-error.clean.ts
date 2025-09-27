@@ -1,10 +1,12 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
 import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 import type { TestContext } from '../typings/e2e-types.js'
-import type { Test } from '@lvce-editor/test-with-playwright'
+
+export const name = 'git.sync-spinning-internal-server-error.clean'
 
 export const mockRpc = await createGitMockRpc('sync-spinning-internal-server-error')
 
-export const test: Test = async ({ FileSystem, QuickPick, Workspace, Settings, Locator, expect }) => {
+export const test: Test = async ({ FileSystem, QuickPick, Workspace, Settings, Locator, expect }: TestContext) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/test.txt`, 'div')

@@ -2,6 +2,8 @@ import { createGitMockRpc } from './test-helpers/gitMockHelper.js'
 import type { TestContext } from '../typings/e2e-types.js'
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+export const name = 'git.sync-spinning.clean'
+
 export const mockRpc = await createGitMockRpc('sync-spinning')
 
 export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }: TestContext) => {
