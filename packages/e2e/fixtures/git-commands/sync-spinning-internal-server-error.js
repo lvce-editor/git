@@ -1,5 +1,7 @@
 // Git command fixtures for "sync spinning internal server error" test
-export const gitFixtures = {
+import type { GitFixtures } from '../../src/test-helpers/gitMockHelper.js'
+
+export const gitFixtures: GitFixtures = {
   '--version': {
     stdout: 'git version 2.34.1',
     stderr: '',
