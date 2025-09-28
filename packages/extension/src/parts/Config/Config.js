@@ -55,6 +55,18 @@ export const readFile = async (uri) => {
   return value
 }
 
+export const readDir = async (uri) => {
+  // @ts-ignore
+  const value = await vscode.readDirWithFileTypes(uri)
+  return value
+}
+
+export const stat = async (uri) => {
+  // @ts-ignore
+  const value = await vscode.stat(uri)
+  return value
+}
+
 export const confirmPrompt = async (message) => {
   // @ts-ignore
   const result = await vscode.confirm(message)
