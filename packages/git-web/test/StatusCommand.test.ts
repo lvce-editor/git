@@ -76,6 +76,7 @@ test('handleStatus works with different cwd', async () => {
     ['FileSystem.read', 'web://different-repo/.git/HEAD'],
     ['FileSystem.readdir', 'web://different-repo'],
     ['FileSystem.stat', 'web://different-repo/file1.txt'],
+    ['FileSystem.stat', 'file1.txt'],
   ])
 })
 

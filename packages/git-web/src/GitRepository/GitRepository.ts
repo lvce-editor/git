@@ -207,6 +207,7 @@ export class GitRepository {
 
   private getPorcelainStatus(stagedFiles: string[], workingDirFiles: string[], untrackedAll: boolean): string {
     const lines: string[] = []
+    console.log({ workingDirFiles })
 
     // Show staged files
     for (const file of stagedFiles) {
@@ -334,7 +335,6 @@ export class GitRepository {
     return files
   }
 
-
   private async isFileModified(filePath: string, indexEntry: IndexEntry): Promise<boolean> {
     // For now, use a simple heuristic - in a real implementation,
     // this would compare file content hash with index entry hash
@@ -343,9 +343,7 @@ export class GitRepository {
   }
 
   private formatPorcelainStatus(entries: GitStatusEntry[]): string {
-    return entries
-      .map(entry => `${entry.indexStatus}${entry.workingTreeStatus} ${entry.path}`)
-      .join('\n')
+    return entries.map((entry) => `${entry.indexStatus}${entry.workingTreeStatus} ${entry.path}`).join('\n')
   }
 
   private formatHumanReadableStatus(branch: string, entries: GitStatusEntry[]): string {
@@ -357,9 +355,9 @@ export class GitRepository {
     }
 
     // Group entries by status
-    const staged = entries.filter(e => e.indexStatus !== ' ')
-    const modified = entries.filter(e => e.indexStatus === ' ' && e.workingTreeStatus === 'M')
-    const untracked = entries.filter(e => e.workingTreeStatus === '?')
+    const staged = entries.filter((e) => e.indexStatus !== ' ')
+    const modified = entries.filter((e) => e.indexStatus === ' ' && e.workingTreeStatus === 'M')
+    const untracked = entries.filter((e) => e.workingTreeStatus === '?')
 
     if (staged.length > 0) {
       status += 'Changes to be committed:\n'
