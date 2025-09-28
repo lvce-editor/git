@@ -19,7 +19,7 @@ import { handleStatus } from '../src/StatusCommand/StatusCommand.ts'
 import { handleVersion } from '../src/VersionCommand/VersionCommand.ts'
 
 // Register all git commands for testing
-const registerGitCommands = () => {
+const registerGitCommands = (): void => {
   registerCommand('--version', handleVersion)
   registerCommand('init', handleInit)
   registerCommand('status', handleStatus)
@@ -351,7 +351,7 @@ test('executeCommand handles errors gracefully', async () => {
 
 // Registry tests
 test('registerCommand adds command to registry', () => {
-  const handler = async () => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'test', stderr: '', exitCode: 0 })
 
   registerCommand('test-command', handler)
 
@@ -360,7 +360,7 @@ test('registerCommand adds command to registry', () => {
 })
 
 test('unregisterCommand removes command from registry', () => {
-  const handler = async () => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'test', stderr: '', exitCode: 0 })
 
   registerCommand('test-command', handler)
   expect(isCommandRegistered('test-command')).toBe(true)
@@ -371,7 +371,7 @@ test('unregisterCommand removes command from registry', () => {
 })
 
 test('executeCommand with registered custom command', async () => {
-  const handler = async () => ({ stdout: 'custom output', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'custom output', stderr: '', exitCode: 0 })
 
   registerCommand('custom-command', handler)
 
@@ -389,7 +389,7 @@ test('executeCommand with unregistered command returns error', async () => {
 })
 
 test('getRegisteredCommands returns all registered commands', () => {
-  const handler = async () => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'test', stderr: '', exitCode: 0 })
 
   registerCommand('command1', handler)
   registerCommand('command2', handler)
@@ -402,7 +402,7 @@ test('getRegisteredCommands returns all registered commands', () => {
 })
 
 test('isCommandRegistered returns correct status', () => {
-  const handler = async () => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'test', stderr: '', exitCode: 0 })
 
   expect(isCommandRegistered('nonexistent')).toBe(false)
 
