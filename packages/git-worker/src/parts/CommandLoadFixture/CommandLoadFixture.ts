@@ -1,4 +1,5 @@
 import { commandInit } from '../CommandInit/CommandInit.ts'
+import * as Rpc from '../Rpc/Rpc.ts'
 
 const gitInit = async () => {
   // TODO
@@ -6,9 +7,10 @@ const gitInit = async () => {
   await commandInit()
 }
 
-const touch = (fileName: string) => {
-  // TODO
-  console.log('touch', fileName)
+const touch = async (fileName: string) => {
+  const folder = await Rpc.invoke('Config.getWorkspaceFolder')
+  const path = `${folder}/${fileName}`
+  await Rpc.invoke(`FileSystem.writeFile`, path, '')
 }
 
 const executeAction = async (action) => {
