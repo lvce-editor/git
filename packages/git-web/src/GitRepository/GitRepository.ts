@@ -146,12 +146,15 @@ export class GitRepository {
     }
   }
 
-  async getStatus(): Promise<string> {
+  async getStatus(porcelain: boolean = false, untrackedAll: boolean = false): Promise<string> {
     if (this.useFileSystem) {
-      return this.getFileSystemStatus()
+      return this.getFileSystemStatus(porcelain, untrackedAll)
     }
 
     const { stagedFiles, workingDirFiles } = this.repo
+    if (porcelain) {
+      return this.getPorcelainStatus(stagedFiles, workingDirFiles, untrackedAll)
+    }
 
     let status = ''
 
@@ -186,11 +189,41 @@ export class GitRepository {
     return status || 'On branch main\nnothing to commit, working tree clean'
   }
 
-  private async getFileSystemStatus(): Promise<string> {
+  private getPorcelainStatus(stagedFiles: string[], workingDirFiles: string[], untrackedAll: boolean): string {
+    const lines: string[] = []
+
+    // Show staged files
+    for (const file of stagedFiles) {
+      lines.push(`A  ${file}`)
+    }
+
+    // Show modified files (simulate some files as modified)
+    const modifiedFiles = workingDirFiles.filter((file) => !stagedFiles.includes(file) && Math.random() > 0.5)
+    for (const file of modifiedFiles) {
+      lines.push(` M ${file}`)
+    }
+
+    // Show untracked files
+    const untrackedFiles = workingDirFiles.filter((file) => !stagedFiles.includes(file) && !modifiedFiles.includes(file))
+    for (const file of untrackedFiles) {
+      lines.push(`?? ${file}`)
+    }
+
+    return lines.join('\n')
+  }
+
+  private async getFileSystemStatus(porcelain: boolean = false, untrackedAll: boolean = false): Promise<string> {
     try {
       // Read current branch from HEAD
       const headRef = await this.readHead()
       const branch = headRef.replace('ref: refs/heads/', '')
+
+      if (porcelain) {
+        // For porcelain mode, we need to check actual file status
+        // This would require implementing actual git status checking
+        // For now, return empty (clean working tree)
+        return ''
+      }
 
       let status = `On branch ${branch}\n`
 
@@ -200,6 +233,9 @@ export class GitRepository {
 
       return status
     } catch {
+      if (porcelain) {
+        return ''
+      }
       return 'On branch main\nnothing to commit, working tree clean'
     }
   }

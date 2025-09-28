@@ -1,15 +1,25 @@
 import type { CommandOptions } from '../CommandOptions/CommandOptions.ts'
 import type { CommandResult } from '../CommandResult/CommandResult.ts'
 import * as ExitCode from '../ExitCode/ExitCode.ts'
-import { GitRepository } from '../GitRepository/GitRepository.ts'
+import * as Rpc from '../Rpc/Rpc.ts'
 
 export const handleStatus = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
-  const repository = await GitRepository.getRepository(options.cwd)
-  const status = await repository.getStatus()
+  try {
+    // Execute git status command via RPC
+    const result = await Rpc.invoke('Exec.exec', 'git', ['status', ...args], {
+      cwd: options.cwd,
+    })
 
-  return {
-    stdout: status,
-    stderr: '',
-    exitCode: ExitCode.Success,
+    return {
+      stdout: result.stdout,
+      stderr: result.stderr,
+      exitCode: result.exitCode,
+    }
+  } catch (error) {
+    return {
+      stdout: '',
+      stderr: error instanceof Error ? error.message : String(error),
+      exitCode: ExitCode.GeneralError,
+    }
   }
 }
