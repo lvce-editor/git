@@ -327,35 +327,13 @@ export class GitRepository {
 
     const files: string[] = []
     try {
-      await this.collectFiles(this.cwd, files)
+      await this.collectFiles(this.cwd, files, this.cwd)
     } catch (error) {
       // Ignore errors when collecting files
     }
     return files
   }
 
-  private async collectFiles(dir: string, files: string[]): Promise<void> {
-    try {
-      const entries = await defaultFileSystem.readdir(dir)
-      for (const entry of entries) {
-        const fullPath = `${dir}/${entry}`
-        const stat = await defaultFileSystem.stat(fullPath)
-
-        if (stat.isDirectory) {
-          // Skip .git directory
-          if (entry !== '.git') {
-            await this.collectFiles(fullPath, files)
-          }
-        } else {
-          // Convert absolute path to relative path from cwd
-          const relativePath = fullPath.replace(this.cwd + '/', '')
-          files.push(relativePath)
-        }
-      }
-    } catch (error) {
-      // Ignore errors when reading directories
-    }
-  }
 
   private async isFileModified(filePath: string, indexEntry: IndexEntry): Promise<boolean> {
     // For now, use a simple heuristic - in a real implementation,

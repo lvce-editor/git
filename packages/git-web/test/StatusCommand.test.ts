@@ -36,6 +36,9 @@ test('handleStatus returns status for new repository', async () => {
     ['FileSystem.read', 'web://test-status/.git/HEAD'],
     ['FileSystem.readdir', 'web://test-status'],
     ['FileSystem.stat', 'web://test-status/file1.txt'],
+    ['FileSystem.stat', 'web://test-status/file2.txt'],
+    ['FileSystem.stat', 'file1.txt'],
+    ['FileSystem.stat', 'file2.txt'],
   ])
 })
 
