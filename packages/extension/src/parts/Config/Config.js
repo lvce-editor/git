@@ -49,6 +49,11 @@ export const write = async (uri, content) => {
   const value = await vscode.writeFile(uri, content)
   return value
 }
+export const readFile = async (uri) => {
+  // @ts-ignore
+  const value = await vscode.readFile(uri)
+  return value
+}
 
 export const confirmPrompt = async (message) => {
   // @ts-ignore

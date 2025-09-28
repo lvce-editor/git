@@ -27,6 +27,8 @@ export const getFn = (method) => {
     case 'FileSystem.writeFile':
     case 'FileSystem.write':
       return Config.write
+    case 'FileSystem.read':
+      return Config.readFile
     default:
       throw new CommandNotFoundError(method)
   }
