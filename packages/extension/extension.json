@@ -26,6 +26,7 @@
     "onSourceControl",
     "onSourceControl:",
     "onSourceControl:file",
+    "onSourceControl:memfs",
     "onStatusBarItem"
   ],
   "commands": [

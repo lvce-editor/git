@@ -17,7 +17,7 @@ export const add = CommandAdd.execute
 
 export const discard = CommandAdd.execute
 
-const supportedSchemes = ['file', '']
+const supportedSchemes = ['file', '', 'memfs']
 
 export const isActive = async (scheme, root) => {
   if (!root) {
