@@ -17,7 +17,6 @@ test('handleStatus returns status for new repository', async () => {
       return ''
     },
     'FileSystem.readdir'(path: string) {
-      console.log('readdir called with:', path)
       if (path === 'web://test-status') {
         return ['file1.txt', 'file2.txt']
       }

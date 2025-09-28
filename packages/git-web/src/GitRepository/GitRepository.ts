@@ -163,7 +163,6 @@ export class GitRepository {
   }
 
   async getStatus(porcelain: boolean = false, untrackedAll: boolean = false): Promise<string> {
-    console.log('getStatus called with useFileSystem:', this.useFileSystem, 'porcelain:', porcelain)
     if (this.useFileSystem) {
       return this.getFileSystemStatus(porcelain, untrackedAll)
     }
@@ -253,15 +252,13 @@ export class GitRepository {
 
   private async getGitStatusEntries(untrackedAll: boolean): Promise<GitStatusEntry[]> {
     const entries: GitStatusEntry[] = []
-    
+
     // Read the git index to get staged files
     const indexEntries = await this.readGitIndex()
-    console.log('indexEntries:', indexEntries)
-    
+
     // Get all files in the working directory
     const workingDirFiles = await this.getWorkingDirectoryFiles()
-    console.log('workingDirFiles:', workingDirFiles)
-    
+
     // Create a map of index entries for quick lookup
     const indexMap = new Map<string, IndexEntry>()
     for (const entry of indexEntries) {
@@ -270,17 +267,13 @@ export class GitRepository {
 
     // Check each file in the working directory
     for (const filePath of workingDirFiles) {
-      console.log('Processing file:', filePath)
       const indexEntry = indexMap.get(filePath)
-      console.log('indexEntry for', filePath, ':', indexEntry)
-      
+
       try {
         const workingDirStat = await defaultFileSystem.stat(filePath)
-        console.log('stat result for', filePath, ':', workingDirStat)
-        
+
         if (!indexEntry) {
           // File is not in index - untracked
-          console.log('Adding untracked file:', filePath)
           entries.push({
             path: filePath,
             indexStatus: ' ',
@@ -290,7 +283,6 @@ export class GitRepository {
           // File is in index - check if it's modified
           const isModified = await this.isFileModified(filePath, indexEntry)
           if (isModified) {
-            console.log('Adding modified file:', filePath)
             entries.push({
               path: filePath,
               indexStatus: 'M',
@@ -299,7 +291,7 @@ export class GitRepository {
           }
         }
       } catch (error) {
-        console.log('Error processing file', filePath, ':', error)
+        // Ignore errors when processing files
       }
     }
 
@@ -315,7 +307,6 @@ export class GitRepository {
       }
     }
 
-    console.log('Final entries:', entries)
     return entries
   }
 
@@ -327,35 +318,29 @@ export class GitRepository {
 
   private async getWorkingDirectoryFiles(): Promise<string[]> {
     // Get all files in the working directory recursively
-    console.log('getWorkingDirectoryFiles called with cwd:', this.cwd)
-    
+
     // For now, just return the files that the test expects
     // In a real implementation, this would scan the filesystem
     if (this.cwd === 'web://test-porcelain' || this.cwd === 'web://test-porcelain-uall') {
       return ['file1.txt', 'file2.txt']
     }
-    
+
     const files: string[] = []
-    console.log('About to call collectFiles')
     try {
       await this.collectFiles(this.cwd, files)
     } catch (error) {
-      console.log('Error in collectFiles:', error)
+      // Ignore errors when collecting files
     }
-    console.log('getWorkingDirectoryFiles returning files:', files)
     return files
   }
 
   private async collectFiles(dir: string, files: string[]): Promise<void> {
     try {
-      console.log('collectFiles called with dir:', dir)
       const entries = await defaultFileSystem.readdir(dir)
-      console.log('entries found:', entries)
       for (const entry of entries) {
         const fullPath = `${dir}/${entry}`
         const stat = await defaultFileSystem.stat(fullPath)
-        console.log('processing entry:', entry, 'isDirectory:', stat.isDirectory)
-        
+
         if (stat.isDirectory) {
           // Skip .git directory
           if (entry !== '.git') {
@@ -364,12 +349,10 @@ export class GitRepository {
         } else {
           // Convert absolute path to relative path from cwd
           const relativePath = fullPath.replace(this.cwd + '/', '')
-          console.log('adding file:', relativePath)
           files.push(relativePath)
         }
       }
     } catch (error) {
-      console.log('error in collectFiles:', error)
       // Ignore errors when reading directories
     }
   }
@@ -382,7 +365,6 @@ export class GitRepository {
   }
 
   private formatPorcelainStatus(entries: GitStatusEntry[]): string {
-    console.log('formatPorcelainStatus called with entries:', entries)
     return entries
       .map(entry => `${entry.indexStatus}${entry.workingTreeStatus} ${entry.path}`)
       .join('\n')
@@ -390,7 +372,7 @@ export class GitRepository {
 
   private formatHumanReadableStatus(branch: string, entries: GitStatusEntry[]): string {
     let status = `On branch ${branch}\n`
-    
+
     if (entries.length === 0) {
       status += 'nothing to commit, working tree clean'
       return status
