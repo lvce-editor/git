@@ -93,15 +93,8 @@ test('executeCommand with init', async () => {
 
 test('executeCommand with status', async () => {
   const mockRpc = registerMockRpc({
-    'Exec.exec'(command: string, args: string[], options: any) {
-      if (command === 'git' && args[0] === 'status') {
-        return {
-          stdout: 'On branch main\nChanges not staged for commit:\n\tmodified:   test/file.txt',
-          stderr: '',
-          exitCode: 0,
-        }
-      }
-      throw new Error(`unexpected command ${command} ${args.join(' ')}`)
+    'FileSystem.exists'(path: string) {
+      return false // No git config exists, use in-memory mode
     },
   })
 
@@ -110,7 +103,7 @@ test('executeCommand with status', async () => {
   expect(result.stdout).toMatch(/Changes not staged for commit|Untracked files/)
   expect(result.exitCode).toBe(0)
 
-  expect(mockRpc.invocations).toEqual([['Exec.exec', 'git', ['status'], { cwd: 'web://test' }]])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
 test('executeCommand with add', async () => {
@@ -345,22 +338,15 @@ test('executeCommand with empty args', async () => {
 
 test('executeCommand handles errors gracefully', async () => {
   const mockRpc = registerMockRpc({
-    'Exec.exec'(command: string, args: string[], options: any) {
-      if (command === 'git' && args[0] === 'status') {
-        return {
-          stdout: 'On branch main\nnothing to commit, working tree clean',
-          stderr: '',
-          exitCode: 0,
-        }
-      }
-      throw new Error(`unexpected command ${command} ${args.join(' ')}`)
+    'FileSystem.exists'(path: string) {
+      return false // No git config exists
     },
   })
 
   const result = await executeCommand(['status'], { cwd: 'invalid-path' })
-  expect(result.exitCode).toBe(0) // Should still work with RPC
+  expect(result.exitCode).toBe(0) // Should still work with in-memory mode
 
-  expect(mockRpc.invocations).toEqual([['Exec.exec', 'git', ['status'], { cwd: 'invalid-path' }]])
+  expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'invalid-path/.git/config']])
 })
 
 // Registry tests

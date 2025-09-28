@@ -4,15 +4,27 @@ import { handleStatus } from '../src/StatusCommand/StatusCommand.ts'
 
 test('handleStatus returns status for new repository', async () => {
   const mockRpc = registerMockRpc({
-    'Exec.exec'(command: string, args: string[], options: any) {
-      if (command === 'git' && args[0] === 'status') {
-        return {
-          stdout: 'On branch main\nnothing to commit, working tree clean',
-          stderr: '',
-          exitCode: 0,
-        }
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
       }
-      throw new Error(`unexpected command ${command} ${args.join(' ')}`)
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+    'FileSystem.readdir'(path: string) {
+      console.log('readdir called with:', path)
+      if (path === 'web://test-status') {
+        return ['file1.txt', 'file2.txt']
+      }
+      return []
+    },
+    'FileSystem.stat'(path: string) {
+      return { isFile: true, isDirectory: false, size: 100 }
     },
   })
 
@@ -21,21 +33,35 @@ test('handleStatus returns status for new repository', async () => {
   expect(result.stdout).toContain('On branch main')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['Exec.exec', 'git', ['status'], { cwd: 'web://test-status' }],
+    ['FileSystem.exists', 'web://test-status/.git/config'],
+    ['FileSystem.read', 'web://test-status/.git/HEAD'],
+    ['FileSystem.readdir', 'web://test-status'],
+    ['FileSystem.stat', 'web://test-status/file1.txt'],
   ])
 })
 
 test('handleStatus works with different cwd', async () => {
   const mockRpc = registerMockRpc({
-    'Exec.exec'(command: string, args: string[], options: any) {
-      if (command === 'git' && args[0] === 'status') {
-        return {
-          stdout: 'On branch main\nnothing to commit, working tree clean',
-          stderr: '',
-          exitCode: 0,
-        }
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
       }
-      throw new Error(`unexpected command ${command} ${args.join(' ')}`)
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+    'FileSystem.readdir'(path: string) {
+      if (path === 'web://different-repo') {
+        return ['file1.txt']
+      }
+      return []
+    },
+    'FileSystem.stat'(path: string) {
+      return { isFile: true, isDirectory: false, size: 100 }
     },
   })
 
@@ -44,21 +70,29 @@ test('handleStatus works with different cwd', async () => {
   expect(result.stdout).toContain('On branch main')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['Exec.exec', 'git', ['status'], { cwd: 'web://different-repo' }],
+    ['FileSystem.exists', 'web://different-repo/.git/config'],
+    ['FileSystem.read', 'web://different-repo/.git/HEAD'],
+    ['FileSystem.readdir', 'web://different-repo'],
+    ['FileSystem.stat', 'web://different-repo/file1.txt'],
   ])
 })
 
 test('handleStatus works with args', async () => {
   const mockRpc = registerMockRpc({
-    'Exec.exec'(command: string, args: string[], options: any) {
-      if (command === 'git' && args[0] === 'status' && args.includes('--porcelain')) {
-        return {
-          stdout: '',
-          stderr: '',
-          exitCode: 0,
-        }
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
       }
-      throw new Error(`unexpected command ${command} ${args.join(' ')}`)
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+    'FileSystem.readdir'(path: string) {
+      return []
     },
   })
 
@@ -67,21 +101,34 @@ test('handleStatus works with args', async () => {
   expect(result.stdout).toBe('')
   expect(result.exitCode).toBe(0)
   expect(mockRpc.invocations).toEqual([
-    ['Exec.exec', 'git', ['status', '--porcelain'], { cwd: 'web://test-status-args' }],
+    ['FileSystem.exists', 'web://test-status-args/.git/config'],
+    ['FileSystem.read', 'web://test-status-args/.git/HEAD'],
+    ['FileSystem.readdir', 'web://test-status-args'],
   ])
 })
 
 test('handleStatus with --porcelain returns porcelain format', async () => {
   const mockRpc = registerMockRpc({
-    'Exec.exec'(command: string, args: string[], options: any) {
-      if (command === 'git' && args[0] === 'status' && args.includes('--porcelain')) {
-        return {
-          stdout: ' M packages/e2e/src/git.show-changed-files-in-side-bar.ts\n M packages/extension/src/parts/GetChangedFiles/GetChangedFiles.js',
-          stderr: '',
-          exitCode: 0,
-        }
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
       }
-      throw new Error(`unexpected command ${command} ${args.join(' ')}`)
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+    'FileSystem.readdir'(path: string) {
+      if (path === 'web://test-porcelain') {
+        return ['file1.txt', 'file2.txt']
+      }
+      return []
+    },
+    'FileSystem.stat'(path: string) {
+      return { isFile: true, isDirectory: false, size: 100 }
     },
   })
 
@@ -95,15 +142,26 @@ test('handleStatus with --porcelain returns porcelain format', async () => {
 
 test('handleStatus with --porcelain and -uall returns porcelain format with untracked files', async () => {
   const mockRpc = registerMockRpc({
-    'Exec.exec'(command: string, args: string[], options: any) {
-      if (command === 'git' && args[0] === 'status' && args.includes('--porcelain') && args.includes('-uall')) {
-        return {
-          stdout: ' M packages/e2e/src/git.show-changed-files-in-side-bar.ts\n M packages/extension/src/parts/GetChangedFiles/GetChangedFiles.js\n?? packages/git-requests/src/parts/GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.js\n?? packages/git-web/src/StatusCommand/StatusCommand.ts',
-          stderr: '',
-          exitCode: 0,
-        }
+    'FileSystem.exists'(path: string) {
+      if (path.endsWith('.git/config')) {
+        return true
       }
-      throw new Error(`unexpected command ${command} ${args.join(' ')}`)
+      return false
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+      return ''
+    },
+    'FileSystem.readdir'(path: string) {
+      if (path === 'web://test-porcelain-uall') {
+        return ['file1.txt', 'file2.txt']
+      }
+      return []
+    },
+    'FileSystem.stat'(path: string) {
+      return { isFile: true, isDirectory: false, size: 100 }
     },
   })
 
