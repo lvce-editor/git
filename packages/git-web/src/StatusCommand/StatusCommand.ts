@@ -5,7 +5,12 @@ import { GitRepository } from '../GitRepository/GitRepository.ts'
 
 export const handleStatus = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
   const repository = await GitRepository.getRepository(options.cwd)
-  const status = await repository.getStatus()
+
+  // Parse arguments
+  const porcelain = args.includes('--porcelain')
+  const untrackedAll = args.includes('-uall') || args.includes('--untracked-files=all')
+
+  const status = await repository.getStatus(porcelain, untrackedAll)
 
   return {
     stdout: status,

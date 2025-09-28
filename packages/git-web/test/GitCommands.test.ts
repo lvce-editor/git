@@ -344,7 +344,7 @@ test('executeCommand handles errors gracefully', async () => {
   })
 
   const result = await executeCommand(['status'], { cwd: 'invalid-path' })
-  expect(result.exitCode).toBe(0) // Should still work with virtual repo
+  expect(result.exitCode).toBe(0) // Should still work with in-memory mode
 
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'invalid-path/.git/config']])
 })
