@@ -207,7 +207,6 @@ export class GitRepository {
 
   private getPorcelainStatus(stagedFiles: string[], workingDirFiles: string[], untrackedAll: boolean): string {
     const lines: string[] = []
-    console.log({ workingDirFiles })
 
     // Show staged files
     for (const file of stagedFiles) {
