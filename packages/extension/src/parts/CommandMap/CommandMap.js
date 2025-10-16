@@ -4,36 +4,25 @@ import * as Exec from '../Exec/Exec.js'
 import * as ExtensionCommandType from '../ExtensionCommandType/ExtensionCommandType.js'
 import * as QuickPick from '../QuickPick/QuickPick.js'
 
+export const commandMap = {
+  [ExtensionCommandType.ExecExec]: Exec.exec,
+  [ExtensionCommandType.QuickPickShow]: QuickPick.show,
+  [ExtensionCommandType.ConfigGetWorkspaceFolder]: Config.getWorkspaceFolder,
+  [ExtensionCommandType.ConfigGetGitPaths]: Config.getGitPaths,
+  [ExtensionCommandType.ConfigConfirmDiscard]: Config.confirmDiscard,
+  [ExtensionCommandType.ConfirmPrompt]: Config.confirmPrompt,
+  [ExtensionCommandType.ConfigShowErrorMessage]: Config.showErrorMessage,
+  ['FileSystem.exists']: Config.exists,
+  ['FileSystem.mkdir']: Config.mkdir,
+  ['FileSystem.writeFile']: Config.write,
+  ['FileSystem.read']: Config.readFile,
+  ['FileSystem.readdir']: Config.readDir,
+  ['FileSystem.stat']: Config.stat,
+}
+
 export const getFn = (method) => {
-  switch (method) {
-    case ExtensionCommandType.ExecExec:
-      return Exec.exec
-    case ExtensionCommandType.QuickPickShow:
-      return QuickPick.show
-    case ExtensionCommandType.ConfigGetWorkspaceFolder:
-      return Config.getWorkspaceFolder
-    case ExtensionCommandType.ConfigGetGitPaths:
-      return Config.getGitPaths
-    case ExtensionCommandType.ConfigConfirmDiscard:
-      return Config.confirmDiscard
-    case ExtensionCommandType.ConfirmPrompt:
-      return Config.confirmPrompt
-    case ExtensionCommandType.ConfigShowErrorMessage:
-      return Config.showErrorMessage
-    case 'FileSystem.exists':
-      return Config.exists
-    case 'FileSystem.mkdir':
-      return Config.mkdir
-    case 'FileSystem.writeFile':
-    case 'FileSystem.write':
-      return Config.write
-    case 'FileSystem.read':
-      return Config.readFile
-    case 'FileSystem.readdir':
-      return Config.readDir
-    case 'FileSystem.stat':
-      return Config.stat
-    default:
-      throw new CommandNotFoundError(method)
+  const fn = commandMap[method]
+  if (!fn) {
+    throw new CommandNotFoundError(method)
   }
 }
