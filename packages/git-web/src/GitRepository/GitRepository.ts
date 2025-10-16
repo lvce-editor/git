@@ -65,36 +65,13 @@ export class GitRepository {
     // Fallback to in-memory storage
     if (!repositories.has(key)) {
       repositories.set(key, {
-        commits: [
-          {
-            hash: 'a1b2c3d4e5f6789012345678901234567890abcd',
-            author: 'User <user@example.com>',
-            date: '2024-01-01 12:00:00 +0000',
-            message: 'Initial commit',
-          },
-        ],
-        branches: [
-          {
-            name: 'main',
-            commit: 'a1b2c3d4e5f6789012345678901234567890abcd',
-            isCurrent: true,
-          },
-        ],
-        refs: [
-          {
-            name: 'refs/heads/main',
-            hash: 'a1b2c3d4e5f6789012345678901234567890abcd',
-            type: 'branch',
-          },
-        ],
+        commits: [],
+        branches: [],
+        refs: [],
         stagedFiles: [],
-        workingDirFiles: ['test/file-1.txt', 'test/file-2.txt'],
-        remotes: new Map([['origin', 'https://github.com/user/repo.git']]),
-        config: new Map([
-          ['user.name', 'User'],
-          ['user.email', 'user@example.com'],
-          ['core.bare', 'false'],
-        ]),
+        workingDirFiles: [],
+        remotes: new Map([]),
+        config: new Map([]),
       })
     }
 
