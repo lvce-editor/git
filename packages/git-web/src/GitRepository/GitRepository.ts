@@ -1,4 +1,3 @@
-import type { FileSystem } from '../FileSystemInterface/FileSystemInterface.ts'
 import { defaultFileSystem } from '../FileSystem/FileSystem.ts'
 import { join } from '../Path/Path.ts'
 
@@ -14,20 +13,20 @@ interface IndexEntry {
   mtime: number
 }
 
-type Commit = {
+interface Commit {
   hash: string
   author: string
   date: string
   message: string
 }
 
-type Branch = {
+interface Branch {
   name: string
   commit: string
   isCurrent: boolean
 }
 
-type Ref = {
+interface Ref {
   name: string
   hash: string
   type: 'branch' | 'tag' | 'remote'
