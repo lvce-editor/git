@@ -1,4 +1,4 @@
-import * as Command from '../Command/Command.js'
+import { commandMap } from '../CommandMap/CommandMap.js'
 import * as GitWorkerUrl from '../GitWorkerUrl/GitWorkerUrl.js'
 
 export const launchGitWorker = async () => {
@@ -8,7 +8,7 @@ export const launchGitWorker = async () => {
     type: 'worker',
     url: workerUrl,
     name: 'Git Worker',
-    execute: Command.execute,
+    commandMap,
   })
   return rpc
 }
