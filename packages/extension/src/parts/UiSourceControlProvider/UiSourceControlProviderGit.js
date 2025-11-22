@@ -42,7 +42,7 @@ export const getBadgeCount = GetBadgeCount.getBadgeCount
 
 export const getChangedFiles = GetChangedFiles.getChangedFiles
 
-export const getDecorations = GetDecorations.getDecorations
+export const getFileDecorations = GetDecorations.getDecorations
 
 export const getGroups = GetGroups.getGroups
 
