@@ -6,6 +6,7 @@ import * as GetBadgeCount from '../GetBadgeCount/GetBadgeCount.js'
 import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.js'
 import * as GetFileBefore from '../GetFileBefore/GetFileBefore.js'
 import * as GetGroups from '../GetGroups/GetGroups.js'
+import * as GetDecorations from '../GetDecorations/GetDecorations.js'
 
 export const id = 'git'
 
@@ -40,6 +41,8 @@ export const isActive = async (scheme, root) => {
 export const getBadgeCount = GetBadgeCount.getBadgeCount
 
 export const getChangedFiles = GetChangedFiles.getChangedFiles
+
+export const getDecorations = GetDecorations.getDecorations
 
 export const getGroups = GetGroups.getGroups
 
