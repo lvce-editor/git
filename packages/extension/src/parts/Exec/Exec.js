@@ -1,7 +1,6 @@
-import * as Rpc from '../Rpc/Rpc.js'
-import * as Trace from '../Trace/Trace.js'
 import * as Assert from '../Assert/Assert.js'
 import { getInvoke } from '../GetInvoke/GetInvoke.js'
+import * as Trace from '../Trace/Trace.js'
 
 /**
  *
