@@ -17,6 +17,7 @@ import * as CommandLoadFixture from '../CommandLoadFixture/CommandLoadFixture.ts
 import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
+import * as CommandGetFileDecorations from '../CommandGetFileDecorations/GetFileDecorations.ts'
 
 export const commandMap = {
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
@@ -27,11 +28,11 @@ export const commandMap = {
   [GitWorkerCommandType.CommandDiscard]: CommandDiscard.commandDiscard,
   [GitWorkerCommandType.CommandFetch]: CommandFetch.commandFetch,
   [GitWorkerCommandType.CommandInit]: CommandInit.commandInit,
+  [GitWorkerCommandType.CommandLoadFixture]: CommandLoadFixture.commandLoadFixture,
   [GitWorkerCommandType.CommandPull]: CommandPull.commandPull,
   [GitWorkerCommandType.CommandPullRebase]: CommandPullRebase.commandPullRebase,
   [GitWorkerCommandType.CommandStage]: CommandStage.commandStage,
   [GitWorkerCommandType.CommandStageAll]: CommandStageAll.commandStageAll,
-  [GitWorkerCommandType.CommandLoadFixture]: CommandLoadFixture.commandLoadFixture,
   [GitWorkerCommandType.CommandSync]: CommandSync.commandSync,
   [GitWorkerCommandType.CommandUndoLastCommit]: CommandUndoLastCommit.commandUndoLastCommit,
   [GitWorkerCommandType.CommandUnstage]: CommandUnstage.commandUnstage,
@@ -49,6 +50,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitGetChangedFiles]: WrappedGitRequests.wrappedGitRequests.getChangedFiles,
   [GitWorkerCommandType.GitGetCurrentBranch]: WrappedGitRequests.wrappedGitRequests.getCurrentBranch,
   [GitWorkerCommandType.GitGetFileBefore]: WrappedGitRequests.wrappedGitRequests.getFileBefore,
+  [GitWorkerCommandType.GitGetFileDecorations]: CommandGetFileDecorations.getFileDecorations,
   [GitWorkerCommandType.GitGetGroups]: WrappedGitRequests.wrappedGitRequests.getGroups,
   [GitWorkerCommandType.GitGetRefs]: WrappedGitRequests.wrappedGitRequests.getRefs,
   [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
