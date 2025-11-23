@@ -44,6 +44,11 @@ export const mkdir = async (uri) => {
   return value
 }
 
+export const remove = async (uri) => {
+  // @ts-ignore
+  await vscode.remove(uri)
+}
+
 export const write = async (uri, content) => {
   // @ts-ignore
   const value = await vscode.writeFile(uri, content)
