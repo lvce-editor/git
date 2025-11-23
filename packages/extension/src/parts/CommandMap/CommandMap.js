@@ -14,6 +14,7 @@ export const commandMap = {
   [ExtensionCommandType.ConfigShowErrorMessage]: Config.showErrorMessage,
   ['FileSystem.exists']: Config.exists,
   ['FileSystem.mkdir']: Config.mkdir,
+  ['FileSystem.remove']: Config.remove,
   ['FileSystem.writeFile']: Config.write,
   ['FileSystem.read']: Config.readFile,
   ['FileSystem.readdir']: Config.readDir,
