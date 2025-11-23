@@ -37,6 +37,7 @@ export const discard = async ({ cwd, gitPath, file, exec, confirm, remove }) => 
 
     const { toDelete, toRestore } = partitionFiles([file], untracked)
 
+    // TODO could parallelize this
     if (toDelete.length > 0) {
       for (const item of toDelete) {
         await remove(`${cwd}/${item}`)
