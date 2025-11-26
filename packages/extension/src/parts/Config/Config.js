@@ -77,3 +77,8 @@ export const confirmPrompt = async (message) => {
   const result = await vscode.confirm(message)
   return result
 }
+
+export const handleWorkspaceRefresh = async () => {
+  // @ts-ignore
+  await vscode.handleWorkspaceRefresh()
+}
