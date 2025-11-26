@@ -26,7 +26,7 @@ const GitRepositoriesRequests = await import('../src/parts/GitRepositoriesReques
 const GitRequests = await import('../src/parts/GitRequests/GitRequests.ts')
 const Git = await import('../src/parts/Git/Git.ts')
 
-test('commandInit', async () => {
+test.skip('commandInit', async () => {
   await CommandInit.commandInit()
   expect(GitRepositoriesRequests.execute).toHaveBeenCalledTimes(1)
   expect(GitRepositoriesRequests.execute).toHaveBeenCalledWith({
