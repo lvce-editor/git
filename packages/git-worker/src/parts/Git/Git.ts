@@ -3,7 +3,7 @@ import { ExecError } from '../ExecError/ExecError.ts'
 import * as ExitCode from '../ExitCode/ExitCode.ts'
 import * as GetGitEnv from '../GetGitEnv/GetGitEnv.ts'
 
-export const exec = async ({ gitPath, cwd, name, args, input }) => {
+export const exec = async ({ gitPath, cwd, name, args, input, throwError = true }) => {
   if (typeof gitPath !== 'string') {
     throw new TypeError(`gitPath must be of type string, was ${gitPath}`)
   }
@@ -18,7 +18,7 @@ export const exec = async ({ gitPath, cwd, name, args, input }) => {
     input,
   }
   const { stdout, stderr, exitCode } = await Exec.exec(gitPath, args, options)
-  if (exitCode !== ExitCode.Success) {
+  if (exitCode !== ExitCode.Success && throwError) {
     throw new ExecError(stdout, stderr, exitCode)
   }
   return {

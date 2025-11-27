@@ -18,6 +18,17 @@ export const addAllAndCommit = async ({ cwd, gitPath, message, exec }) => {
       gitPath,
       name: 'addAllAndCommit/commit',
     })
+    const { stdout: remoteUrl } = await exec({
+      args: ['config', '--get', 'remote.origin.url'],
+      cwd,
+      gitPath,
+      name: 'addAllAndCommit/getRemoteUrl',
+      throwError: false,
+    })
+    if (!remoteUrl) {
+      return
+    }
+
     try {
       await exec({
         args: ['push'],
