@@ -17,6 +17,6 @@
     "@types/express": "^5.0.5",
     "@types/verror": "^1.10.11",
     "express": "^5.1.0",
-    "jest-environment-lvce-editor": "^0.67.5"
+    "jest-environment-lvce-editor": "^0.68.2"
   }
 }
