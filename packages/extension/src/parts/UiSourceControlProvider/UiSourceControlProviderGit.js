@@ -28,10 +28,11 @@ export const isActive = async (scheme, root) => {
     return false
   }
   try {
-    const {} = await Exec.exec('git', ['rev-parse', '--git-dir'], {
+    const { exitCode } = await Exec.exec('git', ['rev-parse', '--git-dir'], {
       cwd: root,
+      reject: false,
     })
-    return true
+    return exitCode === 0
   } catch (error) {
     console.log({ error })
     return false
