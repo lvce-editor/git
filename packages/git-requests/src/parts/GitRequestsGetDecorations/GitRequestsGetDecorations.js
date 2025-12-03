@@ -17,6 +17,7 @@ export const getDecorations = async ({ cwd, gitPath, uris, exec }) => {
       cwd,
       gitPath,
       input,
+      throwError: false,
     })
     return gitResult
   } catch (error) {
