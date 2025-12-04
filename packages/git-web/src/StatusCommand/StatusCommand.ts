@@ -13,8 +13,8 @@ export const handleStatus = async (args: string[], options: CommandOptions): Pro
   const status = await repository.getStatus(porcelain, untrackedAll)
 
   return {
-    stdout: status,
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: status,
   }
 }

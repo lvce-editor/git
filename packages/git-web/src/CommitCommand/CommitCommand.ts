@@ -18,8 +18,8 @@ export const handleCommit = async (args: string[], options: CommandOptions): Pro
   const commitHash = await repository.commit(message)
 
   return {
-    stdout: `[main ${commitHash}] ${message}`,
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: `[main ${commitHash}] ${message}`,
   }
 }

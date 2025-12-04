@@ -3,19 +3,19 @@ import { testWorker } from '../src/testWorker.js'
 test('git add all', async () => {
   const execMap = {
     restore: {
-      stdout: '',
-      stderr: '',
       exitCode: 0,
+      stderr: '',
+      stdout: '',
     },
   }
   const config = {
     confirmDiscard: false,
   }
   const worker = await testWorker({
-    execMap,
     config,
+    execMap,
   })
-  await worker.execute('Git.discard', { gitPath: 'git', cwd: '', file: '/test/file.txt' })
+  await worker.execute('Git.discard', { cwd: '', file: '/test/file.txt', gitPath: 'git' })
   expect(worker.invocations).toEqual([
     ['Config.getGitPaths'],
     ['Exec.exec', 'git', ['--version'], {}],

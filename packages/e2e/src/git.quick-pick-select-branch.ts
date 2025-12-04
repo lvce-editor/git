@@ -4,7 +4,7 @@ export const skip = true
 
 export const name = 'quick-pick-select-branch'
 
-export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, SideBar }) => {
+export const test: Test = async ({ FileSystem, QuickPick, Settings, SideBar, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)

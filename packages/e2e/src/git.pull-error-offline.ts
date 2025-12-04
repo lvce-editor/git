@@ -5,7 +5,7 @@ export const skip = true
 
 export const name = 'git.pull-error-offline'
 
-export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Settings, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)

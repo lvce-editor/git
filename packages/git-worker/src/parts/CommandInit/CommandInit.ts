@@ -7,13 +7,13 @@ import * as Rpc from '../Rpc/Rpc.ts'
 export const commandInit = async () => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'init',
-    fn: GitRequests.init,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
       exec: Git.exec,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.init,
+    id: 'init',
   })
 
   try {

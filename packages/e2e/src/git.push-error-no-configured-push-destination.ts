@@ -5,7 +5,7 @@ export const skip = true
 
 export const name = 'git.push-error-no-configured-push-destination'
 
-export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)

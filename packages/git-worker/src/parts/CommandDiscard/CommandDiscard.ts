@@ -13,15 +13,15 @@ export const commandDiscard = async (file) => {
   const repository = await Repositories.getCurrent()
 
   await GitRepositoriesRequests.execute({
-    id: 'discard',
-    fn: GitRequests.discard,
     args: {
-      cwd: repository.path,
-      gitPath: repository.gitPath,
-      file,
-      exec: Git.exec,
       confirm: Confirm.confirm,
+      cwd: repository.path,
+      exec: Git.exec,
+      file,
+      gitPath: repository.gitPath,
       remove,
     },
+    fn: GitRequests.discard,
+    id: 'discard',
   })
 }

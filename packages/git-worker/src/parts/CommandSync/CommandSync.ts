@@ -6,13 +6,13 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 export const commandSync = async () => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'sync',
-    fn: GitRequests.sync,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
       exec: Git.exec,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.sync,
+    id: 'sync',
   })
   console.log('FINISHED RUN it sync')
 }

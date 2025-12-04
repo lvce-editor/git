@@ -9,13 +9,13 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 export const commandUnstage = async (file) => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'unstage',
-    fn: GitRequests.unstage,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
-      file,
       exec: Git.exec,
+      file,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.unstage,
+    id: 'unstage',
   })
 }

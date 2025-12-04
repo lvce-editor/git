@@ -14,10 +14,10 @@ test('tag - error - tag already exists', async () => {
   }
   await expect(
     GitRequestsTag.tag({
-      tag: 'v0.1',
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
+      tag: 'v0.1',
     }),
   ).rejects.toThrow(new Error("Git: fatal: tag 'abc' already exists"))
 })

@@ -4,7 +4,7 @@ export const name = 'git.commit-error-empty-message'
 
 export const skip = true
 
-export const test: Test = async ({ FileSystem, Workspace, Settings, SideBar, KeyBoard, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, KeyBoard, Locator, Settings, SideBar, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)

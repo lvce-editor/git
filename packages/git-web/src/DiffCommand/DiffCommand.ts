@@ -8,8 +8,8 @@ export const handleDiff = async (args: string[], options: CommandOptions): Promi
   const diff = await repository.getDiff(args)
 
   return {
-    stdout: diff,
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: diff,
   }
 }

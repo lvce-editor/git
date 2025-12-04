@@ -3,9 +3,9 @@ import { testWorker } from '../src/testWorker.js'
 test('git discard - error pathspec did not match any files', async () => {
   const execMap = {
     restore: {
-      stdout: '',
-      stderr: "error: pathspec 'index.html' did not match any file(s) known to git",
       exitCode: 1,
+      stderr: "error: pathspec 'index.html' did not match any file(s) known to git",
+      stdout: '',
     },
   }
   const config = {
@@ -13,10 +13,10 @@ test('git discard - error pathspec did not match any files', async () => {
     showErrorMessage: true,
   }
   const worker = await testWorker({
-    execMap,
     config,
+    execMap,
   })
-  await expect(worker.execute('Git.discard', { gitPath: 'git', cwd: '', file: '/test/index.html' })).rejects.toThrow(
+  await expect(worker.execute('Git.discard', { cwd: '', file: '/test/index.html', gitPath: 'git' })).rejects.toThrow(
     new Error("Git: error: pathspec 'index.html' did not match any file(s) known to git"),
   )
   expect(worker.invocations).toEqual([

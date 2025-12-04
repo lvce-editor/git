@@ -6,12 +6,12 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 export const commandPush = async () => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'push',
-    fn: GitRequests.push,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
       exec: Git.exec,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.push,
+    id: 'push',
   })
 }

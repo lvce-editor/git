@@ -5,7 +5,7 @@ export const skip = true
 
 export const name = 'git.pull-error-connection-timed-out'
 
-export const test: Test = async ({ FileSystem, Workspace, Settings, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.pull-error-connection-timed-out/git.js`)

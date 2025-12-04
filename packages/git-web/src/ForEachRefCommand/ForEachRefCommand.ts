@@ -8,8 +8,8 @@ export const handleForEachRef = async (args: string[], options: CommandOptions):
   const refs = await repository.listRefs(args)
 
   return {
-    stdout: refs.join('\n'),
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: refs.join('\n'),
   }
 }

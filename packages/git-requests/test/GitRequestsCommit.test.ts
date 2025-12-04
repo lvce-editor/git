@@ -14,10 +14,10 @@ test('commit - error - unmerged files', async () => {
   }
   await expect(
     GitRequestsCommit.commit({
-      message: '',
       cwd: '',
-      gitPath: '',
       exec,
+      gitPath: '',
+      message: '',
     }),
   ).rejects.toThrow(new Error('Git: not possible because you have unmerged files'))
 })
@@ -28,10 +28,10 @@ test('commit - error - nothing to commit', async () => {
   }
   await expect(
     GitRequestsCommit.commit({
-      message: '',
       cwd: '',
-      gitPath: '',
       exec,
+      gitPath: '',
+      message: '',
     }),
   ).rejects.toThrow(new Error('Git: nothing to commit'))
 })
@@ -42,10 +42,10 @@ test('commit - error - unknown git error', async () => {
   }
   await expect(
     GitRequestsCommit.commit({
-      message: '',
       cwd: '',
-      gitPath: '',
       exec,
+      gitPath: '',
+      message: '',
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })

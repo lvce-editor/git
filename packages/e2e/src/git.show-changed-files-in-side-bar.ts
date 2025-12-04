@@ -4,7 +4,7 @@ export const name = 'git.show-changed-files-in-side-bar'
 
 export const skip = 1
 
-export const test: Test = async ({ Command, Extension, SourceControl, FileSystem, Workspace, Settings, SideBar, Locator, expect }) => {
+export const test: Test = async ({ Command, expect, Extension, FileSystem, Locator, Settings, SideBar, SourceControl, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)

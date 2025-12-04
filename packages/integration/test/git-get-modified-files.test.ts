@@ -3,9 +3,9 @@ import { testWorker } from '../src/testWorker.js'
 test('git get modified files', async () => {
   const execMap = {
     status: {
-      stdout: 'R  index.js -> index.ts',
-      stderr: '',
       exitCode: 0,
+      stderr: '',
+      stdout: 'R  index.js -> index.ts',
     },
   }
   const config = {
@@ -13,10 +13,10 @@ test('git get modified files', async () => {
     workspaceFolder: '/test',
   }
   const worker = await testWorker({
-    execMap,
     config,
+    execMap,
   })
-  expect(await worker.execute('Git.getChangedFiles', { gitPath: 'git', cwd: '' })).toEqual([
+  expect(await worker.execute('Git.getChangedFiles', { cwd: '', gitPath: 'git' })).toEqual([
     {
       file: 'index.ts',
       icon: 3,

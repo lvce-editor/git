@@ -9,8 +9,8 @@ export const handleCheckout = async (args: string[], options: CommandOptions): P
   await repository.checkout(branch)
 
   return {
-    stdout: `Switched to branch '${branch}'`,
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: `Switched to branch '${branch}'`,
   }
 }

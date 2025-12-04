@@ -14,17 +14,17 @@ class ExecError extends Error {
 test('getModifiedFiles', async () => {
   const exec = () => {
     return {
+      exitCode: 0,
+      stderr: '',
       stdout: ` M extensions/builtin.git/src/parts/GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.js
  M packages/extension-host/src/parts/InternalCommand/InternalCommand.js`,
-      stderr: '',
-      exitCode: 0,
     }
   }
   expect(
     await GitRequestsGetModifiedFiles.getModifiedFiles({
       cwd: '',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).toEqual({
     count: 2,
@@ -49,8 +49,8 @@ test('getModifiedFiles - error - unknown git error', async () => {
   await expect(
     GitRequestsGetModifiedFiles.getModifiedFiles({
       cwd: '',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })

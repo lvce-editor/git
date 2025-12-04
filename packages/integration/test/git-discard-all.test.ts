@@ -3,9 +3,9 @@ import { testWorker } from '../src/testWorker.js'
 test('git discard all', async () => {
   const execMap = {
     restore: {
-      stdout: '',
-      stderr: '',
       exitCode: 0,
+      stderr: '',
+      stdout: '',
     },
   }
   const config = {
@@ -13,10 +13,10 @@ test('git discard all', async () => {
     workspaceFolder: '/test',
   }
   const worker = await testWorker({
-    execMap,
     config,
+    execMap,
   })
-  await worker.execute('Git.cleanAll', { gitPath: 'git', cwd: '' })
+  await worker.execute('Git.cleanAll', { cwd: '', gitPath: 'git' })
   expect(worker.invocations).toEqual([
     ['Config.getGitPaths'],
     ['Exec.exec', 'git', ['--version'], {}],

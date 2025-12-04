@@ -14,14 +14,14 @@ export const commandCheckout = async () => {
   const { label } = selectedPick
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'checkout',
-    fn: GitRequests.checkout,
     args: {
       cwd: repository.path,
+      exec: Git.exec,
       gitPath: repository.gitPath,
       ref: label,
-      exec: Git.exec,
     },
+    fn: GitRequests.checkout,
+    id: 'checkout',
   })
   // console.log({ selectedPick })
 }

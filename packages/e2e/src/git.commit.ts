@@ -4,7 +4,7 @@ export const name = 'git.commit'
 
 export const skip = true
 
-export const test: Test = async ({ SourceControl, FileSystem, Workspace, Settings, SideBar, KeyBoard, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, KeyBoard, Locator, Settings, SideBar, SourceControl, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)

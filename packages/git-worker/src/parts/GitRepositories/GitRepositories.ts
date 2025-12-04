@@ -15,13 +15,13 @@ export const getCurrent = async () => {
     throw new Error('git binary not found')
   }
   GitRepositoryState.setRepository({
-    path,
     gitPath: git.path,
     gitVersion: git.version,
+    path,
   })
   return {
-    path,
     gitPath: git.path,
     gitVersion: git.version,
+    path,
   }
 }

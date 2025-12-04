@@ -8,8 +8,8 @@ export const handleConfig = async (args: string[], options: CommandOptions): Pro
   const result = await repository.handleConfig(args)
 
   return {
-    stdout: result,
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: result,
   }
 }

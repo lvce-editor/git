@@ -44,16 +44,16 @@ class MockFileSystem implements FileSystem {
   async stat(path: string): Promise<FileStat> {
     if (this.files.has(path)) {
       return {
-        isFile: true,
         isDirectory: false,
+        isFile: true,
         size: this.files.get(path)!.length,
       }
     }
 
     if (this.directories.has(path)) {
       return {
-        isFile: false,
         isDirectory: true,
+        isFile: false,
         size: 0,
       }
     }

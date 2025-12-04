@@ -17,9 +17,9 @@ test('exec with valid git command', async () => {
   const result = await exec('git', ['--version'], { cwd: 'web://test' })
 
   expect(result).toEqual({
-    stdout: 'git version 2.34.1 (web-emulated)',
-    stderr: '',
     exitCode: 0,
+    stderr: '',
+    stdout: 'git version 2.34.1 (web-emulated)',
   })
 
   // --version command doesn't make any RPC calls

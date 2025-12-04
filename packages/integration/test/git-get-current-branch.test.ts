@@ -3,9 +3,9 @@ import { testWorker } from '../src/testWorker.js'
 test('git get current branch', async () => {
   const execMap = {
     branch: {
-      stdout: 'main',
-      stderr: '',
       exitCode: 0,
+      stderr: '',
+      stdout: 'main',
     },
   }
   const config = {}
@@ -13,5 +13,5 @@ test('git get current branch', async () => {
     config,
     execMap,
   })
-  expect(await worker.execute('Git.getCurrentBranch', { gitPath: '', cwd: '' })).toBe('main')
+  expect(await worker.execute('Git.getCurrentBranch', { cwd: '', gitPath: '' })).toBe('main')
 })

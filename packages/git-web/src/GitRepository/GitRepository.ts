@@ -2,33 +2,33 @@ import { defaultFileSystem } from '../FileSystem/FileSystem.ts'
 import { join } from '../Path/Path.ts'
 
 interface GitStatusEntry {
-  path: string
   indexStatus: string
+  path: string
   workingTreeStatus: string
 }
 
 interface IndexEntry {
-  path: string
   hash: string
   mtime: number
+  path: string
 }
 
 interface Commit {
-  hash: string
   author: string
   date: string
+  hash: string
   message: string
 }
 
 interface Branch {
-  name: string
   commit: string
   isCurrent: boolean
+  name: string
 }
 
 interface Ref {
-  name: string
   hash: string
+  name: string
   type: 'branch' | 'tag' | 'remote'
 }
 
@@ -64,13 +64,13 @@ export class GitRepository {
     // Fallback to in-memory storage
     if (!repositories.has(key)) {
       repositories.set(key, {
-        commits: [],
         branches: [],
+        commits: [],
+        config: new Map(),
         refs: [],
+        remotes: new Map(),
         stagedFiles: [],
         workingDirFiles: [],
-        remotes: new Map([]),
-        config: new Map([]),
       })
     }
 
@@ -248,25 +248,25 @@ export class GitRepository {
       try {
         const workingDirStat = await defaultFileSystem.stat(filePath)
 
-        if (!indexEntry) {
-          // File is not in index - untracked
-          entries.push({
-            path: filePath,
-            indexStatus: ' ',
-            workingTreeStatus: '?',
-          })
-        } else {
+        if (indexEntry) {
           // File is in index - check if it's modified
           const isModified = await this.isFileModified(filePath, indexEntry)
           if (isModified) {
             entries.push({
-              path: filePath,
               indexStatus: 'M',
+              path: filePath,
               workingTreeStatus: 'M',
             })
           }
+        } else {
+          // File is not in index - untracked
+          entries.push({
+            indexStatus: ' ',
+            path: filePath,
+            workingTreeStatus: '?',
+          })
         }
-      } catch (error) {
+      } catch {
         // Ignore errors when processing files
       }
     }
@@ -276,8 +276,8 @@ export class GitRepository {
       const exists = await defaultFileSystem.exists(filePath)
       if (!exists) {
         entries.push({
-          path: filePath,
           indexStatus: 'D',
+          path: filePath,
           workingTreeStatus: 'D',
         })
       }
@@ -304,7 +304,7 @@ export class GitRepository {
     const files: string[] = []
     try {
       await this.collectFiles(this.cwd, files, this.cwd)
-    } catch (error) {
+    } catch {
       // Ignore errors when collecting files
     }
     return files
@@ -480,9 +480,9 @@ export class GitRepository {
       await this.commitToFileSystem(hash, message)
     } else {
       const commit: Commit = {
-        hash,
         author: this.repo.config.get('user.name') + ' <' + this.repo.config.get('user.email') + '>',
         date: new Date().toISOString(),
+        hash,
         message,
       }
 
@@ -647,6 +647,10 @@ index 1234567..abcdefg 100644
         break
       }
 
+      case '--list': {
+        return [...this.repo.config.entries()].map(([key, value]) => `${key}=${value}`).join('\n')
+      }
+
       case '--set': {
         const key = args[1]
         const value = args[2]
@@ -656,10 +660,6 @@ index 1234567..abcdefg 100644
         }
 
         break
-      }
-
-      case '--list': {
-        return [...this.repo.config.entries()].map(([key, value]) => `${key}=${value}`).join('\n')
       }
       // No default
     }

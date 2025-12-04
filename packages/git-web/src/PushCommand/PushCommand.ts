@@ -8,8 +8,8 @@ export const handlePush = async (args: string[], options: CommandOptions): Promi
   await repository.push(args)
 
   return {
-    stdout: 'Everything up-to-date',
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: 'Everything up-to-date',
   }
 }

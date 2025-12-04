@@ -6,12 +6,12 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 export const commandPullRebase = async () => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'pullAndRebase',
-    fn: GitRequests.pullAndRebase,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
       exec: Git.exec,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.pullAndRebase,
+    id: 'pullAndRebase',
   })
 }

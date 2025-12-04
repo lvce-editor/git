@@ -3,15 +3,15 @@ import * as GitRequestsVersion from '../src/parts/GitRequestsVersion/GitRequests
 test.skip('version', async () => {
   const exec = () => {
     return {
-      stdout: 'git version 2.34.1',
       stderr: '',
+      stdout: 'git version 2.34.1',
     }
   }
   expect(
     await GitRequestsVersion.version({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).toBe('2.34.1')
 })
@@ -23,8 +23,8 @@ test('version - error', async () => {
   await expect(
     GitRequestsVersion.version({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: x is not a function'))
 })

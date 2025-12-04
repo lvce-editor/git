@@ -6,13 +6,13 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 export const commandFetch = async () => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'fetch',
-    fn: GitRequests.fetch,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
       exec: Git.exec,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.fetch,
+    id: 'fetch',
   })
   // vscode.showNotification('info', 'git fetch executed successfully')
 }

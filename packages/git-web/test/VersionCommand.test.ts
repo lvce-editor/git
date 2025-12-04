@@ -5,9 +5,9 @@ test('handleVersion returns correct version', async () => {
   const result = await handleVersion()
 
   expect(result).toEqual({
-    stdout: 'git version 2.34.1 (web-emulated)',
-    stderr: '',
     exitCode: 0,
+    stderr: '',
+    stdout: 'git version 2.34.1 (web-emulated)',
   })
 })
 

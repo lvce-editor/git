@@ -8,8 +8,8 @@ export const handleLog = async (args: string[], options: CommandOptions): Promis
   const commits = await repository.getCommits()
 
   return {
-    stdout: commits.map((c) => `commit ${c.hash}\nAuthor: ${c.author}\nDate: ${c.date}\n\n    ${c.message}`).join('\n\n'),
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: commits.map((c) => `commit ${c.hash}\nAuthor: ${c.author}\nDate: ${c.date}\n\n    ${c.message}`).join('\n\n'),
   }
 }

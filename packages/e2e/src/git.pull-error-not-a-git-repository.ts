@@ -8,16 +8,16 @@ const exec = (command: string, args: string[], options: any) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
-        stdout: '0.0.0',
-        stderr: '',
         exitCode: 0,
+        stderr: '',
+        stdout: '0.0.0',
       }
     }
     if (args[0] === 'pull') {
       return {
-        stdout: '',
-        stderr: 'fatal: not a git repository (or any of the parent directories): .git',
         exitCode: 128,
+        stderr: 'fatal: not a git repository (or any of the parent directories): .git',
+        stdout: '',
       }
     }
   }
@@ -25,13 +25,13 @@ const exec = (command: string, args: string[], options: any) => {
 }
 
 export const mockRpc = {
-  name: 'Git',
   commands: {
     'Exec.exec': exec,
   },
+  name: 'Git',
 }
 
-export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)

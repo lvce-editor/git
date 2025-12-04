@@ -15,8 +15,8 @@ test('pull - error - no user name configured', async () => {
   await expect(
     GitRequestsPull.pull({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: Please tell me who you are.'))
 })
@@ -28,8 +28,8 @@ test('pull - error - dirty working tree', async () => {
   await expect(
     GitRequestsPull.pull({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: Pulling is not possible because you have unmerged files'))
 })
@@ -41,8 +41,8 @@ test('pull - error - cannot lock ref (1)', async () => {
   await expect(
     GitRequestsPull.pull({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: cannot lock ref'))
 })
@@ -54,8 +54,8 @@ test('pull - error - cannot lock ref (2)', async () => {
   await expect(
     GitRequestsPull.pull({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: unable to update local ref'))
 })
@@ -67,8 +67,8 @@ test('pull - error - cannot rebase onto multiple branches', async () => {
   await expect(
     GitRequestsPull.pull({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: cannot rebase onto multiple branches'))
 })
@@ -80,8 +80,8 @@ test('pull - error - remote connection error', async () => {
   await expect(
     GitRequestsPull.pull({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: Could not read from remote repository'))
 })
@@ -93,8 +93,8 @@ test('pull - error - not a git repository', async () => {
   await expect(
     GitRequestsPull.pull({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: fatal: not a git repository'))
 })
@@ -106,8 +106,8 @@ test('pull - error - unknown git error', async () => {
   await expect(
     GitRequestsPull.pull({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })

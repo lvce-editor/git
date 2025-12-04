@@ -34,7 +34,7 @@ export class RpcFileSystem implements FileSystem {
     try {
       return await Rpc.invoke('FileSystem.stat', path)
     } catch {
-      return { isFile: false, isDirectory: false, size: 0 }
+      return { isDirectory: false, isFile: false, size: 0 }
     }
   }
 

@@ -16,9 +16,9 @@ test('checkout - error - pathspec did not match any files known to git', async (
   await expect(
     GitRequestsCheckout.checkout({
       cwd: '',
-      ref: 'abc',
-      gitPath: '',
       exec,
+      gitPath: '',
+      ref: 'abc',
     }),
   ).rejects.toThrow(new Error(`Git: error: pathspec 'abc' did not match any file(s) known to git`))
 })
@@ -29,10 +29,10 @@ test('checkout - error - unknown git error', async () => {
   }
   await expect(
     GitRequestsCheckout.checkout({
-      ref: '',
       cwd: '',
-      gitPath: '',
       exec,
+      gitPath: '',
+      ref: '',
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })
