@@ -20,6 +20,7 @@ export const commandMap = {
   ['FileSystem.readdir']: Config.readDir,
   ['FileSystem.stat']: Config.stat,
   ['Layout.handleWorkspaceRefresh']: Config.handleWorkspaceRefresh,
+  ['Main.openUri']: Config.openUri,
 }
 
 export const getFn = (method) => {
