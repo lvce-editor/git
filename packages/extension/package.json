@@ -14,9 +14,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/express": "^5.0.5",
+    "@types/express": "^5.0.6",
     "@types/verror": "^1.10.11",
-    "express": "^5.1.0",
-    "jest-environment-lvce-editor": "^0.68.2"
+    "express": "^5.2.1",
+    "jest-environment-lvce-editor": "^0.68.4"
   }
 }
