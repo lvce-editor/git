@@ -51,9 +51,9 @@ test.skip('executeCommand with --version', async () => {
   const result = await executeCommand(['--version'], { cwd: 'web://test' })
 
   expect(result).toEqual({
-    stdout: 'git version 2.34.1 (web-emulated)',
-    stderr: '',
     exitCode: 0,
+    stderr: '',
+    stdout: 'git version 2.34.1 (web-emulated)',
   })
 
   // --version command doesn't make any RPC calls
@@ -351,7 +351,7 @@ test.skip('executeCommand handles errors gracefully', async () => {
 
 // Registry tests
 test.skip('registerCommand adds command to registry', () => {
-  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'test' })
 
   registerCommand('test-command', handler)
 
@@ -360,7 +360,7 @@ test.skip('registerCommand adds command to registry', () => {
 })
 
 test.skip('unregisterCommand removes command from registry', () => {
-  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'test' })
 
   registerCommand('test-command', handler)
   expect(isCommandRegistered('test-command')).toBe(true)
@@ -371,7 +371,7 @@ test.skip('unregisterCommand removes command from registry', () => {
 })
 
 test.skip('executeCommand with registered custom command', async () => {
-  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'custom output', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'custom output' })
 
   registerCommand('custom-command', handler)
 
@@ -389,7 +389,7 @@ test.skip('executeCommand with unregistered command returns error', async () => 
 })
 
 test.skip('getRegisteredCommands returns all registered commands', () => {
-  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'test' })
 
   registerCommand('command1', handler)
   registerCommand('command2', handler)
@@ -402,7 +402,7 @@ test.skip('getRegisteredCommands returns all registered commands', () => {
 })
 
 test.skip('isCommandRegistered returns correct status', () => {
-  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ stdout: 'test', stderr: '', exitCode: 0 })
+  const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'test' })
 
   expect(isCommandRegistered('nonexistent')).toBe(false)
 

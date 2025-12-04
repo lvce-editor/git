@@ -22,9 +22,9 @@ test('handleInit returns success message', async () => {
   const result = await handleInit([], { cwd: 'web://test' })
 
   expect(result).toEqual({
-    stdout: 'Initialized empty Git repository in web://test/.git/',
-    stderr: '',
     exitCode: 0,
+    stderr: '',
+    stdout: 'Initialized empty Git repository in web://test/.git/',
   })
 
   expect(mockRpc.invocations).toEqual([

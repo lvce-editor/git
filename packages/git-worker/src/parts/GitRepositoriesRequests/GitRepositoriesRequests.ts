@@ -3,8 +3,8 @@
 import * as Rpc from '../Rpc/Rpc.ts'
 
 export const state = {
-  running: Object.create(null),
   changeListeners: [],
+  running: Object.create(null),
 }
 
 const runListeners = () => {
@@ -19,7 +19,7 @@ const runListeners = () => {
  * @template Args
  * @param {{id:string, fn: (args: Args)=>Promise<Result>, args: Args}} param0
  */
-export const execute = async ({ id, fn, args }) => {
+export const execute = async ({ args, fn, id }) => {
   state.running[id] ||= 0
   state.running[id]++
   runListeners()

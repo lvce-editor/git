@@ -8,8 +8,8 @@ export const handleRevParse = async (args: string[], options: CommandOptions): P
   const ref = await repository.parseRef(args)
 
   return {
-    stdout: ref,
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: ref,
   }
 }

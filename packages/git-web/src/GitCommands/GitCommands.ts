@@ -36,10 +36,10 @@ export const isCommandRegistered = (command: string): boolean => commandRegistry
 export const executeCommand = async (args: readonly string[], options: CommandOptions): Promise<CommandResult> => {
   if (!args || args.length === 0) {
     return {
-      stdout: '',
+      exitCode: ExitCode.GeneralError,
       stderr:
         'usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n           <command> [<args>]',
-      exitCode: ExitCode.GeneralError,
+      stdout: '',
     }
   }
 
@@ -51,18 +51,18 @@ export const executeCommand = async (args: readonly string[], options: CommandOp
 
     if (!handler) {
       return {
-        stdout: '',
-        stderr: `git: '${command}' is not a git command. See 'git --help'.`,
         exitCode: ExitCode.CommandNotFound,
+        stderr: `git: '${command}' is not a git command. See 'git --help'.`,
+        stdout: '',
       }
     }
 
     return await handler(commandArgs, options)
   } catch (error) {
     return {
-      stdout: '',
-      stderr: error instanceof Error ? error.message : String(error),
       exitCode: ExitCode.GeneralError,
+      stderr: error instanceof Error ? error.message : String(error),
+      stdout: '',
     }
   }
 }

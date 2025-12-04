@@ -5,8 +5,8 @@ test('unstageAll', async () => {
   const exec = jest.fn()
   await GitRequestsUnstageAll.unstageAll({
     cwd: '/test/test-folder',
-    gitPath: 'git',
     exec,
+    gitPath: 'git',
   })
   expect(exec).toHaveBeenCalledTimes(1)
   expect(exec).toHaveBeenCalledWith({
@@ -24,8 +24,8 @@ test('unstageAll - error - not removing . recursively without -r', async () => {
   await expect(
     GitRequestsUnstageAll.unstageAll({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error("Git: fatal: not removing '.' recursively without -r"))
 })
@@ -36,8 +36,8 @@ test("unstageAll - error - pathspec '.' did not match any files", async () => {
   })
   await GitRequestsUnstageAll.unstageAll({
     cwd: '/test/test-folder',
-    gitPath: '',
     exec,
+    gitPath: '',
   })
   expect(exec).toHaveBeenCalledTimes(1)
 })

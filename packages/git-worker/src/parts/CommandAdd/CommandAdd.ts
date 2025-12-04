@@ -6,13 +6,13 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 export const commandAdd = async (file) => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'add',
-    fn: GitRequests.add,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
-      file,
       exec: Git.exec,
+      file,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.add,
+    id: 'add',
   })
 }

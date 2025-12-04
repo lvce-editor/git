@@ -8,8 +8,8 @@ export const handleFetch = async (args: string[], options: CommandOptions): Prom
   await repository.fetch(args)
 
   return {
-    stdout: 'From https://github.com/user/repo\n * branch            main       -> FETCH_HEAD',
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: 'From https://github.com/user/repo\n * branch            main       -> FETCH_HEAD',
   }
 }

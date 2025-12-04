@@ -23,7 +23,7 @@ test('handleStatus returns status for new repository', async () => {
       return []
     },
     'FileSystem.stat'(path: string) {
-      return { isFile: true, isDirectory: false, size: 100 }
+      return { isDirectory: false, isFile: true, size: 100 }
     },
   })
 
@@ -63,7 +63,7 @@ test('handleStatus works with different cwd', async () => {
       return []
     },
     'FileSystem.stat'(path: string) {
-      return { isFile: true, isDirectory: false, size: 100 }
+      return { isDirectory: false, isFile: true, size: 100 }
     },
   })
 
@@ -131,7 +131,7 @@ test('handleStatus with --porcelain returns porcelain format', async () => {
       return []
     },
     'FileSystem.stat'(path: string) {
-      return { isFile: true, isDirectory: false, size: 100 }
+      return { isDirectory: false, isFile: true, size: 100 }
     },
   })
 
@@ -164,7 +164,7 @@ test('handleStatus with --porcelain and -uall returns porcelain format with untr
       return []
     },
     'FileSystem.stat'(path: string) {
-      return { isFile: true, isDirectory: false, size: 100 }
+      return { isDirectory: false, isFile: true, size: 100 }
     },
   })
 

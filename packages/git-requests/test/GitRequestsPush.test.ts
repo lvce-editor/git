@@ -15,8 +15,8 @@ test('push - error - push rejected', async () => {
   await expect(
     GitRequestsPush.push({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: error: failed to push some refs to'))
 })
@@ -29,8 +29,8 @@ test('push - error - could not read from remote repository', async () => {
   await expect(
     GitRequestsPush.push({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: Could not read from remote repository'))
 })
@@ -42,8 +42,8 @@ test('push - error - no upstream branch', async () => {
   await expect(
     GitRequestsPush.push({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: fatal: The current branch abc has no upstream branch'))
 })
@@ -63,8 +63,8 @@ test('push - error - no configured push destination', async () => {
   await expect(
     GitRequestsPush.push({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error(`Git: fatal: No configured push destination.`))
 })
@@ -76,8 +76,8 @@ test('push - error - permission denied', async () => {
   await expect(
     GitRequestsPush.push({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: Permission denied'))
 })
@@ -89,8 +89,8 @@ test('push - error - unknown git error', async () => {
   await expect(
     GitRequestsPush.push({
       cwd: '/test/test-folder',
-      gitPath: '',
       exec,
+      gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })

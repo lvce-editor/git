@@ -8,8 +8,8 @@ export const handlePull = async (args: string[], options: CommandOptions): Promi
   await repository.pull(args)
 
   return {
-    stdout: 'Already up to date.',
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: 'Already up to date.',
   }
 }

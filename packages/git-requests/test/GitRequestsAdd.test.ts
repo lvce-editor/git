@@ -16,9 +16,9 @@ test('add - error - not a git repository', async () => {
   await expect(
     GitRequestsAdd.add({
       cwd: '',
+      exec,
       file: '.',
       gitPath: '',
-      exec,
     }),
   ).rejects.toThrow(new Error('Git: fatal: not a git repository'))
 })
@@ -31,9 +31,9 @@ test('add - error - unknown git error', async () => {
   await expect(
     GitRequestsAdd.add({
       cwd: '/test/test-folder',
+      exec,
       file: '.',
       gitPath: '',
-      exec,
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })

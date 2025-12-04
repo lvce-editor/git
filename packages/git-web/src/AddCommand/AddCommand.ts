@@ -8,8 +8,8 @@ export const handleAdd = async (args: readonly string[], options: CommandOptions
   await repository.addFiles(args)
 
   return {
-    stdout: '',
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: '',
   }
 }

@@ -8,18 +8,18 @@ const exec = (command: string, args: string[], options: any) => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {
-        stdout: '0.0.0',
-        stderr: '',
         exitCode: 0,
+        stderr: '',
+        stdout: '0.0.0',
       }
     }
     if (args[0] === 'pull') {
       return {
-        stdout: '',
+        exitCode: 128,
         stderr: `error: Cannot pull with rebase, you have unstaged changes.
 error: please commit or stash them.
 `,
-        exitCode: 128,
+        stdout: '',
       }
     }
   }
@@ -27,13 +27,13 @@ error: please commit or stash them.
 }
 
 export const mockRpc = {
-  name: 'Git',
   commands: {
     'Exec.exec': exec,
   },
+  name: 'Git',
 }
 
-export const test: Test = async ({ FileSystem, Workspace, QuickPick, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await Workspace.setPath(tmpDir)

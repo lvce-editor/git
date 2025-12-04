@@ -3,24 +3,24 @@ import { testWorker } from '../src/testWorker.js'
 test('command checkout ref', async () => {
   const execMap = {
     '--version': {
-      stdout: 'git version 2.39.2',
-      stderr: '',
       exitCode: 0,
+      stderr: '',
+      stdout: 'git version 2.39.2',
     },
     checkout: {
-      stdout: '',
-      stderr: '',
       exitCode: 0,
+      stderr: '',
+      stdout: '',
     },
     'for-each-ref': {
+      exitCode: 0,
+      stderr: '',
       stdout: [
         `refs/heads/b f63b3b1b60166f6f3a99e5de7867cc2ae29b9c92 `,
         `refs/heads/main a205f65eaeedfcc0bae56de354220df552d44a52 `,
         `refs/remotes/origin/b f63b3b1b60166f6f3a99e5de7867cc2ae29b9c92 `,
         `refs/remotes/origin/main a205f65eaeedfcc0bae56de354220df552d44a52 `,
       ].join('\n'),
-      stderr: '',
-      exitCode: 0,
     },
   }
   const config = {
@@ -31,11 +31,11 @@ test('command checkout ref', async () => {
     return 'b'
   }
   const worker = await testWorker({
-    execMap,
     config,
+    execMap,
     quickPick,
   })
-  await worker.execute('Command.gitCheckoutRef', { gitPath: 'git', cwd: '' })
+  await worker.execute('Command.gitCheckoutRef', { cwd: '', gitPath: 'git' })
   expect(worker.invocations).toEqual([
     ['Config.getGitPaths'],
     ['Exec.exec', 'git', ['--version'], {}],

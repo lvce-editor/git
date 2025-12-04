@@ -8,8 +8,8 @@ export const handleRemote = async (args: string[], options: CommandOptions): Pro
   const result = await repository.handleRemote(args)
 
   return {
-    stdout: result,
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: result,
   }
 }

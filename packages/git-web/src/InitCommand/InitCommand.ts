@@ -52,15 +52,15 @@ export const handleInit = async (args: string[], options: CommandOptions): Promi
     const message = bare ? `Initialized empty Git repository in ${options.cwd}/` : `Initialized empty Git repository in ${join(options.cwd, '.git')}/`
 
     return {
-      stdout: message,
-      stderr: '',
       exitCode: ExitCode.Success,
+      stderr: '',
+      stdout: message,
     }
   } catch (error) {
     return {
-      stdout: '',
-      stderr: error instanceof Error ? error.message : String(error),
       exitCode: ExitCode.GeneralError,
+      stderr: error instanceof Error ? error.message : String(error),
+      stdout: '',
     }
   }
 }

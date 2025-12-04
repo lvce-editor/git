@@ -1,7 +1,7 @@
 export const state = {
   currentRepository: undefined,
-  state: 'none',
   listeners: Object.create(null),
+  state: 'none',
 }
 
 export const setRepository = (repository) => {

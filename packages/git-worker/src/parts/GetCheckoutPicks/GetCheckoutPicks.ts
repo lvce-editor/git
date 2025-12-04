@@ -7,22 +7,22 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 
 const toPick = (ref) => {
   return {
-    label: ref.name,
     description: GetShortCommit.getShortCommit(ref.commit),
     icon: GetBranchQuickPickIcon.getBranchQuickPickIcon(ref.type),
+    label: ref.name,
   }
 }
 
 const getRawPicks = async () => {
   const repository = await Repositories.getCurrent()
   const refs = await GitRepositoriesRequests.execute({
-    id: 'getRefs',
-    fn: GitRequests.getRefs,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
       exec: Git.exec,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.getRefs,
+    id: 'getRefs',
   })
   return refs
 }

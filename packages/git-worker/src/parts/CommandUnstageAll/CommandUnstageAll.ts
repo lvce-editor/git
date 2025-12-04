@@ -6,12 +6,12 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 export const commandUnstageAll = async () => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
-    id: 'unstageAll',
-    fn: GitRequests.unstageAll,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
       exec: Git.exec,
+      gitPath: repository.gitPath,
     },
+    fn: GitRequests.unstageAll,
+    id: 'unstageAll',
   })
 }

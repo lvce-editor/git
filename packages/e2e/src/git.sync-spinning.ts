@@ -4,7 +4,7 @@ export const name = 'git.sync-spinning'
 
 export const skip = true
 
-export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Settings, Workspace }) => {
   // @ts-ignore
   const tmpDir = await getTmpDir()
   // @ts-ignore
@@ -36,11 +36,11 @@ main()
   })
   // @ts-ignore
   const page = await runWithExtension({
-    name: 'builtin.git',
-    folder: tmpDir,
     env: {
       XDG_CONFIG_HOME: configDir,
     },
+    folder: tmpDir,
+    name: 'builtin.git',
   })
   const testTxt = page.locator('text=test.txt')
   await testTxt.click()

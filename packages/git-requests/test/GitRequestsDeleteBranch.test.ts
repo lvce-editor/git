@@ -14,10 +14,10 @@ test('deleteBranch - error - unknown git error', async () => {
   }
   await expect(
     GitRequestsDeleteBranch.deleteBranch({
-      name: '',
       cwd: '',
-      gitPath: '',
       exec,
+      gitPath: '',
+      name: '',
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })

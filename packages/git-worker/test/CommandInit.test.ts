@@ -14,8 +14,8 @@ jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () =
   return {
     getCurrent() {
       return {
-        path: '/test/folder',
         gitPath: '/test/git',
+        path: '/test/folder',
       }
     },
   }
@@ -30,12 +30,12 @@ test.skip('commandInit', async () => {
   await CommandInit.commandInit()
   expect(GitRepositoriesRequests.execute).toHaveBeenCalledTimes(1)
   expect(GitRepositoriesRequests.execute).toHaveBeenCalledWith({
-    id: 'init',
-    fn: GitRequests.init,
     args: {
       cwd: '/test/folder',
-      gitPath: '/test/git',
       exec: Git.exec,
+      gitPath: '/test/git',
     },
+    fn: GitRequests.init,
+    id: 'init',
   })
 })

@@ -3,17 +3,17 @@ import { testWorker } from '../src/testWorker.js'
 test('git init', async () => {
   const execMap = {
     pull: {
-      stdout: '',
-      stderr: '',
       exitCode: 0,
+      stderr: '',
+      stdout: '',
     },
   }
   const config = {}
   const worker = await testWorker({
-    execMap,
     config,
+    execMap,
   })
-  await worker.execute('Git.pull', { gitPath: 'git', cwd: '' })
+  await worker.execute('Git.pull', { cwd: '', gitPath: 'git' })
   expect(worker.invocations).toEqual([
     ['Config.getGitPaths'],
     ['Exec.exec', 'git', ['--version'], {}],

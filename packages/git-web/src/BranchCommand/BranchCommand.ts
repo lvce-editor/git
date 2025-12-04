@@ -8,8 +8,8 @@ export const handleBranch = async (args: string[], options: CommandOptions): Pro
   const branches = await repository.listBranches()
 
   return {
-    stdout: branches.map((b) => `* ${b}`).join('\n'),
-    stderr: '',
     exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: branches.map((b) => `* ${b}`).join('\n'),
   }
 }

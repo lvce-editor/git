@@ -5,14 +5,14 @@ import * as GitRepositories from '../GitRepositories/GitRepositories.ts'
 export const wrapGitCommand =
   (fn) =>
   async ({ cwd, ...args }) => {
-    const { path, gitPath } = await GitRepositories.getCurrent()
+    const { gitPath, path } = await GitRepositories.getCurrent()
     return fn({
       cwd: path,
-      repositoryPath: path,
       gitPath,
+      repositoryPath: path,
       ...args,
+      confirm: Confirm.confirm,
       exec: Git.exec,
       getRepository: GitRepositories.getCurrent,
-      confirm: Confirm.confirm,
     })
   }

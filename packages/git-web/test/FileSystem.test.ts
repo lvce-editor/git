@@ -102,14 +102,14 @@ test('RpcFileSystem readdir calls RPC', async () => {
 test('RpcFileSystem stat calls RPC', async () => {
   const mockRpc = registerMockRpc({
     'FileSystem.stat'(path: string) {
-      return { isFile: true, isDirectory: false, size: 1024 } as FileStat
+      return { isDirectory: false, isFile: true, size: 1024 } as FileStat
     },
   })
 
   const fs = new RpcFileSystem()
   const result = await fs.stat('/test/file')
 
-  expect(result).toEqual({ isFile: true, isDirectory: false, size: 1024 })
+  expect(result).toEqual({ isDirectory: false, isFile: true, size: 1024 })
   expect(mockRpc.invocations).toEqual([['FileSystem.stat', '/test/file']])
 })
 

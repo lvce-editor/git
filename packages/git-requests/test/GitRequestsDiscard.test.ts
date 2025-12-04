@@ -5,11 +5,11 @@ test.skip('discard', async () => {
   const exec = jest.fn()
   const confirm = jest.fn(() => true)
   await GitRequestsDiscard.discard({
-    cwd: '/test/test-folder',
-    gitPath: 'git',
-    file: 'index.js',
-    exec,
     confirm,
+    cwd: '/test/test-folder',
+    exec,
+    file: 'index.js',
+    gitPath: 'git',
     remove() {},
   })
   expect(exec).toHaveBeenCalledTimes(1)
@@ -20,11 +20,11 @@ test.skip('discard - confirm false', async () => {
   const exec = jest.fn()
   const confirm = jest.fn(() => false)
   await GitRequestsDiscard.discard({
-    cwd: '/test/test-folder',
-    gitPath: 'git',
-    file: 'index.js',
-    exec,
     confirm,
+    cwd: '/test/test-folder',
+    exec,
+    file: 'index.js',
+    gitPath: 'git',
     remove() {},
   })
   expect(exec).not.toHaveBeenCalled()

@@ -32,7 +32,7 @@ export const commandLoadFixture = async (fixtureUrl: string): Promise<void> => {
   console.log('load fixture', fixtureUrl)
   const importUrl = `${fixtureUrl}/git.js`
   const module = await import(importUrl)
-  const actions = module.actions
+  const {actions} = module
   await executeActions(actions)
   console.log({ module })
 }

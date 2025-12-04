@@ -6,7 +6,7 @@ export const name = 'git.sync-spinning.clean'
 
 export const skip = 1
 
-export const test: Test = async ({ FileSystem, Workspace, Settings, Locator, expect }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, Settings, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
   await FileSystem.writeFile(`${tmpDir}/test.txt`, 'div')

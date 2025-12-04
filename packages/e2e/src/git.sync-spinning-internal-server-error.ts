@@ -4,7 +4,7 @@ export const name = 'git.sync-spinning-internal-server-error'
 
 export const skip = true
 
-export const test: Test = async ({ Workspace, FileSystem, Settings }) => {
+export const test: Test = async ({ FileSystem, Settings, Workspace }) => {
   // @ts-ignore
   const tmpDir = await getTmpDir()
   // @ts-ignore
@@ -30,11 +30,11 @@ process.exit(128)
   })
   // @ts-ignore
   const page = await runWithExtension({
-    name: 'builtin.git',
-    folder: tmpDir,
     env: {
       XDG_CONFIG_HOME: configDir,
     },
+    folder: tmpDir,
+    name: 'builtin.git',
   })
   const testTxt = page.locator('text=test.txt')
   await testTxt.click()

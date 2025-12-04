@@ -25,14 +25,14 @@ const parseDecorations = (stdout: string): readonly any[] => {
 export const getFileDecorations = async (uris: readonly string[]): Promise<readonly any[]> => {
   const repository = await Repositories.getCurrent()
   const gitResult = await GitRepositoriesRequests.execute({
-    id: 'decorations',
-    fn: GitRequests.getDecorations,
     args: {
       cwd: repository.path,
-      gitPath: repository.gitPath,
       exec: Git.exec,
+      gitPath: repository.gitPath,
       uris,
     },
+    fn: GitRequests.getDecorations,
+    id: 'decorations',
   })
   const parsed = parseDecorations(gitResult.stdout)
   return parsed

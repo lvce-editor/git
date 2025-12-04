@@ -3,13 +3,13 @@
 
 import { startWorker } from './startWorker.ts'
 
-export const testWorker = async ({ execMap, config = {}, quickPick = () => {} }) => {
+export const testWorker = async ({ config = {}, execMap, quickPick = () => {} }) => {
   const invocations = []
   const fullExecMap = {
     '--version': {
-      stdout: 'git version 2.39.2',
-      stderr: '',
       exitCode: 0,
+      stderr: '',
+      stdout: 'git version 2.39.2',
     },
     ...execMap,
   }
@@ -23,12 +23,9 @@ export const testWorker = async ({ execMap, config = {}, quickPick = () => {} })
       // @ts-ignore
       invocations.push(args)
       switch (args[0]) {
-        case 'Exec.exec': {
-          const result = fullExecMap[args[2][0]]
-          if (!result) {
-            throw new Error(`exec command not found ${args[2][0]}`)
-          }
-          return result
+        case 'Config.confirmDiscard': {
+          // @ts-ignore
+          return fullConfig.confirmDiscard
         }
         case 'Config.getGitPaths': {
           // @ts-ignore
@@ -38,13 +35,16 @@ export const testWorker = async ({ execMap, config = {}, quickPick = () => {} })
           // @ts-ignore
           return fullConfig.workspaceFolder
         }
-        case 'Config.confirmDiscard': {
-          // @ts-ignore
-          return fullConfig.confirmDiscard
-        }
         case 'Config.showErrorMessage': {
           // @ts-ignore
           return fullConfig.showErrorMessage
+        }
+        case 'Exec.exec': {
+          const result = fullExecMap[args[2][0]]
+          if (!result) {
+            throw new Error(`exec command not found ${args[2][0]}`)
+          }
+          return result
         }
         case 'QuickPick.show': {
           return quickPick()

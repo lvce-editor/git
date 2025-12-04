@@ -29,9 +29,6 @@ test('handleAdd with specific files', async () => {
 
       return ''
     },
-    'FileSystem.write'(path: string, content: string) {
-      // Mock implementation - no assertions here
-    },
     'FileSystem.readdir'(path: string) {
       if (path === 'web://test-add') {
         return ['file1.txt', 'file2.txt', 'other.txt']
@@ -41,18 +38,21 @@ test('handleAdd with specific files', async () => {
     },
     'FileSystem.stat'(path: string) {
       if (path.includes('file1.txt') || path.includes('file2.txt') || path.includes('other.txt')) {
-        return { isFile: true, isDirectory: false, size: 100 }
+        return { isDirectory: false, isFile: true, size: 100 }
       }
 
-      return { isFile: false, isDirectory: true, size: 0 }
+      return { isDirectory: true, isFile: false, size: 0 }
+    },
+    'FileSystem.write'(path: string, content: string) {
+      // Mock implementation - no assertions here
     },
   })
   const result = await handleAdd(['file1.txt', 'file2.txt'], { cwd: 'web://test-add' })
 
   expect(result).toEqual({
-    stdout: '',
-    stderr: '',
     exitCode: 0,
+    stderr: '',
+    stdout: '',
   })
 
   expect(mockRpc.invocations).toEqual([
@@ -82,9 +82,6 @@ test('handleAdd with dot adds all files', async () => {
 
       return ''
     },
-    'FileSystem.write'(path: string, content: string) {
-      // Mock implementation - no assertions here
-    },
     'FileSystem.readdir'(path: string) {
       if (path === 'web://test-add-all') {
         return ['file1.txt', 'file2.txt', 'other.txt']
@@ -94,10 +91,13 @@ test('handleAdd with dot adds all files', async () => {
     },
     'FileSystem.stat'(path: string) {
       if (path.includes('file1.txt') || path.includes('file2.txt') || path.includes('other.txt')) {
-        return { isFile: true, isDirectory: false, size: 100 }
+        return { isDirectory: false, isFile: true, size: 100 }
       }
 
-      return { isFile: false, isDirectory: true, size: 0 }
+      return { isDirectory: true, isFile: false, size: 0 }
+    },
+    'FileSystem.write'(path: string, content: string) {
+      // Mock implementation - no assertions here
     },
   })
 
