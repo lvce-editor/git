@@ -86,3 +86,8 @@ export const handleWorkspaceRefresh = async () => {
   // @ts-ignore
   await vscode.handleWorkspaceRefresh()
 }
+
+export const openUri = async (uri) => {
+  // @ts-ignore
+  await vscode.openUri(uri)
+}
