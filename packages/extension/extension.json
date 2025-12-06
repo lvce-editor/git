@@ -138,6 +138,14 @@
         "icon": "Remove"
       }
     ],
+
+    "merge-item": [
+      {
+        "command": "git.stage",
+        "label": "Stage File",
+        "icon": "Add"
+      }
+    ],
     "working-tree": [
       {
         "command": "git.cleanAll",
