@@ -13,6 +13,13 @@ const getActualOptions = (options) => {
   return options
 }
 
+const truncate = (item, maxSize) => {
+  if (item.length < maxSize) {
+    return item
+  }
+  return item.slice(0, maxSize)
+}
+
 /**
  *
  * @param {string} command
@@ -26,9 +33,10 @@ export const exec = async (command, args, options) => {
   Assert.object(options)
   const actualOptions = getActualOptions(options)
   const { stdout, stderr, exitCode } = await execa(command, args, actualOptions)
+  const maxSize = 500_000
   return {
-    stdout,
-    stderr,
+    stdout: truncate(stdout, maxSize),
+    stderr: truncate(stderr, maxSize),
     exitCode,
   }
 }
