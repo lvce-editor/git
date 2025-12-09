@@ -7,6 +7,7 @@ import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.js'
 import * as GetFileBefore from '../GetFileBefore/GetFileBefore.js'
 import * as GetGroups from '../GetGroups/GetGroups.js'
 import * as GetDecorations from '../GetDecorations/GetDecorations.js'
+import * as CommandId from '../CommandId/CommandId.js'
 
 export const id = 'git'
 
@@ -66,7 +67,8 @@ export const getStatusBarItems = () => {
     {
       icon: 'branch',
       text: 'select branch',
-      onClick: 'handleClickBranch',
+      name: CommandId.GitSelectBranch,
+      onClick: CommandId.GitSelectBranch,
     },
   ]
 }
