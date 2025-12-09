@@ -56,3 +56,17 @@ export const statusBarCommands = [
     text: 'select branch',
   },
 ]
+
+export const handleClickBranch = () => {
+  // TODO
+}
+
+export const getStatusBarItems = () => {
+  return [
+    {
+      icon: 'branch',
+      text: 'select branch',
+      onClick: 'handleClickBranch',
+    },
+  ]
+}
