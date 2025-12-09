@@ -1,5 +1,6 @@
 export const GitAcceptInput = 'git.acceptInput'
 export const GitAdd = 'git.add'
+export const GitSelectBranch = 'git.selectBranch'
 export const GitAddAll = 'git.addAll'
 export const GitCheckout = 'git.checkout'
 export const GitCheckoutRef = 'git.checkoutRef'
