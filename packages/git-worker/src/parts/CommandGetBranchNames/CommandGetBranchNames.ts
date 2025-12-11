@@ -14,10 +14,12 @@ export const commandGetBranchnames = async () => {
     fn: GitRequests.getBranchNames,
     id: 'getBranchNames',
   })
-  return result.map((item) => {
+  const trimmed = result.map((item) => item.trim())
+  const mapped = trimmed.map((item) => {
     return {
       id: item,
       label: item,
     }
   })
+  return mapped
 }
