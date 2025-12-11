@@ -6,8 +6,20 @@ export const execute = async () => {
   const branchNames = ['a', 'b', 'c']
 
   // @ts-ignore
-  await vscode.confirm('Select Branch')
-  // TODO
-  // 1. get all branch names
-  // 2. show the quickpick with those branch names
+  const selectedItem = await vscode.showQuickPick({
+    getPicks() {
+      return branchNames
+    },
+    toPick(item) {
+      return {
+        id: item,
+        label: item,
+      }
+    },
+  })
+
+  if (!selectedItem) {
+    return
+  }
+  // TODO checkout that branch
 }
