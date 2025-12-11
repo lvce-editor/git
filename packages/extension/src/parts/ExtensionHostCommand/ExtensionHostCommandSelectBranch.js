@@ -12,7 +12,6 @@ export const execute = async () => {
   const selectedItem = await vscode.showQuickPick({
     async getPicks() {
       const branchNames = await getBranchNames()
-      console.log({ branchNames })
       return branchNames
     },
     toPick(item) {
