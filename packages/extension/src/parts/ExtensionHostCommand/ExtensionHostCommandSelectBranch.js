@@ -1,20 +1,22 @@
 import * as CommandId from '../CommandId/CommandId.js'
+import * as GitWorker from '../GitWorker/GitWorker.js'
 
 export const id = CommandId.GitSelectBranch
 
-export const execute = async () => {
-  const branchNames = ['a', 'b', 'c']
+const getBranchNames = () => {
+  return GitWorker.invoke('Git.getBranchNames')
+}
 
+export const execute = async () => {
   // @ts-ignore
   const selectedItem = await vscode.showQuickPick({
-    getPicks() {
+    async getPicks() {
+      const branchNames = await getBranchNames()
+      console.log({ branchNames })
       return branchNames
     },
     toPick(item) {
-      return {
-        id: item,
-        label: item,
-      }
+      return item
     },
   })
 
