@@ -10,6 +10,7 @@ import * as CommandInit from '../CommandInit/CommandInit.ts'
 import * as CommandLoadFixture from '../CommandLoadFixture/CommandLoadFixture.ts'
 import * as CommandOpenFile from '../CommandOpenFile/CommandOpenFile.ts'
 import * as CommandPull from '../CommandPull/CommandPull.ts'
+import * as CommandGetBranchNames from '../CommandGetBranchNames/CommandGetBranchNames.ts'
 import * as CommandPullRebase from '../CommandPullRebase/CommandPullRebase.ts'
 import * as CommandStage from '../CommandStage/CommandStage.ts'
 import * as CommandStageAll from '../CommandStageAll/CommandStageAll.ts'
@@ -66,5 +67,5 @@ export const commandMap = {
   [GitWorkerCommandType.GitUndoLastCommit]: WrappedGitRequests.wrappedGitRequests.undoLastCommit,
   [GitWorkerCommandType.GitUnstage]: WrappedGitRequests.wrappedGitRequests.unstage,
   [GitWorkerCommandType.GitUnstageAll]: WrappedGitRequests.wrappedGitRequests.unstageAll,
-  [GitWorkerCommandType.GitVersion]: WrappedGitRequests.wrappedGitRequests.version,
+  [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchnames,
 }
