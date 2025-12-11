@@ -14,7 +14,7 @@ export const commandGetBranchnames = async () => {
     fn: GitRequests.getBranchNames,
     id: 'getBranchNames',
   })
-  const trimmed = result.map((item) => item.trimmed)
+  const trimmed = result.map((item) => item.trim())
   const mapped = trimmed.map((item) => {
     return {
       id: item,
