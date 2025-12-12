@@ -13,3 +13,11 @@ export const handleConfig = async (args: string[], options: CommandOptions): Pro
     stdout: result,
   }
 }
+
+export const handleCheckIgnore = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
+  return {
+    exitCode: ExitCode.Success,
+    stderr: '',
+    stdout: '',
+  }
+}
