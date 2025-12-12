@@ -3,7 +3,7 @@ import { handleAdd } from '../AddCommand/AddCommand.ts'
 import { handleBranch } from '../BranchCommand/BranchCommand.ts'
 import { handleCheckout } from '../CheckoutCommand/CheckoutCommand.ts'
 import { handleCommit } from '../CommitCommand/CommitCommand.ts'
-import { handleConfig } from '../ConfigCommand/ConfigCommand.ts'
+import { handleCheckIgnore, handleConfig } from '../ConfigCommand/ConfigCommand.ts'
 import { handleDiff } from '../DiffCommand/DiffCommand.ts'
 import { handleFetch } from '../FetchCommand/FetchCommand.ts'
 import { handleForEachRef } from '../ForEachRefCommand/ForEachRefCommand.ts'
@@ -36,6 +36,7 @@ const registerGitCommands = (): void => {
   GitCommands.registerCommand('for-each-ref', handleForEachRef)
   GitCommands.registerCommand('remote', handleRemote)
   GitCommands.registerCommand('config', handleConfig)
+  GitCommands.registerCommand('check-ignore', handleCheckIgnore)
 }
 
 export const main = (): void => {
