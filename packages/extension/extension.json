@@ -73,7 +73,9 @@
     {
       "id": "git.pr",
       "label": "Git: Create Pull Request",
-      "aliases": ["pr"]
+      "aliases": [
+        "pr"
+      ]
     },
     {
       "id": "git.checkoutRef",
@@ -142,7 +144,6 @@
         "icon": "Remove"
       }
     ],
-
     "merge-item": [
       {
         "command": "git.stage",
@@ -179,5 +180,6 @@
         "icon": "Add"
       }
     ]
-  }
+  },
+  "repository": "https://github.com/lvce-editor/git"
 }
