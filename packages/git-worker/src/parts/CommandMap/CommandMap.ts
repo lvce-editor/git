@@ -5,12 +5,12 @@ import * as CommandCheckout from '../CommandCheckout/CommandCheckout.ts'
 import * as CommandCleanAll from '../CommandCleanAll/CommandCleanAll.ts'
 import * as CommandDiscard from '../CommandDiscard/CommandDiscard.ts'
 import * as CommandFetch from '../CommandFetch/CommandFetch.ts'
+import * as CommandGetBranchNames from '../CommandGetBranchNames/CommandGetBranchNames.ts'
 import * as CommandGetFileDecorations from '../CommandGetFileDecorations/GetFileDecorations.ts'
 import * as CommandInit from '../CommandInit/CommandInit.ts'
 import * as CommandLoadFixture from '../CommandLoadFixture/CommandLoadFixture.ts'
 import * as CommandOpenFile from '../CommandOpenFile/CommandOpenFile.ts'
 import * as CommandPull from '../CommandPull/CommandPull.ts'
-import * as CommandGetBranchNames from '../CommandGetBranchNames/CommandGetBranchNames.ts'
 import * as CommandPullRebase from '../CommandPullRebase/CommandPullRebase.ts'
 import * as CommandStage from '../CommandStage/CommandStage.ts'
 import * as CommandStageAll from '../CommandStageAll/CommandStageAll.ts'
@@ -38,11 +38,11 @@ export const commandMap = {
   [GitWorkerCommandType.CommandSync]: CommandSync.commandSync,
   [GitWorkerCommandType.CommandUndoLastCommit]: CommandUndoLastCommit.commandUndoLastCommit,
   [GitWorkerCommandType.CommandUnstage]: CommandUnstage.commandUnstage,
-  [GitWorkerCommandType.GitOpenFile]: CommandOpenFile.commandOpenFile,
   [GitWorkerCommandType.CommandUnstageAll]: CommandUnstageAll.commandUnstageAll,
   [GitWorkerCommandType.GitAdd]: WrappedGitRequests.wrappedGitRequests.add,
   [GitWorkerCommandType.GitAddAll]: WrappedGitRequests.wrappedGitRequests.addAll,
   [GitWorkerCommandType.GitAddAllAndCommit]: WrappedGitRequests.wrappedGitRequests.addAllAndCommit,
+  [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchnames,
   [GitWorkerCommandType.GitCheckout]: WrappedGitRequests.wrappedGitRequests.checkout,
   [GitWorkerCommandType.GitCleanAll]: WrappedGitRequests.wrappedGitRequests.cleanAll,
   [GitWorkerCommandType.GitCommit]: WrappedGitRequests.wrappedGitRequests.commit,
@@ -57,6 +57,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitGetGroups]: WrappedGitRequests.wrappedGitRequests.getGroups,
   [GitWorkerCommandType.GitGetRefs]: WrappedGitRequests.wrappedGitRequests.getRefs,
   [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
+  [GitWorkerCommandType.GitOpenFile]: CommandOpenFile.commandOpenFile,
   [GitWorkerCommandType.GitPull]: WrappedGitRequests.wrappedGitRequests.pull,
   [GitWorkerCommandType.GitPullAndRebase]: WrappedGitRequests.wrappedGitRequests.pullAndRebase,
   [GitWorkerCommandType.GitPush]: WrappedGitRequests.wrappedGitRequests.push,
@@ -67,5 +68,4 @@ export const commandMap = {
   [GitWorkerCommandType.GitUndoLastCommit]: WrappedGitRequests.wrappedGitRequests.undoLastCommit,
   [GitWorkerCommandType.GitUnstage]: WrappedGitRequests.wrappedGitRequests.unstage,
   [GitWorkerCommandType.GitUnstageAll]: WrappedGitRequests.wrappedGitRequests.unstageAll,
-  [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchnames,
 }
