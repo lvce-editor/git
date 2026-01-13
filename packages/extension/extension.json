@@ -85,6 +85,7 @@
       "id": "git.checkoutRef"
     }
   ],
+  "categories": ["Source Control"],
   "configuration": {
     "git.path": {
       "type": "string"
