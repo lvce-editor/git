@@ -73,9 +73,7 @@
     {
       "id": "git.pr",
       "label": "Git: Create Pull Request",
-      "aliases": [
-        "pr"
-      ]
+      "aliases": ["pr"]
     },
     {
       "id": "git.checkoutRef",
