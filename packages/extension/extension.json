@@ -142,7 +142,6 @@
         "icon": "Remove"
       }
     ],
-
     "merge-item": [
       {
         "command": "git.stage",
@@ -179,5 +178,6 @@
         "icon": "Add"
       }
     ]
-  }
+  },
+  "repository": "https://github.com/lvce-editor/git"
 }
