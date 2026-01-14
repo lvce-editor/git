@@ -29,7 +29,7 @@
     "@lerna/legacy-package-management": "^8.2.4",
     "@lvce-editor/eslint-config": "^4.4.0",
     "@types/jest": "^30.0.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "jest": "^30.2.0",
     "lerna": "^8.2.3",
     "prettier": "^3.7.4",
