@@ -27,7 +27,7 @@
     }
   },
   "dependencies": {
-    "@lvce-editor/rpc-registry": "^5.3.0"
+    "@lvce-editor/rpc-registry": "^7.5.0"
   },
   "devDependencies": {
     "@jest/globals": "^30.2.0",
