@@ -3,6 +3,11 @@ import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.js'
 import * as SourceControlProviderGit from '../UiSourceControlProvider/UiSourceControlProviderGit.js'
 
 export const activate = async ({ path }) => {
+  console.log('regist commands')
+  // @ts-ignore
+  // if (vscode.getConfiguration('git.enabled') === '') {
+  //   return
+  // }
   for (const command of Object.values(ExtensionHostCommand)) {
     // @ts-ignore
     vscode.registerCommand(command)
