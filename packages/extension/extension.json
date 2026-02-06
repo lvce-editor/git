@@ -22,6 +22,7 @@
     "onCommand:git.undoLastCommit",
     "onCommand:git.selectBranch",
     "onCommand:git.checkoutRef",
+    "onCommand:git.createBranch",
     "onStartupFinished",
     "onSourceControl",
     "onSourceControl:",
@@ -78,6 +79,10 @@
     {
       "id": "git.checkoutRef",
       "label": "Git Checkout"
+    },
+    {
+      "id": "git.createBranch",
+      "label": "Git: Create Branch"
     }
   ],
   "quickPick": [
