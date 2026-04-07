@@ -1,5 +1,3 @@
-import { GitError } from '../GitError/GitError.js'
-
 /**
  *
  * @param {{uri:string, repositoryPath:string, gitPath:string, exec:any}} options
@@ -18,6 +16,7 @@ export const getFileBefore = async ({ uri, repositoryPath, gitPath, exec }) => {
     if (error && error.stderr === `fatal: invalid object name 'HEAD'.`) {
       return ''
     }
-    throw new GitError(error, 'getFileBefore')
+    console.error(error)
+    return ''
   }
 }
