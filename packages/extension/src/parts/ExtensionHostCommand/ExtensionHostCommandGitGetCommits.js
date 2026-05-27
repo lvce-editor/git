@@ -5,5 +5,5 @@ import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandT
 export const id = CommandId.GitGetCommits
 
 export const execute = async () => {
-  return GitWorker.invoke(GitWorkerCommandType.GitGetCommits)
+  return GitWorker.invoke(GitWorkerCommandType.GitGetCommits, {})
 }
