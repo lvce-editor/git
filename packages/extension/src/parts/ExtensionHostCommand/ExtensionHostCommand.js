@@ -1,6 +1,7 @@
 export * as GitAcceptInput from './ExtensionHostCommandGitAcceptInput.js'
 export * as GitAdd from './ExtensionHostCommandGitAdd.js'
 export * as GitAddAll from './ExtensionHostCommandGitAddAll.js'
+export * as GitCommit from './ExtensionHostCommandGitCommit.js'
 export * as GitCheckout from './ExtensionHostCommandGitCheckout.js'
 export * as GitCheckoutRef from './ExtensionHostCommandGitCheckoutRef.js'
 export * as GitCleanAll from './ExtensionHostCommandGitCleanAll.js'
