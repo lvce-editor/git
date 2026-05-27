@@ -10,14 +10,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
   await FileSystem.writeFile(`${tmpDir}/file`, 'content')
-  await Git.add({
-    paths: ['.'],
-  })
+  await Git.init()
+  await Git.add('.')
 
   // act
-  await Git.commit({
-    message: 'First commit',
-  })
+  await Git.commit('First commit')
 
   // assert
   // TODO verify somehow that commit was created
