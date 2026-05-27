@@ -51,6 +51,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitFetch]: WrappedGitRequests.wrappedGitRequests.fetch,
   [GitWorkerCommandType.GitGetAddedFiles]: WrappedGitRequests.wrappedGitRequests.getAddedFiles,
   [GitWorkerCommandType.GitGetChangedFiles]: WrappedGitRequests.wrappedGitRequests.getChangedFiles,
+  [GitWorkerCommandType.GitGetCommits]: WrappedGitRequests.wrappedGitRequests.getCommits,
   [GitWorkerCommandType.GitGetCurrentBranch]: WrappedGitRequests.wrappedGitRequests.getCurrentBranch,
   [GitWorkerCommandType.GitGetFileBefore]: WrappedGitRequests.wrappedGitRequests.getFileBefore,
   [GitWorkerCommandType.GitGetFileDecorations]: CommandGetFileDecorations.getFileDecorations,
