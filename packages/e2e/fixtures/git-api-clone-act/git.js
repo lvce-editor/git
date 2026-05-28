@@ -1,7 +1,7 @@
 export const actions = [
   {
-    type: 'git',
-    cwd: '',
-    args: ['clone', 'source', 'clone'],
+    type: 'git-clone',
+    repositoryPath: 'source',
+    targetPath: 'clone',
   },
 ]
