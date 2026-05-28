@@ -1,3 +1,3 @@
 export const getGitWorkerUrl = () => {
-  return import.meta.resolve('../../../../git-worker/dist/gitWorkerMain.js').toString()
+  return new URL('../../git-worker/dist/gitWorkerMain.js', import.meta.url).toString()
 }
