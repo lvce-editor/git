@@ -14,10 +14,12 @@ import * as CommandPull from '../CommandPull/CommandPull.ts'
 import * as CommandPullRebase from '../CommandPullRebase/CommandPullRebase.ts'
 import * as CommandStage from '../CommandStage/CommandStage.ts'
 import * as CommandStageAll from '../CommandStageAll/CommandStageAll.ts'
+import * as CommandStash from '../CommandStash/CommandStash.ts'
 import * as CommandSync from '../CommandSync/CommandSync.ts'
 import * as CommandUndoLastCommit from '../CommandUndoLastCommit/CommandUndoLastCommit.ts'
 import * as CommandUnstage from '../CommandUnstage/CommandUnstage.ts'
 import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.ts'
+import * as CommandUnstash from '../CommandUnstash/CommandUnstash.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
@@ -35,10 +37,12 @@ export const commandMap = {
   [GitWorkerCommandType.CommandPullRebase]: CommandPullRebase.commandPullRebase,
   [GitWorkerCommandType.CommandStage]: CommandStage.commandStage,
   [GitWorkerCommandType.CommandStageAll]: CommandStageAll.commandStageAll,
+  [GitWorkerCommandType.CommandStash]: CommandStash.commandStash,
   [GitWorkerCommandType.CommandSync]: CommandSync.commandSync,
   [GitWorkerCommandType.CommandUndoLastCommit]: CommandUndoLastCommit.commandUndoLastCommit,
   [GitWorkerCommandType.CommandUnstage]: CommandUnstage.commandUnstage,
   [GitWorkerCommandType.CommandUnstageAll]: CommandUnstageAll.commandUnstageAll,
+  [GitWorkerCommandType.CommandUnstash]: CommandUnstash.commandUnstash,
   [GitWorkerCommandType.GitAdd]: WrappedGitRequests.wrappedGitRequests.add,
   [GitWorkerCommandType.GitAddAll]: WrappedGitRequests.wrappedGitRequests.addAll,
   [GitWorkerCommandType.GitAddAllAndCommit]: WrappedGitRequests.wrappedGitRequests.addAllAndCommit,
@@ -66,9 +70,11 @@ export const commandMap = {
   [GitWorkerCommandType.GitSetConfig]: WrappedGitRequests.wrappedGitRequests.setConfig,
   [GitWorkerCommandType.GitStage]: WrappedGitRequests.wrappedGitRequests.stage,
   [GitWorkerCommandType.GitStageAll]: WrappedGitRequests.wrappedGitRequests.stageAll,
+  [GitWorkerCommandType.GitStash]: WrappedGitRequests.wrappedGitRequests.stash,
   [GitWorkerCommandType.GitSync]: WrappedGitRequests.wrappedGitRequests.sync,
   [GitWorkerCommandType.GitTag]: WrappedGitRequests.wrappedGitRequests.tag,
   [GitWorkerCommandType.GitUndoLastCommit]: WrappedGitRequests.wrappedGitRequests.undoLastCommit,
   [GitWorkerCommandType.GitUnstage]: WrappedGitRequests.wrappedGitRequests.unstage,
   [GitWorkerCommandType.GitUnstageAll]: WrappedGitRequests.wrappedGitRequests.unstageAll,
+  [GitWorkerCommandType.GitUnstash]: WrappedGitRequests.wrappedGitRequests.unstash,
 }
