@@ -13,3 +13,16 @@ export const fetch = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<
     throw new GitError(error, 'fetch')
   }
 }
+
+export const fetchPrune = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
+  try {
+    await exec({
+      args: ['fetch', '--all', '--prune'],
+      cwd,
+      gitPath,
+      name: 'fetchPrune',
+    })
+  } catch (error) {
+    throw new GitError(error, 'fetchPrune')
+  }
+}
