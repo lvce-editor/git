@@ -1,10 +1,7 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitRequestContext } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, gitPath:string, exec:any }} options
- */
-export const sync = async ({ cwd, exec, gitPath }) => {
+export const sync = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   try {
     await exec({
       args: ['pull', '--rebase'],

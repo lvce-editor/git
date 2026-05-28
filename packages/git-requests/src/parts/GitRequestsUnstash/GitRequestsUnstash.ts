@@ -1,10 +1,7 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitUnstashRequest } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, gitPath:string, exec:any, stashReference?: string }} options
- */
-export const unstash = async ({ cwd, exec, gitPath, stashReference = '' }) => {
+export const unstash = async ({ cwd, exec, gitPath, stashReference = '' }: GitUnstashRequest): Promise<void> => {
   try {
     const args = ['stash', 'pop']
     if (stashReference) {

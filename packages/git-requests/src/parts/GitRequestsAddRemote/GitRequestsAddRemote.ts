@@ -1,10 +1,7 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitRemoteRequest } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, gitPath:string, exec:any, name:string, url:string }} options
- */
-export const addRemote = async ({ cwd, exec, gitPath, name, url }) => {
+export const addRemote = async ({ cwd, exec, gitPath, name, url }: GitRemoteRequest): Promise<void> => {
   try {
     await exec({
       args: ['remote', 'add', name, url],

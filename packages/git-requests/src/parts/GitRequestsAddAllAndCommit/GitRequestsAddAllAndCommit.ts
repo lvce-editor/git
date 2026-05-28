@@ -1,10 +1,7 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitMessageRequest } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, message:string, gitPath:string, exec:any  }} options
- */
-export const addAllAndCommit = async ({ cwd, exec, gitPath, message }) => {
+export const addAllAndCommit = async ({ cwd, exec, gitPath, message }: GitMessageRequest): Promise<void> => {
   try {
     // Check if there are any staged files
     const { stdout: stagedFiles } = await exec({

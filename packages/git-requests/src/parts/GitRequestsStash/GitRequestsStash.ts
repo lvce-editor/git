@@ -1,10 +1,7 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitStashRequest } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, gitPath:string, exec:any, message?: string }} options
- */
-export const stash = async ({ cwd, exec, gitPath, message = '' }) => {
+export const stash = async ({ cwd, exec, gitPath, message = '' }: GitStashRequest): Promise<void> => {
   try {
     const args = ['stash', 'push']
     if (message) {

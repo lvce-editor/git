@@ -1,13 +1,10 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitFileRequest } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string,gitPath:string , file:string, exec:any  }} options
- */
-export const stage = async ({ cwd, exec, file, gitPath }) => {
+export const stage = async ({ cwd, exec, file, gitPath }: GitFileRequest): Promise<void> => {
   try {
     const args = ['add', file]
-    const gitResult = await exec({
+    await exec({
       args,
       cwd,
       gitPath,

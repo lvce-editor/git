@@ -1,14 +1,11 @@
-/**
- *
- * @param {{cwd:string,gitPath:string , file:string, exec:any  }} options
- */
-export const unstageFallback = async ({ cwd, exec, file, gitPath }) => {
+import type { GitFileRequest } from '../Types/Types.ts'
+
+export const unstageFallback = async ({ cwd, exec, file, gitPath }: GitFileRequest): Promise<void> => {
   const args = ['reset', '--', file]
-  const gitResult = await exec({
+  await exec({
     args,
     cwd,
     gitPath,
     name: 'unstage',
   })
-  return
 }

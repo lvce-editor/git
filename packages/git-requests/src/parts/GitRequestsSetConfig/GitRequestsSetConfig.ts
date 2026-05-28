@@ -1,10 +1,7 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitKeyValueRequest } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, gitPath:string, exec:any, key:string, value:string }} options
- */
-export const setConfig = async ({ cwd, exec, gitPath, key, value }) => {
+export const setConfig = async ({ cwd, exec, gitPath, key, value }: GitKeyValueRequest): Promise<void> => {
   try {
     await exec({
       args: ['config', key, value],
