@@ -25,6 +25,7 @@ beforeEach(() => {
 test('commandStash', async (): Promise<void> => {
   mockGetCurrent.mockResolvedValue({
     gitPath: '/test/git',
+    gitVersion: '2.39.2',
     path: '/test/folder',
   })
   mockExecute.mockResolvedValue(undefined)
