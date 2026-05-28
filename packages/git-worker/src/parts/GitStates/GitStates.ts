@@ -24,10 +24,7 @@ const getRepositoryIndex = (repositories: readonly GitRepositoryState[], uri: st
   return repositories.findIndex((repository) => repository.uri === uri)
 }
 
-const upsertRepository = (
-  repositories: readonly GitRepositoryState[],
-  repository: GitRepositoryState,
-): readonly GitRepositoryState[] => {
+const upsertRepository = (repositories: readonly GitRepositoryState[], repository: GitRepositoryState): readonly GitRepositoryState[] => {
   const index = getRepositoryIndex(repositories, repository.uri)
   if (index === -1) {
     return [...repositories, repository]
@@ -92,11 +89,7 @@ export const ensureRepository = (applicationId: string, uri: string): GitState |
   })
 }
 
-export const setRepositoryGroups = (
-  applicationId: string,
-  uri: string,
-  groups: readonly GitStatusGroup[],
-): GitState | undefined => {
+export const setRepositoryGroups = (applicationId: string, uri: string, groups: readonly GitStatusGroup[]): GitState | undefined => {
   const currentState = get(applicationId)
   if (!currentState) {
     return currentState

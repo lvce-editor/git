@@ -10,7 +10,7 @@ export const wrapGitCommand =
     const { gitPath, path } = repository
     const targetPath = typeof _cwd === 'string' && _cwd ? _cwd : path
     GitStates.ensureRepository(path, targetPath)
-    const getRepository = async () => {
+    const getRepository = async (): Promise<typeof repository> => {
       return {
         ...repository,
         path: targetPath,
