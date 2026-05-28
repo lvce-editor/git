@@ -14,7 +14,8 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
 
-  const featureCommitHash = (await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/feature`)).trim()
+  const featureCommitHashRaw = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/feature`)
+  const featureCommitHash = featureCommitHashRaw.trim()
 
   // act
   await Git.cherryPick(featureCommitHash)
