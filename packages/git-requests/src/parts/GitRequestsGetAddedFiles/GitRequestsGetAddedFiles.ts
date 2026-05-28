@@ -1,11 +1,9 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitRequestContext } from '../Types/Types.ts'
 
-/**
- * @param {{cwd:string, gitPath:string, exec:any  }} options
- */
-export const getAddedFiles = async ({ cwd, exec, gitPath }) => {
+export const getAddedFiles = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   try {
-    const gitResult = await exec({
+    await exec({
       args: ['diff', '--name-only', '--cached'],
       cwd,
       gitPath,

@@ -1,10 +1,7 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitRequestContext } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, gitPath: string, exec:any }} options
- */
-export const getBranchNames = async ({ cwd, exec, gitPath }) => {
+export const getBranchNames = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<readonly string[]> => {
   try {
     const gitResult = await exec({
       args: ['branch', '-a'],

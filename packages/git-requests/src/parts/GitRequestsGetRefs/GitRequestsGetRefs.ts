@@ -1,11 +1,8 @@
 import { GitError } from '../GitError/GitError.ts'
 import * as ParseGitRefs from '../ParseGitRefs/ParseGitRefs.ts'
+import type { GitRef, GitRequestContext } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd: string, gitPath: string, exec:any }} options
- */
-export const getRefs = async ({ cwd, exec, gitPath }) => {
+export const getRefs = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<readonly GitRef[]> => {
   try {
     const gitResult = await exec({
       args: ['for-each-ref', '--format', '%(refname) %(objectname) %(*objectname)'],
