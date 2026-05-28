@@ -1,5 +1,5 @@
-import { GitError } from '../GitError/GitError.ts'
 import type { GitExec, GitExecResult } from '../Types/Types.ts'
+import { GitError } from '../GitError/GitError.ts'
 
 const joinByNull = (strings: readonly string[]): string => {
   return strings.join('\0')
@@ -7,9 +7,9 @@ const joinByNull = (strings: readonly string[]): string => {
 
 export const getDecorations = async ({
   cwd,
+  exec,
   gitPath,
   uris,
-  exec,
 }: {
   readonly cwd: string
   readonly gitPath: string
@@ -21,10 +21,10 @@ export const getDecorations = async ({
     const input = joinByNull(paths)
     const gitResult = await exec({
       args: ['check-ignore', '-v', '-z', '--stdin'],
-      name: 'decorations',
       cwd,
       gitPath,
       input,
+      name: 'decorations',
       throwError: false,
     })
     return gitResult

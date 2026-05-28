@@ -1,6 +1,6 @@
+import type { GitStatusFile } from '../Types/Types.ts'
 import * as FileStateType from '../FileStateType/FileStateType.ts'
 import * as GitStatusType from '../GitStatusType/GitStatusType.ts'
-import type { GitStatusFile } from '../Types/Types.ts'
 
 const getStatusXY = (line: string): string => {
   return line.slice(0, 2)
@@ -21,22 +21,10 @@ const getFile = (line: string): string => {
 export const parseGitStatusLine = (index: GitStatusFile[], line: string): void => {
   const statusXy = getStatusXY(line)
   switch (statusXy) {
-    case GitStatusType.Untracked:
+    case GitStatusType.AddedByThem:
       index.push({
         file: getFile(line),
-        status: FileStateType.Untracked,
-      })
-      return
-    case GitStatusType.Ignored:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.Modified,
-      })
-      return
-    case GitStatusType.BothDeleted:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.BothDeleted,
+        status: FileStateType.AddedByThem,
       })
       return
     case GitStatusType.AddedByUs:
@@ -45,28 +33,16 @@ export const parseGitStatusLine = (index: GitStatusFile[], line: string): void =
         status: FileStateType.AddedByUs,
       })
       return
-    case GitStatusType.DeletedByThem:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.DeletedByThem,
-      })
-      return
-    case GitStatusType.AddedByThem:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.AddedByThem,
-      })
-      return
-    case GitStatusType.DeletedByUs:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.DeletedByUs,
-      })
-      return
     case GitStatusType.BothAdded:
       index.push({
         file: getFile(line),
         status: FileStateType.BothAdded,
+      })
+      return
+    case GitStatusType.BothDeleted:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.BothDeleted,
       })
       return
     case GitStatusType.BothModified:
@@ -75,45 +51,43 @@ export const parseGitStatusLine = (index: GitStatusFile[], line: string): void =
         status: FileStateType.BothModified,
       })
       return
+    case GitStatusType.DeletedByThem:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.DeletedByThem,
+      })
+      return
+    case GitStatusType.DeletedByUs:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.DeletedByUs,
+      })
+      return
+    case GitStatusType.Ignored:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.Modified,
+      })
+      return
+    case GitStatusType.Untracked:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.Untracked,
+      })
+      return
     default:
       break
   }
   const statusX = getStatusX(line)
   switch (statusX) {
-    case GitStatusType.IndexRenamed:
-      const arrowIndex = line.indexOf('->')
-      if (arrowIndex !== -1) {
-        index.push({
-          file: line.slice(arrowIndex + 3),
-          status: FileStateType.IndexRenamed,
-        })
-      }
-      break
-    case GitStatusType.IndexModified:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.IndexModified,
-      })
-      break
     case GitStatusType.IndexAdded:
       index.push({
         file: getFile(line),
         status: FileStateType.IndexAdded,
       })
       break
-    case GitStatusType.IndexModified:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.IndexModified,
-      })
-      break
-    case GitStatusType.IndexRenamed:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.IndexModified,
-      })
-      break
     case GitStatusType.IndexCopied:
+    case GitStatusType.IndexModified:
       index.push({
         file: getFile(line),
         status: FileStateType.IndexModified,
@@ -125,15 +99,24 @@ export const parseGitStatusLine = (index: GitStatusFile[], line: string): void =
         status: FileStateType.IndexDeleted,
       })
       break
+    case GitStatusType.IndexRenamed:
+      const arrowIndex = line.indexOf('->')
+      if (arrowIndex !== -1) {
+        index.push({
+          file: line.slice(arrowIndex + 3),
+          status: FileStateType.IndexRenamed,
+        })
+      }
+      break
     default:
       break
   }
   const statusY = getStatusY(line)
   switch (statusY) {
-    case GitStatusType.Modified:
+    case GitStatusType.Added:
       index.push({
         file: getFile(line),
-        status: FileStateType.Modified,
+        status: FileStateType.IntentToAdd,
       })
       break
     case GitStatusType.Deleted:
@@ -142,16 +125,16 @@ export const parseGitStatusLine = (index: GitStatusFile[], line: string): void =
         status: FileStateType.Deleted,
       })
       break
-    case GitStatusType.Added:
-      index.push({
-        file: getFile(line),
-        status: FileStateType.IntentToAdd,
-      })
-      break
     case GitStatusType.IndexRenamed:
       index.push({
         file: getFile(line),
         status: FileStateType.IntentToRename,
+      })
+      break
+    case GitStatusType.Modified:
+      index.push({
+        file: getFile(line),
+        status: FileStateType.Modified,
       })
       break
     case GitStatusType.TypeChanged:

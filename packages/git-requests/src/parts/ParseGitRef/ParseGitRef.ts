@@ -1,34 +1,36 @@
-import * as GitRefType from '../GitRefType/GitRefType.ts'
 import type { GitRef } from '../Types/Types.ts'
+import * as GitRefType from '../GitRefType/GitRefType.ts'
 
 const RE_REF_1 = /^refs\/heads\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 const RE_REF_2 = /^refs\/remotes\/([^/]+)\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 const RE_REF_3 = /^refs\/tags\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 
 export const parseGitRef = (line: string): GitRef | null => {
-  let match
-  if ((match = line.match(RE_REF_1))) {
+  const headMatch = line.match(RE_REF_1)
+  if (headMatch) {
     return {
-      name: match[1],
-      commit: match[2],
+      commit: headMatch[2],
+      name: headMatch[1],
+      remote: '',
       type: GitRefType.Head,
-      remote: '',
     }
   }
-  if ((match = line.match(RE_REF_2))) {
+  const remoteMatch = line.match(RE_REF_2)
+  if (remoteMatch) {
     return {
-      name: `${match[1]}/${match[2]}`,
-      commit: match[3],
+      commit: remoteMatch[3],
+      name: `${remoteMatch[1]}/${remoteMatch[2]}`,
+      remote: remoteMatch[1],
       type: GitRefType.RemoteHead,
-      remote: match[1],
     }
   }
-  if ((match = line.match(RE_REF_3))) {
+  const tagMatch = line.match(RE_REF_3)
+  if (tagMatch) {
     return {
-      name: match[1],
-      commit: match[3] ?? match[2],
-      type: GitRefType.Tag,
+      commit: tagMatch[3] ?? tagMatch[2],
+      name: tagMatch[1],
       remote: '',
+      type: GitRefType.Tag,
     }
   }
   return null

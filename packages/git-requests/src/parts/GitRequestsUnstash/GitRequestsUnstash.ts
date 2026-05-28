@@ -4,7 +4,7 @@ import { GitError } from '../GitError/GitError.ts'
  *
  * @param {{cwd:string, gitPath:string, exec:any, stashReference?: string }} options
  */
-export const unstash = async ({ cwd, gitPath, exec, stashReference = '' }) => {
+export const unstash = async ({ cwd, exec, gitPath, stashReference = '' }) => {
   try {
     const args = ['stash', 'pop']
     if (stashReference) {

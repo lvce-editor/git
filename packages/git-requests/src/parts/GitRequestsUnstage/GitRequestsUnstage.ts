@@ -6,22 +6,22 @@ import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepo
  *
  * @param {{cwd:string,gitPath:string , file:string, exec:any  }} options
  */
-export const unstage = async ({ cwd, gitPath, file, exec }) => {
+export const unstage = async ({ cwd, exec, file, gitPath }) => {
   try {
     const args = ['restore', '--staged', '--', file]
     const gitResult = await exec({
       args,
-      name: 'unstage',
       cwd,
       gitPath,
+      name: 'unstage',
     })
   } catch (error) {
     if (isEmptyGitRepositoryError(error)) {
       await unstageFallback({
         cwd,
-        gitPath,
         exec,
         file,
+        gitPath,
       })
       return
     }

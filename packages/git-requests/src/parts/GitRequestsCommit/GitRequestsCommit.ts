@@ -3,7 +3,7 @@ import { GitError } from '../GitError/GitError.ts'
 /**
  * @param {{cwd:string, gitPath:string, message:string, exec:any}} options
  */
-export const commit = async ({ cwd, gitPath, message, exec }) => {
+export const commit = async ({ cwd, exec, gitPath, message }) => {
   try {
     const gitResult = await exec({
       args: ['commit', '-m', message],

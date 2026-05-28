@@ -2,32 +2,32 @@ import { GitError } from '../GitError/GitError.ts'
 import * as GitRequestsUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.ts'
 import * as IsGitNoPreviousCommitError from '../IsGitNoPreviousCommitError/IsGitNoPreviousCommitError.ts'
 
-const undoLastCommitFallback = async ({ cwd, gitPath, exec }) => {
+const undoLastCommitFallback = async ({ cwd, exec, gitPath }) => {
   await exec({
     args: ['update-ref', '-d', 'HEAD'],
-    name: 'undoLastCommit/fallback',
     cwd,
     gitPath,
+    name: 'undoLastCommit/fallback',
   })
-  await GitRequestsUnstageAll.unstageAll({ cwd, gitPath, exec })
+  await GitRequestsUnstageAll.unstageAll({ cwd, exec, gitPath })
 }
 
 /**
  *
  * @param {{cwd:string,gitPath:string, exec:any  }} options
  */
-export const undoLastCommit = async ({ cwd, gitPath, exec }) => {
+export const undoLastCommit = async ({ cwd, exec, gitPath }) => {
   try {
     try {
       await exec({
         args: ['reset', '--soft', 'HEAD~1'],
-        name: 'undoLastCommit/default',
         cwd,
         gitPath,
+        name: 'undoLastCommit/default',
       })
     } catch (error) {
       if (IsGitNoPreviousCommitError.isGitNoRepositoryError(error)) {
-        await undoLastCommitFallback({ cwd, gitPath, exec })
+        await undoLastCommitFallback({ cwd, exec, gitPath })
       } else {
         throw error
       }

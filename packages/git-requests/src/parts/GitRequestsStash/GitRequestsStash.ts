@@ -4,7 +4,7 @@ import { GitError } from '../GitError/GitError.ts'
  *
  * @param {{cwd:string, gitPath:string, exec:any, message?: string }} options
  */
-export const stash = async ({ cwd, gitPath, exec, message = '' }) => {
+export const stash = async ({ cwd, exec, gitPath, message = '' }) => {
   try {
     const args = ['stash', 'push']
     if (message) {

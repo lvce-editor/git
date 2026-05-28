@@ -4,7 +4,7 @@ import * as ParseGitCommits from '../ParseGitCommits/ParseGitCommits.ts'
 /**
  * @param {{cwd: string, gitPath: string, exec:any }} options
  */
-export const getCommits = async ({ cwd, gitPath, exec }) => {
+export const getCommits = async ({ cwd, exec, gitPath }) => {
   try {
     const gitResult = await exec({
       args: ['log', '--format=%H%x09%s'],

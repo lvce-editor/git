@@ -7,14 +7,14 @@ import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepo
  *
  * @param {{cwd:string,gitPath:string, exec:any }} options
  */
-export const unstageAll = async ({ cwd, gitPath, exec }) => {
+export const unstageAll = async ({ cwd, exec, gitPath }) => {
   try {
     const args = ['restore', '--staged', '.']
     const gitResult = await exec({
       args,
-      name: 'unstageAll',
       cwd,
       gitPath,
+      name: 'unstageAll',
     })
   } catch (error) {
     if (isDidNotMatchAnyFilesError(error)) {
@@ -23,8 +23,8 @@ export const unstageAll = async ({ cwd, gitPath, exec }) => {
     if (isEmptyGitRepositoryError(error)) {
       await unstageAllFallback({
         cwd,
-        gitPath,
         exec,
+        gitPath,
       })
       return
     }

@@ -3,7 +3,7 @@ import { GitError } from '../GitError/GitError.ts'
 /**
  * @param {{cwd:string, ref:string, gitPath:string, exec:any   }} options
  */
-export const checkout = async ({ cwd, gitPath, ref, exec }) => {
+export const checkout = async ({ cwd, exec, gitPath, ref }) => {
   try {
     const gitResult = await exec({
       args: ['checkout', ref],

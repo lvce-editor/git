@@ -4,7 +4,7 @@ import { GitError } from '../GitError/GitError.ts'
  *
  * @param {{cwd:string, gitPath:string, exec:any }} options
  */
-export const sync = async ({ cwd, gitPath, exec }) => {
+export const sync = async ({ cwd, exec, gitPath }) => {
   try {
     await exec({
       args: ['pull', '--rebase'],
@@ -12,7 +12,6 @@ export const sync = async ({ cwd, gitPath, exec }) => {
       gitPath,
       name: 'sync/pullAndRebase',
     })
-    console.log('finished pull rebase')
     await exec({
       args: ['push'],
       cwd,
@@ -20,7 +19,6 @@ export const sync = async ({ cwd, gitPath, exec }) => {
       name: 'sync/push',
     })
   } catch (error) {
-    console.log('error git sync')
     throw new GitError(error, 'sync')
   }
 }

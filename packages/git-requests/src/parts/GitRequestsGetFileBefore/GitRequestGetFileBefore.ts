@@ -1,10 +1,10 @@
 import type { GitErrorLike, GitExec } from '../Types/Types.ts'
 
 export const getFileBefore = async ({
-  uri,
-  repositoryPath,
-  gitPath,
   exec,
+  gitPath,
+  repositoryPath,
+  uri,
 }: {
   readonly uri: string
   readonly repositoryPath: string

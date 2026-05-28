@@ -4,7 +4,7 @@ import { GitError } from '../GitError/GitError.ts'
  *
  * @param {{cwd:string, message:string, gitPath:string, exec:any  }} options
  */
-export const addAllAndCommit = async ({ cwd, gitPath, message, exec }) => {
+export const addAllAndCommit = async ({ cwd, exec, gitPath, message }) => {
   try {
     // Check if there are any staged files
     const { stdout: stagedFiles } = await exec({

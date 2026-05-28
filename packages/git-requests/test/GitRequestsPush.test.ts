@@ -98,8 +98,8 @@ test('push - error - unknown git error', async (): Promise<void> => {
 
 test('push - set upstream', async () => {
   const exec = jest.fn(async () => ({
-    stdout: '',
     stderr: '',
+    stdout: '',
   }))
   await GitRequestsPush.push({
     cwd: '/test/test-folder',

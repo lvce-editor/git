@@ -1,7 +1,7 @@
+import type { GitRequestContext } from '../Types/Types.ts'
+import * as FileStateType from '../FileStateType/FileStateType.ts'
 import { GitError } from '../GitError/GitError.ts'
 import { getModifiedFiles } from '../GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.ts'
-import * as FileStateType from '../FileStateType/FileStateType.ts'
-import type { GitExec, GitRequestContext } from '../Types/Types.ts'
 
 const partitionFiles = (files: readonly string[], untracked: readonly string[]): { toDelete: string[]; toRestore: string[] } => {
   const toDelete: string[] = []
@@ -20,11 +20,11 @@ const partitionFiles = (files: readonly string[], untracked: readonly string[]):
 }
 
 export const discard = async ({
-  cwd,
-  gitPath,
-  file,
-  exec,
   confirm,
+  cwd,
+  exec,
+  file,
+  gitPath,
   remove,
 }: GitRequestContext & {
   readonly file: string
@@ -40,8 +40,8 @@ export const discard = async ({
     }
     const status = await getModifiedFiles({
       cwd,
-      gitPath,
       exec,
+      gitPath,
     })
     const untracked = status.index.filter((item) => item.status === FileStateType.Untracked).map((item) => item.file)
 
@@ -55,7 +55,7 @@ export const discard = async ({
     }
 
     for (const item of toRestore) {
-      const gitResult = await exec({
+      await exec({
         args: ['restore', '--', item],
         cwd,
         gitPath,

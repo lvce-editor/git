@@ -4,7 +4,7 @@ import { GitError } from '../GitError/GitError.ts'
  *
  * @param {{cwd:string, gitPath: string, exec:any}} options
  */
-export const version = async ({ cwd, gitPath, exec }) => {
+export const version = async ({ cwd, exec, gitPath }) => {
   try {
     const gitResult = await exec({
       args: ['--version'],
@@ -12,7 +12,7 @@ export const version = async ({ cwd, gitPath, exec }) => {
       gitPath,
       name: 'version',
     })
-    const stdout = gitResult.stdout
+    const {stdout} = gitResult
     if (!stdout.startsWith('git version ')) {
       throw new Error('failed to parse git version')
     }

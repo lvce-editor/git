@@ -62,7 +62,7 @@ export class GitError extends Error {
   readonly isExpected: boolean
 
   constructor(error: unknown, command: string) {
-    let cause = new Error()
+    const cause = new Error('Git error')
     const gitError = error as GitErrorLike | undefined
     if (gitError?.stderr) {
       cause.message = errorSnippet(gitError.stderr)

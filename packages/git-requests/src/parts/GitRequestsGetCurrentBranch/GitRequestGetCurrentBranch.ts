@@ -4,7 +4,7 @@ import { GitError } from '../GitError/GitError.ts'
  *
  * @param {{cwd:string, gitPath:string, exec:any  }} options
  */
-export const getCurrentBranch = async ({ cwd, gitPath, exec }) => {
+export const getCurrentBranch = async ({ cwd, exec, gitPath }) => {
   let gitResult
   try {
     gitResult = await exec({

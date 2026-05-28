@@ -4,7 +4,7 @@ import { GitError } from '../GitError/GitError.ts'
  *
  * @param {{cwd:string, gitPath: string, exec:any, bare?: boolean, initialBranch?: string }} options
  */
-export const init = async ({ cwd, gitPath, exec, bare = false, initialBranch = '' }) => {
+export const init = async ({ bare = false, cwd, exec, gitPath, initialBranch = '' }) => {
   try {
     const args = ['init']
     if (bare) {

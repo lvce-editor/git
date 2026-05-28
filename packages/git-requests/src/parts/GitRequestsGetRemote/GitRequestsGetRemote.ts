@@ -4,7 +4,7 @@ import { GitError } from '../GitError/GitError.ts'
  *
  * @param {{cwd: string, gitPath: string, exec:any }} options
  */
-export const getRemote = async ({ cwd, gitPath, exec }) => {
+export const getRemote = async ({ cwd, exec, gitPath }) => {
   try {
     const gitResult = await exec({
       args: ['config', '--get', 'remote.origin.url'],

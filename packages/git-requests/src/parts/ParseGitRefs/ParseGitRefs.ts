@@ -1,5 +1,5 @@
-import * as ParseGitRef from '../ParseGitRef/ParseGitRef.ts'
 import type { GitRef } from '../Types/Types.ts'
+import * as ParseGitRef from '../ParseGitRef/ParseGitRef.ts'
 
 export const parseGitRefs = (stdout: string): readonly GitRef[] => {
   const lines = stdout.split('\n')
