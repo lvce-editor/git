@@ -5,11 +5,11 @@
   "license": "MIT",
   "author": "Lvce Editor",
   "type": "module",
-  "main": "src/gitMain.js",
+  "main": "dist/gitMain.js",
   "scripts": {
     "#test": "node --unhandled-rejections=warn --experimental-vm-modules ../../node_modules/jest/bin/jest.js --detectOpenHandles --forceExit",
     "#test:watch": "node --unhandled-rejections=warn --experimental-vm-modules ../../node_modules/jest/bin/jest.js --watch",
-    "build-min": "microbundle --entry src/gitMain.js --output distmin --format modern"
+    "build-min": "microbundle --entry src/gitMain.ts --output distmin --format modern"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

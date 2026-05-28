@@ -2,7 +2,7 @@ import type { BuildOptions } from 'esbuild'
 
 export const runtimeBuildTargets = [
   {
-    entryPoint: 'packages/extension/src/gitMain.js',
+    entryPoint: 'packages/extension/src/gitMain.ts',
     outfile: 'packages/extension/dist/gitMain.js',
   },
   {

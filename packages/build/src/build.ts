@@ -1,5 +1,5 @@
 import fs, { readFileSync, writeFileSync } from 'node:fs'
-import { readdir, rm } from 'node:fs/promises'
+import { readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import path, { join } from 'node:path'
 import { bundleJs, packageExtension } from '@lvce-editor/package-extension'
 import { root } from './root.ts'
@@ -51,20 +51,45 @@ const replace = async ({ path, occurrence, replacement }: { path: string; occurr
   writeFileSync(path, newContent)
 }
 
+const updateRelativeJsImportsToTs = async (dir: string): Promise<void> => {
+  const dirents = await readdir(dir, { recursive: true, withFileTypes: true })
+  for (const dirent of dirents) {
+    if (!dirent.isFile() || !dirent.name.endsWith('.ts')) {
+      continue
+    }
+    const absolutePath = join(dirent.parentPath, dirent.name)
+    const oldContent = await readFile(absolutePath, 'utf8')
+    const newContent = oldContent.replace(/((?:import|export)\s+(?:[^'"]*?\s+from\s+)?['"])(\.\.?\/[^'"]+)\.js(['"])/g, '$1$2.ts$3')
+    if (newContent !== oldContent) {
+      await writeFile(absolutePath, newContent)
+    }
+  }
+}
+
 await replace({
-  path: join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.js'),
+  path: join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.ts'),
   occurrence: '../node/',
   replacement: 'node/',
 })
 
 await replace({
-  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
+  path: join(root, 'dist', 'src', 'gitMain.ts'),
+  occurrence: './parts/Main/Main.js',
+  replacement: './parts/Main/Main.ts',
+})
+
+await updateRelativeJsImportsToTs(join(root, 'dist', 'src'))
+await updateRelativeJsImportsToTs(join(root, 'dist', 'git-worker', 'src'))
+await updateRelativeJsImportsToTs(join(root, 'dist', 'git-web', 'src'))
+
+await replace({
+  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.ts'),
   occurrence: '../git-worker/',
   replacement: 'git-worker/',
 })
 
 await replace({
-  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
+  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.ts'),
   occurrence: 'src/gitWorkerMain.ts',
   replacement: 'dist/gitWorkerMain.js',
 })
@@ -100,7 +125,7 @@ await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join
 
 await bundleJs(join(root, 'dist', 'git-web', 'src', 'gitWebMain.ts'), join(root, 'dist', 'git-web', 'dist', 'gitWebMain.js'), false)
 
-await bundleJs(join(root, 'dist', 'src', 'gitMain.js'), join(root, 'dist', 'dist', 'gitMain.js'), false)
+await bundleJs(join(root, 'dist', 'src', 'gitMain.ts'), join(root, 'dist', 'dist', 'gitMain.js'), false)
 
 await packageExtension({
   highestCompression: true,

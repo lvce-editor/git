@@ -1,16 +1,17 @@
 import * as LaunchGitWebWorker from '../LaunchGitWebWorker/LaunchGitWebWorker.js'
 
-export const state = {
-  ipc: undefined,
-  /**
-   * @type {any}
-   */
-  rpcPromise: undefined,
+type Rpc = {
+  invoke(method: string, ...params: readonly any[]): Promise<any>
 }
 
-const getOrCreateRpc = async () => {
+export const state = {
+  ipc: undefined,
+  rpcPromise: undefined as Promise<Rpc> | undefined,
+}
+
+const getOrCreateRpc = async (): Promise<Rpc> => {
   if (!state.rpcPromise) {
-    state.rpcPromise = LaunchGitWebWorker.launchGitWebWorker()
+    state.rpcPromise = LaunchGitWebWorker.launchGitWebWorker() as Promise<Rpc>
   }
   return state.rpcPromise
 }
