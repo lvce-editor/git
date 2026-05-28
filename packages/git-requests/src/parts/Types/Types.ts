@@ -12,7 +12,7 @@ export type GitExecResult = {
   readonly stderr: string
 }
 
-export type GitExec = (options: GitExecOptions) => Promise<GitExecResult>
+export type GitExec = (options: GitExecOptions) => Promise<GitExecResult> | GitExecResult
 
 export type GitRepository = {
   readonly gitPath: string
@@ -50,11 +50,11 @@ export type GitStatusFile = {
   readonly status: number
 }
 
-export type GitStatusGroupResult = {
-  readonly indexGroup: readonly GitStatusFile[]
-  readonly mergeGroup: readonly GitStatusFile[]
-  readonly workingTreeGroup: readonly GitStatusFile[]
-  readonly untrackedGroup: readonly GitStatusFile[]
+export type GitStatusGroupResult<T extends GitStatusFile = GitStatusFile> = {
+  readonly indexGroup: readonly T[]
+  readonly mergeGroup: readonly T[]
+  readonly workingTreeGroup: readonly T[]
+  readonly untrackedGroup: readonly T[]
 }
 
 export type GitStatusResult = {

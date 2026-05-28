@@ -1,11 +1,9 @@
 import * as ErrorCodes from '../ErrorCodes/ErrorCodes.ts'
 import { GitError } from '../GitError/GitError.ts'
 import * as ParseGitStatus from '../ParseGitStatus/ParseGitStatus.ts'
+import type { GitErrorLike, GitRequestContext, GitStatusResult } from '../Types/Types.ts'
 
-/**
- * @param {{cwd:string, gitPath:string, exec:any }} options
- */
-export const getModifiedFiles = async ({ cwd, gitPath, exec }) => {
+export const getModifiedFiles = async ({ cwd, gitPath, exec }: GitRequestContext): Promise<GitStatusResult> => {
   let gitResult
   try {
     gitResult = await exec({
@@ -15,8 +13,7 @@ export const getModifiedFiles = async ({ cwd, gitPath, exec }) => {
       name: 'getModifiedFiles',
     })
   } catch (error) {
-    // @ts-ignore
-    if (error && error.code === ErrorCodes.ENOENT) {
+    if ((error as GitErrorLike | undefined)?.code === ErrorCodes.ENOENT) {
       return {
         index: [],
         gitRoot: cwd, // TODO

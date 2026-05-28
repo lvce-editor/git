@@ -1,15 +1,8 @@
 import * as ParseGitStatusLine from '../ParseGitStatusLine/ParseGitStatusLine.ts'
+import type { GitStatusFile } from '../Types/Types.ts'
 
-/**
- *
- * @param {string[]} lines
- * @returns
- */
-export const parseGitStatus = (lines) => {
-  /**
-   * @type{any[]}
-   */
-  const index = []
+export const parseGitStatus = (lines: readonly string[]): readonly GitStatusFile[] => {
+  const index: GitStatusFile[] = []
   for (const line of lines) {
     ParseGitStatusLine.parseGitStatusLine(index, line)
   }

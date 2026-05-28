@@ -1,12 +1,13 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitExec, GitRequestContext } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, gitPath:string, exec:any, setUpstream?: readonly string[] }} options
- */
-export const push = async ({ cwd, gitPath, exec, setUpstream = undefined }) => {
+type PushOptions = GitRequestContext & {
+  readonly setUpstream?: readonly string[]
+}
+
+export const push = async ({ cwd, gitPath, exec, setUpstream = undefined }: PushOptions): Promise<void> => {
+  const args: string[] = ['push', '--porcelain']
   try {
-    const args = ['push', '--porcelain']
     if (setUpstream && setUpstream.length > 0) {
       args.push('--set-upstream', ...setUpstream)
     }

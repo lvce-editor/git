@@ -1,13 +1,21 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitExec, GitExecResult } from '../Types/Types.ts'
 
-const joinByNull = (strings) => {
+const joinByNull = (strings: readonly string[]): string => {
   return strings.join('\0')
 }
-/**
- *
- * @param {{cwd:string, gitPath:string, exec:any, uris:any}} options
- */
-export const getDecorations = async ({ cwd, gitPath, uris, exec }) => {
+
+export const getDecorations = async ({
+  cwd,
+  gitPath,
+  uris,
+  exec,
+}: {
+  readonly cwd: string
+  readonly gitPath: string
+  readonly uris: readonly string[]
+  readonly exec: GitExec
+}): Promise<GitExecResult> => {
   try {
     const paths = uris.map((uri) => uri.slice('file://'.length))
     const input = joinByNull(paths)

@@ -1,13 +1,11 @@
 import * as GitRefType from '../GitRefType/GitRefType.ts'
+import type { GitRef } from '../Types/Types.ts'
 
 const RE_REF_1 = /^refs\/heads\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 const RE_REF_2 = /^refs\/remotes\/([^/]+)\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 const RE_REF_3 = /^refs\/tags\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
 
-/**
- * @param {string} line
- */
-export const parseGitRef = (line) => {
+export const parseGitRef = (line: string): GitRef | null => {
   let match
   if ((match = line.match(RE_REF_1))) {
     return {

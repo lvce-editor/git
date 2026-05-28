@@ -1,10 +1,11 @@
 import { GitError } from '../GitError/GitError.ts'
 import { getModifiedFiles } from '../GitRequestsGetModifiedFiles/GitRequestsGetModifiedFiles.ts'
 import * as FileStateType from '../FileStateType/FileStateType.ts'
+import type { GitExec, GitRequestContext } from '../Types/Types.ts'
 
-const partitionFiles = (files, untracked) => {
-  const toDelete = []
-  const toRestore = []
+const partitionFiles = (files: readonly string[], untracked: readonly string[]): { toDelete: string[]; toRestore: string[] } => {
+  const toDelete: string[] = []
+  const toRestore: string[] = []
   for (const file of files) {
     if (untracked.includes(file)) {
       toDelete.push(file)
@@ -17,10 +18,19 @@ const partitionFiles = (files, untracked) => {
     toRestore,
   }
 }
-/**
- * @param {{cwd:string,gitPath:string, file:string, exec:any, confirm:any, remove:any  }} options
- */
-export const discard = async ({ cwd, gitPath, file, exec, confirm, remove }) => {
+
+export const discard = async ({
+  cwd,
+  gitPath,
+  file,
+  exec,
+  confirm,
+  remove,
+}: GitRequestContext & {
+  readonly file: string
+  readonly confirm: (options: { readonly message: string }) => Promise<boolean>
+  readonly remove: (path: string) => Promise<void>
+}): Promise<void> => {
   try {
     const confirmResult = await confirm({
       message: `Are you sure you want to discard ${file}`,

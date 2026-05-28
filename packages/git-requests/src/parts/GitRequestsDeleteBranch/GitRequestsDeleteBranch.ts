@@ -1,12 +1,14 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitRequestContext } from '../Types/Types.ts'
 
-/**
- * @param {{cwd:string,gitPath:string, name:string, exec:any }} options
- */
-export const deleteBranch = async ({ cwd, gitPath, exec }) => {
+type DeleteBranchOptions = GitRequestContext & {
+  readonly name: string
+}
+
+export const deleteBranch = async ({ cwd, gitPath, exec, name }: DeleteBranchOptions): Promise<void> => {
   try {
     const gitResult = await exec({
-      args: ['branch', '-d'],
+      args: ['branch', '-d', name],
       cwd,
       gitPath,
       name: 'deleteBranch',

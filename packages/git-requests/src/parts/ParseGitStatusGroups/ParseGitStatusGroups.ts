@@ -1,10 +1,11 @@
 import * as FileStateType from '../FileStateType/FileStateType.ts'
+import type { GitStatusFile, GitStatusGroupResult } from '../Types/Types.ts'
 
-export const parseGitStatusGroups = (files) => {
-  const indexGroup = []
-  const mergeGroup = []
-  const workingTreeGroup = []
-  const untrackedGroup = []
+export const parseGitStatusGroups = <T extends GitStatusFile>(files: readonly T[]): GitStatusGroupResult<T> => {
+  const indexGroup: T[] = []
+  const mergeGroup: T[] = []
+  const workingTreeGroup: T[] = []
+  const untrackedGroup: T[] = []
   for (const file of files) {
     const { status } = file
     switch (status) {

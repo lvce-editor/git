@@ -1,4 +1,6 @@
-const firstLine = (text) => {
+import type { GitErrorLike } from '../Types/Types.ts'
+
+const firstLine = (text: string): string => {
   const newLineIndex = text.indexOf('\n')
   if (newLineIndex === -1) {
     return text
@@ -6,7 +8,7 @@ const firstLine = (text) => {
   return text.slice(0, text.indexOf('\n'))
 }
 
-const isRelevantLine = (line) => {
+const isRelevantLine = (line: string): boolean => {
   if (line.startsWith('> ')) {
     return false
   }
@@ -22,7 +24,7 @@ const isRelevantLine = (line) => {
   return true
 }
 
-const fatalOrHintOrSshOrRemoteLine = (text) => {
+const fatalOrHintOrSshOrRemoteLine = (text: string): string => {
   const lines = text.split('\n')
   for (const line of lines) {
     if (isRelevantLine(line)) {
@@ -33,14 +35,14 @@ const fatalOrHintOrSshOrRemoteLine = (text) => {
 }
 
 // TODO
-const errorSnippet = (stderr) => {
+const errorSnippet = (stderr: string): string => {
   if (/nothing to commit/s.test(stderr)) {
     return 'nothing to commit'
   }
   return fatalOrHintOrSshOrRemoteLine(stderr) || firstLine(stderr)
 }
 
-const getGitErrorMessage = (error, name) => {
+const getGitErrorMessage = (error: GitErrorLike, name: string): string => {
   let errorMessage = `Git: ${name} failed to execute`
   if (error.stderr) {
     errorMessage = `${errorMessage}: ` + errorSnippet(error.stderr)
@@ -48,7 +50,7 @@ const getGitErrorMessage = (error, name) => {
   return errorMessage
 }
 
-const getErrorMessageAndCause = (error, message) => {
+const getErrorMessageAndCause = (_error: GitErrorLike, _message: string): { cause: string; errorMessage: string } => {
   return {
     cause: '',
     errorMessage: '',
@@ -56,18 +58,21 @@ const getErrorMessageAndCause = (error, message) => {
 }
 
 export class GitError extends Error {
-  constructor(error, command) {
+  readonly stderr?: string
+  readonly isExpected: boolean
+
+  constructor(error: unknown, command: string) {
     let cause = new Error()
-    if (error && error.stderr) {
-      cause.message = errorSnippet(error.stderr)
-      // @ts-ignore
+    const gitError = error as GitErrorLike | undefined
+    if (gitError?.stderr) {
+      cause.message = errorSnippet(gitError.stderr)
     } else {
-      cause.message = error.message
+      cause.message = error instanceof Error ? error.message : `Git: ${command} failed`
     }
     const message = `Git: ${cause.message}`
     super(message)
-    if (error && error.stderr) {
-      this.stderr = error.stderr
+    if (gitError?.stderr) {
+      this.stderr = gitError.stderr
     }
     this.isExpected = true
   }

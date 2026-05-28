@@ -1,49 +1,24 @@
 import * as FileStateType from '../FileStateType/FileStateType.ts'
 import * as GitStatusType from '../GitStatusType/GitStatusType.ts'
+import type { GitStatusFile } from '../Types/Types.ts'
 
-/**
- *
- * @param {string} line
- * @returns
- */
-const getStatusXY = (line) => {
+const getStatusXY = (line: string): string => {
   return line.slice(0, 2)
 }
 
-/**
- *
- * @param {string} line
- * @returns
- */
-const getStatusX = (line) => {
+const getStatusX = (line: string): string => {
   return line[0]
 }
 
-/**
- *
- * @param {string} line
- * @returns
- */
-const getStatusY = (line) => {
+const getStatusY = (line: string): string => {
   return line[1]
 }
 
-/**
- *
- * @param {string} line
- * @returns
- */
-const getFile = (line) => {
+const getFile = (line: string): string => {
   return line.slice(3)
 }
 
-/**
- *
- * @param {any[]} index
- * @param {string} line
- * @returns
- */
-export const parseGitStatusLine = (index, line) => {
+export const parseGitStatusLine = (index: GitStatusFile[], line: string): void => {
   const statusXy = getStatusXY(line)
   switch (statusXy) {
     case GitStatusType.Untracked:
