@@ -11,6 +11,7 @@
     "onCommand:git.pull",
     "onCommand:git.pullRebase",
     "onCommand:git.push",
+    "onCommand:git.syncRebase",
     "onCommand:git.addAll",
     "onCommand:git.branch",
     "onCommand:git.commit",
@@ -68,6 +69,10 @@
     {
       "id": "git.push",
       "label": "Git: Push"
+    },
+    {
+      "id": "git.syncRebase",
+      "label": "Git: Sync (Rebase)"
     },
     {
       "id": "git.addAll",
