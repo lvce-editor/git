@@ -22,6 +22,13 @@ const resolvePath = async (path: string): Promise<string> => {
   return `${folder}/${path}`
 }
 
+const toFileSystemPath = (path: string): string => {
+  if (path.startsWith('file://')) {
+    return path.slice('file://'.length)
+  }
+  return path
+}
+
 const touch = async (fileName: string): Promise<void> => {
   const path = await resolvePath(fileName)
   await Rpc.invoke('FileSystem.writeFile', path, '')
@@ -50,9 +57,9 @@ const git = async (cwd: string, args: readonly string[]): Promise<void> => {
 }
 
 const clone = async (repositoryPath: string, targetPath: string): Promise<void> => {
-  const repositoryAbsolutePath = await resolvePath(repositoryPath)
-  const targetAbsolutePath = await resolvePath(targetPath)
-  const folder = await getWorkspaceFolder()
+  const repositoryAbsolutePath = toFileSystemPath(await resolvePath(repositoryPath))
+  const targetAbsolutePath = toFileSystemPath(await resolvePath(targetPath))
+  const folder = toFileSystemPath(await getWorkspaceFolder())
   const gitPath = await getGitPath()
   await Rpc.invoke('Exec.exec', gitPath, ['clone', repositoryAbsolutePath, targetAbsolutePath], {
     cwd: folder,
