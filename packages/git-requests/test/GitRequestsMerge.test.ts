@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals'
 import * as GitRequestsMerge from '../src/parts/GitRequestsMerge/GitRequestsMerge.js'
 
 class ExecError extends Error {
