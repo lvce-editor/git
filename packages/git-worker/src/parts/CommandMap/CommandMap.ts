@@ -61,6 +61,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitCreateWorktree]: WrappedGitRequests.wrappedGitRequests.createWorktree,
   [GitWorkerCommandType.GitDeleteBranch]: WrappedGitRequests.wrappedGitRequests.deleteBranch,
   [GitWorkerCommandType.GitDeleteTag]: WrappedGitRequests.wrappedGitRequests.deleteTag,
+  [GitWorkerCommandType.GitDeleteWorktree]: WrappedGitRequests.wrappedGitRequests.deleteWorktree,
   [GitWorkerCommandType.GitDiscard]: WrappedGitRequests.wrappedGitRequests.discard,
   [GitWorkerCommandType.GitFetch]: WrappedGitRequests.wrappedGitRequests.fetch,
   [GitWorkerCommandType.GitGetAddedFiles]: WrappedGitRequests.wrappedGitRequests.getAddedFiles,
