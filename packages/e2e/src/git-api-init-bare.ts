@@ -15,10 +15,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   })
 
   // assert
-  const headContent = await FileSystem.readFile(`${tmpDir}/HEAD`)
-  if (headContent !== 'ref: refs/heads/main\n') {
-    throw new Error(`expected bare HEAD to point to main, got ${headContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${tmpDir}/HEAD`, 'ref: refs/heads/main\n')
   const configContent = await FileSystem.readFile(`${tmpDir}/config`)
   if (!configContent.includes('bare = true')) {
     throw new Error(`expected bare config to contain bare = true, got ${configContent}`)
