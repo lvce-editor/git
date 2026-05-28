@@ -2,7 +2,7 @@ import { test, expect } from '@jest/globals'
 import { GitRepository } from '../src/GitRepository/GitRepository.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
-test.skip('getRepository creates new repository for new cwd', async () => {
+test.skip('getRepository creates new repository for new cwd', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists
@@ -17,7 +17,7 @@ test.skip('getRepository creates new repository for new cwd', async () => {
   expect(repo1).not.toBe(repo2)
 })
 
-test.skip('getRepository returns same instance for same cwd', async () => {
+test.skip('getRepository returns same instance for same cwd', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists
@@ -30,7 +30,7 @@ test.skip('getRepository returns same instance for same cwd', async () => {
   expect(repo1).toStrictEqual(repo2)
 })
 
-test.skip('getStatus returns initial status', async () => {
+test.skip('getStatus returns initial status', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -55,7 +55,7 @@ test.skip('getStatus returns initial status', async () => {
   expect(status).toContain('nothing to commit, working tree clean')
 })
 
-test.skip('addFiles with specific files', async () => {
+test.skip('addFiles with specific files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -71,7 +71,7 @@ test.skip('addFiles with specific files', async () => {
   expect(status).toContain('file2.txt')
 })
 
-test.skip('addFiles with dot adds all files', async () => {
+test.skip('addFiles with dot adds all files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -85,7 +85,7 @@ test.skip('addFiles with dot adds all files', async () => {
   expect(status).toContain('Changes to be committed')
 })
 
-test.skip('commit creates new commit', async () => {
+test.skip('commit creates new commit', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -100,7 +100,7 @@ test.skip('commit creates new commit', async () => {
   expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
-test.skip('commit clears staged files', async () => {
+test.skip('commit clears staged files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -115,7 +115,7 @@ test.skip('commit clears staged files', async () => {
   expect(status).toContain('Untracked files')
 })
 
-test.skip('push simulates success', async () => {
+test.skip('push simulates success', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -128,7 +128,7 @@ test.skip('push simulates success', async () => {
   await expect(repo.push([])).resolves.toBeUndefined()
 })
 
-test.skip('pull simulates success', async () => {
+test.skip('pull simulates success', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -141,7 +141,7 @@ test.skip('pull simulates success', async () => {
   await expect(repo.pull([])).resolves.toBeUndefined()
 })
 
-test.skip('fetch simulates success', async () => {
+test.skip('fetch simulates success', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -154,7 +154,7 @@ test.skip('fetch simulates success', async () => {
   await expect(repo.fetch([])).resolves.toBeUndefined()
 })
 
-test.skip('checkout switches branch', async () => {
+test.skip('checkout switches branch', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -168,7 +168,7 @@ test.skip('checkout switches branch', async () => {
   expect(branches).toContain('* main')
 })
 
-test.skip('listBranches returns branch list', async () => {
+test.skip('listBranches returns branch list', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -182,7 +182,7 @@ test.skip('listBranches returns branch list', async () => {
   expect(Array.isArray(branches)).toBe(true)
 })
 
-test.skip('getCommits returns commit list', async () => {
+test.skip('getCommits returns commit list', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -199,7 +199,7 @@ test.skip('getCommits returns commit list', async () => {
   expect(commits[0]).toHaveProperty('message')
 })
 
-test.skip('getDiff returns diff output', async () => {
+test.skip('getDiff returns diff output', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -214,7 +214,7 @@ test.skip('getDiff returns diff output', async () => {
   expect(diff).toContain('+++ b/')
 })
 
-test.skip('parseRef with HEAD returns current commit', async () => {
+test.skip('parseRef with HEAD returns current commit', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -227,7 +227,7 @@ test.skip('parseRef with HEAD returns current commit', async () => {
   expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
-test.skip('parseRef with branch name returns commit hash', async () => {
+test.skip('parseRef with branch name returns commit hash', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -240,7 +240,7 @@ test.skip('parseRef with branch name returns commit hash', async () => {
   expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
-test.skip('parseRef with unknown ref returns as-is', async () => {
+test.skip('parseRef with unknown ref returns as-is', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -253,7 +253,7 @@ test.skip('parseRef with unknown ref returns as-is', async () => {
   expect(result).toBe('unknown-ref')
 })
 
-test.skip('listRefs returns ref list', async () => {
+test.skip('listRefs returns ref list', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -268,7 +268,7 @@ test.skip('listRefs returns ref list', async () => {
   expect(refs[0]).toContain('refs/heads/main')
 })
 
-test.skip('handleRemote with add adds remote', async () => {
+test.skip('handleRemote with add adds remote', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -281,7 +281,7 @@ test.skip('handleRemote with add adds remote', async () => {
   expect(result).toContain("Remote 'upstream' added")
 })
 
-test.skip('handleRemote with remove removes remote', async () => {
+test.skip('handleRemote with remove removes remote', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -294,7 +294,7 @@ test.skip('handleRemote with remove removes remote', async () => {
   expect(result).toContain("Remote 'origin' removed")
 })
 
-test.skip('handleRemote with show shows remote', async () => {
+test.skip('handleRemote with show shows remote', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -308,7 +308,7 @@ test.skip('handleRemote with show shows remote', async () => {
   expect(result).toContain('https://github.com/user/repo.git')
 })
 
-test.skip('handleRemote with list lists remotes', async () => {
+test.skip('handleRemote with list lists remotes', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -322,7 +322,7 @@ test.skip('handleRemote with list lists remotes', async () => {
   expect(result).toContain('https://github.com/user/repo.git')
 })
 
-test.skip('handleConfig with --get gets config value', async () => {
+test.skip('handleConfig with --get gets config value', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -335,7 +335,7 @@ test.skip('handleConfig with --get gets config value', async () => {
   expect(result).toBe('User')
 })
 
-test.skip('handleConfig with --set sets config value', async () => {
+test.skip('handleConfig with --set sets config value', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -352,7 +352,7 @@ test.skip('handleConfig with --set sets config value', async () => {
   expect(getResult).toBe('NewUser')
 })
 
-test.skip('handleConfig with --list lists all config', async () => {
+test.skip('handleConfig with --list lists all config', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
@@ -366,7 +366,7 @@ test.skip('handleConfig with --list lists all config', async () => {
   expect(result).toContain('user.email=user@example.com')
 })
 
-test.skip('generateHash creates valid git hash', async () => {
+test.skip('generateHash creates valid git hash', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode

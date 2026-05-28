@@ -1,35 +1,38 @@
+/* eslint-disable jest/no-restricted-jest-methods */
 import { jest } from '@jest/globals'
+import type * as GitRepositories from '../src/parts/GitRepositories/GitRepositories.ts'
+import type * as GitRepositoriesRequests from '../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts'
+
+const mockGetCurrent = jest.fn<typeof GitRepositories.getCurrent>()
+const mockExecute = jest.fn<typeof GitRepositoriesRequests.execute>()
+
+jest.unstable_mockModule('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts', () => ({
+  execute: mockExecute,
+}))
+
+jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () => ({
+  getCurrent: mockGetCurrent,
+}))
+
+const CommandStash = await import('../src/parts/CommandStash/CommandStash.ts')
+const GitRequests = await import('../src/parts/GitRequests/GitRequests.ts')
+const Git = await import('../src/parts/Git/Git.ts')
 
 beforeEach(() => {
   jest.resetAllMocks()
 })
 
-jest.unstable_mockModule('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts', () => {
-  return {
-    execute: jest.fn(() => {}),
-  }
-})
+test('commandStash', async (): Promise<void> => {
+  mockGetCurrent.mockResolvedValue({
+    gitPath: '/test/git',
+    gitVersion: '2.39.2',
+    path: '/test/folder',
+  })
+  mockExecute.mockResolvedValue(undefined)
 
-jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () => {
-  return {
-    getCurrent() {
-      return {
-        gitPath: '/test/git',
-        path: '/test/folder',
-      }
-    },
-  }
-})
-
-const CommandStash = await import('../src/parts/CommandStash/CommandStash.ts')
-const GitRepositoriesRequests = await import('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts')
-const GitRequests = await import('../src/parts/GitRequests/GitRequests.ts')
-const Git = await import('../src/parts/Git/Git.ts')
-
-test('commandStash', async () => {
   await CommandStash.commandStash()
-  expect(GitRepositoriesRequests.execute).toHaveBeenCalledTimes(1)
-  expect(GitRepositoriesRequests.execute).toHaveBeenCalledWith({
+  expect(mockExecute).toHaveBeenCalledTimes(1)
+  expect(mockExecute).toHaveBeenCalledWith({
     args: {
       cwd: '/test/folder',
       exec: Git.exec,

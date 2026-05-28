@@ -17,9 +17,9 @@ import * as CommandStageAll from '../CommandStageAll/CommandStageAll.ts'
 import * as CommandStash from '../CommandStash/CommandStash.ts'
 import * as CommandSync from '../CommandSync/CommandSync.ts'
 import * as CommandUndoLastCommit from '../CommandUndoLastCommit/CommandUndoLastCommit.ts'
-import * as CommandUnstash from '../CommandUnstash/CommandUnstash.ts'
 import * as CommandUnstage from '../CommandUnstage/CommandUnstage.ts'
 import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.ts'
+import * as CommandUnstash from '../CommandUnstash/CommandUnstash.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
@@ -40,14 +40,14 @@ export const commandMap = {
   [GitWorkerCommandType.CommandStash]: CommandStash.commandStash,
   [GitWorkerCommandType.CommandSync]: CommandSync.commandSync,
   [GitWorkerCommandType.CommandUndoLastCommit]: CommandUndoLastCommit.commandUndoLastCommit,
-  [GitWorkerCommandType.CommandUnstash]: CommandUnstash.commandUnstash,
   [GitWorkerCommandType.CommandUnstage]: CommandUnstage.commandUnstage,
   [GitWorkerCommandType.CommandUnstageAll]: CommandUnstageAll.commandUnstageAll,
+  [GitWorkerCommandType.CommandUnstash]: CommandUnstash.commandUnstash,
   [GitWorkerCommandType.GitAdd]: WrappedGitRequests.wrappedGitRequests.add,
-  [GitWorkerCommandType.GitAddRemote]: WrappedGitRequests.wrappedGitRequests.addRemote,
   [GitWorkerCommandType.GitAddAll]: WrappedGitRequests.wrappedGitRequests.addAll,
   [GitWorkerCommandType.GitAddAllAndCommit]: WrappedGitRequests.wrappedGitRequests.addAllAndCommit,
-  [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchnames,
+  [GitWorkerCommandType.GitAddRemote]: WrappedGitRequests.wrappedGitRequests.addRemote,
+  [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchNames,
   [GitWorkerCommandType.GitCheckout]: WrappedGitRequests.wrappedGitRequests.checkout,
   [GitWorkerCommandType.GitCleanAll]: WrappedGitRequests.wrappedGitRequests.cleanAll,
   [GitWorkerCommandType.GitCommit]: WrappedGitRequests.wrappedGitRequests.commit,
@@ -67,14 +67,14 @@ export const commandMap = {
   [GitWorkerCommandType.GitPull]: WrappedGitRequests.wrappedGitRequests.pull,
   [GitWorkerCommandType.GitPullAndRebase]: WrappedGitRequests.wrappedGitRequests.pullAndRebase,
   [GitWorkerCommandType.GitPush]: WrappedGitRequests.wrappedGitRequests.push,
+  [GitWorkerCommandType.GitSetConfig]: WrappedGitRequests.wrappedGitRequests.setConfig,
   [GitWorkerCommandType.GitStage]: WrappedGitRequests.wrappedGitRequests.stage,
   [GitWorkerCommandType.GitStageAll]: WrappedGitRequests.wrappedGitRequests.stageAll,
   [GitWorkerCommandType.GitStash]: WrappedGitRequests.wrappedGitRequests.stash,
-  [GitWorkerCommandType.GitSetConfig]: WrappedGitRequests.wrappedGitRequests.setConfig,
   [GitWorkerCommandType.GitSync]: WrappedGitRequests.wrappedGitRequests.sync,
   [GitWorkerCommandType.GitTag]: WrappedGitRequests.wrappedGitRequests.tag,
   [GitWorkerCommandType.GitUndoLastCommit]: WrappedGitRequests.wrappedGitRequests.undoLastCommit,
-  [GitWorkerCommandType.GitUnstash]: WrappedGitRequests.wrappedGitRequests.unstash,
   [GitWorkerCommandType.GitUnstage]: WrappedGitRequests.wrappedGitRequests.unstage,
   [GitWorkerCommandType.GitUnstageAll]: WrappedGitRequests.wrappedGitRequests.unstageAll,
+  [GitWorkerCommandType.GitUnstash]: WrappedGitRequests.wrappedGitRequests.unstash,
 }

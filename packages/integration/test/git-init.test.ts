@@ -1,6 +1,6 @@
 import { testWorker } from '../src/testWorker.js'
 
-test('git init', async () => {
+test('git init', async (): Promise<void> => {
   const execMap = {
     init: {
       exitCode: 0,

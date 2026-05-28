@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import * as GitRequestsCleanAll from '../src/parts/GitRequestsCleanAll/GitRequestsCleanAll.js'
 
-test('cleanAll', async () => {
+test('cleanAll', async (): Promise<void> => {
   const exec = jest.fn()
   await GitRequestsCleanAll.cleanAll({
     cwd: '/test/test-folder',

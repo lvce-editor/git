@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import * as GitRequestsUnstageAll from '../src/parts/GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 
-test('unstageAll', async () => {
+test('unstageAll', async (): Promise<void> => {
   const exec = jest.fn()
   await GitRequestsUnstageAll.unstageAll({
     cwd: '/test/test-folder',
@@ -17,8 +17,8 @@ test('unstageAll', async () => {
   })
 })
 
-test('unstageAll - error - not removing . recursively without -r', async () => {
-  const exec = () => {
+test('unstageAll - error - not removing . recursively without -r', async (): Promise<void> => {
+  const exec = (): never => {
     throw new Error(`fatal: not removing '.' recursively without -r`)
   }
   await expect(
@@ -30,7 +30,7 @@ test('unstageAll - error - not removing . recursively without -r', async () => {
   ).rejects.toThrow(new Error("Git: fatal: not removing '.' recursively without -r"))
 })
 
-test("unstageAll - error - pathspec '.' did not match any files", async () => {
+test("unstageAll - error - pathspec '.' did not match any files", async (): Promise<void> => {
   const exec = jest.fn(() => {
     throw new Error(`fatal: pathspec '.' did not match any files`)
   })

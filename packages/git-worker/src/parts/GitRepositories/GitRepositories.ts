@@ -4,7 +4,7 @@ import * as Rpc from '../Rpc/Rpc.ts'
 
 // TODO getCurrent shouldn't have side effect of mutating state
 
-export const getCurrent = async () => {
+export const getCurrent = async (): Promise<{ gitPath: string; gitVersion: string; path: string }> => {
   const path = await Rpc.invoke('Config.getWorkspaceFolder')
   if (!path) {
     throw new Error('no workspace folder is open')

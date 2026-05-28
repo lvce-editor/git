@@ -1,8 +1,7 @@
 {
   "name": "@lvce-editor/git-requests",
   "version": "0.0.0-dev",
-  "description": "",
-  "keywords": [],
+  "description": "Git request helpers shared across the built-in Git extension.",
   "license": "MIT",
   "author": "Lvce Editor",
   "type": "module",

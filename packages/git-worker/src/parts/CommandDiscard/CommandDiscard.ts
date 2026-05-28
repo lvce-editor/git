@@ -5,11 +5,11 @@ import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitReposito
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
-const remove = async (uri: string) => {
+const remove = async (uri: string): Promise<void> => {
   await Rpc.invoke('FileSystem.remove', uri)
 }
 
-export const commandDiscard = async (file) => {
+export const commandDiscard = async (file: string): Promise<void> => {
   const repository = await Repositories.getCurrent()
 
   await GitRepositoriesRequests.execute({

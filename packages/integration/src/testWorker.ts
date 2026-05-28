@@ -3,8 +3,21 @@
 
 import { startWorker } from './startWorker.ts'
 
-export const testWorker = async ({ config = {}, execMap, quickPick = () => {} }) => {
-  const invocations = []
+type ExecResult = {
+  exitCode: number
+  stderr: string
+  stdout: string
+}
+
+type TestWorkerOptions = {
+  readonly config?: Readonly<Record<string, any>>
+  readonly execMap: Readonly<Record<string, ExecResult>>
+  readonly quickPick?: () => any
+}
+
+export const testWorker = async (options: unknown): Promise<{ execute(...args: readonly any[]): any; invocations: any[] }> => {
+  const { config = {}, execMap, quickPick = (): any => undefined } = options as TestWorkerOptions
+  const invocations: any[] = []
   const fullExecMap = {
     '--version': {
       exitCode: 0,
@@ -19,8 +32,7 @@ export const testWorker = async ({ config = {}, execMap, quickPick = () => {} })
     workspaceFolder: '/test',
   }
   const rpc = {
-    invoke(...args) {
-      // @ts-ignore
+    invoke(...args: readonly any[]): any {
       invocations.push(args)
       switch (args[0]) {
         case 'Config.confirmDiscard': {
@@ -57,9 +69,9 @@ export const testWorker = async ({ config = {}, execMap, quickPick = () => {} })
   }
   const worker = await startWorker(rpc)
   return {
-    execute(...args) {
-      // @ts-ignore
-      return worker.execute(...args)
+    execute(...args: readonly any[]): any {
+      const [commandId, ...rest] = args
+      return worker.execute(commandId as string, ...rest)
     },
     invocations,
   }

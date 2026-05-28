@@ -1,8 +1,7 @@
 import * as GitRequestsGetCommits from '../src/parts/GitRequestsGetCommits/GitRequestsGetCommits.js'
 
-test('getCommits', async () => {
-  // @ts-ignore
-  const exec = () => {
+test('getCommits', async (): Promise<void> => {
+  const exec = async (): Promise<{ stderr: string; stdout: string }> => {
     return {
       stderr: '',
       stdout: `903f9903f4f14e0d7ec1a389b9da617848e7f609\tFirst commit
@@ -27,8 +26,8 @@ test('getCommits', async () => {
   ])
 })
 
-test('getCommits - error', async () => {
-  const exec = () => {
+test('getCommits - error', async (): Promise<void> => {
+  const exec = async (): Promise<never> => {
     throw new TypeError(`x is not a function`)
   }
   await expect(

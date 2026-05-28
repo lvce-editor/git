@@ -3,7 +3,7 @@ import type { FileSystem, FileStat } from '../src/FileSystemInterface/FileSystem
 import { RpcFileSystem } from '../src/FileSystem/FileSystem.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
-test('RpcFileSystem exists returns true when file exists', async () => {
+test('RpcFileSystem exists returns true when file exists', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return true
@@ -17,7 +17,7 @@ test('RpcFileSystem exists returns true when file exists', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', '/test/path']])
 })
 
-test('RpcFileSystem exists returns false when file does not exist', async () => {
+test('RpcFileSystem exists returns false when file does not exist', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false
@@ -31,7 +31,7 @@ test('RpcFileSystem exists returns false when file does not exist', async () => 
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', '/nonexistent/path']])
 })
 
-test('RpcFileSystem exists handles errors gracefully', async () => {
+test('RpcFileSystem exists handles errors gracefully', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       throw new Error('RPC error')
@@ -45,7 +45,7 @@ test('RpcFileSystem exists handles errors gracefully', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', '/error/path']])
 })
 
-test('RpcFileSystem mkdir calls RPC', async () => {
+test('RpcFileSystem mkdir calls RPC', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.mkdir'(path: string) {
       // Mock implementation
@@ -58,7 +58,7 @@ test('RpcFileSystem mkdir calls RPC', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.mkdir', '/test/dir']])
 })
 
-test('RpcFileSystem write calls RPC', async () => {
+test('RpcFileSystem write calls RPC', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.write'(path: string, content: string) {
       // Mock implementation
@@ -71,7 +71,7 @@ test('RpcFileSystem write calls RPC', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.write', '/test/file', 'content']])
 })
 
-test('RpcFileSystem read calls RPC', async () => {
+test('RpcFileSystem read calls RPC', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.read'(path: string) {
       return 'file content'
@@ -85,7 +85,7 @@ test('RpcFileSystem read calls RPC', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.read', '/test/file']])
 })
 
-test('RpcFileSystem readdir calls RPC', async () => {
+test('RpcFileSystem readdir calls RPC', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.readdir'(path: string) {
       return ['file1.txt', 'file2.txt']
@@ -99,7 +99,7 @@ test('RpcFileSystem readdir calls RPC', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.readdir', '/test/dir']])
 })
 
-test('RpcFileSystem stat calls RPC', async () => {
+test('RpcFileSystem stat calls RPC', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.stat'(path: string) {
       return { isDirectory: false, isFile: true, size: 1024 } as FileStat
@@ -113,7 +113,7 @@ test('RpcFileSystem stat calls RPC', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.stat', '/test/file']])
 })
 
-test('RpcFileSystem unlink calls RPC', async () => {
+test('RpcFileSystem unlink calls RPC', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.unlink'(path: string) {
       // Mock implementation
@@ -126,7 +126,7 @@ test('RpcFileSystem unlink calls RPC', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.unlink', '/test/file']])
 })
 
-test('RpcFileSystem rmdir calls RPC', async () => {
+test('RpcFileSystem rmdir calls RPC', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.rmdir'(path: string) {
       // Mock implementation

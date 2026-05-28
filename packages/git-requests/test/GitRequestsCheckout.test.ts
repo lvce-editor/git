@@ -9,8 +9,8 @@ class ExecError extends Error {
   }
 }
 
-test('checkout - error - pathspec did not match any files known to git', async () => {
-  const exec = () => {
+test('checkout - error - pathspec did not match any files known to git', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError(`error: pathspec 'abc' did not match any file(s) known to git`)
   }
   await expect(
@@ -23,8 +23,8 @@ test('checkout - error - pathspec did not match any files known to git', async (
   ).rejects.toThrow(new Error(`Git: error: pathspec 'abc' did not match any file(s) known to git`))
 })
 
-test('checkout - error - unknown git error', async () => {
-  const exec = () => {
+test('checkout - error - unknown git error', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('oops')
   }
   await expect(

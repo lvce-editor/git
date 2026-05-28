@@ -32,7 +32,7 @@ export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Setti
     hasText: 'Show Command Output',
   })
   // @ts-ignore
-  await buttonShowCommandOutput.click()
+  await buttonShowCommandOutput.press('Enter')
 
   // assert
   const editor = Locator('.Editor')

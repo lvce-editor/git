@@ -1,6 +1,6 @@
 import { testWorker } from '../src/testWorker.js'
 
-test('git version', async () => {
+test('git version', async (): Promise<void> => {
   const execMap = {}
   const config = {}
   const worker = await testWorker({
@@ -10,7 +10,7 @@ test('git version', async () => {
   expect(await worker.execute('Git.version', { cwd: '', gitPath: '' })).toBe('2.39.2')
 })
 
-test('git version - fatal unterminated line', async () => {
+test('git version - fatal unterminated line', async (): Promise<void> => {
   const execMap = {
     '--version': {
       exitCode: 1,
