@@ -15,7 +15,8 @@ type TestWorkerOptions = {
   readonly quickPick?: () => any
 }
 
-export const testWorker = async ({ config = {}, execMap, quickPick = (): any => undefined }: TestWorkerOptions): Promise<{ execute(...args: readonly any[]): any; invocations: any[] }> => {
+export const testWorker = async (options: unknown): Promise<{ execute(...args: readonly any[]): any; invocations: any[] }> => {
+  const { config = {}, execMap, quickPick = (): any => undefined } = options as TestWorkerOptions
   const invocations: any[] = []
   const fullExecMap = {
     '--version': {
