@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals'
 import * as GitRequestsMerge from '../src/parts/GitRequestsMerge/GitRequestsMerge.js'
+import type { GitExec } from '../src/parts/Types/Types.ts'
 
 class ExecError extends Error {
   constructor(stderr) {
@@ -10,7 +11,11 @@ class ExecError extends Error {
 }
 
 test('merge - passes ref argument', async () => {
-  const exec = jest.fn()
+  const exec: GitExec = jest.fn(async () => ({
+    exitCode: 0,
+    stderr: '',
+    stdout: '',
+  }))
   await GitRequestsMerge.merge({
     cwd: '/test/test-folder',
     exec,
