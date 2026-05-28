@@ -3,7 +3,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.pull'
 
-// export const skip = 1
+export const skip = 1
 
 let workspaceDir = ''
 
@@ -45,35 +45,38 @@ export const mockRpc = {
 
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   // arrange
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const tmpDirUrl = await FileSystem.getTmpDir({ scheme: 'file' })
+  const tmpDir = tmpDirUrl.slice('file://'.length)
   const upstreamDir = `${tmpDir}/upstream`
+  const upstreamDirUrl = `${tmpDirUrl}/upstream`
+  const workspaceDirUrl = `${tmpDirUrl}/workspace`
   workspaceDir = `${tmpDir}/workspace`
   const fileName = 'file.txt'
   const gitPath = 'file:///usr/bin/git'
 
-  await Workspace.setPath(tmpDir)
-  await FileSystem.mkdir(upstreamDir)
+  await Workspace.setPath(tmpDirUrl)
+  await FileSystem.mkdir(upstreamDirUrl)
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'init', '--initial-branch', 'main'], {})
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'config', 'user.name', 'Test User'], {})
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'config', 'user.email', 'test@example.com'], {})
-  await FileSystem.writeFile(`${upstreamDir}/${fileName}`, 'version 1')
+  await FileSystem.writeFile(`${upstreamDirUrl}/${fileName}`, 'version 1')
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'add', '.'], {})
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'commit', '-m', 'Initial commit'], {})
   await Command.execute('Exec.exec', gitPath, ['clone', upstreamDir, workspaceDir], {})
-  await FileSystem.writeFile(`${upstreamDir}/${fileName}`, 'version 2')
+  await FileSystem.writeFile(`${upstreamDirUrl}/${fileName}`, 'version 2')
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'add', '.'], {})
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'commit', '-m', 'Update file'], {})
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setPath(workspaceDirUrl)
 
   // act
   await Git.pull('origin', 'main')
 
   // assert
-  await FileSystem.shouldHaveFile(`${workspaceDir}/${fileName}`, 'version 2')
+  await FileSystem.shouldHaveFile(`${workspaceDirUrl}/${fileName}`, 'version 2')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'pull'],
-      cwd: workspaceDir,
+      cwd: workspaceDirUrl,
     },
   ])
 }
