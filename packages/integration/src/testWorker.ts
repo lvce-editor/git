@@ -10,12 +10,12 @@ type ExecResult = {
 }
 
 type TestWorkerOptions = {
-  config?: Record<string, any>
-  execMap: Record<string, ExecResult>
+  config?: Readonly<Record<string, any>>
+  execMap: Readonly<Record<string, ExecResult>>
   quickPick?: () => any
 }
 
-export const testWorker = async ({ config = {}, execMap, quickPick = (): any => undefined }: Readonly<{ config?: Record<string, any>; execMap: Record<string, ExecResult>; quickPick?: () => any }>): Promise<{ execute(...args: readonly any[]): any; invocations: any[] }> => {
+export const testWorker = async ({ config = {}, execMap, quickPick = (): any => undefined }: TestWorkerOptions): Promise<{ execute(...args: readonly any[]): any; invocations: any[] }> => {
   const invocations: any[] = []
   const fullExecMap = {
     '--version': {
