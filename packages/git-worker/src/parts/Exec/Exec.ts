@@ -17,5 +17,5 @@ export const exec = async (command: string, args: readonly string[], options: Re
 }
 
 export const isExecError = (error: unknown): error is { stderr: string } => {
-  return Boolean(error) && typeof error === 'object' && 'stderr' in error
+  return error !== null && typeof error === 'object' && 'stderr' in error
 }

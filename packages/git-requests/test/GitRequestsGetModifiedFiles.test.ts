@@ -12,7 +12,7 @@ class ExecError extends Error {
 }
 
 test('getModifiedFiles', async (): Promise<void> => {
-  const exec = (): never => {
+  const exec = async (): Promise<{ exitCode: number; stderr: string; stdout: string }> => {
     return {
       exitCode: 0,
       stderr: '',
@@ -43,7 +43,7 @@ test('getModifiedFiles', async (): Promise<void> => {
 })
 
 test('getModifiedFiles - error - unknown git error', async (): Promise<void> => {
-  const exec = (): never => {
+  const exec = async (): Promise<never> => {
     throw new ExecError('oops')
   }
   await expect(

@@ -2,8 +2,7 @@ import * as GitRefType from '../src/parts/GitRefType/GitRefType.js'
 import * as GitRequestsGetRefs from '../src/parts/GitRequestsGetRefs/GitRequestsGetRefs.js'
 
 test('getRefs', async (): Promise<void> => {
-  // @ts-ignore
-  const exec = (): never => {
+  const exec = async (): Promise<{ stderr: string; stdout: string }> => {
     return {
       stderr: '',
       stdout: `refs/remotes/origin/HEAD 903f9903f4f14e0d7ec1a389b9da617848e7f609\u0020
@@ -47,7 +46,7 @@ refs/remotes/origin/lszomoru/product-build-parallel 7ed03031bb8511eada0f8418550e
 })
 
 test('getRefs - error', async (): Promise<void> => {
-  const exec = (): never => {
+  const exec = async (): Promise<never> => {
     throw new TypeError(`x is not a function`)
   }
   await expect(

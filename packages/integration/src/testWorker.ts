@@ -70,7 +70,8 @@ export const testWorker = async (options: unknown): Promise<{ execute(...args: r
   const worker = await startWorker(rpc)
   return {
     execute(...args: readonly any[]): any {
-      return worker.execute(...args)
+      const [commandId, ...rest] = args
+      return worker.execute(commandId as string, ...rest)
     },
     invocations,
   }

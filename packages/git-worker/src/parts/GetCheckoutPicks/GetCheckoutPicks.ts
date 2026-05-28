@@ -8,12 +8,12 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 type Ref = {
   commit: string
   name: string
-  type: string
+  type: number
 }
 
 type QuickPickItem = {
   description: string
-  icon: string
+  icon: number
   label: string
 }
 

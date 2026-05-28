@@ -1,7 +1,7 @@
 import * as GitRequestsVersion from '../src/parts/GitRequestsVersion/GitRequestsVersion.js'
 
 test.skip('version', async (): Promise<void> => {
-  const exec = (): never => {
+  const exec = async (): Promise<{ stderr: string; stdout: string }> => {
     return {
       stderr: '',
       stdout: 'git version 2.34.1',
@@ -17,7 +17,7 @@ test.skip('version', async (): Promise<void> => {
 })
 
 test('version - error', async (): Promise<void> => {
-  const exec = (): never => {
+  const exec = async (): Promise<never> => {
     throw new TypeError(`x is not a function`)
   }
   await expect(
