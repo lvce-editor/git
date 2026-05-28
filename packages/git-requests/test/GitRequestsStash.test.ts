@@ -24,7 +24,7 @@ test('stash - error - unknown git error', async (): Promise<void> => {
 })
 
 test('stash', async (): Promise<void> => {
-  const exec = jest.fn()
+  const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   await GitRequestsStash.stash({
     cwd: '/test/test-folder',
     exec,
@@ -40,7 +40,7 @@ test('stash', async (): Promise<void> => {
 })
 
 test('stash - message', async (): Promise<void> => {
-  const exec = jest.fn()
+  const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   await GitRequestsStash.stash({
     cwd: '/test/test-folder',
     exec,

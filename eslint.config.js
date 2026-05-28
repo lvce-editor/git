@@ -11,4 +11,13 @@ export default [
       'unicorn/consistent-function-scoping': 'off',
     },
   },
+  {
+    files: ['packages/git-requests/src/**/*.ts'],
+    rules: {
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/prefer-readonly-parameter-types': 'off',
+      'sonarjs/no-dead-store': 'off',
+      'sonarjs/no-redundant-jump': 'off',
+    },
+  },
 ]

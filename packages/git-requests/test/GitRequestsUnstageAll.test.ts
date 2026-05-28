@@ -2,7 +2,7 @@ import { jest } from '@jest/globals'
 import * as GitRequestsUnstageAll from '../src/parts/GitRequestsUnstageAll/GitRequestsUnstageAll.js'
 
 test('unstageAll', async (): Promise<void> => {
-  const exec = jest.fn()
+  const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   await GitRequestsUnstageAll.unstageAll({
     cwd: '/test/test-folder',
     exec,

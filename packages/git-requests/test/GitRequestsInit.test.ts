@@ -2,7 +2,7 @@ import { jest } from '@jest/globals'
 import * as GitRequestsInit from '../src/parts/GitRequestsInit/GitRequestsInit.js'
 
 test('init - passes bare and initial branch arguments', async () => {
-  const exec = jest.fn()
+  const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   await GitRequestsInit.init({
     bare: true,
     cwd: '/test/test-folder',
