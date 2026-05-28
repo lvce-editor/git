@@ -3,8 +3,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.pull'
 
-export const skip = 1
-
+// export const skip = 1
 let workspaceDir = ''
 
 const exec = async (
