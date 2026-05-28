@@ -8,6 +8,6 @@ const gitRequestEntries = Object.entries(GitRequests).filter(
 export const wrappedGitRequests = Object.fromEntries(
   gitRequestEntries.map((entry: readonly [string, (args: { readonly [key: string]: unknown }) => Promise<unknown>]) => {
     const [key, value] = entry
-    return [key, WrapGitCommand.wrapGitCommand(value)]
+    return [key, WrapGitCommand.wrapGitCommand(key, value)]
   }),
 )
