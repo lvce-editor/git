@@ -51,6 +51,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitAddRemote]: WrappedGitRequests.wrappedGitRequests.addRemote,
   [GitWorkerCommandType.GitBranch]: WrappedGitRequests.wrappedGitRequests.branch,
   [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchNames,
+  [GitWorkerCommandType.GitCherryPick]: WrappedGitRequests.wrappedGitRequests.cherryPick,
   [GitWorkerCommandType.GitCheckout]: WrappedGitRequests.wrappedGitRequests.checkout,
   [GitWorkerCommandType.GitCleanAll]: WrappedGitRequests.wrappedGitRequests.cleanAll,
   [GitWorkerCommandType.GitCommit]: WrappedGitRequests.wrappedGitRequests.commit,

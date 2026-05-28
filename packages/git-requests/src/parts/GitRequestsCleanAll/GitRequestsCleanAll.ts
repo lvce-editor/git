@@ -3,9 +3,14 @@ import { GitError } from '../GitError/GitError.ts'
 
 export const cleanAll = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   try {
-    const args = ['restore', '--', '.']
     await exec({
-      args,
+      args: ['restore', '--', '.'],
+      cwd,
+      gitPath,
+      name: 'cleanAll',
+    })
+    await exec({
+      args: ['clean', '-fd'],
       cwd,
       gitPath,
       name: 'cleanAll',
