@@ -12,7 +12,7 @@ export const version = async ({ cwd, exec, gitPath }) => {
       gitPath,
       name: 'version',
     })
-    const {stdout} = gitResult
+    const { stdout } = gitResult
     if (!stdout.startsWith('git version ')) {
       throw new Error('failed to parse git version')
     }

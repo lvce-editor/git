@@ -1,15 +1,10 @@
 {
   "compilerOptions": {
-    "lib": [
-      "esnext",
-      "WebWorker"
-    ],
+    "lib": ["esnext", "WebWorker"],
     "checkJs": false,
     "module": "NodeNext",
     "target": "esnext",
-    "types": [
-      "jest"
-    ],
+    "types": ["jest"],
     "moduleResolution": "NodeNext",
     "skipLibCheck": true,
     "emitDeclarationOnly": true,
@@ -22,8 +17,5 @@
     "outDir": "dist",
     "allowImportingTsExtensions": true
   },
-  "include": [
-    "src",
-    "test"
-  ]
+  "include": ["src", "test"]
 }

@@ -14,7 +14,7 @@ export const getGroups = async ({
   readonly {
     readonly id: string
     readonly label: string
-  readonly items: readonly GitDecoration[]
+    readonly items: readonly GitDecoration[]
   }[]
 > => {
   const files = await GitRequestsGetChangedFiles.getChangedFiles({ exec, getRepository })
