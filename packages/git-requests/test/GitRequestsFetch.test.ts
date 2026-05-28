@@ -1,3 +1,4 @@
+import type { GitExec, GitExecOptions, GitExecResult } from '../src/parts/Types/Types.ts'
 import * as GitRequestsFetch from '../src/parts/GitRequestsFetch/GitRequestsFetch.js'
 
 class ExecError extends Error {
@@ -9,9 +10,10 @@ class ExecError extends Error {
 }
 
 test('fetch - invokes git fetch --all', async (): Promise<void> => {
-  const calls = []
-  const exec = async (args): Promise<void> => {
+  const calls: GitExecOptions[] = []
+  const exec: GitExec = async (args): Promise<GitExecResult> => {
     calls.push(args)
+    return { stderr: '', stdout: '' }
   }
   await GitRequestsFetch.fetch({
     cwd: '/test/test-folder',

@@ -1,3 +1,4 @@
+import type { GitExec, GitExecOptions, GitExecResult } from '../src/parts/Types/Types.ts'
 import * as GitRequestsUndoLastCommit from '../src/parts/GitRequestsUndoLastCommit/GitRequestsUndoLastCommit.js'
 
 class ExecError extends Error {
@@ -10,9 +11,10 @@ class ExecError extends Error {
 }
 
 test('undoLastCommit - uses soft reset by default', async (): Promise<void> => {
-  const calls: Array<unknown> = []
-  const exec = async (args: unknown): Promise<void> => {
+  const calls: GitExecOptions[] = []
+  const exec: GitExec = async (args): Promise<GitExecResult> => {
     calls.push(args)
+    return { stderr: '', stdout: '' }
   }
 
   await GitRequestsUndoLastCommit.undoLastCommit({
@@ -31,12 +33,13 @@ test('undoLastCommit - uses soft reset by default', async (): Promise<void> => {
 })
 
 test('undoLastCommit - falls back for initial commit', async (): Promise<void> => {
-  const calls: Array<unknown> = []
-  const exec = async (args: { name: string }): Promise<void> => {
+  const calls: GitExecOptions[] = []
+  const exec: GitExec = async (args): Promise<GitExecResult> => {
     calls.push(args)
     if (args.name === 'undoLastCommit/default') {
       throw new Error(`fatal: ambiguous argument 'HEAD~1': unknown revision or path not in the working tree.`)
     }
+    return { stderr: '', stdout: '' }
   }
 
   await GitRequestsUndoLastCommit.undoLastCommit({
