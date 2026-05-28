@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals'
-import * as GitRequestsMerge from '../src/parts/GitRequestsMerge/GitRequestsMerge.js'
 import type { GitExec } from '../src/parts/Types/Types.ts'
+import * as GitRequestsMerge from '../src/parts/GitRequestsMerge/GitRequestsMerge.js'
 
 class ExecError extends Error {
   constructor(stderr) {

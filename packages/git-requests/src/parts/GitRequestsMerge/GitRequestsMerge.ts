@@ -6,8 +6,8 @@ export const merge = async ({ cwd, exec, gitPath, ref }: GitRefRequest): Promise
     await exec({
       args: ['merge', ref],
       cwd,
-      name: 'merge',
       gitPath,
+      name: 'merge',
     })
   } catch (error) {
     throw new GitError(error, 'merge')
