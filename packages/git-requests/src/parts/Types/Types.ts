@@ -67,6 +67,10 @@ export type GitStashRequest = GitRequestContext & {
   readonly message?: string
 }
 
+export type GitApplyStashRequest = GitRequestContext & {
+  readonly stashReference?: string
+}
+
 export type GitUnstashRequest = GitRequestContext & {
   readonly stashReference?: string
 }

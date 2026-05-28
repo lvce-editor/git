@@ -6,6 +6,7 @@
   "icon": "./icon.png",
   "activation": [
     "onCommand:git.init",
+    "onCommand:git.cherryPick",
     "onCommand:git.merge",
     "onCommand:git.pull",
     "onCommand:git.pullRebase",
@@ -47,6 +48,10 @@
     {
       "id": "git.loadFixture",
       "label": "Git: Load Fixture"
+    },
+    {
+      "id": "git.cherryPick",
+      "label": "Git: Cherry Pick"
     },
     {
       "id": "git.merge",
