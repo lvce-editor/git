@@ -100,7 +100,7 @@ await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join
 
 await bundleJs(join(root, 'dist', 'git-web', 'src', 'gitWebMain.ts'), join(root, 'dist', 'git-web', 'dist', 'gitWebMain.js'), false)
 
-await bundleJs(join(root, 'dist', 'src', 'gitMain.js'), join(root, 'dist', 'dist', 'gitMain.js'), false)
+await bundleJs(join(root, 'dist', 'src', 'gitMain.ts'), join(root, 'dist', 'dist', 'gitMain.js'), false)
 
 await packageExtension({
   highestCompression: true,

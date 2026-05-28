@@ -1,14 +1,15 @@
 import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.js'
 import * as GetGitClientPath from '../GetGitClientPath/GetGitClientPath.js'
 
-export const state = {
-  /**
-   * @type {any}
-   */
-  rpcPromise: undefined,
+type Rpc = {
+  invoke(method: string, ...params: readonly any[]): Promise<any>
 }
 
-const createRpc = async () => {
+export const state = {
+  rpcPromise: undefined as Promise<Rpc> | undefined,
+}
+
+const createRpc = async (): Promise<Rpc> => {
   const path = ExtensionInfo.getPath()
   const gitClientPath = GetGitClientPath.getGitClientPath(path)
   // @ts-ignore
