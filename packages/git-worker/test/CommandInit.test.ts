@@ -1,7 +1,9 @@
 import { jest } from '@jest/globals'
+import type * as GitRepositories from '../src/parts/GitRepositories/GitRepositories.ts'
+import type * as GitRepositoriesRequests from '../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts'
 
-const mockGetCurrent = jest.fn()
-const mockExecute = jest.fn()
+const mockGetCurrent = jest.fn<typeof GitRepositories.getCurrent>()
+const mockExecute = jest.fn<typeof GitRepositoriesRequests.execute>()
 
 jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () => ({
   getCurrent: mockGetCurrent,
