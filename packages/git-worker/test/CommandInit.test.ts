@@ -1,25 +1,35 @@
 import { jest } from '@jest/globals'
-import * as CommandInit from '../src/parts/CommandInit/CommandInit.ts'
-import * as Git from '../src/parts/Git/Git.ts'
-import * as GitRepositories from '../src/parts/GitRepositories/GitRepositories.ts'
-import * as GitRepositoriesRequests from '../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts'
-import * as GitRequests from '../src/parts/GitRequests/GitRequests.ts'
+
+const mockGetCurrent = jest.fn()
+const mockExecute = jest.fn()
+
+jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () => ({
+  getCurrent: mockGetCurrent,
+}))
+
+jest.unstable_mockModule('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts', () => ({
+  execute: mockExecute,
+}))
+
+const CommandInit = await import('../src/parts/CommandInit/CommandInit.ts')
+const Git = await import('../src/parts/Git/Git.ts')
+const GitRequests = await import('../src/parts/GitRequests/GitRequests.ts')
 
 beforeEach(() => {
   jest.resetAllMocks()
 })
 
 test('commandInit', async (): Promise<void> => {
-  jest.spyOn(GitRepositories, 'getCurrent').mockResolvedValue({
+  mockGetCurrent.mockResolvedValue({
     gitPath: '/test/git',
     gitVersion: '2.39.2',
     path: '/test/folder',
   })
-  const execute = jest.spyOn(GitRepositoriesRequests, 'execute').mockResolvedValue(undefined)
+  mockExecute.mockResolvedValue(undefined)
 
   await CommandInit.commandInit()
-  expect(execute).toHaveBeenCalledTimes(1)
-  expect(execute).toHaveBeenCalledWith({
+  expect(mockExecute).toHaveBeenCalledTimes(1)
+  expect(mockExecute).toHaveBeenCalledWith({
     args: {
       cwd: '/test/folder',
       exec: Git.exec,
