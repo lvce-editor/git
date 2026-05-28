@@ -6,10 +6,11 @@ export const wrapGitCommand =
   (fn) =>
   async ({ cwd, ...args }) => {
     const { gitPath, path } = await GitRepositories.getCurrent()
+    const targetPath = typeof cwd === 'string' && cwd ? cwd : path
     return fn({
-      cwd: path,
+      cwd: targetPath,
       gitPath,
-      repositoryPath: path,
+      repositoryPath: targetPath,
       ...args,
       confirm: Confirm.confirm,
       exec: Git.exec,

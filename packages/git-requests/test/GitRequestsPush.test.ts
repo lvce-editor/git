@@ -94,3 +94,20 @@ test('push - error - unknown git error', async () => {
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })
+
+test('push - set upstream', async () => {
+  const exec = jest.fn()
+  await GitRequestsPush.push({
+    cwd: '/test/test-folder',
+    exec,
+    gitPath: 'git',
+    setUpstream: ['origin', 'main'],
+  })
+  expect(exec).toHaveBeenCalledTimes(1)
+  expect(exec).toHaveBeenCalledWith({
+    args: ['push', '--porcelain', '--set-upstream', 'origin', 'main'],
+    cwd: '/test/test-folder',
+    gitPath: 'git',
+    name: 'push',
+  })
+})
