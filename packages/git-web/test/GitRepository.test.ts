@@ -2,8 +2,13 @@ import { test, expect } from '@jest/globals'
 import { GitRepository } from '../src/GitRepository/GitRepository.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
+<<<<<<< Updated upstream
 test.skip('getRepository creates new repository for new cwd', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('getRepository creates new repository for new cwd', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
@@ -17,8 +22,13 @@ test.skip('getRepository creates new repository for new cwd', async (): Promise<
   expect(repo1).not.toBe(repo2)
 })
 
+<<<<<<< Updated upstream
 test.skip('getRepository returns same instance for same cwd', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('getRepository returns same instance for same cwd', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
@@ -30,8 +40,13 @@ test.skip('getRepository returns same instance for same cwd', async (): Promise<
   expect(repo1).toStrictEqual(repo2)
 })
 
+<<<<<<< Updated upstream
 test.skip('getStatus returns initial status', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('getStatus returns initial status', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
         return true
@@ -55,8 +70,13 @@ test.skip('getStatus returns initial status', async (): Promise<void> => {
   expect(status).toContain('nothing to commit, working tree clean')
 })
 
+<<<<<<< Updated upstream
 test.skip('addFiles with specific files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('addFiles with specific files', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -71,8 +91,13 @@ test.skip('addFiles with specific files', async (): Promise<void> => {
   expect(status).toContain('file2.txt')
 })
 
+<<<<<<< Updated upstream
 test.skip('addFiles with dot adds all files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('addFiles with dot adds all files', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -85,8 +110,13 @@ test.skip('addFiles with dot adds all files', async (): Promise<void> => {
   expect(status).toContain('Changes to be committed')
 })
 
+<<<<<<< Updated upstream
 test.skip('commit creates new commit', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('commit creates new commit', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -100,8 +130,13 @@ test.skip('commit creates new commit', async (): Promise<void> => {
   expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
+<<<<<<< Updated upstream
 test.skip('commit clears staged files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('commit clears staged files', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -115,8 +150,13 @@ test.skip('commit clears staged files', async (): Promise<void> => {
   expect(status).toContain('Untracked files')
 })
 
+<<<<<<< Updated upstream
 test.skip('push simulates success', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('push simulates success', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -128,8 +168,13 @@ test.skip('push simulates success', async (): Promise<void> => {
   await expect(repo.push([])).resolves.toBeUndefined()
 })
 
+<<<<<<< Updated upstream
 test.skip('pull simulates success', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('pull simulates success', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -141,8 +186,13 @@ test.skip('pull simulates success', async (): Promise<void> => {
   await expect(repo.pull([])).resolves.toBeUndefined()
 })
 
+<<<<<<< Updated upstream
 test.skip('fetch simulates success', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('fetch simulates success', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -154,8 +204,13 @@ test.skip('fetch simulates success', async (): Promise<void> => {
   await expect(repo.fetch([])).resolves.toBeUndefined()
 })
 
+<<<<<<< Updated upstream
 test.skip('checkout switches branch', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('checkout switches branch', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -168,8 +223,13 @@ test.skip('checkout switches branch', async (): Promise<void> => {
   expect(branches).toContain('* main')
 })
 
+<<<<<<< Updated upstream
 test.skip('listBranches returns branch list', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('listBranches returns branch list', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -182,8 +242,13 @@ test.skip('listBranches returns branch list', async (): Promise<void> => {
   expect(Array.isArray(branches)).toBe(true)
 })
 
+<<<<<<< Updated upstream
 test.skip('getCommits returns commit list', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('getCommits returns commit list', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -199,8 +264,13 @@ test.skip('getCommits returns commit list', async (): Promise<void> => {
   expect(commits[0]).toHaveProperty('message')
 })
 
+<<<<<<< Updated upstream
 test.skip('getDiff returns diff output', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('getDiff returns diff output', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -214,8 +284,13 @@ test.skip('getDiff returns diff output', async (): Promise<void> => {
   expect(diff).toContain('+++ b/')
 })
 
+<<<<<<< Updated upstream
 test.skip('parseRef with HEAD returns current commit', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('parseRef with HEAD returns current commit', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -227,8 +302,13 @@ test.skip('parseRef with HEAD returns current commit', async (): Promise<void> =
   expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
+<<<<<<< Updated upstream
 test.skip('parseRef with branch name returns commit hash', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('parseRef with branch name returns commit hash', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -240,8 +320,13 @@ test.skip('parseRef with branch name returns commit hash', async (): Promise<voi
   expect(hash).toMatch(/^[a-f\d]{40}$/)
 })
 
+<<<<<<< Updated upstream
 test.skip('parseRef with unknown ref returns as-is', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('parseRef with unknown ref returns as-is', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -253,8 +338,13 @@ test.skip('parseRef with unknown ref returns as-is', async (): Promise<void> => 
   expect(result).toBe('unknown-ref')
 })
 
+<<<<<<< Updated upstream
 test.skip('listRefs returns ref list', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('listRefs returns ref list', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -268,8 +358,13 @@ test.skip('listRefs returns ref list', async (): Promise<void> => {
   expect(refs[0]).toContain('refs/heads/main')
 })
 
+<<<<<<< Updated upstream
 test.skip('handleRemote with add adds remote', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('handleRemote with add adds remote', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -281,8 +376,13 @@ test.skip('handleRemote with add adds remote', async (): Promise<void> => {
   expect(result).toContain("Remote 'upstream' added")
 })
 
+<<<<<<< Updated upstream
 test.skip('handleRemote with remove removes remote', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('handleRemote with remove removes remote', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -294,8 +394,13 @@ test.skip('handleRemote with remove removes remote', async (): Promise<void> => 
   expect(result).toContain("Remote 'origin' removed")
 })
 
+<<<<<<< Updated upstream
 test.skip('handleRemote with show shows remote', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('handleRemote with show shows remote', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -308,8 +413,13 @@ test.skip('handleRemote with show shows remote', async (): Promise<void> => {
   expect(result).toContain('https://github.com/user/repo.git')
 })
 
+<<<<<<< Updated upstream
 test.skip('handleRemote with list lists remotes', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('handleRemote with list lists remotes', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -322,8 +432,13 @@ test.skip('handleRemote with list lists remotes', async (): Promise<void> => {
   expect(result).toContain('https://github.com/user/repo.git')
 })
 
+<<<<<<< Updated upstream
 test.skip('handleConfig with --get gets config value', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('handleConfig with --get gets config value', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -335,8 +450,13 @@ test.skip('handleConfig with --get gets config value', async (): Promise<void> =
   expect(result).toBe('User')
 })
 
+<<<<<<< Updated upstream
 test.skip('handleConfig with --set sets config value', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('handleConfig with --set sets config value', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -352,8 +472,13 @@ test.skip('handleConfig with --set sets config value', async (): Promise<void> =
   expect(getResult).toBe('NewUser')
 })
 
+<<<<<<< Updated upstream
 test.skip('handleConfig with --list lists all config', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('handleConfig with --list lists all config', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -366,8 +491,13 @@ test.skip('handleConfig with --list lists all config', async (): Promise<void> =
   expect(result).toContain('user.email=user@example.com')
 })
 
+<<<<<<< Updated upstream
 test.skip('generateHash creates valid git hash', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('generateHash creates valid git hash', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },

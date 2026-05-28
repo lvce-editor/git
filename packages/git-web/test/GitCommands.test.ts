@@ -41,8 +41,13 @@ const registerGitCommands = (): void => {
 // Register commands before running tests
 registerGitCommands()
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with --version', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with --version', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
@@ -60,8 +65,13 @@ test.skip('executeCommand with --version', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with init', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with init', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
@@ -91,8 +101,13 @@ test.skip('executeCommand with init', async (): Promise<void> => {
   ])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with status', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with status', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -106,8 +121,13 @@ test.skip('executeCommand with status', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with add', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with add', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -122,8 +142,13 @@ test.skip('executeCommand with add', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with commit', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with commit', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -138,8 +163,13 @@ test.skip('executeCommand with commit', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with push', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with push', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -153,8 +183,13 @@ test.skip('executeCommand with push', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with pull', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with pull', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -168,8 +203,13 @@ test.skip('executeCommand with pull', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with fetch', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with fetch', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -183,8 +223,13 @@ test.skip('executeCommand with fetch', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with checkout', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with checkout', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -198,8 +243,13 @@ test.skip('executeCommand with checkout', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with branch', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with branch', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -213,8 +263,13 @@ test.skip('executeCommand with branch', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with log', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with log', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -229,8 +284,13 @@ test.skip('executeCommand with log', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with diff', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with diff', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -244,8 +304,13 @@ test.skip('executeCommand with diff', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with rev-parse', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with rev-parse', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -259,8 +324,13 @@ test.skip('executeCommand with rev-parse', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with for-each-ref', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with for-each-ref', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -274,8 +344,13 @@ test.skip('executeCommand with for-each-ref', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with remote', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with remote', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -289,8 +364,13 @@ test.skip('executeCommand with remote', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with config', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with config', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists, use in-memory mode
     },
@@ -304,8 +384,13 @@ test.skip('executeCommand with config', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with unknown command', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with unknown command', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
@@ -320,8 +405,13 @@ test.skip('executeCommand with unknown command', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with empty args', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand with empty args', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
@@ -336,8 +426,13 @@ test.skip('executeCommand with empty args', async (): Promise<void> => {
   expect(mockRpc.invocations).toEqual([])
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand handles errors gracefully', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
+=======
+test('executeCommand handles errors gracefully', async () => {
+  registerMockRpc({
+>>>>>>> Stashed changes
     'FileSystem.exists'(path: string) {
       return false // No git config exists
     },
@@ -350,7 +445,7 @@ test.skip('executeCommand handles errors gracefully', async (): Promise<void> =>
 })
 
 // Registry tests
-test.skip('registerCommand adds command to registry', () => {
+test('registerCommand adds command to registry', () => {
   const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'test' })
 
   registerCommand('test-command', handler)
@@ -359,7 +454,7 @@ test.skip('registerCommand adds command to registry', () => {
   expect(getRegisteredCommands()).toContain('test-command')
 })
 
-test.skip('unregisterCommand removes command from registry', () => {
+test('unregisterCommand removes command from registry', () => {
   const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'test' })
 
   registerCommand('test-command', handler)
@@ -370,7 +465,11 @@ test.skip('unregisterCommand removes command from registry', () => {
   expect(getRegisteredCommands()).not.toContain('test-command')
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with registered custom command', async (): Promise<void> => {
+=======
+test('executeCommand with registered custom command', async () => {
+>>>>>>> Stashed changes
   const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'custom output' })
 
   registerCommand('custom-command', handler)
@@ -381,14 +480,18 @@ test.skip('executeCommand with registered custom command', async (): Promise<voi
   expect(result.exitCode).toBe(0)
 })
 
+<<<<<<< Updated upstream
 test.skip('executeCommand with unregistered command returns error', async (): Promise<void> => {
+=======
+test('executeCommand with unregistered command returns error', async () => {
+>>>>>>> Stashed changes
   const result = await executeCommand(['unregistered-command'], { cwd: 'web://test' })
 
   expect(result.stderr).toContain('is not a git command')
   expect(result.exitCode).toBe(127)
 })
 
-test.skip('getRegisteredCommands returns all registered commands', () => {
+test('getRegisteredCommands returns all registered commands', () => {
   const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'test' })
 
   registerCommand('command1', handler)
@@ -401,7 +504,7 @@ test.skip('getRegisteredCommands returns all registered commands', () => {
   expect(commands.length).toBeGreaterThanOrEqual(2)
 })
 
-test.skip('isCommandRegistered returns correct status', () => {
+test('isCommandRegistered returns correct status', () => {
   const handler = async (): Promise<{ stdout: string; stderr: string; exitCode: number }> => ({ exitCode: 0, stderr: '', stdout: 'test' })
 
   expect(isCommandRegistered('nonexistent')).toBe(false)
