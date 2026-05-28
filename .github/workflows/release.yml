@@ -58,7 +58,12 @@ jobs:
       - run: npm run type-check
       - run: npm test
       - run: npm run lint
-      - run: npm run build
+      - name: Build extension
+        run: npm run build
+      - name: Build static site
+        run: npm run build:static
+        env:
+          PATH_PREFIX: auto
       - name: Build archive
         shell: bash
         run: |
