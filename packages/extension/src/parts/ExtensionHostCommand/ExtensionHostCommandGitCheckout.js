@@ -4,5 +4,5 @@ import * as GitWorker from '../GitWorker/GitWorker.js'
 export const id = CommandId.GitCheckout
 
 export const execute = async (ref) => {
-  return GitWorker.invoke('Command.gitCheckout', ref)
+  return GitWorker.invoke('Git.checkout', ref)
 }
