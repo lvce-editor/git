@@ -1,6 +1,6 @@
+import type { GitRequestContext } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
 import * as GitRequestsUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.ts'
-import type { GitRequestContext } from '../Types/Types.ts'
 import * as IsGitNoPreviousCommitError from '../IsGitNoPreviousCommitError/IsGitNoPreviousCommitError.ts'
 
 const undoLastCommitFallback = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
