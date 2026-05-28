@@ -58,6 +58,12 @@ await replace({
 })
 
 await replace({
+  path: join(root, 'dist', 'src', 'gitMain.ts'),
+  occurrence: './parts/Main/Main.js',
+  replacement: './parts/Main/Main.ts',
+})
+
+await replace({
   path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.ts'),
   occurrence: '../git-worker/',
   replacement: 'git-worker/',
