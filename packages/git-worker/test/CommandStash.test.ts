@@ -14,7 +14,7 @@ jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () =
   getCurrent: mockGetCurrent,
 }))
 
-const CommandUnstash = await import('../src/parts/CommandUnstash/CommandUnstash.ts')
+const CommandStash = await import('../src/parts/CommandStash/CommandStash.ts')
 const GitRequests = await import('../src/parts/GitRequests/GitRequests.ts')
 const Git = await import('../src/parts/Git/Git.ts')
 
@@ -22,14 +22,14 @@ beforeEach(() => {
   jest.resetAllMocks()
 })
 
-test('commandUnstash', async (): Promise<void> => {
+test('commandStash', async (): Promise<void> => {
   mockGetCurrent.mockResolvedValue({
     gitPath: '/test/git',
     path: '/test/folder',
   })
   mockExecute.mockResolvedValue(undefined)
 
-  await CommandUnstash.commandUnstash()
+  await CommandStash.commandStash()
   expect(mockExecute).toHaveBeenCalledTimes(1)
   expect(mockExecute).toHaveBeenCalledWith({
     args: {
@@ -37,7 +37,7 @@ test('commandUnstash', async (): Promise<void> => {
       exec: Git.exec,
       gitPath: '/test/git',
     },
-    fn: GitRequests.unstash,
-    id: 'unstash',
+    fn: GitRequests.stash,
+    id: 'stash',
   })
 })
