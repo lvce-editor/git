@@ -25,7 +25,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
     throw new Error(`expected worktree folder to be removed`)
   }
   const gitDirEntries = await FileSystem.readDir(`${workspaceDir}/.git/worktrees`)
-  if (gitDirEntries.length !== 0) {
+  if (gitDirEntries.length > 0) {
     throw new Error(`expected worktree metadata to be removed, got ${gitDirEntries.map((dirent) => dirent.name).join(', ')}`)
   }
   await Git.shouldHaveInvocations([
