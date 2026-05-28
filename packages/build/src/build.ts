@@ -52,19 +52,19 @@ const replace = async ({ path, occurrence, replacement }: { path: string; occurr
 }
 
 await replace({
-  path: join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.js'),
+  path: join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.ts'),
   occurrence: '../node/',
   replacement: 'node/',
 })
 
 await replace({
-  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
+  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.ts'),
   occurrence: '../git-worker/',
   replacement: 'git-worker/',
 })
 
 await replace({
-  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.js'),
+  path: join(root, 'dist', 'src', 'parts', 'GitWorkerUrl', 'GitWorkerUrl.ts'),
   occurrence: 'src/gitWorkerMain.ts',
   replacement: 'dist/gitWorkerMain.js',
 })
