@@ -4,7 +4,7 @@ import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitReposito
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
-interface InitOptions {
+export interface InitOptions {
   readonly bare?: boolean
   readonly cwd?: string
   readonly initialBranch?: string
