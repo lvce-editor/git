@@ -19,6 +19,7 @@
     "onCommand:git.createWorktree",
     "onCommand:git.createTag",
     "onCommand:git.deleteWorktree",
+    "onCommand:git.deleteRemoteTag",
     "onCommand:git.deleteTag",
     "onCommand:git.sync",
     "onCommand:git.fetch",
@@ -104,6 +105,10 @@
     {
       "id": "git.deleteWorktree",
       "label": "Git: Delete Worktree"
+    },
+    {
+      "id": "git.deleteRemoteTag",
+      "label": "Git: Delete Remote Tag"
     },
     {
       "id": "git.deleteTag",

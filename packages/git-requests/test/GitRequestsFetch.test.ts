@@ -42,3 +42,24 @@ test('fetch - error - unknown git error', async (): Promise<void> => {
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })
+
+test('fetchPrune - invokes git fetch --all --prune', async (): Promise<void> => {
+  const calls: GitExecOptions[] = []
+  const exec: GitExec = async (args): Promise<GitExecResult> => {
+    calls.push(args)
+    return { stderr: '', stdout: '' }
+  }
+  await GitRequestsFetch.fetchPrune({
+    cwd: '/test/test-folder',
+    exec,
+    gitPath: '/usr/bin/git',
+  })
+  expect(calls).toEqual([
+    {
+      args: ['fetch', '--all', '--prune'],
+      cwd: '/test/test-folder',
+      gitPath: '/usr/bin/git',
+      name: 'fetchPrune',
+    },
+  ])
+})
