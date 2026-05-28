@@ -11,6 +11,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await Workspace.setPath(tmpDir)
   await FileSystem.writeFile(`${tmpDir}/file`, 'content')
   await Git.init()
+  await Command.execute('ExtensionHost.executeCommand', 'git.setConfig', 'user.name', 'Test User')
+  await Command.execute('ExtensionHost.executeCommand', 'git.setConfig', 'user.email', 'test@example.com')
   await Git.add('.')
 
   // act
