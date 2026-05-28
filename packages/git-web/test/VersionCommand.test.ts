@@ -1,7 +1,7 @@
 import { test, expect } from '@jest/globals'
 import { handleVersion } from '../src/VersionCommand/VersionCommand.ts'
 
-test('handleVersion returns correct version', async () => {
+test('handleVersion returns correct version', async (): Promise<void> => {
   const result = await handleVersion()
 
   expect(result).toEqual({
@@ -11,7 +11,7 @@ test('handleVersion returns correct version', async () => {
   })
 })
 
-test('handleVersion has no dependencies', async () => {
+test('handleVersion has no dependencies', async (): Promise<void> => {
   // Version command should work without any parameters
   const result = await handleVersion()
 

@@ -1,6 +1,6 @@
 import { testWorker } from '../src/testWorker.js'
 
-test('git unstage all - error - could not resolve head', async () => {
+test('git unstage all - error - could not resolve head', async (): Promise<void> => {
   const execMap = {
     reset: {
       exitCode: 0,

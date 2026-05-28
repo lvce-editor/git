@@ -3,7 +3,7 @@ import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 
-export const commandSync = async () => {
+export const commandSync = async (): Promise<void> => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
     args: {
@@ -14,5 +14,4 @@ export const commandSync = async () => {
     fn: GitRequests.sync,
     id: 'sync',
   })
-  console.log('FINISHED RUN it sync')
 }

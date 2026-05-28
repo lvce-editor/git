@@ -2,7 +2,7 @@ import { test, expect } from '@jest/globals'
 import { handleAdd } from '../src/AddCommand/AddCommand.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
-test('handleAdd with specific files', async () => {
+test('handleAdd with specific files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       // Return true for .git/config to enable filesystem mode
@@ -62,7 +62,7 @@ test('handleAdd with specific files', async () => {
   ])
 })
 
-test('handleAdd with dot adds all files', async () => {
+test('handleAdd with dot adds all files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -118,7 +118,7 @@ test('handleAdd with dot adds all files', async () => {
   ])
 })
 
-test('handleAdd with empty args', async () => {
+test('handleAdd with empty args', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {

@@ -1,13 +1,11 @@
 {
   "name": "node",
   "version": "0.0.0-dev",
-  "description": "",
-  "keywords": [],
+  "description": "Node-specific helpers for the built-in Git integration.",
   "license": "MIT",
-  "author": "",
+  "author": "Lvce Editor",
   "type": "module",
   "main": "index.js",
-  "scripts": {},
   "dependencies": {
     "execa": "^7.1.1"
   }

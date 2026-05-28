@@ -19,6 +19,6 @@ export const test: Test = async ({ Command, expect, Extension, FileSystem, Locat
   // const treeItems = Locator('.TreeItem')
   // await expect(treeItems).toHaveCount(3)
   // await expect(treeItems.nth(0).locator('.Label')).toHaveText('Changes')
-  // await expect(treeItems.nth(1).locator('.Label')).toHaveText('file-1.txttest')
-  // await expect(treeItems.nth(2).locator('.Label')).toHaveText('file-2.txttest')
+  // await expect(treeItems.nth(1).locator('.Label')).toHaveText('file-1.txt')
+  // await expect(treeItems.nth(2).locator('.Label')).toHaveText('file-2.txt')
 }

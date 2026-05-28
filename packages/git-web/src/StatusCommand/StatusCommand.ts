@@ -3,7 +3,7 @@ import type { CommandResult } from '../CommandResult/CommandResult.ts'
 import * as ExitCode from '../ExitCode/ExitCode.ts'
 import { GitRepository } from '../GitRepository/GitRepository.ts'
 
-export const handleStatus = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
+export const handleStatus = async (args: readonly string[], options: CommandOptions): Promise<CommandResult> => {
   const repository = await GitRepository.getRepository(options.cwd)
 
   // Parse arguments

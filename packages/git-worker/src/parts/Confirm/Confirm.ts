@@ -1,6 +1,6 @@
 import * as Rpc from '../Rpc/Rpc.ts'
 
-export const confirm = async (message) => {
+export const confirm = async (message: string): Promise<boolean> => {
   const shouldConfirm = await Rpc.invoke('Config.confirmDiscard')
   if (!shouldConfirm) {
     return true

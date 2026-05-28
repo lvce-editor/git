@@ -2,15 +2,15 @@ import { jest } from '@jest/globals'
 import * as GitRequestsUnstash from '../src/parts/GitRequestsUnstash/GitRequestsUnstash.js'
 
 class ExecError extends Error {
-  constructor(stderr) {
+  constructor(stderr: string) {
     super('')
     // @ts-ignore
     this.stderr = stderr
   }
 }
 
-test('unstash - error - unknown git error', async () => {
-  const exec = () => {
+test('unstash - error - unknown git error', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('oops')
   }
 
@@ -23,7 +23,7 @@ test('unstash - error - unknown git error', async () => {
   ).rejects.toThrow(new Error('Git: oops'))
 })
 
-test('unstash', async () => {
+test('unstash', async (): Promise<void> => {
   const exec = jest.fn()
   await GitRequestsUnstash.unstash({
     cwd: '/test/test-folder',
@@ -39,7 +39,7 @@ test('unstash', async () => {
   })
 })
 
-test('unstash - stash reference', async () => {
+test('unstash - stash reference', async (): Promise<void> => {
   const exec = jest.fn()
   await GitRequestsUnstash.unstash({
     cwd: '/test/test-folder',

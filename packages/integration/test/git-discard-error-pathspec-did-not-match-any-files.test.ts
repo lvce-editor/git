@@ -1,6 +1,6 @@
 import { testWorker } from '../src/testWorker.js'
 
-test('git discard - error pathspec did not match any files', async () => {
+test('git discard - error pathspec did not match any files', async (): Promise<void> => {
   const execMap = {
     restore: {
       exitCode: 1,

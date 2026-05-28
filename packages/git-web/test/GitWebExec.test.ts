@@ -7,7 +7,7 @@ import { handleVersion } from '../src/VersionCommand/VersionCommand.ts'
 // Register commands for testing
 registerCommand('--version', handleVersion)
 
-test('exec with valid git command', async () => {
+test('exec with valid git command', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists
@@ -26,23 +26,23 @@ test('exec with valid git command', async () => {
   expect(mockRpc.invocations).toEqual([])
 })
 
-test('exec with invalid gitPath throws error', async () => {
+test('exec with invalid gitPath throws error', async (): Promise<void> => {
   await expect(exec(null as any, ['--version'], { cwd: 'web://test' })).rejects.toThrow('gitPath must be of type string, was null')
 })
 
-test('exec with invalid args throws error', async () => {
+test('exec with invalid args throws error', async (): Promise<void> => {
   await expect(exec('git', null as any, { cwd: 'web://test' })).rejects.toThrow('args must be an array, was null')
 })
 
-test('exec with invalid options throws error', async () => {
+test('exec with invalid options throws error', async (): Promise<void> => {
   await expect(exec('git', ['--version'], null as any)).rejects.toThrow('options must be an object, was null')
 })
 
-test.skip('exec with invalid cwd throws error', async () => {
+test.skip('exec with invalid cwd throws error', async (): Promise<void> => {
   await expect(exec('git', ['--version'], { cwd: null as any })).rejects.toThrow('cwd must be of type string, was null')
 })
 
-test('exec with unknown command throws error', async () => {
+test('exec with unknown command throws error', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists
@@ -57,7 +57,7 @@ test('exec with unknown command throws error', async () => {
   expect(mockRpc.invocations).toEqual([])
 })
 
-test('exec with empty args throws error', async () => {
+test('exec with empty args throws error', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // No git config exists

@@ -9,7 +9,7 @@ class ExecError extends Error {
 }
 
 test('setConfig - error - unknown git error', async () => {
-  const exec = () => {
+  const exec = (): never => {
     throw new ExecError('oops')
   }
   await expect(

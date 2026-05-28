@@ -1,6 +1,6 @@
 import { testWorker } from '../src/testWorker.js'
 
-test('git get current branch', async () => {
+test('git get current branch', async (): Promise<void> => {
   const execMap = {
     branch: {
       exitCode: 0,
