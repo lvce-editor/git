@@ -8,7 +8,6 @@
     { "path": "./packages/git-requests" },
     { "path": "./packages/git-worker" },
     { "path": "./packages/git-web" },
-    { "path": "./packages/integration" },
     { "path": "./packages/node" }
   ]
 }
