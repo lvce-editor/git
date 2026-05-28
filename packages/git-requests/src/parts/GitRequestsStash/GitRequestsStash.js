@@ -1,0 +1,22 @@
+import { GitError } from '../GitError/GitError.js'
+
+/**
+ *
+ * @param {{cwd:string, gitPath:string, exec:any, message?: string }} options
+ */
+export const stash = async ({ cwd, gitPath, exec, message = '' }) => {
+  try {
+    const args = ['stash', 'push']
+    if (message) {
+      args.push('--message', message)
+    }
+    await exec({
+      args,
+      cwd,
+      gitPath,
+      name: 'stash',
+    })
+  } catch (error) {
+    throw new GitError(error, 'stash')
+  }
+}
