@@ -15,6 +15,7 @@
     "onCommand:git.branch",
     "onCommand:git.commit",
     "onCommand:git.commitStaged",
+    "onCommand:git.createWorktree",
     "onCommand:git.createTag",
     "onCommand:git.deleteTag",
     "onCommand:git.sync",
@@ -85,6 +86,10 @@
     {
       "id": "git.commitStaged",
       "label": "Git: Commit Staged"
+    },
+    {
+      "id": "git.createWorktree",
+      "label": "Git: Create Worktree"
     },
     {
       "id": "git.createTag",

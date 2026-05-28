@@ -52,6 +52,26 @@ test('createWorktree - passes optional ref argument', async () => {
   })
 })
 
+test('createWorktree - normalizes file uri path', async () => {
+  const exec: GitExec = jest.fn(async () => ({
+    exitCode: 0,
+    stderr: '',
+    stdout: '',
+  }))
+  await GitRequestsCreateWorktree.createWorktree({
+    cwd: '/test/test-folder',
+    exec,
+    gitPath: 'git',
+    worktreePath: 'file:///test/feature-worktree',
+  })
+  expect(exec).toHaveBeenCalledWith({
+    args: ['worktree', 'add', '/test/feature-worktree'],
+    cwd: '/test/test-folder',
+    gitPath: 'git',
+    name: 'createWorktree',
+  })
+})
+
 test('createWorktree - error - unknown git error', async (): Promise<void> => {
   const exec = (): never => {
     throw new ExecError('oops')
