@@ -27,7 +27,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
       cwd: tmpDir,
     },
     {
-      commit: ['git', 'commit', '-m', 'First commit'],
+      command: ['git', 'commit', '-m', 'First commit'],
       cwd: tmpDir,
     },
   ])
