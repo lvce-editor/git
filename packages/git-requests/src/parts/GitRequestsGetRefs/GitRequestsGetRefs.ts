@@ -1,0 +1,20 @@
+import { GitError } from '../GitError/GitError.ts'
+import * as ParseGitRefs from '../ParseGitRefs/ParseGitRefs.ts'
+
+/**
+ *
+ * @param {{cwd: string, gitPath: string, exec:any }} options
+ */
+export const getRefs = async ({ cwd, gitPath, exec }) => {
+  try {
+    const gitResult = await exec({
+      args: ['for-each-ref', '--format', '%(refname) %(objectname) %(*objectname)'],
+      cwd,
+      gitPath,
+      name: 'getRefs',
+    })
+    return ParseGitRefs.parseGitRefs(gitResult.stdout)
+  } catch (error) {
+    throw new GitError(error, 'getRefs')
+  }
+}
