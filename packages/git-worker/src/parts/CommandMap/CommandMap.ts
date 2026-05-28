@@ -1,6 +1,7 @@
 import * as CommandAcceptInput from '../CommandAcceptInput/CommandAcceptInput.ts'
 import * as CommandAdd from '../CommandAdd/CommandAdd.ts'
 import * as CommandAddAll from '../CommandAddAll/CommandAddAll.ts'
+import * as CommandApplyStash from '../CommandApplyStash/CommandApplyStash.ts'
 import * as CommandCheckout from '../CommandCheckout/CommandCheckout.ts'
 import * as CommandCleanAll from '../CommandCleanAll/CommandCleanAll.ts'
 import * as CommandDiscard from '../CommandDiscard/CommandDiscard.ts'
@@ -28,6 +29,7 @@ export const commandMap = {
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
   [GitWorkerCommandType.CommandAdd]: CommandAdd.commandAdd,
   [GitWorkerCommandType.CommandAddAll]: CommandAddAll.commandAddAll,
+  [GitWorkerCommandType.CommandApplyStash]: CommandApplyStash.commandApplyStash,
   [GitWorkerCommandType.CommandCheckoutRef]: CommandCheckout.commandCheckout,
   [GitWorkerCommandType.CommandCleanAll]: CommandCleanAll.commandCleanAll,
   [GitWorkerCommandType.CommandDiscard]: CommandDiscard.commandDiscard,
@@ -49,6 +51,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitAddAll]: WrappedGitRequests.wrappedGitRequests.addAll,
   [GitWorkerCommandType.GitAddAllAndCommit]: WrappedGitRequests.wrappedGitRequests.addAllAndCommit,
   [GitWorkerCommandType.GitAddRemote]: WrappedGitRequests.wrappedGitRequests.addRemote,
+  [GitWorkerCommandType.GitApplyStash]: WrappedGitRequests.wrappedGitRequests.applyStash,
   [GitWorkerCommandType.GitBranch]: WrappedGitRequests.wrappedGitRequests.branch,
   [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchNames,
   [GitWorkerCommandType.GitCherryPick]: WrappedGitRequests.wrappedGitRequests.cherryPick,
