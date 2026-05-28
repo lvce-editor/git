@@ -14,6 +14,7 @@
     "onCommand:git.addAll",
     "onCommand:git.branch",
     "onCommand:git.commit",
+    "onCommand:git.commitStaged",
     "onCommand:git.createTag",
     "onCommand:git.deleteTag",
     "onCommand:git.sync",
@@ -80,6 +81,10 @@
     {
       "id": "git.commit",
       "label": "Git: Commit"
+    },
+    {
+      "id": "git.commitStaged",
+      "label": "Git: Commit Staged"
     },
     {
       "id": "git.createTag",

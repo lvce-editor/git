@@ -115,3 +115,23 @@ test('push - set upstream', async () => {
     name: 'push',
   })
 })
+
+test('push - follow tags', async () => {
+  const exec = jest.fn(async () => ({
+    stderr: '',
+    stdout: '',
+  }))
+  await GitRequestsPush.push({
+    cwd: '/test/test-folder',
+    exec,
+    gitPath: 'git',
+    followTags: true,
+  })
+  expect(exec).toHaveBeenCalledTimes(1)
+  expect(exec).toHaveBeenCalledWith({
+    args: ['push', '--porcelain', '--follow-tags'],
+    cwd: '/test/test-folder',
+    gitPath: 'git',
+    name: 'push',
+  })
+})
