@@ -1,12 +1,9 @@
+import type { GitRequestContext } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
 
-/**
- *
- * @param {{cwd: string, gitPath: string, exec:any }} options
- */
-export const getRemote = async ({ cwd, exec, gitPath }) => {
+export const getRemote = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   try {
-    const gitResult = await exec({
+    await exec({
       args: ['config', '--get', 'remote.origin.url'],
       cwd,
       gitPath,

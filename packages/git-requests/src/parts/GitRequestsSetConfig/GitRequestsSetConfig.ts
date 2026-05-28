@@ -1,5 +1,5 @@
-import { GitError } from '../GitError/GitError.ts'
 import type { GitKeyValueRequest } from '../Types/Types.ts'
+import { GitError } from '../GitError/GitError.ts'
 
 export const setConfig = async ({ cwd, exec, gitPath, key, value }: GitKeyValueRequest): Promise<void> => {
   try {

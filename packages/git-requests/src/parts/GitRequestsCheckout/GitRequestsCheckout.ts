@@ -1,5 +1,5 @@
-import { GitError } from '../GitError/GitError.ts'
 import type { GitRefRequest } from '../Types/Types.ts'
+import { GitError } from '../GitError/GitError.ts'
 
 export const checkout = async ({ cwd, exec, gitPath, ref }: GitRefRequest): Promise<void> => {
   try {

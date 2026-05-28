@@ -1,6 +1,6 @@
+import type { GitRef, GitRequestContext } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
 import * as ParseGitRefs from '../ParseGitRefs/ParseGitRefs.ts'
-import type { GitRef, GitRequestContext } from '../Types/Types.ts'
 
 export const getRefs = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<readonly GitRef[]> => {
   try {

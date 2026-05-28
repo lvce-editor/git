@@ -1,5 +1,5 @@
-import { GitError } from '../GitError/GitError.ts'
 import type { GitStashRequest } from '../Types/Types.ts'
+import { GitError } from '../GitError/GitError.ts'
 
 export const stash = async ({ cwd, exec, gitPath, message = '' }: GitStashRequest): Promise<void> => {
   try {

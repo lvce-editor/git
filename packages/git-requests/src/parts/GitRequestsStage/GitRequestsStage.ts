@@ -1,5 +1,5 @@
-import { GitError } from '../GitError/GitError.ts'
 import type { GitFileRequest } from '../Types/Types.ts'
+import { GitError } from '../GitError/GitError.ts'
 
 export const stage = async ({ cwd, exec, file, gitPath }: GitFileRequest): Promise<void> => {
   try {

@@ -1,5 +1,5 @@
-import { GitError } from '../GitError/GitError.ts'
 import type { GitRequestContext } from '../Types/Types.ts'
+import { GitError } from '../GitError/GitError.ts'
 
 export const getBranchNames = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<readonly string[]> => {
   try {

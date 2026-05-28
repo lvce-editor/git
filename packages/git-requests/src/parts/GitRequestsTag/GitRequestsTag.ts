@@ -1,5 +1,5 @@
-import { GitError } from '../GitError/GitError.ts'
 import type { GitTagRequest } from '../Types/Types.ts'
+import { GitError } from '../GitError/GitError.ts'
 
 export const tag = async ({ cwd, exec, gitPath, tag }: GitTagRequest): Promise<void> => {
   try {

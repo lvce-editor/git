@@ -1,5 +1,5 @@
-import { GitError } from '../GitError/GitError.ts'
 import type { GitMessageRequest } from '../Types/Types.ts'
+import { GitError } from '../GitError/GitError.ts'
 
 export const commit = async ({ cwd, exec, gitPath, message }: GitMessageRequest): Promise<void> => {
   try {
