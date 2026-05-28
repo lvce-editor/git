@@ -1,3 +1,6 @@
+/* eslint-disable @cspell/spellchecker */
+/* eslint-disable unicorn/no-await-expression-member */
+/* eslint-disable sonarjs/no-nested-template-literals */
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.merge-conflict'
