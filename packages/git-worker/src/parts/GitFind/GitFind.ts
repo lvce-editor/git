@@ -11,7 +11,7 @@ type GitInfo = {
 const findGitAtPath = async (path: string, cwd: string): Promise<GitInfo | undefined> => {
   let result: { stdout: string }
   try {
-    result = await Exec.exec('git', ['--version'], {
+    result = await Exec.exec(path, ['--version'], {
       cwd,
     })
   } catch (error) {
