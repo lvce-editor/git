@@ -1,12 +1,8 @@
 import * as IconType from '../IconType/IconType.ts'
 import * as FileTypeState from '../FileStateType/FileStateType.ts'
+import type { GitStatusFile } from '../Types/Types.ts'
 
-/**
- *
- * @param {number} type
- * @returns
- */
-export const getDecorationIcon = (type) => {
+export const getDecorationIcon = (type: GitStatusFile['status']): number => {
   switch (type) {
     case FileTypeState.IndexModified:
     case FileTypeState.Modified:

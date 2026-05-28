@@ -1,12 +1,8 @@
 import * as FileTypeState from '../FileStateType/FileStateType.ts'
 import * as Strings from '../Strings/Strings.ts'
+import type { GitStatusFile } from '../Types/Types.ts'
 
-/**
- *
- * @param {number} type
- * @returns
- */
-export const getStatusText = (type) => {
+export const getStatusText = (type: GitStatusFile['status']): string => {
   switch (type) {
     case FileTypeState.Modified:
       return Strings.Modified

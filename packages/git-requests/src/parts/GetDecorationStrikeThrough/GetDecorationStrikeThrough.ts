@@ -1,10 +1,7 @@
 import * as FileStateType from '../FileStateType/FileStateType.ts'
+import type { GitStatusFile } from '../Types/Types.ts'
 
-/**
- * @param {number} status
- * @returns
- */
-export const getDecorationStrikeThrough = (status) => {
+export const getDecorationStrikeThrough = (status: GitStatusFile['status']): boolean => {
   switch (status) {
     case FileStateType.Deleted:
     case FileStateType.BothDeleted:
