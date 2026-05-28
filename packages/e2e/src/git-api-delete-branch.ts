@@ -17,18 +17,12 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Git.deleteBranch(branchName)
 
   // assert
-  const headContent = await FileSystem.readFile(`${workspaceDir}/.git/HEAD`)
-  if (headContent !== 'ref: refs/heads/main\n') {
-    throw new Error(`expected HEAD to stay on main, got ${headContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/.git/HEAD`, 'ref: refs/heads/main\n')
   const branchRefs = await FileSystem.readDir(`${workspaceDir}/.git/refs/heads`)
   if (branchRefs.some((dirent) => dirent.name === branchName)) {
     throw new Error(`expected refs/heads/${branchName} to be removed`)
   }
-  const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
-  if (fileContent !== 'main branch') {
-    throw new Error(`expected main branch content, got ${fileContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'main branch')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'branch', '-d', branchName],
