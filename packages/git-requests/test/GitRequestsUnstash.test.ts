@@ -24,7 +24,7 @@ test('unstash - error - unknown git error', async (): Promise<void> => {
 })
 
 test('unstash', async (): Promise<void> => {
-  const exec = jest.fn()
+  const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   await GitRequestsUnstash.unstash({
     cwd: '/test/test-folder',
     exec,
@@ -40,7 +40,7 @@ test('unstash', async (): Promise<void> => {
 })
 
 test('unstash - stash reference', async (): Promise<void> => {
-  const exec = jest.fn()
+  const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   await GitRequestsUnstash.unstash({
     cwd: '/test/test-folder',
     exec,

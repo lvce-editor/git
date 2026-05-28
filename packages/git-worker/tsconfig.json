@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["esnext", "WebWorker"],
-    "checkJs": true,
+    "checkJs": false,
     "module": "NodeNext",
     "target": "esnext",
     "types": ["jest"],

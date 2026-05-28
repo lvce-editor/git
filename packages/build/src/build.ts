@@ -70,13 +70,13 @@ await replace({
 })
 
 await replace({
-  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
+  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.ts'),
   occurrence: '/extension',
   replacement: '',
 })
 
 await replace({
-  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.js'),
+  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.ts'),
   occurrence: 'parts.slice(0, -5)',
   replacement: 'parts.slice(0, -3)',
 })
