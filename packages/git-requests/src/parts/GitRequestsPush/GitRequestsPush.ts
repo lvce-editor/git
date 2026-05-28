@@ -6,7 +6,7 @@ type PushOptions = GitRequestContext & {
   readonly setUpstream?: readonly string[]
 }
 
-export const push = async ({ cwd, exec, gitPath, followTags = false, setUpstream = undefined }: PushOptions): Promise<void> => {
+export const push = async ({ cwd, exec, followTags = false, gitPath, setUpstream = undefined }: PushOptions): Promise<void> => {
   const args: string[] = ['push', '--porcelain']
   try {
     if (followTags) {

@@ -124,8 +124,8 @@ test('push - follow tags', async () => {
   await GitRequestsPush.push({
     cwd: '/test/test-folder',
     exec,
-    gitPath: 'git',
     followTags: true,
+    gitPath: 'git',
   })
   expect(exec).toHaveBeenCalledTimes(1)
   expect(exec).toHaveBeenCalledWith({

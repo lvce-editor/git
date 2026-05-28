@@ -5,7 +5,7 @@ type PullOptions = GitRequestContext & {
   readonly from?: readonly string[]
 }
 
-export const pull = async ({ cwd, exec, gitPath, from = undefined }: PullOptions): Promise<void> => {
+export const pull = async ({ cwd, exec, from = undefined, gitPath }: PullOptions): Promise<void> => {
   const args: string[] = ['pull']
   try {
     await exec({
