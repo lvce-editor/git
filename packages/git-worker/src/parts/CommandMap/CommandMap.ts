@@ -9,6 +9,7 @@ import * as CommandGetBranchNames from '../CommandGetBranchNames/CommandGetBranc
 import * as CommandGetFileDecorations from '../CommandGetFileDecorations/GetFileDecorations.ts'
 import * as CommandInit from '../CommandInit/CommandInit.ts'
 import * as CommandLoadFixture from '../CommandLoadFixture/CommandLoadFixture.ts'
+import * as CommandMerge from '../CommandMerge/CommandMerge.ts'
 import * as CommandOpenFile from '../CommandOpenFile/CommandOpenFile.ts'
 import * as CommandPull from '../CommandPull/CommandPull.ts'
 import * as CommandPullRebase from '../CommandPullRebase/CommandPullRebase.ts'
@@ -33,6 +34,7 @@ export const commandMap = {
   [GitWorkerCommandType.CommandFetch]: CommandFetch.commandFetch,
   [GitWorkerCommandType.CommandInit]: CommandInit.commandInit,
   [GitWorkerCommandType.CommandLoadFixture]: CommandLoadFixture.commandLoadFixture,
+  [GitWorkerCommandType.CommandMerge]: CommandMerge.commandMerge,
   [GitWorkerCommandType.CommandPull]: CommandPull.commandPull,
   [GitWorkerCommandType.CommandPullRebase]: CommandPullRebase.commandPullRebase,
   [GitWorkerCommandType.CommandStage]: CommandStage.commandStage,
@@ -63,6 +65,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitGetGroups]: WrappedGitRequests.wrappedGitRequests.getGroups,
   [GitWorkerCommandType.GitGetRefs]: WrappedGitRequests.wrappedGitRequests.getRefs,
   [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
+  [GitWorkerCommandType.GitMerge]: WrappedGitRequests.wrappedGitRequests.merge,
   [GitWorkerCommandType.GitOpenFile]: CommandOpenFile.commandOpenFile,
   [GitWorkerCommandType.GitPull]: WrappedGitRequests.wrappedGitRequests.pull,
   [GitWorkerCommandType.GitPullAndRebase]: WrappedGitRequests.wrappedGitRequests.pullAndRebase,

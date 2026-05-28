@@ -6,6 +6,7 @@
   "icon": "./icon.png",
   "activation": [
     "onCommand:git.init",
+    "onCommand:git.merge",
     "onCommand:git.pull",
     "onCommand:git.pullRebase",
     "onCommand:git.push",
@@ -42,6 +43,10 @@
     {
       "id": "git.loadFixture",
       "label": "Git: Load Fixture"
+    },
+    {
+      "id": "git.merge",
+      "label": "Git: Merge"
     },
     {
       "id": "git.pull",
