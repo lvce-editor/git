@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.pull'
@@ -6,7 +7,11 @@ export const name = 'git.pull'
 
 let workspaceDir = ''
 
-const exec = async (command: string, args: readonly string[], options: { cwd: string }): Promise<{ exitCode: number; stderr: string; stdout: string }> => {
+const exec = async (
+  command: string,
+  args: readonly string[],
+  options: { cwd: string },
+): Promise<{ exitCode: number; stderr: string; stdout: string }> => {
   if (command !== 'git') {
     throw new Error(`unexpected command ${command}`)
   }
