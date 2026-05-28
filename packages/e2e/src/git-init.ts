@@ -2,8 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.init'
 
-// @ts-ignore
-export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SideBar, SourceControl, Workspace }) => {
+export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
@@ -12,7 +11,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await Git.init()
 
   // assert
-  // @ts-ignore
   await FileSystem.shouldHaveFolder(`${tmpDir}/.git`)
   await Git.shouldHaveInvocations([
     {
