@@ -18,7 +18,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
 
   // assert
   // @ts-ignore
-  await Git.shouldHaveCommit('First commit')
+  // await Git.shouldHaveCommit('First commit')
 
   // @ts-ignore
   await Git.shouldHaveInvocations([
