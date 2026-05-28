@@ -15,10 +15,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   })
 
   // assert
-  const headContent = await FileSystem.readFile(`${tmpDir}/.git/HEAD`)
-  if (headContent !== `ref: refs/heads/${initialBranch}\n`) {
-    throw new Error(`expected HEAD to point to ${initialBranch}, got ${headContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${tmpDir}/.git/HEAD`, `ref: refs/heads/${initialBranch}\n`)
   await FileSystem.shouldHaveFolder(`${tmpDir}/.git/refs/heads`)
   await Git.shouldHaveInvocations([
     {

@@ -21,12 +21,6 @@ export const test: Test = async ({ Command, FileSystem, Settings, Workspace }) =
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', cloneFixtureUrl)
 
   // assert
-  const headContent = await FileSystem.readFile(`${cloneDir}/.git/HEAD`)
-  if (headContent !== 'ref: refs/heads/main\n') {
-    throw new Error(`expected HEAD to point to main, got ${headContent}`)
-  }
-  const fileContent = await FileSystem.readFile(`${cloneDir}/file.txt`)
-  if (fileContent !== 'cloned from disk') {
-    throw new Error(`expected cloned content, got ${fileContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${cloneDir}/.git/HEAD`, 'ref: refs/heads/main\n')
+  await FileSystem.shouldHaveFile(`${cloneDir}/file.txt`, 'cloned from disk')
 }

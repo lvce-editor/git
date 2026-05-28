@@ -16,14 +16,8 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Git.checkout('feature')
 
   // assert
-  const headContent = await FileSystem.readFile(`${workspaceDir}/.git/HEAD`)
-  if (headContent !== 'ref: refs/heads/feature\n') {
-    throw new Error(`expected HEAD to point to feature, got ${headContent}`)
-  }
-  const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
-  if (fileContent !== 'feature branch') {
-    throw new Error(`expected feature branch content, got ${fileContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
+  await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'feature branch')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'checkout', 'feature'],

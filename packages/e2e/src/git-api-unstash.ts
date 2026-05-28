@@ -17,10 +17,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Git.unstash()
 
   // assert
-  const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
-  if (fileContent !== 'modified content') {
-    throw new Error(`expected stashed changes to be restored, got ${fileContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'modified content')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'stash', 'push'],

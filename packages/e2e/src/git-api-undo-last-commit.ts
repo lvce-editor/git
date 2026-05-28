@@ -16,15 +16,9 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Command.execute('ExtensionHost.executeCommand', 'git.undoLastCommit')
 
   // assert
-  const headRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
   const taggedRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/tags/before-undo`)
-  if (headRef !== taggedRef) {
-    throw new Error(`expected HEAD to match tag before-undo, got ${headRef}`)
-  }
-  const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
-  if (fileContent !== 'second version') {
-    throw new Error(`expected working tree to keep undone commit changes, got ${fileContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/.git/refs/heads/main`, taggedRef)
+  await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'second version')
   const indexContent = await FileSystem.readFile(`${workspaceDir}/.git/index`)
   if (!indexContent.includes('file.txt')) {
     throw new Error(`expected undone commit changes to remain staged, got ${indexContent}`)

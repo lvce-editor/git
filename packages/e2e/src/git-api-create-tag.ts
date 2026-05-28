@@ -18,10 +18,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
 
   // assert
   const headRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
-  const tagRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/tags/${tagName}`)
-  if (tagRef !== headRef) {
-    throw new Error(`expected tag ref to match HEAD commit, got ${tagRef}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/.git/refs/tags/${tagName}`, headRef)
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'tag', tagName],
