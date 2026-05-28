@@ -4,9 +4,36 @@ export const name = 'git.pull'
 
 // export const skip = 1
 
+let workspaceDir = ''
+
+const exec = async (command: string, args: readonly string[], options: { cwd: string }): Promise<{ exitCode: number; stderr: string; stdout: string }> => {
+  if (command !== 'git') {
+    throw new Error(`unexpected command ${command}`)
+  }
+  switch (args[0]) {
+    case '--version':
+      return {
+        exitCode: 0,
+        stderr: '',
+        stdout: 'git version 2.39.5',
+      }
+    case 'pull':
+      // Fallback for environments where the actual pull command is mocked through this RPC layer.
+      // @ts-ignore
+      await globalThis.rpc.invoke('FileSystem.writeFile', `${workspaceDir}/file.txt`, 'version 2')
+      return {
+        exitCode: 0,
+        stderr: '',
+        stdout: '',
+      }
+    default:
+      throw new Error(`unexpected git args ${args.join(' ')}`)
+  }
+}
+
 export const mockRpc = {
   commands: {
-    'Config.getGitPaths': () => ['/usr/bin/git'],
+    'Exec.exec': exec,
   },
   name: 'Git',
 }
@@ -14,12 +41,23 @@ export const mockRpc = {
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  const workspaceDir = `${tmpDir}/workspace`
+  const upstreamDir = `${tmpDir}/upstream`
+  workspaceDir = `${tmpDir}/workspace`
   const fileName = 'file.txt'
+  const gitPath = 'file:///usr/bin/git'
 
   await Workspace.setPath(tmpDir)
-  const fixtureUrl = import.meta.resolve('../fixtures/git-api-pull')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  await FileSystem.mkdir(upstreamDir)
+  await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'init', '--initial-branch', 'main'])
+  await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'config', 'user.name', 'Test User'])
+  await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'config', 'user.email', 'test@example.com'])
+  await FileSystem.writeFile(`${upstreamDir}/${fileName}`, 'version 1')
+  await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'add', '.'])
+  await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'commit', '-m', 'Initial commit'])
+  await Command.execute('Exec.exec', gitPath, ['clone', upstreamDir, workspaceDir])
+  await FileSystem.writeFile(`${upstreamDir}/${fileName}`, 'version 2')
+  await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'add', '.'])
+  await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'commit', '-m', 'Update file'])
   await Workspace.setPath(workspaceDir)
 
   // act
