@@ -17,10 +17,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
 
   // assert
   await FileSystem.shouldHaveFile(`${workspaceDir}/added.txt`, 'merged content')
-  const headContent = await FileSystem.readFile(`${workspaceDir}/.git/HEAD`)
-  if (headContent !== 'ref: refs/heads/main\n') {
-    throw new Error(`expected HEAD to stay on main, got ${headContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/.git/HEAD`, 'ref: refs/heads/main\n')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'merge', 'feature'],
