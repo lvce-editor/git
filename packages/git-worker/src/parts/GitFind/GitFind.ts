@@ -4,8 +4,9 @@ import * as ParseGitVersion from '../ParseGitVersion/ParseGitVersion.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
 type GitInfo = {
+  parsedVersion: string
   path: string
-  version: string
+  rawVersion: string
 }
 
 const findGitAtPath = async (path: string, cwd: string): Promise<GitInfo | undefined> => {
@@ -21,8 +22,9 @@ const findGitAtPath = async (path: string, cwd: string): Promise<GitInfo | undef
     return undefined
   }
   return {
+    parsedVersion: ParseGitVersion.parseGitVersion(result.stdout),
     path,
-    version: ParseGitVersion.parseGitVersion(result.stdout),
+    rawVersion: result.stdout,
   }
 }
 

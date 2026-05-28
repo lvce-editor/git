@@ -1,4 +1,5 @@
 export const emptyGit = {
+  parsedVersion: '',
   path: '',
-  version: '',
+  rawVersion: '',
 }
