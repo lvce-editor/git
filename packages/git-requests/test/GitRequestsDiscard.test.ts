@@ -2,7 +2,7 @@ import { jest } from '@jest/globals'
 import * as GitRequestsDiscard from '../src/parts/GitRequestsDiscard/GitRequestsDiscard.js'
 
 test.skip('discard', async (): Promise<void> => {
-  const exec = jest.fn()
+  const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   const confirm = jest.fn(() => true)
   await GitRequestsDiscard.discard({
     confirm,
@@ -17,7 +17,7 @@ test.skip('discard', async (): Promise<void> => {
 })
 
 test.skip('discard - confirm false', async (): Promise<void> => {
-  const exec = jest.fn()
+  const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   const confirm = jest.fn(() => false)
   await GitRequestsDiscard.discard({
     confirm,

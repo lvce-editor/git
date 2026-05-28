@@ -27,14 +27,12 @@ export const discard = async ({
   gitPath,
   remove,
 }: GitRequestContext & {
+  readonly confirm: (message: string) => boolean | Promise<boolean>
   readonly file: string
-  readonly confirm: (options: { readonly message: string }) => Promise<boolean>
-  readonly remove: (path: string) => Promise<void>
+  readonly remove: (path: string) => void | Promise<void>
 }): Promise<void> => {
   try {
-    const confirmResult = await confirm({
-      message: `Are you sure you want to discard ${file}`,
-    })
+    const confirmResult = await confirm(`Are you sure you want to discard ${file}`)
     if (!confirmResult) {
       return
     }
