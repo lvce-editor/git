@@ -2,15 +2,12 @@ import { GitError } from '../GitError/GitError.ts'
 import { unstageAllFallback } from '../GitRequestsUnstageAllFallback/GitRequestsUnstageAllFallback.ts'
 import { isDidNotMatchAnyFilesError } from '../IsDidNotMatchAnyFilesError/IsDidNotMatchAnyFilesError.ts'
 import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepositoryError.ts'
+import type { GitRequestContext } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string,gitPath:string, exec:any }} options
- */
-export const unstageAll = async ({ cwd, exec, gitPath }) => {
+export const unstageAll = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   try {
     const args = ['restore', '--staged', '.']
-    const gitResult = await exec({
+    await exec({
       args,
       cwd,
       gitPath,
