@@ -1,3 +1,4 @@
+export const CommandUndoLastCommit = 'Command.gitUndoLastCommit'
 export const GitAdd = 'Git.add'
 export const GitAddRemote = 'Git.addRemote'
 export const GitAddAll = 'Git.addAll'
