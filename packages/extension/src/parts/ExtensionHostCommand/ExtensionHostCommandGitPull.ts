@@ -3,6 +3,10 @@ import * as GitWorker from '../GitWorker/GitWorker.js'
 
 export const id = CommandId.GitPull
 
-export const execute = () => {
-  return GitWorker.invoke('Command.gitPull')
+type PullOptions = {
+  readonly from?: readonly string[]
+}
+
+export const execute = (options: PullOptions = {}) => {
+  return GitWorker.invoke('Command.gitPull', options)
 }

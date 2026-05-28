@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.commitStaged'
 
-export const skip = 1
+// export const skip = 1
 
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   // arrange
@@ -13,8 +13,8 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await FileSystem.writeFile(`${tmpDir}/${stagedFile}`, 'staged content')
   await FileSystem.writeFile(`${tmpDir}/${unstagedFile}`, 'version 1')
   await Git.init()
-  await Command.execute('ExtensionHost.executeCommand', 'git.setConfig', 'user.name', 'Test User')
-  await Command.execute('ExtensionHost.executeCommand', 'git.setConfig', 'user.email', 'test@example.com')
+  await Git.setConfig('user.name', 'Test User')
+  await Git.setConfig('user.email', 'test@example.com')
   await Command.execute('ExtensionHost.executeCommand', 'git.stage', stagedFile)
   await FileSystem.writeFile(`${tmpDir}/${unstagedFile}`, 'version 2')
 

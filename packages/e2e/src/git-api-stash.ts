@@ -13,7 +13,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Workspace.setPath(workspaceDir)
 
   // act
-  await Command.execute('ExtensionHost.executeCommand', 'git.stash')
+  await Git.stash()
 
   // assert
   const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)

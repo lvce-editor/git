@@ -11,10 +11,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-stash')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
-  await Command.execute('ExtensionHost.executeCommand', 'git.stash')
+  await Git.stash()
 
   // act
-  await Command.execute('ExtensionHost.executeCommand', 'git.unstash')
+  await Git.unstash()
 
   // assert
   const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
