@@ -6,6 +6,18 @@ export const name = 'git.pull'
 // export const skip = 1
 let workspaceDir = ''
 
+const fileUrlToPath = (url: string): string => {
+  const parsedUrl = new URL(url)
+  const pathname = decodeURIComponent(parsedUrl.pathname)
+  if (parsedUrl.hostname) {
+    return `//${parsedUrl.hostname}${pathname}`
+  }
+  if (/^\/[A-Za-z]:/.test(pathname)) {
+    return pathname.slice(1)
+  }
+  return pathname
+}
+
 const exec = async (
   command: string,
   args: readonly string[],
@@ -46,18 +58,21 @@ type GitPullWithFrom = {
   readonly pull: (options: { readonly from?: readonly string[] }) => Promise<void>
 }
 
-export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
+export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace }) => {
   // arrange
   const tmpDirUrl = await FileSystem.getTmpDir({ scheme: 'file' })
-  const tmpDir = tmpDirUrl.slice('file://'.length)
+  const tmpDir = fileUrlToPath(tmpDirUrl)
   const upstreamDir = `${tmpDir}/upstream`
   const upstreamDirUrl = `${tmpDirUrl}/upstream`
   const workspaceDirUrl = `${tmpDirUrl}/workspace`
   workspaceDir = `${tmpDir}/workspace`
   const fileName = 'file.txt'
-  const gitPath = 'file:///usr/bin/git'
+  const gitPath = 'git'
 
   await Workspace.setPath(tmpDirUrl)
+  await Settings.update({
+    'git.path': gitPath,
+  })
   await FileSystem.mkdir(upstreamDirUrl)
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'init', '--initial-branch', 'main'], {})
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'config', 'user.name', 'Test User'], {})
