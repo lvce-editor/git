@@ -10,7 +10,7 @@ let workspaceDir = ''
 const exec = async (
   command: string,
   args: readonly string[],
-  options: { cwd: string },
+  _options: { cwd: string },
 ): Promise<{ exitCode: number; stderr: string; stdout: string }> => {
   if (command !== 'git') {
     throw new Error(`unexpected command ${command}`)
