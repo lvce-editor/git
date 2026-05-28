@@ -11,6 +11,7 @@
     "onCommand:git.pullRebase",
     "onCommand:git.push",
     "onCommand:git.addAll",
+    "onCommand:git.branch",
     "onCommand:git.commit",
     "onCommand:git.createTag",
     "onCommand:git.sync",
@@ -64,6 +65,10 @@
     {
       "id": "git.addAll",
       "label": "Git: Add all"
+    },
+    {
+      "id": "git.branch",
+      "label": "Git: Branch"
     },
     {
       "id": "git.commit",
