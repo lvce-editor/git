@@ -11,11 +11,14 @@
     "onCommand:git.pullRebase",
     "onCommand:git.push",
     "onCommand:git.addAll",
+    "onCommand:git.branch",
     "onCommand:git.commit",
     "onCommand:git.createTag",
+    "onCommand:git.deleteTag",
     "onCommand:git.sync",
     "onCommand:git.fetch",
     "onCommand:git.pr",
+    "onCommand:git.stash",
     "onCommand:git.stage",
     "onCommand:git.unstage",
     "onCommand:git.stageAll",
@@ -66,6 +69,10 @@
       "label": "Git: Add all"
     },
     {
+      "id": "git.branch",
+      "label": "Git: Branch"
+    },
+    {
       "id": "git.commit",
       "label": "Git: Commit"
     },
@@ -74,12 +81,20 @@
       "label": "Git: Create Tag"
     },
     {
+      "id": "git.deleteTag",
+      "label": "Git: Delete Tag"
+    },
+    {
       "id": "git.sync",
       "label": "Git: Sync"
     },
     {
       "id": "git.fetch",
       "label": "Git: Fetch"
+    },
+    {
+      "id": "git.stash",
+      "label": "Git: Stash"
     },
     {
       "id": "git.undoLastCommit",
@@ -98,6 +113,9 @@
   "quickPick": [
     {
       "id": "git.checkoutRef"
+    },
+    {
+      "id": "git.stash"
     }
   ],
   "categories": ["Source Control"],

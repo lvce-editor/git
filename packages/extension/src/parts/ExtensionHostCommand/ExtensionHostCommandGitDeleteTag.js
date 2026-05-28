@@ -2,8 +2,8 @@ import * as CommandId from '../CommandId/CommandId.js'
 import * as GitWorker from '../GitWorker/GitWorker.js'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
 
-export const id = CommandId.GitUndoLastCommit
+export const id = CommandId.GitDeleteTag
 
-export const execute = async () => {
-  return GitWorker.invoke(GitWorkerCommandType.CommandUndoLastCommit)
+export const execute = async (tag) => {
+  return GitWorker.invoke(GitWorkerCommandType.GitDeleteTag, { tag })
 }

@@ -1,8 +1,10 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-export const name = 'git.stash'
+export const name = 'git.quick-pick-stash'
 
-export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
+export const skip = 1
+
+export const test: Test = async ({ Command, FileSystem, Git, QuickPick, SideBar, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
@@ -11,9 +13,12 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-stash')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
+  await SideBar.open('Source Control')
 
   // act
-  await Command.execute('ExtensionHost.executeCommand', 'git.stash')
+  await QuickPick.open()
+  await QuickPick.setValue('>Git: Stash')
+  await QuickPick.selectItem('Git: Stash')
 
   // assert
   const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)

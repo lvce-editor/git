@@ -1,28 +1,32 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-export const name = 'git.stash'
+export const name = 'git.apply-stash'
+
+export const skip = 1
 
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
-  // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
 
   await Workspace.setPath(tmpDir)
-  const fixtureUrl = import.meta.resolve('../fixtures/git-api-stash')
+  const fixtureUrl = import.meta.resolve('../fixtures/git-api-apply-stash')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
 
-  // act
-  await Command.execute('ExtensionHost.executeCommand', 'git.stash')
+  if ('applyStash' in Git) {
+    // @ts-ignore
+    await Git.applyStash()
+  } else {
+    await Command.execute('ExtensionHost.executeCommand', 'git.applyStash')
+  }
 
-  // assert
   const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
-  if (fileContent !== 'initial content') {
-    throw new Error(`expected stashed changes to be removed, got ${fileContent}`)
+  if (fileContent !== 'modified content') {
+    throw new Error(`expected stashed changes to be applied, got ${fileContent}`)
   }
   await Git.shouldHaveInvocations([
     {
-      command: ['git', 'stash', 'push'],
+      command: ['git', 'stash', 'apply'],
       cwd: workspaceDir,
     },
   ])

@@ -40,6 +40,10 @@ export type GitRefRequest = GitRequestContext & {
   readonly ref: string
 }
 
+export type GitNameRequest = GitRequestContext & {
+  readonly name: string
+}
+
 export type GitTagRequest = GitRequestContext & {
   readonly tag: string
 }
