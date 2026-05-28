@@ -8,6 +8,7 @@ test('cleanAll', async (): Promise<void> => {
     exec,
     gitPath: 'git',
   })
-  expect(exec).toHaveBeenCalledTimes(1)
-  expect(exec).toHaveBeenCalledWith({ args: ['restore', '--', '.'], cwd: '/test/test-folder', gitPath: 'git', name: 'cleanAll' })
+  expect(exec).toHaveBeenCalledTimes(2)
+  expect(exec).toHaveBeenNthCalledWith(1, { args: ['restore', '--', '.'], cwd: '/test/test-folder', gitPath: 'git', name: 'cleanAll' })
+  expect(exec).toHaveBeenNthCalledWith(2, { args: ['clean', '-fd'], cwd: '/test/test-folder', gitPath: 'git', name: 'cleanAll' })
 })
