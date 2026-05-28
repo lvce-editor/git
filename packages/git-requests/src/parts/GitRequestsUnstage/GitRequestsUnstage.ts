@@ -1,7 +1,7 @@
+import type { GitFileRequest } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
 import { unstageFallback } from '../GitRequestsUnstageFallback/GitRequestsUnstageFallback.ts'
 import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepositoryError.ts'
-import type { GitFileRequest } from '../Types/Types.ts'
 
 export const unstage = async ({ cwd, exec, file, gitPath }: GitFileRequest): Promise<void> => {
   try {

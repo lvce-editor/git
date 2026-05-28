@@ -1,8 +1,9 @@
 import { GitError } from '../GitError/GitError.ts'
 import * as GitRequestsUnstageAll from '../GitRequestsUnstageAll/GitRequestsUnstageAll.ts'
+import type { GitRequestContext } from '../Types/Types.ts'
 import * as IsGitNoPreviousCommitError from '../IsGitNoPreviousCommitError/IsGitNoPreviousCommitError.ts'
 
-const undoLastCommitFallback = async ({ cwd, exec, gitPath }) => {
+const undoLastCommitFallback = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   await exec({
     args: ['update-ref', '-d', 'HEAD'],
     cwd,
@@ -12,11 +13,7 @@ const undoLastCommitFallback = async ({ cwd, exec, gitPath }) => {
   await GitRequestsUnstageAll.unstageAll({ cwd, exec, gitPath })
 }
 
-/**
- *
- * @param {{cwd:string,gitPath:string, exec:any  }} options
- */
-export const undoLastCommit = async ({ cwd, exec, gitPath }) => {
+export const undoLastCommit = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   try {
     try {
       await exec({

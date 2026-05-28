@@ -1,8 +1,8 @@
+import type { GitRequestContext } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
 import { unstageAllFallback } from '../GitRequestsUnstageAllFallback/GitRequestsUnstageAllFallback.ts'
 import { isDidNotMatchAnyFilesError } from '../IsDidNotMatchAnyFilesError/IsDidNotMatchAnyFilesError.ts'
 import { isEmptyGitRepositoryError } from '../IsEmptyRepositoryError/IsEmptyRepositoryError.ts'
-import type { GitRequestContext } from '../Types/Types.ts'
 
 export const unstageAll = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   try {
