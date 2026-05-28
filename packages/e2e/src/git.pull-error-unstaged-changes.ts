@@ -4,7 +4,7 @@ export const skip = true
 
 export const name = 'git.pull-error-unstaged-changes'
 
-const exec = (command: string, args: string[], options: any) => {
+const exec = (command: string, args: readonly string[], options: any): { exitCode: number; stderr: string; stdout: string } => {
   if (command === 'git') {
     if (args[0] === '--version') {
       return {

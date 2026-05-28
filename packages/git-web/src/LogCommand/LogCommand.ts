@@ -3,7 +3,7 @@ import type { CommandResult } from '../CommandResult/CommandResult.ts'
 import * as ExitCode from '../ExitCode/ExitCode.ts'
 import { GitRepository } from '../GitRepository/GitRepository.ts'
 
-export const handleLog = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
+export const handleLog = async (args: readonly string[], options: CommandOptions): Promise<CommandResult> => {
   const repository = await GitRepository.getRepository(options.cwd)
   const commits = await repository.getCommits()
 

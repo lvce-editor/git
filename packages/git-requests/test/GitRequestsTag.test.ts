@@ -8,8 +8,8 @@ class ExecError extends Error {
   }
 }
 
-test('tag - error - tag already exists', async () => {
-  const exec = () => {
+test('tag - error - tag already exists', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError(`fatal: tag 'abc' already exists`)
   }
   await expect(

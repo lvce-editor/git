@@ -8,8 +8,8 @@ class ExecError extends Error {
   }
 }
 
-test('commit - error - unmerged files', async () => {
-  const exec = () => {
+test('commit - error - unmerged files', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('not possible because you have unmerged files')
   }
   await expect(
@@ -22,8 +22,8 @@ test('commit - error - unmerged files', async () => {
   ).rejects.toThrow(new Error('Git: not possible because you have unmerged files'))
 })
 
-test('commit - error - nothing to commit', async () => {
-  const exec = () => {
+test('commit - error - nothing to commit', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('On branch main\nnothing to commit, working tree clean')
   }
   await expect(
@@ -36,8 +36,8 @@ test('commit - error - nothing to commit', async () => {
   ).rejects.toThrow(new Error('Git: nothing to commit'))
 })
 
-test('commit - error - unknown git error', async () => {
-  const exec = () => {
+test('commit - error - unknown git error', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('oops')
   }
   await expect(

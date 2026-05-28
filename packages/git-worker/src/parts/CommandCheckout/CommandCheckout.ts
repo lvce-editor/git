@@ -5,7 +5,7 @@ import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitReposito
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
-export const commandCheckout = async () => {
+export const commandCheckout = async (): Promise<void> => {
   const picks = await GetCheckoutPicks.getCheckoutPicks()
   const selectedPick = await Rpc.invoke('QuickPick.show', picks)
   if (!selectedPick) {

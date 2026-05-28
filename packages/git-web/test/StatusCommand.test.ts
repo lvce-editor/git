@@ -2,7 +2,7 @@ import { test, expect } from '@jest/globals'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 import { handleStatus } from '../src/StatusCommand/StatusCommand.ts'
 
-test('handleStatus returns status for new repository', async () => {
+test('handleStatus returns status for new repository', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -42,7 +42,7 @@ test('handleStatus returns status for new repository', async () => {
   ])
 })
 
-test('handleStatus works with different cwd', async () => {
+test('handleStatus works with different cwd', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -80,7 +80,7 @@ test('handleStatus works with different cwd', async () => {
   ])
 })
 
-test('handleStatus works with args', async () => {
+test('handleStatus works with args', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -110,7 +110,7 @@ test('handleStatus works with args', async () => {
   ])
 })
 
-test('handleStatus with --porcelain returns porcelain format', async () => {
+test('handleStatus with --porcelain returns porcelain format', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -143,7 +143,7 @@ test('handleStatus with --porcelain returns porcelain format', async () => {
   expect(result.stdout).toMatch(/^[ AMDRC?][AMDRC?] .+$/m)
 })
 
-test('handleStatus with --porcelain and -uall returns porcelain format with untracked files', async () => {
+test('handleStatus with --porcelain and -uall returns porcelain format with untracked files', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {

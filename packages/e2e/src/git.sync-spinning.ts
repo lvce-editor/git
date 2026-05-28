@@ -4,7 +4,7 @@ export const name = 'git.sync-spinning'
 
 export const skip = true
 
-export const test: Test = async ({ expect, FileSystem, Locator, Settings, Workspace }) => {
+export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Settings, Workspace }) => {
   // @ts-ignore
   const tmpDir = await getTmpDir()
   // @ts-ignore
@@ -43,16 +43,10 @@ main()
     name: 'builtin.git',
   })
   const testTxt = page.locator('text=test.txt')
-  await testTxt.click()
+  await testTxt.press('Enter')
   const tokenText = page.locator('.Token.Text')
-  await tokenText.click()
-  await page.keyboard.press('Control+Shift+P')
-  const quickPick = page.locator('#QuickPick')
-  const quickPickInput = quickPick.locator('.InputBox')
-  await expect(quickPickInput).toHaveValue('>')
-  await quickPickInput.type('git sync')
-  const quickPickItemGitSync = quickPick.locator('text=Git: Sync')
-  await quickPickItemGitSync.click()
+  await tokenText.press('Enter')
+  await QuickPick.executeCommand('Git: Sync')
   const statusBarItemSync = page.locator('.StatusBarItem[data-name="sync head"]')
   const statusBarItemSyncIcon = statusBarItemSync.locator('.StatusBarIcon')
   await expect(statusBarItemSyncIcon).toBeVisible()
@@ -66,9 +60,6 @@ main()
 
   // await expect(statusBarItemSyncIcon).toBeVisible()
   // await expect(statusBarItemSyncIcon).toHaveClass('Icon')
-
-  console.log('finished')
-
   // if (process.send) {
   //   process.send('succeeded')
   // }

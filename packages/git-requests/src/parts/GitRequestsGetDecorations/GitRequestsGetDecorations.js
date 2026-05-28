@@ -5,7 +5,7 @@ const joinByNull = (strings) => {
 }
 /**
  *
- * @param {{cwd:string,gitPath:string , file:string, exec:any, uris:any  }} options
+ * @param {{cwd:string, gitPath:string, exec:any, uris:any}} options
  */
 export const getDecorations = async ({ cwd, gitPath, uris, exec }) => {
   try {

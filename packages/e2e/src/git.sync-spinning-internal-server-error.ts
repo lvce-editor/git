@@ -37,9 +37,9 @@ process.exit(128)
     name: 'builtin.git',
   })
   const testTxt = page.locator('text=test.txt')
-  await testTxt.click()
+  await testTxt.press('Enter')
   const tokenText = page.locator('.Token.Text')
-  await tokenText.click()
+  await tokenText.press('Enter')
   await page.keyboard.press('Control+Shift+P')
   const quickPick = page.locator('#QuickPick')
   const quickPickInput = quickPick.locator('.InputBox')
@@ -47,7 +47,7 @@ process.exit(128)
   await expect(quickPickInput).toHaveValue('>')
   await quickPickInput.type('git sync')
   const quickPickItemGitSync = quickPick.locator('text=Git: Sync')
-  await quickPickItemGitSync.click()
+  await quickPickItemGitSync.press('Enter')
 
   // @ts-ignore
   if (useElectron) {

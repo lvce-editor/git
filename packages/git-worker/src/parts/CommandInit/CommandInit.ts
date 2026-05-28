@@ -10,7 +10,7 @@ export interface InitOptions {
   readonly initialBranch?: string
 }
 
-export const commandInit = async (options: InitOptions = {}) => {
+export const commandInit = async (options: InitOptions = {}): Promise<void> => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
     args: {

@@ -18,7 +18,7 @@ export type ExecResult = {
 /**
  * Web-compatible git exec function that emulates git commands
  */
-export const exec = async (gitPath: string, args: string[], options: ExecOptions): Promise<ExecResult> => {
+export const exec = async (gitPath: string, args: readonly string[], options: ExecOptions): Promise<ExecResult> => {
   if (typeof gitPath !== 'string') {
     throw new TypeError(`gitPath must be of type string, was ${gitPath}`)
   }

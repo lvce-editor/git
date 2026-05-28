@@ -3,10 +3,10 @@ import * as Git from '../Git/Git.ts'
 import * as GitRepositories from '../GitRepositories/GitRepositories.ts'
 
 export const wrapGitCommand =
-  (fn) =>
-  async ({ cwd, ...args }) => {
+  <Args extends Readonly<Record<string, any>>, Result>(fn: (args: Args) => Promise<Result>) =>
+  async ({ cwd: _cwd, ...args }: Readonly<{ cwd?: string } & Record<string, any>>): Promise<any> => {
     const { gitPath, path } = await GitRepositories.getCurrent()
-    const targetPath = typeof cwd === 'string' && cwd ? cwd : path
+    const targetPath = typeof _cwd === 'string' && _cwd ? _cwd : path
     return fn({
       cwd: targetPath,
       gitPath,
@@ -15,5 +15,5 @@ export const wrapGitCommand =
       confirm: Confirm.confirm,
       exec: Git.exec,
       getRepository: GitRepositories.getCurrent,
-    })
+    } as unknown as Args)
   }

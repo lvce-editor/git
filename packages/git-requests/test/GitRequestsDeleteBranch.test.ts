@@ -8,8 +8,8 @@ class ExecError extends Error {
   }
 }
 
-test('deleteBranch - error - unknown git error', async () => {
-  const exec = () => {
+test('deleteBranch - error - unknown git error', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('oops')
   }
   await expect(

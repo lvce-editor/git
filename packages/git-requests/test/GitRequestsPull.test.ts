@@ -8,8 +8,8 @@ class ExecError extends Error {
   }
 }
 
-test('pull - error - no user name configured', async () => {
-  const exec = () => {
+test('pull - error - no user name configured', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('Please tell me who you are.')
   }
   await expect(
@@ -21,8 +21,8 @@ test('pull - error - no user name configured', async () => {
   ).rejects.toThrow(new Error('Git: Please tell me who you are.'))
 })
 
-test('pull - error - dirty working tree', async () => {
-  const exec = () => {
+test('pull - error - dirty working tree', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('Pulling is not possible because you have unmerged files')
   }
   await expect(
@@ -34,8 +34,8 @@ test('pull - error - dirty working tree', async () => {
   ).rejects.toThrow(new Error('Git: Pulling is not possible because you have unmerged files'))
 })
 
-test('pull - error - cannot lock ref (1)', async () => {
-  const exec = () => {
+test('pull - error - cannot lock ref (1)', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('cannot lock ref')
   }
   await expect(
@@ -47,8 +47,8 @@ test('pull - error - cannot lock ref (1)', async () => {
   ).rejects.toThrow(new Error('Git: cannot lock ref'))
 })
 
-test('pull - error - cannot lock ref (2)', async () => {
-  const exec = () => {
+test('pull - error - cannot lock ref (2)', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('unable to update local ref')
   }
   await expect(
@@ -60,8 +60,8 @@ test('pull - error - cannot lock ref (2)', async () => {
   ).rejects.toThrow(new Error('Git: unable to update local ref'))
 })
 
-test('pull - error - cannot rebase onto multiple branches', async () => {
-  const exec = () => {
+test('pull - error - cannot rebase onto multiple branches', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('cannot rebase onto multiple branches')
   }
   await expect(
@@ -73,8 +73,8 @@ test('pull - error - cannot rebase onto multiple branches', async () => {
   ).rejects.toThrow(new Error('Git: cannot rebase onto multiple branches'))
 })
 
-test('pull - error - remote connection error', async () => {
-  const exec = () => {
+test('pull - error - remote connection error', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('Could not read from remote repository')
   }
   await expect(
@@ -86,8 +86,8 @@ test('pull - error - remote connection error', async () => {
   ).rejects.toThrow(new Error('Git: Could not read from remote repository'))
 })
 
-test('pull - error - not a git repository', async () => {
-  const exec = () => {
+test('pull - error - not a git repository', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('fatal: not a git repository')
   }
   await expect(
@@ -99,8 +99,8 @@ test('pull - error - not a git repository', async () => {
   ).rejects.toThrow(new Error('Git: fatal: not a git repository'))
 })
 
-test('pull - error - unknown git error', async () => {
-  const exec = () => {
+test('pull - error - unknown git error', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('oops')
   }
   await expect(

@@ -418,7 +418,7 @@ export class GitRepository {
       }
 
       // Write updated index
-      const newIndexContent = [...stagedFiles].map((file) => `file:${file}`).join('\n') + '\n'
+      const newIndexContent = Array.from(stagedFiles, (file) => `file:${file}`).join('\n') + '\n'
 
       await defaultFileSystem.write(indexPath, newIndexContent)
     } catch {
@@ -588,7 +588,7 @@ index 1234567..abcdefg 100644
     return this.repo.refs.map((ref) => `${ref.name} ${ref.hash} `)
   }
 
-  async handleRemote(args: string[]): Promise<string> {
+  async handleRemote(args: readonly string[]): Promise<string> {
     const subcommand = args[0]
 
     switch (subcommand) {
@@ -634,7 +634,7 @@ index 1234567..abcdefg 100644
     return ''
   }
 
-  async handleConfig(args: string[]): Promise<string> {
+  async handleConfig(args: readonly string[]): Promise<string> {
     const subcommand = args[0]
 
     switch (subcommand) {
@@ -648,7 +648,7 @@ index 1234567..abcdefg 100644
       }
 
       case '--list': {
-        return [...this.repo.config.entries()].map(([key, value]) => `${key}=${value}`).join('\n')
+        return Array.from(this.repo.config.entries(), ([key, value]) => `${key}=${value}`).join('\n')
       }
 
       case '--set': {
