@@ -13,6 +13,7 @@
     "onCommand:git.addAll",
     "onCommand:git.commit",
     "onCommand:git.createTag",
+    "onCommand:git.deleteTag",
     "onCommand:git.sync",
     "onCommand:git.fetch",
     "onCommand:git.pr",
@@ -72,6 +73,10 @@
     {
       "id": "git.createTag",
       "label": "Git: Create Tag"
+    },
+    {
+      "id": "git.deleteTag",
+      "label": "Git: Delete Tag"
     },
     {
       "id": "git.sync",
