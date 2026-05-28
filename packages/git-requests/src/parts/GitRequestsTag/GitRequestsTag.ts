@@ -1,12 +1,9 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitTagRequest } from '../Types/Types.ts'
 
-/**
- *
- * @param {{cwd:string, gitPath: string,  tag: string, exec:any }} options
- */
-export const tag = async ({ cwd, exec, gitPath, tag }) => {
+export const tag = async ({ cwd, exec, gitPath, tag }: GitTagRequest): Promise<void> => {
   try {
-    const gitResult = await exec({
+    await exec({
       args: ['tag', tag],
       cwd,
       gitPath,

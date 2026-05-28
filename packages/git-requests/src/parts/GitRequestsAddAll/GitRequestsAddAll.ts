@@ -1,11 +1,9 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitRequestContext } from '../Types/Types.ts'
 
-/**
- * @param {{cwd:string, gitPath:string, exec:any  }} options
- */
-export const addAll = async ({ cwd, exec, gitPath }) => {
+export const addAll = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<void> => {
   try {
-    const gitResult = await exec({
+    await exec({
       args: ['add', '.'],
       cwd,
       gitPath,

@@ -1,11 +1,9 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitRefRequest } from '../Types/Types.ts'
 
-/**
- * @param {{cwd:string, ref:string, gitPath:string, exec:any   }} options
- */
-export const checkout = async ({ cwd, exec, gitPath, ref }) => {
+export const checkout = async ({ cwd, exec, gitPath, ref }: GitRefRequest): Promise<void> => {
   try {
-    const gitResult = await exec({
+    await exec({
       args: ['checkout', ref],
       cwd,
       gitPath,

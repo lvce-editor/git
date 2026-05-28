@@ -24,8 +24,47 @@ export type GetRepository = () => Promise<GitRepository>
 
 export type GitRequestContext = {
   readonly cwd: string
-  readonly gitPath: string
   readonly exec: GitExec
+  readonly gitPath: string
+}
+
+export type GitFileRequest = GitRequestContext & {
+  readonly file: string
+}
+
+export type GitMessageRequest = GitRequestContext & {
+  readonly message: string
+}
+
+export type GitRefRequest = GitRequestContext & {
+  readonly ref: string
+}
+
+export type GitTagRequest = GitRequestContext & {
+  readonly tag: string
+}
+
+export type GitKeyValueRequest = GitRequestContext & {
+  readonly key: string
+  readonly value: string
+}
+
+export type GitRemoteRequest = GitRequestContext & {
+  readonly name: string
+  readonly url: string
+}
+
+export type GitInitRequest = GitRequestContext & {
+  readonly bare?: boolean
+  readonly initialBranch?: string
+}
+
+export type GitStashRequest = GitRequestContext & {
+  readonly message?: string
+}
+
+export type GitUnstashRequest = GitRequestContext & {
+  readonly stashReference?: string
 }
 
 export type GitErrorLike = Error & {

@@ -1,11 +1,9 @@
 import { GitError } from '../GitError/GitError.ts'
+import type { GitMessageRequest } from '../Types/Types.ts'
 
-/**
- * @param {{cwd:string, gitPath:string, message:string, exec:any}} options
- */
-export const commit = async ({ cwd, exec, gitPath, message }) => {
+export const commit = async ({ cwd, exec, gitPath, message }: GitMessageRequest): Promise<void> => {
   try {
-    const gitResult = await exec({
+    await exec({
       args: ['commit', '-m', message],
       cwd,
       gitPath,
