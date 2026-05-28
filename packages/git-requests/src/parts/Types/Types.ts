@@ -40,6 +40,11 @@ export type GitRefRequest = GitRequestContext & {
   readonly ref: string
 }
 
+export type GitWorktreeRequest = GitRequestContext & {
+  readonly worktreePath: string
+  readonly ref?: string
+}
+
 export type GitNameRequest = GitRequestContext & {
   readonly name: string
 }

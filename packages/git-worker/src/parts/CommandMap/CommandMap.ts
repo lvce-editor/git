@@ -58,6 +58,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitCherryPick]: WrappedGitRequests.wrappedGitRequests.cherryPick,
   [GitWorkerCommandType.GitCleanAll]: WrappedGitRequests.wrappedGitRequests.cleanAll,
   [GitWorkerCommandType.GitCommit]: WrappedGitRequests.wrappedGitRequests.commit,
+  [GitWorkerCommandType.GitCreateWorktree]: WrappedGitRequests.wrappedGitRequests.createWorktree,
   [GitWorkerCommandType.GitDeleteBranch]: WrappedGitRequests.wrappedGitRequests.deleteBranch,
   [GitWorkerCommandType.GitDeleteTag]: WrappedGitRequests.wrappedGitRequests.deleteTag,
   [GitWorkerCommandType.GitDiscard]: WrappedGitRequests.wrappedGitRequests.discard,
