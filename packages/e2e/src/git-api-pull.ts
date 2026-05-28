@@ -67,7 +67,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const workspaceDirUrl = `${tmpDirUrl}/workspace`
   workspaceDir = `${tmpDir}/workspace`
   const fileName = 'file.txt'
-  const gitPath = 'git'
+  const gitPath = /^[A-Za-z]:/.test(tmpDir) ? 'file:///C:/Program%20Files/Git/cmd/git.exe' : 'file:///usr/bin/git'
 
   await Workspace.setPath(tmpDirUrl)
   await Settings.update({
