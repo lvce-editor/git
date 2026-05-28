@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.discard-all-changes'
 
-// export const skip = 1
-
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
@@ -23,10 +21,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   }
 
   // assert
-  const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
-  if (fileContent !== 'initial content') {
-    throw new Error(`expected tracked changes to be discarded, got ${fileContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'initial content')
   const dirents = await FileSystem.readDir(workspaceDir)
   if (dirents.some((dirent) => dirent.name === 'created.txt')) {
     throw new Error('expected created.txt to be deleted after discarding all changes')

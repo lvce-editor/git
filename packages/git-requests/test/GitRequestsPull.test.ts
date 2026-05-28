@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals'
 import * as GitRequestsPull from '../src/parts/GitRequestsPull/GitRequestsPull.js'
 
 class ExecError extends Error {
@@ -110,4 +111,43 @@ test('pull - error - unknown git error', async (): Promise<void> => {
       gitPath: '',
     }),
   ).rejects.toThrow(new Error('Git: oops'))
+})
+
+test('pull', async (): Promise<void> => {
+  const exec = jest.fn(async () => ({
+    stderr: '',
+    stdout: '',
+  }))
+  await GitRequestsPull.pull({
+    cwd: '/test/test-folder',
+    exec,
+    gitPath: 'git',
+  })
+  expect(exec).toHaveBeenCalledTimes(1)
+  expect(exec).toHaveBeenCalledWith({
+    args: ['pull'],
+    cwd: '/test/test-folder',
+    gitPath: 'git',
+    name: 'pull',
+  })
+})
+
+test('pull - from', async (): Promise<void> => {
+  const exec = jest.fn(async () => ({
+    stderr: '',
+    stdout: '',
+  }))
+  await GitRequestsPull.pull({
+    cwd: '/test/test-folder',
+    exec,
+    from: ['origin', 'main'],
+    gitPath: 'git',
+  })
+  expect(exec).toHaveBeenCalledTimes(1)
+  expect(exec).toHaveBeenCalledWith({
+    args: ['pull', 'origin', 'main'],
+    cwd: '/test/test-folder',
+    gitPath: 'git',
+    name: 'pull',
+  })
 })

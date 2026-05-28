@@ -6,6 +6,7 @@ import * as CommandCheckout from '../CommandCheckout/CommandCheckout.ts'
 import * as CommandCleanAll from '../CommandCleanAll/CommandCleanAll.ts'
 import * as CommandDiscard from '../CommandDiscard/CommandDiscard.ts'
 import * as CommandFetch from '../CommandFetch/CommandFetch.ts'
+import * as CommandFetchPrune from '../CommandFetchPrune/CommandFetchPrune.ts'
 import * as CommandGetBranchNames from '../CommandGetBranchNames/CommandGetBranchNames.ts'
 import * as CommandGetFileDecorations from '../CommandGetFileDecorations/GetFileDecorations.ts'
 import * as CommandInit from '../CommandInit/CommandInit.ts'
@@ -34,6 +35,7 @@ export const commandMap = {
   [GitWorkerCommandType.CommandCleanAll]: CommandCleanAll.commandCleanAll,
   [GitWorkerCommandType.CommandDiscard]: CommandDiscard.commandDiscard,
   [GitWorkerCommandType.CommandFetch]: CommandFetch.commandFetch,
+  [GitWorkerCommandType.CommandFetchPrune]: CommandFetchPrune.commandFetchPrune,
   [GitWorkerCommandType.CommandInit]: CommandInit.commandInit,
   [GitWorkerCommandType.CommandLoadFixture]: CommandLoadFixture.commandLoadFixture,
   [GitWorkerCommandType.CommandMerge]: CommandMerge.commandMerge,
@@ -58,10 +60,14 @@ export const commandMap = {
   [GitWorkerCommandType.GitCherryPick]: WrappedGitRequests.wrappedGitRequests.cherryPick,
   [GitWorkerCommandType.GitCleanAll]: WrappedGitRequests.wrappedGitRequests.cleanAll,
   [GitWorkerCommandType.GitCommit]: WrappedGitRequests.wrappedGitRequests.commit,
+  [GitWorkerCommandType.GitCreateWorktree]: WrappedGitRequests.wrappedGitRequests.createWorktree,
   [GitWorkerCommandType.GitDeleteBranch]: WrappedGitRequests.wrappedGitRequests.deleteBranch,
+  [GitWorkerCommandType.GitDeleteRemoteTag]: WrappedGitRequests.wrappedGitRequests.deleteRemoteTag,
   [GitWorkerCommandType.GitDeleteTag]: WrappedGitRequests.wrappedGitRequests.deleteTag,
+  [GitWorkerCommandType.GitDeleteWorktree]: WrappedGitRequests.wrappedGitRequests.deleteWorktree,
   [GitWorkerCommandType.GitDiscard]: WrappedGitRequests.wrappedGitRequests.discard,
   [GitWorkerCommandType.GitFetch]: WrappedGitRequests.wrappedGitRequests.fetch,
+  [GitWorkerCommandType.GitFetchPrune]: WrappedGitRequests.wrappedGitRequests.fetchPrune,
   [GitWorkerCommandType.GitGetAddedFiles]: WrappedGitRequests.wrappedGitRequests.getAddedFiles,
   [GitWorkerCommandType.GitGetChangedFiles]: WrappedGitRequests.wrappedGitRequests.getChangedFiles,
   [GitWorkerCommandType.GitGetCommits]: WrappedGitRequests.wrappedGitRequests.getCommits,

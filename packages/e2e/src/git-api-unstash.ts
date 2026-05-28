@@ -11,16 +11,13 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-stash')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
-  await Command.execute('ExtensionHost.executeCommand', 'git.stash')
+  await Git.stash()
 
   // act
-  await Command.execute('ExtensionHost.executeCommand', 'git.unstash')
+  await Git.unstash()
 
   // assert
-  const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
-  if (fileContent !== 'modified content') {
-    throw new Error(`expected stashed changes to be restored, got ${fileContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'modified content')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'stash', 'push'],

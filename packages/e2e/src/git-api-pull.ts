@@ -42,6 +42,10 @@ export const mockRpc = {
   name: 'Git',
 }
 
+type GitPullWithFrom = {
+  readonly pull: (options: { readonly from?: readonly string[] }) => Promise<void>
+}
+
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   // arrange
   const tmpDirUrl = await FileSystem.getTmpDir({ scheme: 'file' })
@@ -68,13 +72,15 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Workspace.setPath(workspaceDirUrl)
 
   // act
-  await Git.pull('origin', 'main')
+  await (Git as unknown as GitPullWithFrom).pull({
+    from: ['origin', 'main'],
+  })
 
   // assert
   await FileSystem.shouldHaveFile(`${workspaceDirUrl}/${fileName}`, 'version 2')
   await Git.shouldHaveInvocations([
     {
-      command: ['git', 'pull'],
+      command: ['git', 'pull', 'origin', 'main'],
       cwd: workspaceDirUrl,
     },
   ])

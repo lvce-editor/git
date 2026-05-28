@@ -11,10 +11,15 @@
     "onCommand:git.pull",
     "onCommand:git.pullRebase",
     "onCommand:git.push",
+    "onCommand:git.syncRebase",
     "onCommand:git.addAll",
     "onCommand:git.branch",
     "onCommand:git.commit",
+    "onCommand:git.commitStaged",
+    "onCommand:git.createWorktree",
     "onCommand:git.createTag",
+    "onCommand:git.deleteWorktree",
+    "onCommand:git.deleteRemoteTag",
     "onCommand:git.deleteTag",
     "onCommand:git.sync",
     "onCommand:git.fetch",
@@ -70,6 +75,10 @@
       "label": "Git: Push"
     },
     {
+      "id": "git.syncRebase",
+      "label": "Git: Sync (Rebase)"
+    },
+    {
       "id": "git.addAll",
       "label": "Git: Add all"
     },
@@ -82,8 +91,24 @@
       "label": "Git: Commit"
     },
     {
+      "id": "git.commitStaged",
+      "label": "Git: Commit Staged"
+    },
+    {
+      "id": "git.createWorktree",
+      "label": "Git: Create Worktree"
+    },
+    {
       "id": "git.createTag",
       "label": "Git: Create Tag"
+    },
+    {
+      "id": "git.deleteWorktree",
+      "label": "Git: Delete Worktree"
+    },
+    {
+      "id": "git.deleteRemoteTag",
+      "label": "Git: Delete Remote Tag"
     },
     {
       "id": "git.deleteTag",

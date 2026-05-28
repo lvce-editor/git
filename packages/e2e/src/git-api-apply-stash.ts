@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.apply-stash'
 
-// export const skip = 1
-
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
@@ -20,10 +18,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
     await Command.execute('ExtensionHost.executeCommand', 'git.applyStash')
   }
 
-  const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
-  if (fileContent !== 'modified content') {
-    throw new Error(`expected stashed changes to be applied, got ${fileContent}`)
-  }
+  await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'modified content')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'stash', 'apply'],
