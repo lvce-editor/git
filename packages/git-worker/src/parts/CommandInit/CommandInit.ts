@@ -4,7 +4,6 @@ import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitReposito
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
-export const commandInit = async (): Promise<void> => {
 export interface InitOptions {
   readonly bare?: boolean
   readonly cwd?: string
