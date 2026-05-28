@@ -18,7 +18,11 @@ const runListeners = (): void => {
  * @template Args
  * @param {{id:string, fn: (args: Args)=>Promise<Result>, args: Args}} param0
  */
-export const execute = async <Result, Args>({ args, fn, id }: Readonly<{ args: Args; fn: (args: Args) => Promise<Result>; id: string }>): Promise<Result> => {
+export const execute = async <Result, Args>({
+  args,
+  fn,
+  id,
+}: Readonly<{ args: Args; fn: (args: Args) => Promise<Result>; id: string }>): Promise<Result> => {
   state.running[id] ||= 0
   state.running[id]++
   runListeners()

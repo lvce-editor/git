@@ -12,7 +12,14 @@ type ExecArgs = {
   throwError?: boolean
 }
 
-export const exec = async ({ args, cwd, gitPath, input, name, throwError = true }: Readonly<ExecArgs>): Promise<{ exitCode: number; name?: string; stderr: string; stdout: string }> => {
+export const exec = async ({
+  args,
+  cwd,
+  gitPath,
+  input,
+  name,
+  throwError = true,
+}: Readonly<ExecArgs>): Promise<{ exitCode: number; name?: string; stderr: string; stdout: string }> => {
   if (typeof gitPath !== 'string') {
     throw new TypeError(`gitPath must be of type string, was ${gitPath}`)
   }

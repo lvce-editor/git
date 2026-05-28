@@ -1,10 +1,4 @@
 {
   "version": "0.2",
-  "words": [
-    "gitdir",
-    "lszomoru",
-    "objectname",
-    "pathspec",
-    "uall"
-  ]
+  "words": ["gitdir", "lszomoru", "objectname", "pathspec", "uall"]
 }
