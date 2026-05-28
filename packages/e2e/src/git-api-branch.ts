@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.branch'
 
-export const skip = 1
+// export const skip = 1
 
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   // arrange
@@ -22,8 +22,11 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   if (headContent !== 'ref: refs/heads/main\n') {
     throw new Error(`expected HEAD to stay on main, got ${headContent}`)
   }
-  // @ts-ignore
-  await FileSystem.shouldHaveFile(`${workspaceDir}/.git/refs/heads/feature`)
+  const mainRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
+  const featureRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/feature`)
+  if (featureRef !== mainRef) {
+    throw new Error(`expected feature branch ref to match main, got ${featureRef}`)
+  }
   const fileContent = await FileSystem.readFile(`${workspaceDir}/file.txt`)
   if (fileContent !== 'main branch') {
     throw new Error(`expected main branch content, got ${fileContent}`)
