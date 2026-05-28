@@ -2,6 +2,7 @@
   "name": "git-web",
   "version": "0.0.0-dev",
   "description": "Web-compatible git command emulation",
+  "license": "MIT",
   "type": "module",
   "main": "dist/gitWebMain.js",
   "scripts": {

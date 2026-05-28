@@ -3,13 +3,12 @@
 import * as Rpc from '../Rpc/Rpc.ts'
 
 export const state = {
-  changeListeners: [],
-  running: Object.create(null),
+  changeListeners: [] as Array<() => void>,
+  running: Object.create(null) as Record<string, number>,
 }
 
-const runListeners = () => {
+const runListeners = (): void => {
   for (const listener of state.changeListeners) {
-    // @ts-ignore
     listener()
   }
 }
@@ -19,7 +18,7 @@ const runListeners = () => {
  * @template Args
  * @param {{id:string, fn: (args: Args)=>Promise<Result>, args: Args}} param0
  */
-export const execute = async ({ args, fn, id }) => {
+export const execute = async <Result, Args>({ args, fn, id }: Readonly<{ args: Args; fn: (args: Args) => Promise<Result>; id: string }>): Promise<Result> => {
   state.running[id] ||= 0
   state.running[id]++
   runListeners()
@@ -43,17 +42,15 @@ export const execute = async ({ args, fn, id }) => {
   }
 }
 
-export const isRunning = (operationId) => {
+export const isRunning = (operationId: string): boolean => {
   return operationId in state.running
 }
 
-export const onChange = (listener) => {
-  // @ts-ignore
+export const onChange = (listener: () => void): void => {
   state.changeListeners.push(listener)
 }
 
-export const offChange = (listener) => {
-  // @ts-ignore
+export const offChange = (listener: () => void): void => {
   const index = state.changeListeners.indexOf(listener)
   state.changeListeners.splice(index, 1)
 }

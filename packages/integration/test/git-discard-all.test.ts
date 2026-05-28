@@ -1,6 +1,6 @@
 import { testWorker } from '../src/testWorker.js'
 
-test('git discard all', async () => {
+test('git discard all', async (): Promise<void> => {
   const execMap = {
     restore: {
       exitCode: 0,

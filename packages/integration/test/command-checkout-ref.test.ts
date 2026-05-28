@@ -1,6 +1,6 @@
 import { testWorker } from '../src/testWorker.js'
 
-test('command checkout ref', async () => {
+test('command checkout ref', async (): Promise<void> => {
   const execMap = {
     '--version': {
       exitCode: 0,

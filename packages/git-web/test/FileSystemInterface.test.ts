@@ -83,7 +83,7 @@ test('FileSystem interface can be implemented', () => {
   expect(fs).toBeDefined()
 })
 
-test('MockFileSystem exists works correctly', async () => {
+test('MockFileSystem exists works correctly', async (): Promise<void> => {
   const fs = new MockFileSystem()
 
   expect(await fs.exists('/nonexistent')).toBe(false)
@@ -95,7 +95,7 @@ test('MockFileSystem exists works correctly', async () => {
   expect(await fs.exists('/test/dir')).toBe(true)
 })
 
-test('MockFileSystem write and read work correctly', async () => {
+test('MockFileSystem write and read work correctly', async (): Promise<void> => {
   const fs = new MockFileSystem()
 
   await fs.write('/test/file.txt', 'hello world')
@@ -104,14 +104,14 @@ test('MockFileSystem write and read work correctly', async () => {
   expect(content).toBe('hello world')
 })
 
-test('MockFileSystem mkdir works correctly', async () => {
+test('MockFileSystem mkdir works correctly', async (): Promise<void> => {
   const fs = new MockFileSystem()
 
   await fs.mkdir('/test/dir')
   expect(await fs.exists('/test/dir')).toBe(true)
 })
 
-test('MockFileSystem readdir works correctly', async () => {
+test('MockFileSystem readdir works correctly', async (): Promise<void> => {
   const fs = new MockFileSystem()
 
   await fs.write('/test/file1.txt', 'content1')
@@ -124,7 +124,7 @@ test('MockFileSystem readdir works correctly', async () => {
   expect(files).not.toContain('file3.txt')
 })
 
-test('MockFileSystem stat works correctly', async () => {
+test('MockFileSystem stat works correctly', async (): Promise<void> => {
   const fs = new MockFileSystem()
 
   await fs.write('/test/file.txt', 'content')
@@ -141,7 +141,7 @@ test('MockFileSystem stat works correctly', async () => {
   expect(dirStat.size).toBe(0)
 })
 
-test('MockFileSystem unlink works correctly', async () => {
+test('MockFileSystem unlink works correctly', async (): Promise<void> => {
   const fs = new MockFileSystem()
 
   await fs.write('/test/file.txt', 'content')
@@ -151,7 +151,7 @@ test('MockFileSystem unlink works correctly', async () => {
   expect(await fs.exists('/test/file.txt')).toBe(false)
 })
 
-test('MockFileSystem rmdir works correctly', async () => {
+test('MockFileSystem rmdir works correctly', async (): Promise<void> => {
   const fs = new MockFileSystem()
 
   await fs.mkdir('/test/dir')
@@ -161,7 +161,7 @@ test('MockFileSystem rmdir works correctly', async () => {
   expect(await fs.exists('/test/dir')).toBe(false)
 })
 
-test('MockFileSystem throws errors for missing files', async () => {
+test('MockFileSystem throws errors for missing files', async (): Promise<void> => {
   const fs = new MockFileSystem()
 
   await expect(fs.read('/nonexistent.txt')).rejects.toThrow('File not found')

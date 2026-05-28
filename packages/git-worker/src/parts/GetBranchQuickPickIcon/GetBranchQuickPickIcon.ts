@@ -1,7 +1,7 @@
 import * as GitRefType from '../GitRefType/GitRefType.ts'
 import * as QuickPickIcon from '../QuickPickIcon/QuickPickIcon.ts'
 
-export const getBranchQuickPickIcon = (refType) => {
+export const getBranchQuickPickIcon = (refType: string): string => {
   switch (refType) {
     case GitRefType.RemoteHead:
       return QuickPickIcon.Cloud

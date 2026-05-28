@@ -41,7 +41,7 @@ const initRepository = async (cwd: string, bare = false, defaultBranch = 'main')
   await defaultFileSystem.write(join(gitdir, 'HEAD'), `ref: refs/heads/${defaultBranch}\n`)
 }
 
-export const handleInit = async (args: string[], options: CommandOptions): Promise<CommandResult> => {
+export const handleInit = async (args: readonly string[], options: CommandOptions): Promise<CommandResult> => {
   try {
     // Parse arguments
     const bare = args.includes('--bare')

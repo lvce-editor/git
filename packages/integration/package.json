@@ -1,10 +1,9 @@
 {
   "name": "integration",
   "version": "0.0.0-dev",
-  "description": "",
-  "keywords": [],
+  "description": "Integration tests for the built-in Git extension.",
   "license": "MIT",
-  "author": "",
+  "author": "Lvce Editor",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -29,5 +28,7 @@
       ]
     }
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/jest": "^30.0.0"
+  }
 }

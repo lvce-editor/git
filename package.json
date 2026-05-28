@@ -1,8 +1,7 @@
 {
   "name": "builtin.git",
   "version": "0.0.0-dev",
-  "description": "",
-  "keywords": [],
+  "description": "Git integration for Lvce Editor.",
   "license": "MIT",
   "author": "Lvce Editor",
   "type": "module",
@@ -16,7 +15,7 @@
     "e2e:headless": "cd packages/e2e && npm run e2e:headless",
     "format": "prettier --write .",
     "postinstall": "lerna bootstrap --ci",
-    "lint": "prettier --check .",
+    "lint": "eslint . && prettier --check .",
     "test": "lerna run test",
     "type-check": "tsc -b"
   },

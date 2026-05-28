@@ -8,8 +8,8 @@ class ExecError extends Error {
   }
 }
 
-test('push - error - push rejected', async () => {
-  const exec = () => {
+test('push - error - push rejected', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('error: failed to push some refs to')
   }
   await expect(
@@ -21,8 +21,8 @@ test('push - error - push rejected', async () => {
   ).rejects.toThrow(new Error('Git: error: failed to push some refs to'))
 })
 
-test('push - error - could not read from remote repository', async () => {
-  const exec = () => {
+test('push - error - could not read from remote repository', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('Could not read from remote repository')
   }
 
@@ -35,8 +35,8 @@ test('push - error - could not read from remote repository', async () => {
   ).rejects.toThrow(new Error('Git: Could not read from remote repository'))
 })
 
-test('push - error - no upstream branch', async () => {
-  const exec = () => {
+test('push - error - no upstream branch', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('fatal: The current branch abc has no upstream branch')
   }
   await expect(
@@ -48,8 +48,8 @@ test('push - error - no upstream branch', async () => {
   ).rejects.toThrow(new Error('Git: fatal: The current branch abc has no upstream branch'))
 })
 
-test('push - error - no configured push destination', async () => {
-  const exec = () => {
+test('push - error - no configured push destination', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError(`fatal: No configured push destination.
     Either specify the URL from the command-line or configure a remote repository using
 
@@ -69,8 +69,8 @@ test('push - error - no configured push destination', async () => {
   ).rejects.toThrow(new Error(`Git: fatal: No configured push destination.`))
 })
 
-test('push - error - permission denied', async () => {
-  const exec = () => {
+test('push - error - permission denied', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('Permission denied')
   }
   await expect(
@@ -82,8 +82,8 @@ test('push - error - permission denied', async () => {
   ).rejects.toThrow(new Error('Git: Permission denied'))
 })
 
-test('push - error - unknown git error', async () => {
-  const exec = () => {
+test('push - error - unknown git error', async (): Promise<void> => {
+  const exec = (): never => {
     throw new ExecError('oops')
   }
   await expect(

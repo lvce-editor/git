@@ -6,7 +6,7 @@ import * as GitRequests from '../GitRequests/GitRequests.ts'
 /**
  * @param {string} file
  */
-export const commandStage = async (file) => {
+export const commandStage = async (file: string): Promise<void> => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
     args: {

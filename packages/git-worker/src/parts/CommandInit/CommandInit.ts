@@ -4,7 +4,7 @@ import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitReposito
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
-export const commandInit = async () => {
+export const commandInit = async (): Promise<void> => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
     args: {

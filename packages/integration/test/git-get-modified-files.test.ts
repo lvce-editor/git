@@ -1,6 +1,6 @@
 import { testWorker } from '../src/testWorker.js'
 
-test('git get modified files', async () => {
+test('git get modified files', async (): Promise<void> => {
   const execMap = {
     status: {
       exitCode: 0,

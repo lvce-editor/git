@@ -5,7 +5,19 @@ import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 
-const toPick = (ref) => {
+type Ref = {
+  commit: string
+  name: string
+  type: string
+}
+
+type QuickPickItem = {
+  description: string
+  icon: string
+  label: string
+}
+
+const toPick = (ref: Readonly<Ref>): QuickPickItem => {
   return {
     description: GetShortCommit.getShortCommit(ref.commit),
     icon: GetBranchQuickPickIcon.getBranchQuickPickIcon(ref.type),
@@ -13,7 +25,7 @@ const toPick = (ref) => {
   }
 }
 
-const getRawPicks = async () => {
+const getRawPicks = async (): Promise<readonly Ref[]> => {
   const repository = await Repositories.getCurrent()
   const refs = await GitRepositoriesRequests.execute({
     args: {
@@ -27,8 +39,7 @@ const getRawPicks = async () => {
   return refs
 }
 
-export const getCheckoutPicks = async () => {
+export const getCheckoutPicks = async (): Promise<readonly QuickPickItem[]> => {
   const rawPicks = await getRawPicks()
-  const picks = rawPicks.map(toPick)
-  return picks
+  return rawPicks.map(toPick)
 }

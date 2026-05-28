@@ -2,7 +2,7 @@ import { test, expect } from '@jest/globals'
 import { handleCommit } from '../src/CommitCommand/CommitCommand.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
-test('handleCommit with message', async () => {
+test('handleCommit with message', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -35,7 +35,7 @@ test('handleCommit with message', async () => {
   ])
 })
 
-test('handleCommit without message uses default', async () => {
+test('handleCommit without message uses default', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -68,7 +68,7 @@ test('handleCommit without message uses default', async () => {
   ])
 })
 
-test('handleCommit with multiple args', async () => {
+test('handleCommit with multiple args', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {

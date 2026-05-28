@@ -2,7 +2,7 @@ import { test, expect } from '@jest/globals'
 import { handleInit } from '../src/InitCommand/InitCommand.ts'
 import { registerMockRpc } from '../src/RegisterMockRpc/RegisterMockRpc.ts'
 
-test('handleInit returns success message', async () => {
+test('handleInit returns success message', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -40,7 +40,7 @@ test('handleInit returns success message', async () => {
   ])
 })
 
-test('handleInit with --bare flag', async () => {
+test('handleInit with --bare flag', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -75,7 +75,7 @@ test('handleInit with --bare flag', async () => {
   ])
 })
 
-test('handleInit skips if config already exists', async () => {
+test('handleInit skips if config already exists', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       if (path.endsWith('.git/config')) {
@@ -93,7 +93,7 @@ test('handleInit skips if config already exists', async () => {
   expect(mockRpc.invocations).toEqual([['FileSystem.exists', 'web://test/.git/config']])
 })
 
-test('handleInit handles filesystem errors', async () => {
+test('handleInit handles filesystem errors', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
       return false // Config doesn't exist, so we proceed

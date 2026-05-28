@@ -3,7 +3,7 @@ import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 
-export const commandUndoLastCommit = async () => {
+export const commandUndoLastCommit = async (): Promise<void> => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
     args: {

@@ -3,7 +3,7 @@ import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 
-export const commandGetBranchnames = async () => {
+export const commandGetBranchNames = async (): Promise<Array<{ id: string; label: string }>> => {
   const repository = await Repositories.getCurrent()
   const result = await GitRepositoriesRequests.execute({
     args: {
@@ -15,11 +15,10 @@ export const commandGetBranchnames = async () => {
     id: 'getBranchNames',
   })
   const trimmed = result.map((item) => item.trim())
-  const mapped = trimmed.map((item) => {
+  return trimmed.map((item) => {
     return {
       id: item,
       label: item,
     }
   })
-  return mapped
 }

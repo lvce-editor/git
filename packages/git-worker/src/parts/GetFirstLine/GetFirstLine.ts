@@ -1,6 +1,6 @@
 import * as Character from '../Character/Character.ts'
 
-export const getFirstLine = (string) => {
+export const getFirstLine = (string: string): string => {
   const newLineIndex = string.indexOf(Character.Newline)
   if (newLineIndex === -1) {
     return Character.EmptyString

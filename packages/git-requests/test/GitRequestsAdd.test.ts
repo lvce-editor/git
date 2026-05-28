@@ -8,9 +8,9 @@ class ExecError extends Error {
   }
 }
 
-test('add - error - not a git repository', async () => {
+test('add - error - not a git repository', async (): Promise<void> => {
   // @ts-ignore
-  const exec = () => {
+  const exec = (): never => {
     throw new ExecError('fatal: not a git repository')
   }
   await expect(
@@ -23,9 +23,9 @@ test('add - error - not a git repository', async () => {
   ).rejects.toThrow(new Error('Git: fatal: not a git repository'))
 })
 
-test('add - error - unknown git error', async () => {
+test('add - error - unknown git error', async (): Promise<void> => {
   // @ts-ignore
-  const exec = () => {
+  const exec = (): never => {
     throw new ExecError('oops')
   }
   await expect(

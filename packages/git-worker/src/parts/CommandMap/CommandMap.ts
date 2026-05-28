@@ -42,7 +42,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitAdd]: WrappedGitRequests.wrappedGitRequests.add,
   [GitWorkerCommandType.GitAddAll]: WrappedGitRequests.wrappedGitRequests.addAll,
   [GitWorkerCommandType.GitAddAllAndCommit]: WrappedGitRequests.wrappedGitRequests.addAllAndCommit,
-  [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchnames,
+  [GitWorkerCommandType.GitBranchNames]: CommandGetBranchNames.commandGetBranchNames,
   [GitWorkerCommandType.GitCheckout]: WrappedGitRequests.wrappedGitRequests.checkout,
   [GitWorkerCommandType.GitCleanAll]: WrappedGitRequests.wrappedGitRequests.cleanAll,
   [GitWorkerCommandType.GitCommit]: WrappedGitRequests.wrappedGitRequests.commit,
