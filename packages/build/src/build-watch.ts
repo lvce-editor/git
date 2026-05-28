@@ -1,16 +1,18 @@
-import { join } from 'node:path'
-import { execa } from 'execa'
+import { context } from 'esbuild'
 import { root } from './root.ts'
 import { runtimeBuildTargets } from './runtimeBuildTargets.ts'
 
 const main = async () => {
-  const binaryName = process.platform === 'win32' ? 'esbuild.exe' : 'esbuild'
-  const esbuildPath = join(root, 'packages', 'build', 'node_modules', 'esbuild', 'bin', binaryName)
   for (const target of runtimeBuildTargets) {
-    execa(esbuildPath, ['--format=esm', '--bundle', '--watch', target.entryPoint, `--outfile=${target.outfile}`, ...target.extraArgs], {
-      cwd: root,
-      stdio: 'inherit',
+    const buildContext = await context({
+      absWorkingDir: root,
+      bundle: true,
+      entryPoints: [target.entryPoint],
+      external: target.external,
+      format: 'esm',
+      outfile: target.outfile,
     })
+    await buildContext.watch()
   }
 }
 
