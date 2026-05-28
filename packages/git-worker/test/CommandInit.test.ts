@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-restricted-jest-methods */
 import { jest } from '@jest/globals'
 import type * as GitRepositories from '../src/parts/GitRepositories/GitRepositories.ts'
 import type * as GitRepositoriesRequests from '../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts'
