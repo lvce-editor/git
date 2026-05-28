@@ -10,9 +10,9 @@ type ExecResult = {
 }
 
 type TestWorkerOptions = {
-  config?: Readonly<Record<string, any>>
-  execMap: Readonly<Record<string, ExecResult>>
-  quickPick?: () => any
+  readonly config?: Readonly<Record<string, any>>
+  readonly execMap: Readonly<Record<string, ExecResult>>
+  readonly quickPick?: () => any
 }
 
 export const testWorker = async ({ config = {}, execMap, quickPick = (): any => undefined }: TestWorkerOptions): Promise<{ execute(...args: readonly any[]): any; invocations: any[] }> => {
