@@ -1,6 +1,7 @@
 /**
  * @jest-environment lvce-editor
  */
+import { expect, test } from '@jest/globals'
 import * as ExtensionHostCommandGitMerge from '../src/parts/ExtensionHostCommand/ExtensionHostCommandGitMerge.js'
 
 test('id', () => {
