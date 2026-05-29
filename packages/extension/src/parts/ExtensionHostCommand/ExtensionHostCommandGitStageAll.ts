@@ -1,5 +1,5 @@
-import * as CommandId from '../CommandId/CommandId.js'
-import * as GitWorker from '../GitWorker/GitWorker.js'
+import * as CommandId from '../CommandId/CommandId.ts'
+import * as GitWorker from '../GitWorker/GitWorker.ts'
 
 export const id = CommandId.GitStageAll
 

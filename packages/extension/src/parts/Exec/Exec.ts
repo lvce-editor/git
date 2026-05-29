@@ -1,6 +1,6 @@
-import * as Assert from '../Assert/Assert.js'
-import { getInvoke } from '../GetInvoke/GetInvoke.js'
-import * as Trace from '../Trace/Trace.js'
+import * as Assert from '../Assert/Assert.ts'
+import { getInvoke } from '../GetInvoke/GetInvoke.ts'
+import * as Trace from '../Trace/Trace.ts'
 
 /**
  *

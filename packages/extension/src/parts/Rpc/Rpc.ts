@@ -1,5 +1,5 @@
-import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.js'
-import * as GetGitClientPath from '../GetGitClientPath/GetGitClientPath.js'
+import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.ts'
+import * as GetGitClientPath from '../GetGitClientPath/GetGitClientPath.ts'
 
 type Rpc = {
   invoke(method: string, ...params: readonly any[]): Promise<any>

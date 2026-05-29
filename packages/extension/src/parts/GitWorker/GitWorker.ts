@@ -1,4 +1,4 @@
-import * as LaunchGitWorker from '../LaunchGitWorker/LaunchGitWorker.js'
+import * as LaunchGitWorker from '../LaunchGitWorker/LaunchGitWorker.ts'
 
 type Rpc = {
   invoke(method: string, ...params: readonly any[]): Promise<any>

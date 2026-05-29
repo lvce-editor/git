@@ -1,6 +1,6 @@
-import * as ExtensionHostCommand from '../ExtensionHostCommand/ExtensionHostCommand.js'
-import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.js'
-import * as SourceControlProviderGit from '../UiSourceControlProvider/UiSourceControlProviderGit.js'
+import * as ExtensionHostCommand from '../ExtensionHostCommand/ExtensionHostCommand.ts'
+import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.ts'
+import * as SourceControlProviderGit from '../UiSourceControlProvider/UiSourceControlProviderGit.ts'
 
 export const activate = async ({ path }) => {
   for (const command of Object.values(ExtensionHostCommand)) {
