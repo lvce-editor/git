@@ -1,5 +1,5 @@
-import { commandMap } from '../CommandMap/CommandMap.js'
-import * as GitWebWorkerUrl from '../GitWebWorkerUrl/GitWebWorkerUrl.js'
+import { commandMap } from '../CommandMap/CommandMap.ts'
+import * as GitWebWorkerUrl from '../GitWebWorkerUrl/GitWebWorkerUrl.ts'
 
 export const launchGitWebWorker = async () => {
   const workerUrl = GitWebWorkerUrl.getGitWebWorkerUrl()

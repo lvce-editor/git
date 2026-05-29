@@ -1,5 +1,5 @@
-import { invoke } from '../GitWebWorker/GitWebWorker.js'
-import * as Rpc from '../Rpc/Rpc.js'
+import { invoke } from '../GitWebWorker/GitWebWorker.ts'
+import * as Rpc from '../Rpc/Rpc.ts'
 
 const RE_SCHEME = /^[a-z\-]+:\/\//
 

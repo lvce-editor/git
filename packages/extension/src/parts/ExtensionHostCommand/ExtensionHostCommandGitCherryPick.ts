@@ -1,6 +1,6 @@
-import * as CommandId from '../CommandId/CommandId.js'
-import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.js'
-import * as GitWorker from '../GitWorker/GitWorker.js'
+import * as CommandId from '../CommandId/CommandId.ts'
+import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
+import * as GitWorker from '../GitWorker/GitWorker.ts'
 
 export const id = CommandId.GitCherryPick
 

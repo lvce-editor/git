@@ -1,7 +1,7 @@
 /**
  * @jest-environment lvce-editor
  */
-import { jest } from '@jest/globals'
+import { expect, jest, test } from '@jest/globals'
 import * as ExtensionHostCommandGitPull from '../src/parts/ExtensionHostCommand/ExtensionHostCommandGitPull.js'
 import * as GitWorker from '../src/parts/GitWorker/GitWorker.js'
 

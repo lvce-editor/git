@@ -1,8 +1,8 @@
-import { CommandNotFoundError } from '../CommandNotFoundError/CommandNotFoundError.js'
-import * as Config from '../Config/Config.js'
-import * as Exec from '../Exec/Exec.js'
-import * as ExtensionCommandType from '../ExtensionCommandType/ExtensionCommandType.js'
-import * as QuickPick from '../QuickPick/QuickPick.js'
+import { CommandNotFoundError } from '../CommandNotFoundError/CommandNotFoundError.ts'
+import * as Config from '../Config/Config.ts'
+import * as Exec from '../Exec/Exec.ts'
+import * as ExtensionCommandType from '../ExtensionCommandType/ExtensionCommandType.ts'
+import * as QuickPick from '../QuickPick/QuickPick.ts'
 
 export const commandMap = {
   [ExtensionCommandType.ExecExec]: Exec.exec,
