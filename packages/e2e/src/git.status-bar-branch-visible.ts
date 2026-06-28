@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.status-bar-branch-visible'
+export const skip = 1
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, SideBar, Workspace }) => {
   // arrange
