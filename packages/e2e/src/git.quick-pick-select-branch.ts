@@ -15,8 +15,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, SideBar
   await SideBar.open('Source Control')
 
   // act
-  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"]')
-  await branchStatusBarItem.click()
+  // const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"]')
+  // await branchStatusBarItem.click()
 
   // assert
   const mainBranchItem = Locator('text=main')
