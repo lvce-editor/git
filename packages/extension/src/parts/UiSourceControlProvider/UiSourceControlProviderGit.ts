@@ -67,8 +67,8 @@ export const getStatusBarItems = () => {
     {
       icon: 'branch',
       text: 'select branch',
-      name: CommandId.GitSelectBranch,
-      onClick: CommandId.GitSelectBranch,
+      name: CommandId.GitShowBranchPicker,
+      onClick: CommandId.GitShowBranchPicker,
     },
   ]
 }
