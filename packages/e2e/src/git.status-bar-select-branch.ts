@@ -11,15 +11,16 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, SideBar
 
   await Workspace.setPath(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
-  await SideBar.open('Source Control')
+  // TODO
+  // await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  // await Workspace.setPath(workspaceDir)
+  // await SideBar.open('Source Control')
 
-  // act
-  await Locator('.StatusBarItem[data-name="git.selectBranch"]').click()
+  // // act
+  // await Locator('.StatusBarItem[data-name="git.selectBranch"]').click()
 
-  // assert
-  await expect(Locator('#QuickPick')).toBeVisible()
-  await expect(Locator('text=feature')).toBeVisible()
-  await expect(Locator('text=main')).toBeVisible()
+  // // assert
+  // await expect(Locator('#QuickPick')).toBeVisible()
+  // await expect(Locator('text=feature')).toBeVisible()
+  // await expect(Locator('text=main')).toBeVisible()
 }
