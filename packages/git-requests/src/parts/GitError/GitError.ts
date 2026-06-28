@@ -9,19 +9,7 @@ const firstLine = (text: string): string => {
 }
 
 const isRelevantLine = (line: string): boolean => {
-  if (line.startsWith('> ')) {
-    return false
-  }
-  if (line.startsWith('From ')) {
-    return false
-  }
-  if (line.startsWith('* ')) {
-    return false
-  }
-  if (line.startsWith(' *')) {
-    return false
-  }
-  return true
+  return !line.startsWith('> ') && !line.startsWith('From ') && !line.startsWith('* ') && !line.startsWith(' *')
 }
 
 const fatalOrHintOrSshOrRemoteLine = (text: string): string => {

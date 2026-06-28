@@ -34,7 +34,7 @@ export const execute = async <Result, Args>({
     error.isExpected = true
     const shouldShowError = await Rpc.invoke('Config.showErrorMessage')
     if (shouldShowError) {
-      await Rpc.invoke('Confirm.prompt', `${error}`)
+      await Rpc.invoke('Confirm.prompt', String(error))
     }
     throw error
   } finally {
