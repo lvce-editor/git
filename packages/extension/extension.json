@@ -33,6 +33,7 @@
     "onCommand:git.discard",
     "onCommand:git.undoLastCommit",
     "onCommand:git.selectBranch",
+    "onCommand:git.showBranchPicker",
     "onCommand:git.checkoutRef",
     "onStartupFinished",
     "onSourceControl",
@@ -49,6 +50,10 @@
     {
       "id": "git.selectBranch",
       "label": "Git: Select Branch"
+    },
+    {
+      "id": "git.showBranchPicker",
+      "label": "Git: Show Branch Picker"
     },
     {
       "id": "git.loadFixture",
