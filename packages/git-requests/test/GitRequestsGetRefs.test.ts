@@ -5,10 +5,10 @@ test('getRefs', async (): Promise<void> => {
   const exec = async (): Promise<{ stderr: string; stdout: string }> => {
     return {
       stderr: '',
-      stdout: `refs/remotes/origin/HEAD 903f9903f4f14e0d7ec1a389b9da617848e7f609\u0020
-refs/remotes/origin/main 903f9903f4f14e0d7ec1a389b9da617848e7f609\u0020
-refs/remotes/origin/sandy081/powerful-flea 903f9903f4f14e0d7ec1a389b9da617848e7f609\u0020
-refs/remotes/origin/lszomoru/product-build-parallel 7ed03031bb8511eada0f8418550e33a70e208106\u0020`,
+      stdout: `refs/remotes/origin/HEAD 903f9903f4f14e0d7ec1a389b9da617848e7f609\u{20}
+refs/remotes/origin/main 903f9903f4f14e0d7ec1a389b9da617848e7f609\u{20}
+refs/remotes/origin/sandy081/powerful-flea 903f9903f4f14e0d7ec1a389b9da617848e7f609\u{20}
+refs/remotes/origin/lszomoru/product-build-parallel 7ed03031bb8511eada0f8418550e33a70e208106\u{20}`,
     }
   }
   expect(
