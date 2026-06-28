@@ -79,8 +79,7 @@ export const ensureRepository = (applicationId: string, uri: string): GitState |
   if (!currentState) {
     return currentState
   }
-  const existingRepository = currentState.gitRepositories.find((repository) => repository.uri === uri)
-  if (existingRepository) {
+  if (currentState.gitRepositories.some((repository) => repository.uri === uri)) {
     return currentState
   }
   return set(applicationId, {
