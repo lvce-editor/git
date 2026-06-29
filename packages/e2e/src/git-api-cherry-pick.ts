@@ -9,7 +9,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
 
   await Workspace.setPath(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-cherry-pick')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  await Command.executeExtensionCommand('git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
 
   const featureCommitHashRaw = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/feature`)

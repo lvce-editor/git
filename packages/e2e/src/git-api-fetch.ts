@@ -37,7 +37,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
     'git.path': '/usr/bin/git',
   })
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-fetch')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  await Command.executeExtensionCommand('git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
 
   const localHeadBeforeFetch = await readGitRef(FileSystem, workspaceGitDir, 'refs/remotes/origin/main')

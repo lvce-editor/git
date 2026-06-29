@@ -5,7 +5,7 @@ export const name = 'git.pull-error-connection-closed-show-output'
 export const skip = true
 
 const trimLines = (string: string): string => {
-  return string.split('\n').join('')
+  return string.replaceAll('\n', '')
 }
 
 export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Settings, Workspace }) => {

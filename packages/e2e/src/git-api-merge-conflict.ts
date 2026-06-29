@@ -1,6 +1,3 @@
-/* eslint-disable @cspell/spellchecker */
-/* eslint-disable unicorn/no-await-expression-member */
-/* eslint-disable sonarjs/no-nested-template-literals */
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.merge-conflict'
@@ -10,7 +7,6 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'file.txt'
   const filePath = `${tmpDir}/${fileName}`
-  const resolvedContent = 'main\nfeature\n'
 
   await Workspace.setPath(tmpDir)
   await Git.init({
@@ -56,8 +52,10 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
     throw new Error(`expected merge conflict markers in ${fileName}, got ${conflictedContent}`)
   }
   await FileSystem.shouldHaveFile(`${tmpDir}/.git/HEAD`, 'ref: refs/heads/main\n')
-  await FileSystem.shouldHaveFile(`${tmpDir}/.git/MERGE_HEAD`, `${(await FileSystem.readFile(`${tmpDir}/.git/refs/heads/feature`)).trim()}\n`)
+  const featureHead = await FileSystem.readFile(`${tmpDir}/.git/refs/heads/feature`)
+  await FileSystem.shouldHaveFile(`${tmpDir}/.git/MERGE_HEAD`, `${featureHead.trim()}\n`)
 
+  const resolvedContent = 'main\nfeature\n'
   await FileSystem.writeFile(filePath, resolvedContent)
   await Git.add(fileName)
   await Git.commit('resolve merge conflict')

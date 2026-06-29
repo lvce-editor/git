@@ -14,11 +14,11 @@ export const test: Test = async ({ Command, FileSystem, Settings, Workspace }) =
     'git.path': '/usr/bin/git',
   })
   const setupFixtureUrl = import.meta.resolve('../fixtures/git-api-clone')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', setupFixtureUrl)
+  await Command.executeExtensionCommand('git.loadFixture', setupFixtureUrl)
 
   // act
   const cloneFixtureUrl = import.meta.resolve('../fixtures/git-api-clone-act')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', cloneFixtureUrl)
+  await Command.executeExtensionCommand('git.loadFixture', cloneFixtureUrl)
 
   // assert
   await FileSystem.shouldHaveFile(`${cloneDir}/.git/HEAD`, 'ref: refs/heads/main\n')

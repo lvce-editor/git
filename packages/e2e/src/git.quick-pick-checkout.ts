@@ -24,7 +24,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, QuickPi
 
   await Workspace.setPath(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  await Command.executeExtensionCommand('git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
   await SideBar.open('Source Control')
 

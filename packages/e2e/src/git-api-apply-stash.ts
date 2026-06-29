@@ -8,15 +8,16 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
 
   await Workspace.setPath(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-apply-stash')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  const r = await Command.executeExtensionCommand('git.loadFixture', fixtureUrl)
+  console.log({ r })
   await Workspace.setPath(workspaceDir)
 
-  if ('applyStash' in Git) {
-    // @ts-ignore
-    await Git.applyStash()
-  } else {
-    await Command.execute('ExtensionHost.executeCommand', 'git.applyStash')
-  }
+  // if ('applyStash' in Git) {
+  //   // @ts-ignore
+  //   await Git.applyStash()
+  // } else {
+  await Command.executeExtensionCommand('git.applyStash')
+  // }
 
   await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'modified content')
   await Git.shouldHaveInvocations([

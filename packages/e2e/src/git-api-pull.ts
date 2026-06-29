@@ -4,7 +4,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'git.pull'
 
 // export const skip = 1
-let workspaceDir = ''
+const state = {
+  workspaceDir: '',
+}
 
 const fileUrlToPath = (url: string): string => {
   const parsedUrl = new URL(url)
@@ -36,7 +38,7 @@ const exec = async (
     case 'pull':
       // Fallback for environments where the actual pull command is mocked through this RPC layer.
       // @ts-ignore
-      await globalThis.rpc.invoke('FileSystem.writeFile', `${workspaceDir}/file.txt`, 'version 2')
+      await globalThis.rpc.invoke('FileSystem.writeFile', `${state.workspaceDir}/file.txt`, 'version 2')
       return {
         exitCode: 0,
         stderr: '',
@@ -65,7 +67,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const upstreamDir = `${tmpDir}/upstream`
   const upstreamDirUrl = `${tmpDirUrl}/upstream`
   const workspaceDirUrl = `${tmpDirUrl}/workspace`
-  workspaceDir = `${tmpDir}/workspace`
+  state.workspaceDir = `${tmpDir}/workspace`
   const fileName = 'file.txt'
   const gitPath = /^[A-Za-z]:/.test(tmpDir) ? 'file:///C:/Program%20Files/Git/cmd/git.exe' : 'file:///usr/bin/git'
 
@@ -80,7 +82,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await FileSystem.writeFile(`${upstreamDirUrl}/${fileName}`, 'version 1')
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'add', '.'], {})
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'commit', '-m', 'Initial commit'], {})
-  await Command.execute('Exec.exec', gitPath, ['clone', upstreamDir, workspaceDir], {})
+  await Command.execute('Exec.exec', gitPath, ['clone', upstreamDir, state.workspaceDir], {})
   await FileSystem.writeFile(`${upstreamDirUrl}/${fileName}`, 'version 2')
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'add', '.'], {})
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'commit', '-m', 'Update file'], {})

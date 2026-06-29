@@ -12,7 +12,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
 
   await Workspace.setPath(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-delete-tag')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  await Command.executeExtensionCommand('git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
 
   // act
