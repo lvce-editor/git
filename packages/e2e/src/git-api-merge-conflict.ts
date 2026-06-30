@@ -1,4 +1,3 @@
-/* eslint-disable @cspell/spellchecker */
 /* eslint-disable unicorn/no-await-expression-member */
 /* eslint-disable sonarjs/no-nested-template-literals */
 import type { Test } from '@lvce-editor/test-with-playwright'
@@ -10,7 +9,6 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'file.txt'
   const filePath = `${tmpDir}/${fileName}`
-  const resolvedContent = 'main\nfeature\n'
 
   await Workspace.setPath(tmpDir)
   await Git.init({
@@ -46,6 +44,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   if (!mergeError) {
     throw new Error('expected merge to fail with a conflict')
   }
+  const resolvedContent = 'main\nfeature\n'
   const indexContent = await FileSystem.readFile(`${tmpDir}/.git/index`)
   const unmergedEntryCount = indexContent.split(fileName).length - 1
   if (unmergedEntryCount !== 3) {
