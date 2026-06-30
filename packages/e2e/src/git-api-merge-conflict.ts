@@ -44,7 +44,6 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   if (!mergeError) {
     throw new Error('expected merge to fail with a conflict')
   }
-  const resolvedContent = 'main\nfeature\n'
   const indexContent = await FileSystem.readFile(`${tmpDir}/.git/index`)
   const unmergedEntryCount = indexContent.split(fileName).length - 1
   if (unmergedEntryCount !== 3) {
@@ -57,6 +56,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   await FileSystem.shouldHaveFile(`${tmpDir}/.git/HEAD`, 'ref: refs/heads/main\n')
   await FileSystem.shouldHaveFile(`${tmpDir}/.git/MERGE_HEAD`, `${(await FileSystem.readFile(`${tmpDir}/.git/refs/heads/feature`)).trim()}\n`)
 
+  const resolvedContent = 'main\nfeature\n'
   await FileSystem.writeFile(filePath, resolvedContent)
   await Git.add(fileName)
   await Git.commit('resolve merge conflict')
