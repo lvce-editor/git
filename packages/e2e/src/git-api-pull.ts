@@ -4,7 +4,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'git.pull'
 
 // export const skip = 1
-let workspaceDir = ''
 
 const fileUrlToPath = (url: string): string => {
   const parsedUrl = new URL(url)
@@ -21,7 +20,7 @@ const fileUrlToPath = (url: string): string => {
 const exec = async (
   command: string,
   args: readonly string[],
-  _options: { cwd: string },
+  options: { cwd: string },
 ): Promise<{ exitCode: number; stderr: string; stdout: string }> => {
   if (command !== 'git') {
     throw new Error(`unexpected command ${command}`)
@@ -36,7 +35,7 @@ const exec = async (
     case 'pull':
       // Fallback for environments where the actual pull command is mocked through this RPC layer.
       // @ts-ignore
-      await globalThis.rpc.invoke('FileSystem.writeFile', `${workspaceDir}/file.txt`, 'version 2')
+      await globalThis.rpc.invoke('FileSystem.writeFile', `${options.cwd}/file.txt`, 'version 2')
       return {
         exitCode: 0,
         stderr: '',
@@ -65,7 +64,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const upstreamDir = `${tmpDir}/upstream`
   const upstreamDirUrl = `${tmpDirUrl}/upstream`
   const workspaceDirUrl = `${tmpDirUrl}/workspace`
-  workspaceDir = `${tmpDir}/workspace`
+  const workspaceDir = `${tmpDir}/workspace`
   const fileName = 'file.txt'
   const gitPath = /^[A-Za-z]:/.test(tmpDir) ? 'file:///C:/Program%20Files/Git/cmd/git.exe' : 'file:///usr/bin/git'
 
