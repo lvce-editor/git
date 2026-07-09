@@ -15,6 +15,7 @@
     "onCommand:git.addAll",
     "onCommand:git.branch",
     "onCommand:git.commit",
+    "onCommand:git.commitAndSync",
     "onCommand:git.commitStaged",
     "onCommand:git.createWorktree",
     "onCommand:git.createTag",
@@ -94,6 +95,10 @@
     {
       "id": "git.commit",
       "label": "Git: Commit"
+    },
+    {
+      "id": "git.commitAndSync",
+      "label": "Git: Commit & Sync"
     },
     {
       "id": "git.commitStaged",
@@ -181,6 +186,14 @@
   "sourceControl": {
     "scheme": ""
   },
+  "source-control-buttons": [
+    {
+      "command": "git.commitAndSync",
+      "id": "git.commitAndSync",
+      "icon": "Check",
+      "label": "Commit & Sync"
+    }
+  ],
   "source-control-icons": [
     "icons/dark/status-modified.svg",
     "icons/dark/status-added.svg",
