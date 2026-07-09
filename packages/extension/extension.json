@@ -3,6 +3,9 @@
   "name": "Git",
   "description": "Git SCM Integration",
   "browser": "dist/gitMain.js",
+  "compatibility": {
+    "web": false
+  },
   "icon": "./icon.png",
   "activation": [
     "onCommand:git.init",
