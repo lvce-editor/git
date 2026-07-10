@@ -21,6 +21,14 @@ export default [
     },
   },
   {
+    files: ['packages/e2e/**/*.ts'],
+    rules: {
+      '@typescript-eslint/prefer-readonly-parameter-types': 'off',
+      'e2e/prefer-execute-extension-command': 'off',
+      'unicorn/no-return-array-push': 'off',
+    },
+  },
+  {
     files: ['packages/extension/src/**/*.ts', 'packages/extension/test/**/*.ts'],
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
