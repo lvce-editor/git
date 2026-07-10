@@ -1,1 +1,1 @@
-export * from './parts/Main/Main.ts'
+import './parts/Main/Main.ts'

@@ -1,37 +1,15 @@
+import { activate as activateExtensionApi, registerCommand, registerSourceControlProvider } from '@lvce-editor/api'
 import * as ExtensionHostCommand from '../ExtensionHostCommand/ExtensionHostCommand.ts'
-import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.ts'
 import * as SourceControlProviderGit from '../UiSourceControlProvider/UiSourceControlProviderGit.ts'
 
-export const activate = async ({ path }) => {
+const main = async (): Promise<void> => {
+  await activateExtensionApi()
+
   for (const command of Object.values(ExtensionHostCommand)) {
-    // @ts-ignore
-    vscode.registerCommand(command)
+    registerCommand(command)
   }
 
-  ExtensionInfo.setPath(path)
-  // @ts-ignore
-  vscode.registerSourceControlProvider(SourceControlProviderGit)
-
-  // vscode.registerStatusBarItem(StatusBarCheckout.create())
-  // vscode.registerStatusBarItem(StatusBarItemSync)
-
-  // vscode.updateGitDecorations()
-
-  // await initializeProject()
-  // vscode.useEffect(()=>{
-  //   setupWatcher()
-
-  // })
-
-  return () => {
-    // rootWatcher.dispose()
-    // dotGitWatcher.dispose()
-  }
+  registerSourceControlProvider(SourceControlProviderGit)
 }
 
-export const deactivate = () => {
-  // for (const sourceControlProvider of sourceControlProviders) {
-  //   vscode.unregisterSourceControlProvider(sourceControlProvider)
-  // }
-  // sourceControlProviders.clear()
-}
+await main()

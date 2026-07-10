@@ -1,15 +1,14 @@
+import { showQuickPick } from '@lvce-editor/api'
+
 const toPick = (pick) => {
-  return pick
+  return {
+    ...pick,
+    value: pick,
+  }
 }
 
 export const show = async (picks) => {
-  const getPicks = () => {
-    return picks
-  }
-  // @ts-ignore
-  const selectedPick = await vscode.showQuickPick({
-    getPicks,
-    toPick,
+  return showQuickPick({
+    items: picks.map(toPick),
   })
-  return selectedPick
 }

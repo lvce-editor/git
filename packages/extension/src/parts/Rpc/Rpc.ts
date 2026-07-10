@@ -1,4 +1,4 @@
-import * as ExtensionInfo from '../ExtensionInfo/ExtensionInfo.ts'
+import { createNodeRpc } from '@lvce-editor/api'
 import * as GetGitClientPath from '../GetGitClientPath/GetGitClientPath.ts'
 
 type Rpc = {
@@ -10,12 +10,9 @@ export const state = {
 }
 
 const createRpc = async (): Promise<Rpc> => {
-  const path = ExtensionInfo.getPath()
-  const gitClientPath = GetGitClientPath.getGitClientPath(path)
-  // @ts-ignore
-  const rpc = await vscode.createNodeRpc({
-    path: gitClientPath,
+  const rpc = await createNodeRpc({
     name: 'Git',
+    path: GetGitClientPath.getGitClientPath(),
   })
   return rpc
 }
