@@ -10,8 +10,16 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const stagedFile = 'staged.txt'
   const unstagedFile = 'unstaged.txt'
   await Workspace.setPath(tmpDir)
-  await FileSystem.writeFile(`${tmpDir}/${stagedFile}`, 'staged content')
-  await FileSystem.writeFile(`${tmpDir}/${unstagedFile}`, 'version 1')
+  await FileSystem.setFiles([
+    {
+      content: 'staged content',
+      uri: `${tmpDir}/${stagedFile}`,
+    },
+    {
+      content: 'version 1',
+      uri: `${tmpDir}/${unstagedFile}`,
+    },
+  ])
   await Git.init()
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')
