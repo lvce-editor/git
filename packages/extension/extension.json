@@ -38,7 +38,6 @@
     "onCommand:git.deleteTag",
     "onCommand:git.sync",
     "onCommand:git.fetch",
-    "onCommand:git.pr",
     "onCommand:git.stash",
     "onCommand:git.stage",
     "onCommand:git.unstage",
@@ -52,7 +51,6 @@
     "onCommand:git.setConfig",
     "onCommand:git.checkoutRef",
     "onCommand:git.unstash",
-    "onStartupFinished",
     "onSourceControl",
     "onSourceControl:",
     "onSourceControl:file",
@@ -155,11 +153,6 @@
     {
       "id": "git.undoLastCommit",
       "label": "Git: Undo Last Commit"
-    },
-    {
-      "id": "git.pr",
-      "label": "Git: Create Pull Request",
-      "aliases": ["pr"]
     },
     {
       "id": "git.checkoutRef",
