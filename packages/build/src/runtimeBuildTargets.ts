@@ -3,6 +3,7 @@ import type { BuildOptions } from 'esbuild'
 export const runtimeBuildTargets = [
   {
     entryPoint: 'packages/extension/src/gitMain.ts',
+    external: ['electron', 'node*'],
     outfile: 'packages/extension/dist/gitMain.js',
   },
   {
