@@ -193,7 +193,7 @@
     {
       "command": "git.commitAndSync",
       "id": "git.commitAndSync",
-      "icon": "Check",
+      "icon": "Lock",
       "label": "Commit & Sync"
     }
   ],
