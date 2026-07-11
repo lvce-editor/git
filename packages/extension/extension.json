@@ -17,6 +17,7 @@
     "onCommand:git.deleteBranch",
     "onCommand:git.fetchPrune",
     "onCommand:git.getCommits",
+    "onCommand:git.getInvocations",
     "onCommand:git.init",
     "onCommand:git.loadFixture",
     "onCommand:git.openFile",
@@ -187,6 +188,9 @@
     },
     {
       "id": "git.getCommits"
+    },
+    {
+      "id": "git.getInvocations"
     },
     {
       "id": "git.openFile"

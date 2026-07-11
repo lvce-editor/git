@@ -17,10 +17,22 @@ export const getWorkspaceFolder = () => {
   return getWorkspaceFolderFromApi()
 }
 
+const toFileSystemPath = (value: string): string => {
+  if (!value.startsWith('file://')) {
+    return value
+  }
+  const url = new URL(value)
+  const path = decodeURIComponent(url.pathname)
+  if (url.hostname) {
+    return `//${url.hostname}${path}`
+  }
+  return /^\/[A-Za-z]:/.test(path) ? path.slice(1) : path
+}
+
 export const getGitPaths = async () => {
   const configuredGitPath = await getPreference('git.path')
   if (typeof configuredGitPath === 'string' && configuredGitPath) {
-    return [configuredGitPath]
+    return [toFileSystemPath(configuredGitPath)]
   }
   return ['git']
 }
