@@ -2,7 +2,15 @@ import { activate as activateExtensionApi, registerCommand, registerSourceContro
 import * as ExtensionHostCommand from '../ExtensionHostCommand/ExtensionHostCommand.ts'
 import * as SourceControlProviderGit from '../UiSourceControlProvider/UiSourceControlProviderGit.ts'
 
-const main = async (): Promise<void> => {
+const state = {
+  isActivated: false,
+}
+
+export const activate = async (): Promise<void> => {
+  if (state.isActivated) {
+    return
+  }
+  state.isActivated = true
   await activateExtensionApi()
 
   for (const command of Object.values(ExtensionHostCommand)) {
@@ -12,4 +20,4 @@ const main = async (): Promise<void> => {
   registerSourceControlProvider(SourceControlProviderGit)
 }
 
-await main()
+export const deactivate = (): void => {}
