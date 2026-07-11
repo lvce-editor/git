@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "@types/jest": "^30.0.0"
+  },
+  "dependencies": {
+    "@lvce-editor/rpc": "^6.7.0"
   }
 }

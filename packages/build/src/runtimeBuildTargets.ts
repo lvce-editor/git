@@ -8,6 +8,7 @@ export const runtimeBuildTargets = [
   },
   {
     entryPoint: 'packages/git-worker/src/gitWorkerMain.ts',
+    external: ['electron', 'node*'],
     outfile: 'packages/git-worker/dist/gitWorkerMain.js',
   },
   {

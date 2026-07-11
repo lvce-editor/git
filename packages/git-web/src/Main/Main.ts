@@ -1,4 +1,3 @@
-import * as Rpc from '@lvce-editor/rpc'
 import { handleAdd } from '../AddCommand/AddCommand.ts'
 import { handleBranch } from '../BranchCommand/BranchCommand.ts'
 import { handleCheckout } from '../CheckoutCommand/CheckoutCommand.ts'
