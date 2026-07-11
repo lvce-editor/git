@@ -51,6 +51,26 @@ test('deleteWorktree - normalizes file uri path', async () => {
   })
 })
 
+test('deleteWorktree - normalizes windows file uri path', async () => {
+  const exec: GitExec = jest.fn(async () => ({
+    exitCode: 0,
+    stderr: '',
+    stdout: '',
+  }))
+  await GitRequestsDeleteWorktree.deleteWorktree({
+    cwd: 'C:/test/test-folder',
+    exec,
+    gitPath: 'git',
+    worktreePath: 'file:///C:/test/feature-worktree',
+  })
+  expect(exec).toHaveBeenCalledWith({
+    args: ['worktree', 'remove', 'C:/test/feature-worktree'],
+    cwd: 'C:/test/test-folder',
+    gitPath: 'git',
+    name: 'deleteWorktree',
+  })
+})
+
 test('deleteWorktree - error - unknown git error', async (): Promise<void> => {
   const exec = (): never => {
     throw new ExecError('oops')

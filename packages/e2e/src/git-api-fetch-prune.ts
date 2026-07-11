@@ -31,16 +31,13 @@ const refExists = async (
   }
 }
 
-export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace }) => {
+export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
   const workspaceGitDir = `${workspaceDir}/.git`
 
   await Workspace.setPath(tmpDir)
-  await Settings.update({
-    'git.path': '/usr/bin/git',
-  })
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-fetch-prune')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)

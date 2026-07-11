@@ -1,5 +1,6 @@
 import { commandInit } from '../CommandInit/CommandInit.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
+import { toFileSystemPath } from '../ToFileSystemPath/ToFileSystemPath.ts'
 
 const gitInit = async (): Promise<void> => {
   await commandInit()
@@ -20,13 +21,6 @@ const resolvePath = async (path: string): Promise<string> => {
     return folder
   }
   return `${folder}/${path}`
-}
-
-const toFileSystemPath = (path: string): string => {
-  if (path.startsWith('file://')) {
-    return path.slice('file://'.length)
-  }
-  return path
 }
 
 const touch = async (fileName: string): Promise<void> => {
