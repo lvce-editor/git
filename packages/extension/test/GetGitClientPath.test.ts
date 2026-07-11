@@ -9,6 +9,10 @@ test('gets the runtime git client path', () => {
   expect(getGitClientPath('file:///workspace/git/packages/extension/dist/gitMain.js')).toBe('/workspace/git/packages/node/src/gitClient.js')
 })
 
+test('gets the windows runtime git client path', () => {
+  expect(getGitClientPath('file:///D:/a/git/git/packages/extension/dist/gitMain.js')).toBe('D:/a/git/git/packages/node/src/gitClient.js')
+})
+
 test('gets a remote git client path', () => {
   expect(getGitClientPath('https://example.com/remote/home/test/extensions/builtin.git/dist/gitMain.js')).toBe(
     '/home/test/extensions/builtin.git/node/src/gitClient.js',
