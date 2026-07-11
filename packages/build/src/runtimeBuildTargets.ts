@@ -3,10 +3,12 @@ import type { BuildOptions } from 'esbuild'
 export const runtimeBuildTargets = [
   {
     entryPoint: 'packages/extension/src/gitMain.ts',
+    external: ['electron', 'node*'],
     outfile: 'packages/extension/dist/gitMain.js',
   },
   {
     entryPoint: 'packages/git-worker/src/gitWorkerMain.ts',
+    external: ['electron', 'node*'],
     outfile: 'packages/git-worker/dist/gitWorkerMain.js',
   },
   {

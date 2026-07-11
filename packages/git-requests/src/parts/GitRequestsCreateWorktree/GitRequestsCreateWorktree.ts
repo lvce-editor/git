@@ -1,12 +1,6 @@
 import type { GitWorktreeRequest } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
-
-const toFileSystemPath = (path: string): string => {
-  if (path.startsWith('file://')) {
-    return path.slice('file://'.length)
-  }
-  return path
-}
+import { toFileSystemPath } from '../ToFileSystemPath/ToFileSystemPath.ts'
 
 export const createWorktree = async ({ cwd, exec, gitPath, ref, worktreePath }: GitWorktreeRequest): Promise<void> => {
   try {

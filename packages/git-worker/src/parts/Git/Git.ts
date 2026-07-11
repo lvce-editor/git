@@ -2,6 +2,7 @@ import * as Exec from '../Exec/Exec.ts'
 import { ExecError } from '../ExecError/ExecError.ts'
 import * as ExitCode from '../ExitCode/ExitCode.ts'
 import * as GetGitEnv from '../GetGitEnv/GetGitEnv.ts'
+import * as GitInvocations from '../GitInvocations/GitInvocations.ts'
 
 type ExecArgs = {
   args: readonly string[]
@@ -33,6 +34,7 @@ export const exec = async ({
     input,
     reject: false,
   }
+  GitInvocations.add(cwd, args)
   const { exitCode, stderr, stdout } = await Exec.exec(gitPath, args, options)
   if (exitCode !== ExitCode.Success && throwError) {
     throw new ExecError(stdout, stderr, exitCode)

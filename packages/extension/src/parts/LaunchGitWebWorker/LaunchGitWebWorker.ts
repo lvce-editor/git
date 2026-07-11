@@ -1,15 +1,18 @@
+import { createRpc } from '@lvce-editor/api'
 import { commandMap } from '../CommandMap/CommandMap.ts'
 import * as GitWebWorkerUrl from '../GitWebWorkerUrl/GitWebWorkerUrl.ts'
 
-export const launchGitWebWorker = async () => {
+type Rpc = {
+  invoke(method: string, ...params: readonly any[]): Promise<any>
+}
+
+export const launchGitWebWorker = async (): Promise<Rpc> => {
   const workerUrl = GitWebWorkerUrl.getGitWebWorkerUrl()
 
-  // @ts-ignore
-  const rpc = await vscode.createRpc({
-    type: 'worker',
-    url: workerUrl,
+  const rpc = await createRpc({
+    commandMap,
     name: 'Git Web Worker',
-    commandMap: commandMap,
+    url: workerUrl,
   })
   return rpc
 }

@@ -1,93 +1,89 @@
+import {
+  confirm,
+  exists as fileSystemExists,
+  getPreference,
+  getWorkspaceFolder as getWorkspaceFolderFromApi,
+  handleWorkspaceRefresh as handleWorkspaceRefreshFromApi,
+  mkdir as makeDirectory,
+  openUri as openUriFromApi,
+  readDirWithFileTypes,
+  readFile as readFileFromApi,
+  remove as removeFromApi,
+  stat as statFromApi,
+  writeFile,
+} from '@lvce-editor/api'
+
 export const getWorkspaceFolder = () => {
-  // @ts-ignore
-  const path = vscode.getWorkspaceFolder()
-  return path
+  return getWorkspaceFolderFromApi()
 }
 
-export const getGitPaths = () => {
-  // TODO don't couple vscode api with business logic too much
-  // @ts-ignore
-  const configuredGitPath = vscode.getConfiguration('git.path')
-  if (configuredGitPath) {
-    return [configuredGitPath]
+const toFileSystemPath = (value: string): string => {
+  if (!value.startsWith('file://')) {
+    return value
   }
-  const paths = ['git']
-  // @ts-ignore
-  if (vscode.env.GIT_PATH) {
-    // @ts-ignore
-    paths.unshift(vscode.env.GIT_PATH)
+  const url = new URL(value)
+  const path = decodeURIComponent(url.pathname)
+  if (url.hostname) {
+    return `//${url.hostname}${path}`
   }
-  return paths
+  return /^\/[A-Za-z]:/.test(path) ? path.slice(1) : path
 }
 
-export const confirmDiscard = () => {
-  // @ts-ignore
-  const value = vscode.getConfiguration('git.confirmDiscard')
-  return value
+export const getGitPaths = async () => {
+  const configuredGitPath = await getPreference('git.path')
+  if (typeof configuredGitPath === 'string' && configuredGitPath) {
+    return [toFileSystemPath(configuredGitPath)]
+  }
+  return ['git']
 }
 
-export const showErrorMessage = () => {
-  // @ts-ignore
-  const value = vscode.getConfiguration('git.showErrorMessage')
-  return value
+export const confirmDiscard = async () => {
+  return getPreference('git.confirmDiscard')
+}
+
+export const showErrorMessage = async () => {
+  return getPreference('git.showErrorMessage')
 }
 
 export const exists = async (uri) => {
   try {
-    // @ts-ignore
-    const value = await vscode.exists(uri)
-    return value
+    return await fileSystemExists(uri)
   } catch {
     return false
   }
 }
 
 export const mkdir = async (uri) => {
-  // @ts-ignore
-  const value = await vscode.mkdir(uri)
-  return value
+  return makeDirectory(uri)
 }
 
 export const remove = async (uri) => {
-  // @ts-ignore
-  await vscode.remove(uri)
+  await removeFromApi(uri)
 }
 
 export const write = async (uri, content) => {
-  // @ts-ignore
-  const value = await vscode.writeFile(uri, content)
-  return value
+  return writeFile(uri, content)
 }
 export const readFile = async (uri) => {
-  // @ts-ignore
-  const value = await vscode.readFile(uri)
-  return value
+  return readFileFromApi(uri)
 }
 
 export const readDir = async (uri) => {
-  // @ts-ignore
-  const value = await vscode.readDirWithFileTypes(uri)
-  return value
+  return readDirWithFileTypes(uri)
 }
 
 export const stat = async (uri) => {
-  // @ts-ignore
-  const value = await vscode.stat(uri)
-  return value
+  return statFromApi(uri)
 }
 
 export const confirmPrompt = async (message) => {
-  // @ts-ignore
-  const result = await vscode.confirm(message)
-  return result
+  return confirm(message)
 }
 
 export const handleWorkspaceRefresh = async () => {
-  // @ts-ignore
-  await vscode.handleWorkspaceRefresh()
+  await handleWorkspaceRefreshFromApi()
 }
 
 export const openUri = async (uri) => {
-  // @ts-ignore
-  await vscode.openUri(uri)
+  await openUriFromApi(uri)
 }

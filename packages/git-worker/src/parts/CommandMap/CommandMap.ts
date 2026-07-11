@@ -23,6 +23,7 @@ import * as CommandUndoLastCommit from '../CommandUndoLastCommit/CommandUndoLast
 import * as CommandUnstage from '../CommandUnstage/CommandUnstage.ts'
 import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.ts'
 import * as CommandUnstash from '../CommandUnstash/CommandUnstash.ts'
+import * as GitInvocations from '../GitInvocations/GitInvocations.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
@@ -75,6 +76,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitGetFileBefore]: WrappedGitRequests.wrappedGitRequests.getFileBefore,
   [GitWorkerCommandType.GitGetFileDecorations]: CommandGetFileDecorations.getFileDecorations,
   [GitWorkerCommandType.GitGetGroups]: WrappedGitRequests.wrappedGitRequests.getGroups,
+  [GitWorkerCommandType.GitGetInvocations]: GitInvocations.get,
   [GitWorkerCommandType.GitGetRefs]: WrappedGitRequests.wrappedGitRequests.getRefs,
   [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
   [GitWorkerCommandType.GitMerge]: WrappedGitRequests.wrappedGitRequests.merge,

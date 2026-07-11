@@ -3,12 +3,24 @@
   "name": "Git",
   "description": "Git SCM Integration",
   "browser": "dist/gitMain.js",
+  "isolated": true,
   "compatibility": {
     "web": false
   },
   "icon": "./icon.png",
   "activation": [
+    "onCommand:git.acceptInput",
+    "onCommand:git.add",
+    "onCommand:git.addRemote",
+    "onCommand:git.applyStash",
+    "onCommand:git.checkout",
+    "onCommand:git.deleteBranch",
+    "onCommand:git.fetchPrune",
+    "onCommand:git.getCommits",
+    "onCommand:git.getInvocations",
     "onCommand:git.init",
+    "onCommand:git.loadFixture",
+    "onCommand:git.openFile",
     "onCommand:git.cherryPick",
     "onCommand:git.merge",
     "onCommand:git.pull",
@@ -27,7 +39,6 @@
     "onCommand:git.deleteTag",
     "onCommand:git.sync",
     "onCommand:git.fetch",
-    "onCommand:git.pr",
     "onCommand:git.stash",
     "onCommand:git.stage",
     "onCommand:git.unstage",
@@ -38,8 +49,9 @@
     "onCommand:git.undoLastCommit",
     "onCommand:git.selectBranch",
     "onCommand:git.showBranchPicker",
+    "onCommand:git.setConfig",
     "onCommand:git.checkoutRef",
-    "onStartupFinished",
+    "onCommand:git.unstash",
     "onSourceControl",
     "onSourceControl:",
     "onSourceControl:file",
@@ -144,13 +156,62 @@
       "label": "Git: Undo Last Commit"
     },
     {
-      "id": "git.pr",
-      "label": "Git: Create Pull Request",
-      "aliases": ["pr"]
-    },
-    {
       "id": "git.checkoutRef",
       "label": "Git Checkout"
+    },
+    {
+      "id": "git.acceptInput"
+    },
+    {
+      "id": "git.add"
+    },
+    {
+      "id": "git.addRemote"
+    },
+    {
+      "id": "git.applyStash"
+    },
+    {
+      "id": "git.checkout"
+    },
+    {
+      "id": "git.cleanAll"
+    },
+    {
+      "id": "git.deleteBranch"
+    },
+    {
+      "id": "git.discard"
+    },
+    {
+      "id": "git.fetchPrune"
+    },
+    {
+      "id": "git.getCommits"
+    },
+    {
+      "id": "git.getInvocations"
+    },
+    {
+      "id": "git.openFile"
+    },
+    {
+      "id": "git.setConfig"
+    },
+    {
+      "id": "git.stage"
+    },
+    {
+      "id": "git.stageAll"
+    },
+    {
+      "id": "git.unstash"
+    },
+    {
+      "id": "git.unstage"
+    },
+    {
+      "id": "git.unstageAll"
     }
   ],
   "quickPick": [
@@ -189,6 +250,11 @@
   "sourceControl": {
     "scheme": ""
   },
+  "sourceControlProviders": [
+    {
+      "id": "git"
+    }
+  ],
   "source-control-buttons": [
     {
       "command": "git.commitAndSync",

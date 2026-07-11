@@ -1,7 +1,7 @@
 import * as GitWorker from '../GitWorker/GitWorker.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 
-export const getBadgeCount = async (cwd): Promise<number> => {
+export const getBadgeCount = async (): Promise<number> => {
   const groups = await GitWorker.invoke(GitWorkerCommandType.GitGetGroups, {})
   if (!Array.isArray(groups)) {
     return 0

@@ -67,12 +67,6 @@ const updateRelativeJsImportsToTs = async (dir: string): Promise<void> => {
 }
 
 await replace({
-  path: join(root, 'dist', 'src', 'parts', 'GetGitClientPath', 'GetGitClientPath.ts'),
-  occurrence: '../node/',
-  replacement: 'node/',
-})
-
-await replace({
   path: join(root, 'dist', 'src', 'gitMain.ts'),
   occurrence: './parts/Main/Main.js',
   replacement: './parts/Main/Main.ts',
@@ -125,7 +119,7 @@ await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join
 
 await bundleJs(join(root, 'dist', 'git-web', 'src', 'gitWebMain.ts'), join(root, 'dist', 'git-web', 'dist', 'gitWebMain.js'), false)
 
-await bundleJs(join(root, 'dist', 'src', 'gitMain.ts'), join(root, 'dist', 'dist', 'gitMain.js'), false)
+await bundleJs(join(extension, 'src', 'gitMain.ts'), join(root, 'dist', 'dist', 'gitMain.js'), false)
 
 await packageExtension({
   highestCompression: true,

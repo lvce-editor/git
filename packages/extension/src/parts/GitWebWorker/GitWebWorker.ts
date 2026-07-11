@@ -11,7 +11,7 @@ export const state = {
 
 const getOrCreateRpc = async (): Promise<Rpc> => {
   if (!state.rpcPromise) {
-    state.rpcPromise = LaunchGitWebWorker.launchGitWebWorker() as Promise<Rpc>
+    state.rpcPromise = LaunchGitWebWorker.launchGitWebWorker()
   }
   return state.rpcPromise
 }
