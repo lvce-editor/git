@@ -160,58 +160,76 @@
       "label": "Git Checkout"
     },
     {
-      "id": "git.acceptInput"
+      "id": "git.acceptInput",
+      "label": "Git: Accept Input"
     },
     {
-      "id": "git.add"
+      "id": "git.add",
+      "label": "Git: Add"
     },
     {
-      "id": "git.addRemote"
+      "id": "git.addRemote",
+      "label": "Git: Add Remote"
     },
     {
-      "id": "git.applyStash"
+      "id": "git.applyStash",
+      "label": "Git: Apply Stash"
     },
     {
-      "id": "git.checkout"
+      "id": "git.checkout",
+      "label": "Git: Checkout"
     },
     {
-      "id": "git.cleanAll"
+      "id": "git.cleanAll",
+      "label": "Git: Discard All Changes"
     },
     {
-      "id": "git.deleteBranch"
+      "id": "git.deleteBranch",
+      "label": "Git: Delete Branch"
     },
     {
-      "id": "git.discard"
+      "id": "git.discard",
+      "label": "Git: Discard Changes"
     },
     {
-      "id": "git.fetchPrune"
+      "id": "git.fetchPrune",
+      "label": "Git: Fetch (Prune)"
     },
     {
-      "id": "git.getCommits"
+      "id": "git.getCommits",
+      "label": "Git: Get Commits"
     },
     {
-      "id": "git.getInvocations"
+      "id": "git.getInvocations",
+      "label": "Git: Get Invocations"
     },
     {
-      "id": "git.openFile"
+      "id": "git.openFile",
+      "label": "Git: Open File"
     },
     {
-      "id": "git.setConfig"
+      "id": "git.setConfig",
+      "label": "Git: Set Config"
     },
     {
-      "id": "git.stage"
+      "id": "git.stage",
+      "label": "Git: Stage"
     },
     {
-      "id": "git.stageAll"
+      "id": "git.stageAll",
+      "label": "Git: Stage All"
     },
     {
-      "id": "git.unstash"
+      "id": "git.unstash",
+      "label": "Git: Unstash"
     },
     {
-      "id": "git.unstage"
+      "id": "git.unstage",
+      "label": "Git: Unstage"
     },
     {
-      "id": "git.unstageAll"
+      "id": "git.unstageAll",
+      "label": "Git: Unstage All"
     }
   ],
   "quickPick": [
