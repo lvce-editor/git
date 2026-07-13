@@ -14,25 +14,39 @@ const waitForFileContent = async (FileSystem: { readFile: (uri: string) => Promi
   throw new Error(`expected ${uri} to be ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
 }
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, QuickPick, SideBar, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, QuickPick, SideBar, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(tmpDir)
-  const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  await FileSystem.mkdir(workspaceDir)
   await Workspace.setPath(workspaceDir)
-  await SideBar.open('Source Control')
+  await Git.init({ initialBranch: 'main' })
 
   const branchStatusBarItem = Locator('.StatusBarItem[name="git.showBranchPicker"]')
   await expect(branchStatusBarItem).toBeVisible()
   await expect(branchStatusBarItem).toHaveText('main')
 
+  await Git.config({
+    'user.email': 'test@example.com',
+    'user.name': 'Test User',
+  })
+  await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'main branch')
+  await Git.addAll()
+  await Git.commit('Initial commit')
+  await Git.branch('feature')
+  await Git.checkout('feature')
+  await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'feature branch')
+  await Git.addAll()
+  await Git.commit('Feature commit')
+  await Git.checkout('main')
+  await SideBar.open('Source Control')
+  await expect(branchStatusBarItem).toHaveText('main')
+
   // act
   const branchPickerPromise = Command.execute('StatusBar.handleClick', 'git.showBranchPicker')
   const quickPick = Locator('#QuickPick')
-  const featureBranchItem = Locator('text=feature')
-  const mainBranchItem = Locator('text=main')
+  const featureBranchItem = quickPick.locator('text=feature')
+  const mainBranchItem = quickPick.locator('text=main')
   await expect(quickPick).toBeVisible()
   await expect(featureBranchItem).toBeVisible()
   await expect(mainBranchItem).toBeVisible()
