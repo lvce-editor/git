@@ -4,11 +4,10 @@ export const name = 'git.show-changed-files-in-side-bar'
 
 export const skip = 1
 
-export const test: Test = async ({ Command, expect, Extension, FileSystem, Locator, Settings, SideBar, SourceControl, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspace }) => {
   // arrange
-  const tmpDir = await FileSystem.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  // await Extension.addWebExtension(import.meta.resolve('../../extension'))
   const fixtureUrl = import.meta.resolve('../fixtures/git.show-changed-files-in-side-bar')
   await Command.execute('ExtensionHost.executeCommand', `git.loadFixture`, fixtureUrl)
 
@@ -16,9 +15,12 @@ export const test: Test = async ({ Command, expect, Extension, FileSystem, Locat
   await Command.execute('SideBar.show', 'Source Control')
 
   // assert
-  // const treeItems = Locator('.TreeItem')
-  // await expect(treeItems).toHaveCount(3)
-  // await expect(treeItems.nth(0).locator('.Label')).toHaveText('Changes')
-  // await expect(treeItems.nth(1).locator('.Label')).toHaveText('file-1.txt')
-  // await expect(treeItems.nth(2).locator('.Label')).toHaveText('file-2.txt')
+  const treeItems = Locator('.TreeItem')
+  const changesGroup = treeItems.nth(0).locator('.Label')
+  const firstFile = treeItems.nth(1).locator('.Label')
+  const secondFile = treeItems.nth(2).locator('.Label')
+  await expect(treeItems).toHaveCount(3)
+  await expect(changesGroup).toHaveText('Changes')
+  await expect(firstFile).toHaveText('file-1.txt')
+  await expect(secondFile).toHaveText('file-2.txt')
 }
