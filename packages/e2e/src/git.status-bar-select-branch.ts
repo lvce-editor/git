@@ -21,12 +21,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await FileSystem.mkdir(workspaceDir)
   await Workspace.setPath(workspaceDir)
   await Git.init({ initialBranch: 'main' })
-  await SideBar.open('Source Control')
-
-  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
-  await expect(branchStatusBarItem).toBeVisible()
-  await expect(branchStatusBarItem).toHaveText('main')
-
   await Git.config({
     'user.email': 'test@example.com',
     'user.name': 'Test User',
@@ -34,6 +28,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'main branch')
   await Git.addAll()
   await Git.commit('Initial commit')
+  await SideBar.open('Source Control')
+
+  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
+  await expect(branchStatusBarItem).toBeVisible()
+  await expect(branchStatusBarItem).toHaveText('main')
+
   await Git.branch('feature')
   await Git.checkout('feature')
   await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'feature branch')
