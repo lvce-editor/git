@@ -23,7 +23,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await Git.init({ initialBranch: 'main' })
   await SideBar.open('Source Control')
 
-  const branchStatusBarItem = Locator('.StatusBarItem[name="git.showBranchPicker"]')
+  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
   await expect(branchStatusBarItem).toBeVisible()
   await expect(branchStatusBarItem).toHaveText('main')
 
