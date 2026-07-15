@@ -21,6 +21,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await FileSystem.mkdir(workspaceDir)
   await Workspace.setPath(workspaceDir)
   await Git.init({ initialBranch: 'main' })
+  await SideBar.open('Source Control')
 
   const branchStatusBarItem = Locator('.StatusBarItem[name="git.showBranchPicker"]')
   await expect(branchStatusBarItem).toBeVisible()
@@ -39,7 +40,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await Git.addAll()
   await Git.commit('Feature commit')
   await Git.checkout('main')
-  await SideBar.open('Source Control')
   await expect(branchStatusBarItem).toHaveText('main')
 
   // act
