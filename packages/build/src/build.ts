@@ -67,6 +67,12 @@ const updateRelativeJsImportsToTs = async (dir: string): Promise<void> => {
 }
 
 await replace({
+  path: join(root, 'dist', 'extension.json'),
+  occurrence: '../node/src/gitClient.js',
+  replacement: 'node/src/gitClient.js',
+})
+
+await replace({
   path: join(root, 'dist', 'src', 'gitMain.ts'),
   occurrence: './parts/Main/Main.js',
   replacement: './parts/Main/Main.ts',

@@ -1,5 +1,4 @@
 import { createNodeRpc } from '@lvce-editor/api'
-import * as GetGitClientPath from '../GetGitClientPath/GetGitClientPath.ts'
 
 type Rpc = {
   invoke(method: string, ...params: readonly any[]): Promise<any>
@@ -11,8 +10,7 @@ export const state = {
 
 const createRpc = async (): Promise<Rpc> => {
   const rpc = await createNodeRpc({
-    name: 'Git',
-    path: GetGitClientPath.getGitClientPath(),
+    id: 'git-client',
   })
   return rpc
 }

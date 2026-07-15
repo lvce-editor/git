@@ -8,6 +8,14 @@
   "compatibility": {
     "web": false
   },
+  "rpc": [
+    {
+      "id": "git-client",
+      "type": "node",
+      "name": "Git",
+      "url": "../node/src/gitClient.js"
+    }
+  ],
   "icon": "./icon.png",
   "activation": [
     "onCommand:git.acceptInput",
