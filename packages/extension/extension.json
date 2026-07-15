@@ -1,6 +1,7 @@
 {
   "id": "builtin.git",
   "name": "Git",
+  "workerName": "Git",
   "description": "Git SCM Integration",
   "browser": "dist/gitMain.js",
   "isolated": true,
