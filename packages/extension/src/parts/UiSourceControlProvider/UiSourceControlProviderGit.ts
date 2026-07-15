@@ -7,7 +7,7 @@ import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.ts'
 import * as GetFileBefore from '../GetFileBefore/GetFileBefore.ts'
 import * as GetGroups from '../GetGroups/GetGroups.ts'
 import * as GetDecorations from '../GetDecorations/GetDecorations.ts'
-import * as CommandId from '../CommandId/CommandId.ts'
+import * as StatusBarCheckout from '../StatusBarCheckout/StatusBarCheckout.ts'
 
 export const id = 'git'
 
@@ -33,7 +33,11 @@ export const isActive = async (scheme, root) => {
       cwd: root,
       reject: false,
     })
-    return exitCode === 0
+    const isGitRepository = exitCode === 0
+    if (isGitRepository) {
+      await StatusBarCheckout.refresh(root)
+    }
+    return isGitRepository
   } catch (error) {
     console.log({ error })
     return false
@@ -51,24 +55,3 @@ export const getGroups = GetGroups.getGroups
 export const getFileBefore = GetFileBefore.getFileBefore
 
 export const fetch = CommandFetch
-
-export const statusBarCommands = [
-  {
-    text: 'select branch',
-  },
-]
-
-export const handleClickBranch = () => {
-  // TODO
-}
-
-export const getStatusBarItems = () => {
-  return [
-    {
-      icon: 'branch',
-      text: 'select branch',
-      name: CommandId.GitShowBranchPicker,
-      onClick: CommandId.GitShowBranchPicker,
-    },
-  ]
-}

@@ -10,5 +10,6 @@ const toPick = (pick) => {
 export const show = async (picks) => {
   return showQuickPick({
     items: picks.map(toPick),
+    placeholder: 'Select a branch',
   })
 }

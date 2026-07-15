@@ -1,5 +1,6 @@
 import { activate as activateExtensionApi, registerCommand, registerSourceControlProvider } from '@lvce-editor/api'
 import * as ExtensionHostCommand from '../ExtensionHostCommand/ExtensionHostCommand.ts'
+import * as StatusBarCheckout from '../StatusBarCheckout/StatusBarCheckout.ts'
 import * as SourceControlProviderGit from '../UiSourceControlProvider/UiSourceControlProviderGit.ts'
 
 const state = {
@@ -18,6 +19,8 @@ export const activate = async (): Promise<void> => {
   }
 
   registerSourceControlProvider(SourceControlProviderGit)
+  StatusBarCheckout.initialize()
+  await StatusBarCheckout.refresh()
 }
 
 export const deactivate = (): void => {}
