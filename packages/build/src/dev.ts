@@ -8,14 +8,10 @@ const main = async () => {
 
   const require = createRequire(join(root, 'packages', 'server', 'package.json'))
   const serverPath = require.resolve('@lvce-editor/server/bin/server.js')
-  execa(
-    'node',
-    [serverPath, '--test-path=packages/e2e', '--only-extension=packages/extension'],
-    {
-      cwd: root,
-      stdio: 'inherit',
-    },
-  )
+  execa('node', [serverPath, '--test-path=packages/e2e', '--only-extension=packages/extension'], {
+    cwd: root,
+    stdio: 'inherit',
+  })
 }
 
 main()
