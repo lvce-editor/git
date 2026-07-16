@@ -1,4 +1,5 @@
 import { cp, readdir } from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import path, { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { root } from './root.ts'
@@ -10,7 +11,8 @@ await cp(path.join(root, 'dist'), path.join(root, 'dist2'), {
   force: true,
 })
 
-const sharedProcessPath = join(root, 'packages', 'server', 'node_modules', '@lvce-editor', 'shared-process', 'index.js')
+const require = createRequire(join(root, 'packages', 'server', 'package.json'))
+const sharedProcessPath = require.resolve('@lvce-editor/shared-process')
 
 const sharedProcessUrl = pathToFileURL(sharedProcessPath).toString()
 
