@@ -2,22 +2,27 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.commit'
 
-export const skip = true
-
-export const test: Test = async ({ expect, FileSystem, KeyBoard, Locator, Settings, SideBar, SourceControl, Workspace }) => {
+export const test: Test = async ({ expect, FileSystem, Git, Locator, SourceControl, Workspace }) => {
   // arrange
-  const tmpDir = await FileSystem.getTmpDir()
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.commit/git.js`)
-  await Settings.update({
-    'git.path': gitPath,
-  })
-  await SideBar.open('Source Control')
+  await Git.init()
+  await Git.setConfig('user.name', 'Test User')
+  await Git.setConfig('user.email', 'test@example.com')
+  await FileSystem.writeFile(`${tmpDir}/file.txt`, 'content')
+  await SourceControl.show()
   await SourceControl.handleInput('test message')
 
   // act
-  // TODO should also test loading indicator
-  // TODO call source control accept
-  // await KeyBoard.press('Control+Enter')
-  // await expect(sourceControlInput).toHaveText('')
+  await SourceControl.acceptInput()
+
+  // assert
+  const treeItems = Locator('.SourceControlItems .TreeItem')
+  await expect(treeItems).toHaveCount(0)
+  await Git.shouldHaveInvocations([
+    {
+      command: ['git', 'commit', '-m', 'test message'],
+      cwd: tmpDir,
+    },
+  ])
 }
