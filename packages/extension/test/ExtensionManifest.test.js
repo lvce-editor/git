@@ -8,3 +8,15 @@ test('all commands have labels', () => {
 
   expect(missingLabels).toEqual([])
 })
+
+test('declares the git client node rpc', () => {
+  const manifestUrl = new URL('../extension.json', import.meta.url)
+  const manifest = JSON.parse(readFileSync(manifestUrl, 'utf8'))
+
+  expect(manifest.rpc).toContainEqual({
+    id: 'git-client',
+    name: 'Git',
+    type: 'node',
+    url: '../node/src/gitClient.js',
+  })
+})
