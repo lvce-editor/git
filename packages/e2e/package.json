@@ -6,9 +6,9 @@
   "main": "index.js",
   "scripts": {
     "pree2e": "node ../build/src/build-runtime.ts",
-    "e2e": "node ./node_modules/@lvce-editor/test-with-playwright/bin/test-with-playwright.js --only-extension=../extension --test-path=.",
+    "e2e": "test-with-playwright --only-extension=../extension --test-path=.",
     "pree2e:headless": "node ../build/src/build-runtime.ts",
-    "e2e:headless": "node ./node_modules/@lvce-editor/test-with-playwright/bin/test-with-playwright.js  --only-extension=../extension --test-path=. --headless"
+    "e2e:headless": "test-with-playwright --only-extension=../extension --test-path=. --headless"
   },
   "devDependencies": {
     "@lvce-editor/test-with-playwright": "^22.8.1"
