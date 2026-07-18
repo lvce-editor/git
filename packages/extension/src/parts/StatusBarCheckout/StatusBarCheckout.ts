@@ -32,6 +32,11 @@ export const initialize = (): void => {
   })
 }
 
+export const clear = async (): Promise<void> => {
+  state.branch = ''
+  await state.handle?.refresh()
+}
+
 export const refresh = async (cwd?: string): Promise<void> => {
   try {
     state.branch = await GitWorker.invoke(GitWorkerCommandType.GitGetCurrentBranch, { cwd })

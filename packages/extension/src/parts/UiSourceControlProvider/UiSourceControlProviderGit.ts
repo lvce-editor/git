@@ -23,9 +23,11 @@ const supportedSchemes = ['file', '', 'memfs']
 
 export const isActive = async (scheme, root) => {
   if (!root) {
+    await StatusBarCheckout.clear()
     return false
   }
   if (!supportedSchemes.includes(scheme)) {
+    await StatusBarCheckout.clear()
     return false
   }
   try {
@@ -36,10 +38,13 @@ export const isActive = async (scheme, root) => {
     const isGitRepository = exitCode === 0
     if (isGitRepository) {
       await StatusBarCheckout.refresh(root)
+    } else {
+      await StatusBarCheckout.clear()
     }
     return isGitRepository
   } catch (error) {
     console.log({ error })
+    await StatusBarCheckout.clear()
     return false
   }
 }
