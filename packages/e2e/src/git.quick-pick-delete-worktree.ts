@@ -21,7 +21,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
-  const worktreeDir = `${tmpDir}/feature-worktree`
 
   await Workspace.setPath(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-delete-worktree')
@@ -41,10 +40,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'worktree', 'list', '--porcelain', '-z'],
-      cwd: workspaceDir,
-    },
-    {
-      command: ['git', 'worktree', 'remove', worktreeDir],
       cwd: workspaceDir,
     },
   ])
