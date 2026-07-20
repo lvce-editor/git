@@ -32,9 +32,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await QuickPick.open()
   await QuickPick.setValue('>Git: Delete Worktree')
   await QuickPick.selectItem('Git: Delete Worktree', { waitUntil: 'quickPick' })
-  const quickPick = Locator('#QuickPick')
-  await expect(quickPick).toBeVisible()
-  await expect(quickPick.locator('text=feature-worktree')).toBeVisible()
+  const worktreeItem = Locator('#QuickPick text=feature-worktree')
+  await expect(worktreeItem).toBeVisible()
   await QuickPick.selectItem('feature-worktree')
 
   // assert
