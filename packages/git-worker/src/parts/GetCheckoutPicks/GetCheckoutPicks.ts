@@ -4,10 +4,13 @@ import * as Git from '../Git/Git.ts'
 import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
+import * as PrioritizeDefaultBranch from '../PrioritizeDefaultBranch/PrioritizeDefaultBranch.ts'
 
 type Ref = {
   commit: string
   name: string
+  remote: string
+  symbolicRef?: string
   type: number
 }
 
@@ -41,5 +44,6 @@ const getRawPicks = async (): Promise<readonly Ref[]> => {
 
 export const getCheckoutPicks = async (): Promise<readonly QuickPickItem[]> => {
   const rawPicks = await getRawPicks()
-  return rawPicks.map(toPick)
+  const prioritizedPicks = PrioritizeDefaultBranch.prioritizeDefaultBranch(rawPicks)
+  return prioritizedPicks.map(toPick)
 }
