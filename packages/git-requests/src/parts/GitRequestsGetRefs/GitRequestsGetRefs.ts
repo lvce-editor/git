@@ -5,7 +5,7 @@ import * as ParseGitRefs from '../ParseGitRefs/ParseGitRefs.ts'
 export const getRefs = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<readonly GitRef[]> => {
   try {
     const gitResult = await exec({
-      args: ['for-each-ref', '--format', '%(refname) %(objectname) %(*objectname)'],
+      args: ['for-each-ref', '--format', '%(refname) %(objectname) %(*objectname) %(symref:short)'],
       cwd,
       gitPath,
       name: 'getRefs',

@@ -95,6 +95,7 @@ export type GitRef = {
   readonly commit: string
   readonly type: number
   readonly remote: string
+  readonly symbolicRef?: string
 }
 
 export type GitStatusFile = {

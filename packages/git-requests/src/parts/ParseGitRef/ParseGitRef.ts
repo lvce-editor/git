@@ -1,9 +1,9 @@
 import type { GitRef } from '../Types/Types.ts'
 import * as GitRefType from '../GitRefType/GitRefType.ts'
 
-const RE_REF_1 = /^refs\/heads\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
-const RE_REF_2 = /^refs\/remotes\/([^/]+)\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
-const RE_REF_3 = /^refs\/tags\/([^ ]+) ([0-9a-f]{40}) ([0-9a-f]{40})?$/
+const RE_REF_1 = /^refs\/heads\/([^ ]+) ([0-9a-f]{40}) (?:([0-9a-f]{40}))?(?: (.*))?$/
+const RE_REF_2 = /^refs\/remotes\/([^/]+)\/([^ ]+) ([0-9a-f]{40}) (?:([0-9a-f]{40}))?(?: (.*))?$/
+const RE_REF_3 = /^refs\/tags\/([^ ]+) ([0-9a-f]{40}) (?:([0-9a-f]{40}))?(?: (.*))?$/
 
 export const parseGitRef = (line: string): GitRef | null => {
   const headMatch = line.match(RE_REF_1)
@@ -21,6 +21,7 @@ export const parseGitRef = (line: string): GitRef | null => {
       commit: remoteMatch[3],
       name: `${remoteMatch[1]}/${remoteMatch[2]}`,
       remote: remoteMatch[1],
+      ...(remoteMatch[5] && { symbolicRef: remoteMatch[5] }),
       type: GitRefType.RemoteHead,
     }
   }
