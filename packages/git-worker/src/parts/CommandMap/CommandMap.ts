@@ -4,6 +4,7 @@ import * as CommandAddAll from '../CommandAddAll/CommandAddAll.ts'
 import * as CommandApplyStash from '../CommandApplyStash/CommandApplyStash.ts'
 import * as CommandCheckout from '../CommandCheckout/CommandCheckout.ts'
 import * as CommandCleanAll from '../CommandCleanAll/CommandCleanAll.ts'
+import * as CommandDeleteWorktreeSelect from '../CommandDeleteWorktreeSelect/CommandDeleteWorktreeSelect.ts'
 import * as CommandDiscard from '../CommandDiscard/CommandDiscard.ts'
 import * as CommandFetch from '../CommandFetch/CommandFetch.ts'
 import * as CommandFetchPrune from '../CommandFetchPrune/CommandFetchPrune.ts'
@@ -34,6 +35,7 @@ export const commandMap = {
   [GitWorkerCommandType.CommandApplyStash]: CommandApplyStash.commandApplyStash,
   [GitWorkerCommandType.CommandCheckoutRef]: CommandCheckout.commandCheckout,
   [GitWorkerCommandType.CommandCleanAll]: CommandCleanAll.commandCleanAll,
+  [GitWorkerCommandType.CommandDeleteWorktreeSelect]: CommandDeleteWorktreeSelect.commandDeleteWorktreeSelect,
   [GitWorkerCommandType.CommandDiscard]: CommandDiscard.commandDiscard,
   [GitWorkerCommandType.CommandFetch]: CommandFetch.commandFetch,
   [GitWorkerCommandType.CommandFetchPrune]: CommandFetchPrune.commandFetchPrune,
