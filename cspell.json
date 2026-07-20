@@ -1,4 +1,4 @@
 {
   "version": "0.2",
-  "words": ["worktree", "gitdir", "lszomoru", "objectname", "pathspec", "symref", "uall", "unstash"]
+  "words": ["worktree", "worktrees", "gitdir", "lszomoru", "objectname", "pathspec", "symref", "uall", "unstash"]
 }

@@ -1,10 +1,8 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-export const name = 'git.deleteWorktree'
+export const name = 'git.quick-pick-delete-worktree'
 
-export const skip = 1
-
-export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
@@ -16,7 +14,11 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Workspace.setPath(workspaceDir)
 
   // act
-  await Command.execute('ExtensionHost.executeCommand', 'git.deleteWorktree', worktreeDir)
+  await QuickPick.executeCommand('Git: Delete Worktree')
+  const quickPick = Locator('#QuickPick')
+  await expect(quickPick).toBeVisible()
+  await expect(quickPick.locator('text=feature-worktree')).toBeVisible()
+  await QuickPick.selectItem('feature-worktree')
 
   // assert
   const tmpDirEntries = await FileSystem.readDir(tmpDir)
@@ -28,6 +30,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
     throw new Error(`expected worktree metadata to be removed, got ${gitDirEntries.map((dirent) => dirent.name).join(', ')}`)
   }
   await Git.shouldHaveInvocations([
+    {
+      command: ['git', 'worktree', 'list', '--porcelain', '-z'],
+      cwd: workspaceDir,
+    },
     {
       command: ['git', 'worktree', 'remove', worktreeDir],
       cwd: workspaceDir,
