@@ -47,10 +47,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   const quickPick = Locator('#QuickPick')
   const featureBranchItem = quickPick.locator('text=feature')
   const mainBranchItem = quickPick.locator('text=main')
+  const firstBranchItem = quickPick.locator('.QuickPickItem').nth(0)
   await expect(quickPick).toBeVisible()
   await expect(featureBranchItem).toBeVisible()
   await expect(mainBranchItem).toBeVisible()
-  await expect(quickPick.locator('.QuickPickItem').nth(0)).toContainText('main')
+  await expect(firstBranchItem).toContainText('main')
   await QuickPick.selectItem('feature')
   await branchPickerPromise
 

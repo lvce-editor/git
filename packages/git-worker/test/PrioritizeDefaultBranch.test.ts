@@ -1,8 +1,14 @@
 import { expect, test } from '@jest/globals'
 import * as PrioritizeDefaultBranch from '../src/parts/PrioritizeDefaultBranch/PrioritizeDefaultBranch.ts'
 
-const local = (name: string) => ({ name, remote: '' })
-const remote = (name: string, symbolicRef?: string) => ({ name, remote: 'origin', symbolicRef })
+interface Ref {
+  readonly name: string
+  readonly remote: string
+  readonly symbolicRef?: string
+}
+
+const local = (name: string): Ref => ({ name, remote: '' })
+const remote = (name: string, symbolicRef?: string): Ref => ({ name, remote: 'origin', symbolicRef })
 
 test('puts the local remote default branch first', () => {
   const refs = [local('feature/a'), local('trunk'), remote('origin/HEAD', 'origin/trunk'), remote('origin/trunk')]
