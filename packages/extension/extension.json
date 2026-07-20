@@ -247,6 +247,9 @@
       "id": "git.checkoutRef"
     },
     {
+      "id": "git.deleteWorktreeSelect"
+    },
+    {
       "id": "git.stash"
     }
   ],

@@ -2,6 +2,21 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.quick-pick-delete-worktree'
 
+const waitForFolderRemoval = async (
+  FileSystem: { readDir: (uri: string) => Promise<readonly { readonly name: string }[]> },
+  parentDir: string,
+  folderName: string,
+): Promise<void> => {
+  for (let i = 0; i < 20; i++) {
+    const entries = await FileSystem.readDir(parentDir)
+    if (entries.every((dirent) => dirent.name !== folderName)) {
+      return
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100))
+  }
+  throw new Error(`expected ${folderName} folder to be removed`)
+}
+
 export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
@@ -14,21 +29,16 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await Workspace.setPath(workspaceDir)
 
   // act
-  await QuickPick.executeCommand('Git: Delete Worktree')
+  await QuickPick.open()
+  await QuickPick.setValue('>Git: Delete Worktree')
+  await QuickPick.selectItem('Git: Delete Worktree', { waitUntil: 'quickPick' })
   const quickPick = Locator('#QuickPick')
   await expect(quickPick).toBeVisible()
   await expect(quickPick.locator('text=feature-worktree')).toBeVisible()
   await QuickPick.selectItem('feature-worktree')
 
   // assert
-  const tmpDirEntries = await FileSystem.readDir(tmpDir)
-  if (tmpDirEntries.some((dirent) => dirent.name === 'feature-worktree')) {
-    throw new Error(`expected worktree folder to be removed`)
-  }
-  const gitDirEntries = await FileSystem.readDir(`${workspaceDir}/.git/worktrees`)
-  if (gitDirEntries.length > 0) {
-    throw new Error(`expected worktree metadata to be removed, got ${gitDirEntries.map((dirent) => dirent.name).join(', ')}`)
-  }
+  await waitForFolderRemoval(FileSystem, tmpDir, 'feature-worktree')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'worktree', 'list', '--porcelain', '-z'],

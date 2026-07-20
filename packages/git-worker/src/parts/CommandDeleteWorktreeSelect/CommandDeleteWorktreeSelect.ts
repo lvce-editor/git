@@ -41,7 +41,8 @@ export const commandDeleteWorktreeSelect = async (): Promise<string | undefined>
     fn: GitRequests.getWorktrees,
     id: 'getWorktrees',
   })
-  const picks = getWorktreePicks(worktrees, path)
+  const currentWorktree = GitRequests.toFileSystemPath(path)
+  const picks = getWorktreePicks(worktrees, currentWorktree)
   const selectedPick = await Rpc.invoke('QuickPick.show', picks)
   if (!selectedPick) {
     return

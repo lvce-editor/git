@@ -67,6 +67,11 @@ test('deletes selected worktree', async (): Promise<void> => {
 })
 
 test('does not delete the current worktree', async (): Promise<void> => {
+  mockGetCurrent.mockResolvedValue({
+    gitPath: '/test/git',
+    gitVersion: '2.39.2',
+    path: 'file:///test/workspace',
+  })
   mockExecute.mockResolvedValue(['/test/workspace'])
   mockInvoke.mockResolvedValue(undefined)
 
