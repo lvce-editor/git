@@ -8,6 +8,7 @@ import * as GetFileBefore from '../GetFileBefore/GetFileBefore.ts'
 import * as GetGroups from '../GetGroups/GetGroups.ts'
 import * as GetDecorations from '../GetDecorations/GetDecorations.ts'
 import * as StatusBarCheckout from '../StatusBarCheckout/StatusBarCheckout.ts'
+import * as StatusBarSync from '../StatusBarSync/StatusBarSync.ts'
 
 export const id = 'git'
 
@@ -24,10 +25,12 @@ const supportedSchemes = ['file', '', 'memfs']
 export const isActive = async (scheme, root) => {
   if (!root) {
     await StatusBarCheckout.clear()
+    await StatusBarSync.clear()
     return false
   }
   if (!supportedSchemes.includes(scheme)) {
     await StatusBarCheckout.clear()
+    await StatusBarSync.clear()
     return false
   }
   try {
@@ -38,13 +41,16 @@ export const isActive = async (scheme, root) => {
     const isGitRepository = exitCode === 0
     if (isGitRepository) {
       await StatusBarCheckout.refresh(root)
+      await StatusBarSync.refresh(root)
     } else {
       await StatusBarCheckout.clear()
+      await StatusBarSync.clear()
     }
     return isGitRepository
   } catch (error) {
     console.log({ error })
     await StatusBarCheckout.clear()
+    await StatusBarSync.clear()
     return false
   }
 }
