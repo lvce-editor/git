@@ -4,6 +4,7 @@
 import { expect, jest, test } from '@jest/globals'
 import * as ExtensionHostCommandGitPull from '../src/parts/ExtensionHostCommand/ExtensionHostCommandGitPull.js'
 import * as GitWorker from '../src/parts/GitWorker/GitWorker.js'
+import * as StatusBarSync from '../src/parts/StatusBarSync/StatusBarSync.js'
 
 test('id', () => {
   expect(ExtensionHostCommandGitPull.id).toEqual(expect.any(String))
@@ -11,10 +12,12 @@ test('id', () => {
 
 test('execute', async () => {
   const invoke = jest.spyOn(GitWorker, 'invoke').mockResolvedValue(undefined)
+  const refresh = jest.spyOn(StatusBarSync, 'refresh').mockResolvedValue(undefined)
   const options = {
     from: ['origin', 'main'],
   }
   await ExtensionHostCommandGitPull.execute(options)
   expect(invoke).toHaveBeenCalledTimes(1)
   expect(invoke).toHaveBeenCalledWith('Command.gitPull', options)
+  expect(refresh).toHaveBeenCalledTimes(1)
 })
