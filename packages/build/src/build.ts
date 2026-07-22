@@ -1,15 +1,14 @@
 import fs, { readFileSync, writeFileSync } from 'node:fs'
-import { readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { readdir, readFile, writeFile } from 'node:fs/promises'
 import path, { join } from 'node:path'
 import { bundleJs, packageExtension } from '@lvce-editor/package-extension'
+import { buildNodeClient } from './buildNodeClient.ts'
 import { root } from './root.ts'
 
 const extension = path.join(root, 'packages', 'extension')
 const gitWorker = path.join(root, 'packages', 'git-worker')
 const gitRequests = path.join(root, 'packages', 'git-requests')
 const gitWeb = path.join(root, 'packages', 'git-web')
-const node = path.join(root, 'packages', 'node')
-
 fs.rmSync(join(root, 'dist'), { recursive: true, force: true })
 
 fs.mkdirSync(path.join(root, 'dist'))
@@ -38,11 +37,6 @@ fs.cpSync(join(gitRequests, 'src'), join(root, 'dist', 'git-requests', 'src'), {
 
 fs.cpSync(join(gitWeb, 'src'), join(root, 'dist', 'git-web', 'src'), {
   recursive: true,
-})
-
-fs.cpSync(node, join(root, 'dist', 'node'), {
-  recursive: true,
-  verbatimSymlinks: true,
 })
 
 const replace = async ({ path, occurrence, replacement }: { path: string; occurrence: string; replacement: string }): Promise<void> => {
@@ -106,20 +100,7 @@ await replace({
   replacement: 'parts.slice(0, -3)',
 })
 
-await rm(join(root, 'dist', 'node', 'node_modules', '.bin'), { recursive: true, force: true })
-await rm(join(root, 'dist', 'node', 'node_modules', 'which', 'bin'), { recursive: true, force: true })
-
-const shouldRemoveNodeModule = (dirent: string): boolean => {
-  return dirent.endsWith('test') || dirent.endsWith('.d.ts') || dirent.endsWith('.npmignore') || dirent.endsWith('CHANGELOG.md')
-}
-
-const dirents = await readdir(join(root, 'dist', 'node', 'node_modules'), { recursive: true })
-for (const dirent of dirents) {
-  if (shouldRemoveNodeModule(dirent)) {
-    const absolutePath = join(root, 'dist', 'node', 'node_modules', dirent)
-    await rm(absolutePath, { recursive: true, force: true })
-  }
-}
+await buildNodeClient(join(root, 'dist', 'node', 'src', 'gitClient.js'))
 
 await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'), false)
 
