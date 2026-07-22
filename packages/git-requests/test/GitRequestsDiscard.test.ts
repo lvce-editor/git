@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import * as GitRequestsDiscard from '../src/parts/GitRequestsDiscard/GitRequestsDiscard.js'
 
-test.skip('discard', async (): Promise<void> => {
+test('discard', async (): Promise<void> => {
   const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   const confirm = jest.fn(() => true)
   await GitRequestsDiscard.discard({
@@ -12,11 +12,11 @@ test.skip('discard', async (): Promise<void> => {
     gitPath: 'git',
     remove() {},
   })
-  expect(exec).toHaveBeenCalledTimes(1)
+  expect(exec).toHaveBeenCalledTimes(2)
   expect(exec).toHaveBeenCalledWith({ args: ['restore', '--', 'index.js'], cwd: '/test/test-folder', gitPath: 'git', name: 'discard' })
 })
 
-test.skip('discard - confirm false', async (): Promise<void> => {
+test('discard - confirm false', async (): Promise<void> => {
   const exec = jest.fn(async () => ({ stderr: '', stdout: '' }))
   const confirm = jest.fn(() => false)
   await GitRequestsDiscard.discard({
