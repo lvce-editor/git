@@ -11,18 +11,20 @@ export const test: Test = async ({ expect, FileSystem, Git, Locator, SourceContr
   await Git.setConfig('user.email', 'test@example.com')
   await FileSystem.writeFile(`${tmpDir}/file.txt`, 'content')
   await SourceControl.show()
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  const treeItems = Locator('.SourceControlItems .TreeItem')
+  await expect(treeItems).toHaveCount(2)
   await SourceControl.handleInput('test message')
 
   // act
   await SourceControl.acceptInput()
 
   // assert
-  const treeItems = Locator('.SourceControlItems .TreeItem')
-  await expect(treeItems).toHaveCount(0)
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'commit', '-m', 'test message'],
       cwd: tmpDir,
     },
   ])
+  await expect(treeItems).toHaveCount(0)
 }
