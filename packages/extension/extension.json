@@ -114,6 +114,10 @@
       "label": "Git: Add all"
     },
     {
+      "id": "git.branch",
+      "label": "Git: Branch"
+    },
+    {
       "id": "git.commit",
       "label": "Git: Commit"
     },

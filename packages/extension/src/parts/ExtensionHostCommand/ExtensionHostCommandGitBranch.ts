@@ -5,5 +5,8 @@ import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandT
 export const id = CommandId.GitBranch
 
 export const execute = async (name) => {
+  if (typeof name !== 'string') {
+    return
+  }
   return GitWorker.invoke(GitWorkerCommandType.GitBranch, { name })
 }
