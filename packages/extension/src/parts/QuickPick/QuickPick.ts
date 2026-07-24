@@ -13,3 +13,11 @@ export const show = async (picks) => {
     placeholder: 'Select a branch',
   })
 }
+
+export const showInput = async (placeholder) => {
+  return showQuickPick({
+    acceptInput: true,
+    items: [],
+    placeholder,
+  })
+}
