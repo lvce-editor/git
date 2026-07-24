@@ -21,6 +21,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, SideBar
 
   // act
   await Command.execute('StatusBar.handleClick', 'git.sync')
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 
   // assert
   await FileSystem.shouldHaveFile(`${workspaceDir}/remote-file.txt`, 'remote change')
