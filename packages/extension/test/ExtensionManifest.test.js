@@ -20,3 +20,10 @@ test('declares the git client node rpc', () => {
     url: '../node/src/gitClient.js',
   })
 })
+
+test('does not expose the parameterized branch command in the command palette', () => {
+  const manifestUrl = new URL('../extension.json', import.meta.url)
+  const manifest = JSON.parse(readFileSync(manifestUrl, 'utf8'))
+
+  expect(manifest.commands).not.toContainEqual(expect.objectContaining({ id: 'git.branch' }))
+})
