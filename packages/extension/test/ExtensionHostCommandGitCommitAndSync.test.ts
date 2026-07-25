@@ -7,6 +7,7 @@ import * as StatusBarSync from '../src/parts/StatusBarSync/StatusBarSync.ts'
 test('execute', async () => {
   const invoke = jest.spyOn(GitWorker, 'invoke').mockImplementation(async () => {})
   const refresh = jest.spyOn(StatusBarSync, 'refresh').mockImplementation(async () => {})
+  const setSpinning = jest.spyOn(StatusBarSync, 'setSpinning').mockImplementation(async () => {})
 
   await ExtensionHostCommandGitCommitAndSync.execute('test message')
 
@@ -14,4 +15,6 @@ test('execute', async () => {
   expect(invoke).toHaveBeenNthCalledWith(1, GitWorkerCommandType.GitCommit, { message: 'test message' })
   expect(invoke).toHaveBeenNthCalledWith(2, 'Command.gitSync')
   expect(refresh).toHaveBeenCalledTimes(1)
+  expect(setSpinning).toHaveBeenNthCalledWith(1, true)
+  expect(setSpinning).toHaveBeenNthCalledWith(2, false)
 })

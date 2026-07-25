@@ -14,11 +14,13 @@ const state: {
   handle: undefined | { refresh(): Promise<void> }
   incoming: number
   outgoing: number
+  spinning: boolean
   visible: boolean
 } = {
   handle: undefined,
   incoming: 0,
   outgoing: 0,
+  spinning: false,
   visible: false,
 }
 
@@ -30,6 +32,7 @@ const getStatusBarItem = () => {
     icon: 'MaskIconSync',
     name: CommandId.GitSync,
     onClick: CommandId.GitSync,
+    spinning: state.spinning,
     text: `${state.incoming}↓ ${state.outgoing}↑`,
   }
 }
@@ -45,6 +48,11 @@ export const clear = async (): Promise<void> => {
   state.incoming = 0
   state.outgoing = 0
   state.visible = false
+  await state.handle?.refresh()
+}
+
+export const setSpinning = async (spinning: boolean): Promise<void> => {
+  state.spinning = spinning
   await state.handle?.refresh()
 }
 
