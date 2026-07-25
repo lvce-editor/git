@@ -2,7 +2,11 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.cherry-pick-multiple-files'
 
-export const test: Test = async ({ FileSystem, Git, Workspace }) => {
+type GitCommit = {
+  readonly message: string
+}
+
+export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
 
   await Workspace.setPath(tmpDir)
@@ -28,5 +32,8 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
 
   await FileSystem.shouldHaveFile(`${tmpDir}/first.txt`, 'first')
   await FileSystem.shouldHaveFile(`${tmpDir}/second.txt`, 'second')
-  await Git.shouldHaveCommit('add two files')
+  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly GitCommit[]
+  if (commits[0]?.message !== 'add two files') {
+    throw new Error(`expected cherry-picked commit, got ${JSON.stringify(commits)}`)
+  }
 }

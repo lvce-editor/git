@@ -15,7 +15,11 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   await Git.commit('initial')
 
   await Git.createTag(tagName)
+  await Git.checkout(tagName)
 
-  const mainRef = await FileSystem.readFile(`${tmpDir}/.git/refs/heads/main`)
-  await FileSystem.shouldHaveFile(`${tmpDir}/.git/refs/tags/${tagName}`, mainRef)
+  await FileSystem.shouldHaveFile(`${tmpDir}/file.txt`, 'tagged')
+  const head = await FileSystem.readFile(`${tmpDir}/.git/HEAD`)
+  if (head.startsWith('ref:')) {
+    throw new Error(`expected detached HEAD after checking out unicode tag, got ${head}`)
+  }
 }

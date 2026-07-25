@@ -2,7 +2,11 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.stage-modified-file'
 
-export const test: Test = async ({ FileSystem, Git, Workspace }) => {
+type GitCommit = {
+  readonly message: string
+}
+
+export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'modified.txt'
 
@@ -18,6 +22,9 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   await Git.stage(fileName)
   await Git.commit('update')
 
-  await Git.shouldHaveCommit('update')
+  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly GitCommit[]
+  if (commits[0]?.message !== 'update') {
+    throw new Error(`expected update commit, got ${JSON.stringify(commits)}`)
+  }
   await FileSystem.shouldHaveFile(`${tmpDir}/${fileName}`, 'after')
 }

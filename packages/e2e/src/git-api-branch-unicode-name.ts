@@ -15,7 +15,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   await Git.commit('initial')
 
   await Git.branch(branchName)
+  await Git.checkout(branchName)
 
-  const mainRef = await FileSystem.readFile(`${tmpDir}/.git/refs/heads/main`)
-  await FileSystem.shouldHaveFile(`${tmpDir}/.git/refs/heads/${branchName}`, mainRef)
+  await FileSystem.shouldHaveFile(`${tmpDir}/.git/HEAD`, `ref: refs/heads/${branchName}\n`)
 }

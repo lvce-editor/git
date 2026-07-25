@@ -1,10 +1,11 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-export const name = 'git.create-worktree-path-with-spaces'
+export const name = 'git.create-worktree-nested-path'
 
 export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  const worktreeDir = `${tmpDir}/feature worktree`
+  const worktreeParent = `${tmpDir}/worktrees`
+  const worktreeDir = `${worktreeParent}/feature`
 
   await Workspace.setPath(tmpDir)
   await Git.init({ initialBranch: 'main' })
@@ -14,6 +15,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   await Git.add('file.txt')
   await Git.commit('initial')
   await Git.branch('feature')
+  await FileSystem.mkdir(worktreeParent)
 
   await Git.createWorktree(worktreeDir, 'feature')
 

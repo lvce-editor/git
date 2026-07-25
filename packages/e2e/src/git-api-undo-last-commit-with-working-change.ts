@@ -2,7 +2,11 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.undo-last-commit-with-working-change'
 
-export const test: Test = async ({ FileSystem, Git, Workspace }) => {
+type GitCommit = {
+  readonly message: string
+}
+
+export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'file.txt'
 
@@ -20,6 +24,9 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
 
   await Git.undoLastCommit()
 
-  await Git.shouldHaveCommit('first')
+  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly GitCommit[]
+  if (commits.length !== 1 || commits[0].message !== 'first') {
+    throw new Error(`expected first commit after undo, got ${JSON.stringify(commits)}`)
+  }
   await FileSystem.shouldHaveFile(`${tmpDir}/${fileName}`, 'working change')
 }
