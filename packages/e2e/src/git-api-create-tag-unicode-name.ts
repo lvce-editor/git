@@ -1,0 +1,25 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
+export const name = 'git.create-tag-unicode-name'
+
+export const test: Test = async ({ FileSystem, Git, Workspace }) => {
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const tagName = '版本-一'
+
+  await Workspace.setPath(tmpDir)
+  await Git.init({ initialBranch: 'main' })
+  await Git.setConfig('user.name', 'Test User')
+  await Git.setConfig('user.email', 'test@example.com')
+  await FileSystem.writeFile(`${tmpDir}/file.txt`, 'tagged')
+  await Git.add('file.txt')
+  await Git.commit('initial')
+
+  await Git.createTag(tagName)
+  await Git.checkout(tagName)
+
+  await FileSystem.shouldHaveFile(`${tmpDir}/file.txt`, 'tagged')
+  const head = await FileSystem.readFile(`${tmpDir}/.git/HEAD`)
+  if (head.startsWith('ref:')) {
+    throw new Error(`expected detached HEAD after checking out unicode tag, got ${head}`)
+  }
+}

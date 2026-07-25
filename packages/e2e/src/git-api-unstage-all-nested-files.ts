@@ -1,0 +1,34 @@
+import type { Test } from '@lvce-editor/test-with-playwright'
+
+export const name = 'git.unstage-all-nested-files'
+
+export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const folderName = 'nested'
+  const fileNames = [`${folderName}/first.txt`, `${folderName}/second.txt`]
+
+  await Workspace.setPath(tmpDir)
+  await Git.init()
+  await Git.setConfig('user.name', 'Test User')
+  await Git.setConfig('user.email', 'test@example.com')
+  await FileSystem.writeFile(`${tmpDir}/tracked.txt`, 'tracked')
+  await Git.add('tracked.txt')
+  await Git.commit('initial')
+  await FileSystem.mkdir(`${tmpDir}/${folderName}`)
+  await FileSystem.setFiles(
+    fileNames.map((fileName) => ({
+      content: fileName,
+      uri: `${tmpDir}/${fileName}`,
+    })),
+  )
+  await Git.addAll()
+
+  await Command.execute('ExtensionHost.executeCommand', 'git.unstageAll')
+
+  const indexContent = await FileSystem.readFile(`${tmpDir}/.git/index`)
+  for (const fileName of fileNames) {
+    if (indexContent.includes(fileName.split('/').at(-1) || '')) {
+      throw new Error(`expected ${fileName} to be removed from git index`)
+    }
+  }
+}
