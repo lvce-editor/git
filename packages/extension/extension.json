@@ -5,6 +5,7 @@
   "description": "Git SCM Integration",
   "browser": "dist/gitMain.js",
   "isolated": true,
+  "contentSecurityPolicy": ["default-src 'none'", "script-src 'self'"],
   "compatibility": {
     "web": false
   },
