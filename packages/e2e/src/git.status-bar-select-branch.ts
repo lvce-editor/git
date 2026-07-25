@@ -44,6 +44,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
 
   // act
   const branchPickerPromise = Command.execute('StatusBar.handleClick', 'git.showBranchPicker')
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   const quickPick = Locator('#QuickPick')
   const featureBranchItem = quickPick.locator('text=feature')
   const mainBranchItem = quickPick.locator('text=main')

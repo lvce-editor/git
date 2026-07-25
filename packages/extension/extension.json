@@ -5,6 +5,7 @@
   "description": "Git SCM Integration",
   "browser": "dist/gitMain.js",
   "isolated": true,
+  "contentSecurityPolicy": ["default-src 'none'", "script-src 'self'"],
   "compatibility": {
     "web": false
   },
@@ -41,6 +42,7 @@
     "onCommand:git.commit",
     "onCommand:git.commitAndSync",
     "onCommand:git.commitStaged",
+    "onCommand:git.createBranch",
     "onCommand:git.createWorktree",
     "onCommand:git.createTag",
     "onCommand:git.deleteWorktree",
@@ -128,6 +130,10 @@
     {
       "id": "git.commitStaged",
       "label": "Git: Commit Staged"
+    },
+    {
+      "id": "git.createBranch",
+      "label": "Git: Create Branch..."
     },
     {
       "id": "git.createWorktree",
