@@ -80,6 +80,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitGetGroups]: WrappedGitRequests.wrappedGitRequests.getGroups,
   [GitWorkerCommandType.GitGetInvocations]: GitInvocations.get,
   [GitWorkerCommandType.GitGetRefs]: WrappedGitRequests.wrappedGitRequests.getRefs,
+  [GitWorkerCommandType.GitGetUpstreamChanges]: WrappedGitRequests.wrappedGitRequests.getUpstreamChanges,
   [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
   [GitWorkerCommandType.GitMerge]: WrappedGitRequests.wrappedGitRequests.merge,
   [GitWorkerCommandType.GitOpenFile]: CommandOpenFile.commandOpenFile,
