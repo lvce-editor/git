@@ -7,6 +7,7 @@ import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.ts'
 import * as GetFileBefore from '../GetFileBefore/GetFileBefore.ts'
 import * as GetGroups from '../GetGroups/GetGroups.ts'
 import * as GetDecorations from '../GetDecorations/GetDecorations.ts'
+import * as IsActive from '../IsActive/IsActive.ts'
 import * as StatusBarCheckout from '../StatusBarCheckout/StatusBarCheckout.ts'
 import * as StatusBarSync from '../StatusBarSync/StatusBarSync.ts'
 
@@ -20,40 +21,13 @@ export const add = CommandAdd.execute
 
 export const discard = CommandAdd.execute
 
-const supportedSchemes = ['file', '', 'memfs']
-
-export const isActive = async (scheme, root) => {
-  if (!root) {
-    await StatusBarCheckout.clear()
-    await StatusBarSync.clear()
-    return false
-  }
-  if (!supportedSchemes.includes(scheme)) {
-    await StatusBarCheckout.clear()
-    await StatusBarSync.clear()
-    return false
-  }
-  try {
-    const { exitCode } = await Exec.exec('git', ['rev-parse', '--git-dir'], {
-      cwd: root,
-      reject: false,
-    })
-    const isGitRepository = exitCode === 0
-    if (isGitRepository) {
-      await StatusBarCheckout.refresh(root)
-      await StatusBarSync.refresh(root)
-    } else {
-      await StatusBarCheckout.clear()
-      await StatusBarSync.clear()
-    }
-    return isGitRepository
-  } catch (error) {
-    console.log({ error })
-    await StatusBarCheckout.clear()
-    await StatusBarSync.clear()
-    return false
-  }
-}
+export const isActive = IsActive.createIsActive({
+  clearCheckout: StatusBarCheckout.clear,
+  clearSync: StatusBarSync.clear,
+  execute: Exec.exec,
+  refreshCheckout: StatusBarCheckout.refresh,
+  refreshSync: StatusBarSync.refresh,
+})
 
 export const getBadgeCount = GetBadgeCount.getBadgeCount
 

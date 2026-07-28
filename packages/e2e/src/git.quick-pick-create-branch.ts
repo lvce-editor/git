@@ -35,7 +35,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await QuickPick.setValue('>Git: Create Branch...')
   await QuickPick.selectItem('Git: Create Branch...', { waitUntil: 'quickPick' })
   const input = Locator('input[name="QuickPickInput"][placeholder="Branch name"]')
-  await expect(input).toHaveAttribute('placeholder', 'Branch name')
+  await expect(input).toBeVisible()
   await expect(input).toBeFocused()
   await input.type(branchName)
   await expect(input).toHaveValue(branchName)
