@@ -63,7 +63,6 @@ export const initialize = (): void => {
 export const clear = async (): Promise<void> => {
   state.incoming = 0
   state.outgoing = 0
-  state.repositoryName = ''
   state.upstream = ''
   state.visible = false
   await state.handle?.refresh()
