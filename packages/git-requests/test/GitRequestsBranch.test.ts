@@ -49,3 +49,31 @@ test('branch rejects a missing name without invoking git', async (): Promise<voi
   ).rejects.toThrow(new TypeError('branch name must be a string'))
   expect(wasCalled).toBe(false)
 })
+
+test('branch from a start point', async (): Promise<void> => {
+  const calls: GitExecOptions[] = []
+  const exec: GitExec = (options) => {
+    calls.push(options)
+    return Promise.resolve({
+      stderr: '',
+      stdout: '',
+    })
+  }
+
+  await GitRequestsBranch.branch({
+    cwd: '/test/test-folder',
+    exec,
+    gitPath: 'git',
+    name: 'feature/test',
+    startPoint: 'origin/main',
+  })
+
+  expect(calls).toEqual([
+    {
+      args: ['branch', 'feature/test', 'origin/main'],
+      cwd: '/test/test-folder',
+      gitPath: 'git',
+      name: 'branch',
+    },
+  ])
+})

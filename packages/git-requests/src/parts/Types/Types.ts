@@ -47,6 +47,7 @@ export type GitWorktreeRequest = GitRequestContext & {
 
 export type GitNameRequest = GitRequestContext & {
   readonly name: string
+  readonly startPoint?: string
 }
 
 export type GitTagRequest = GitRequestContext & {
@@ -91,11 +92,14 @@ export type GitCommit = {
 }
 
 export type GitRef = {
-  readonly name: string
+  readonly authorName: string
   readonly commit: string
-  readonly type: number
+  readonly commitDate: string
+  readonly name: string
   readonly remote: string
+  readonly subject: string
   readonly symbolicRef?: string
+  readonly type: number
 }
 
 export type GitStatusFile = {

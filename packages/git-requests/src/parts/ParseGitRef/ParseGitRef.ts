@@ -1,35 +1,59 @@
 import type { GitRef } from '../Types/Types.ts'
 import * as GitRefType from '../GitRefType/GitRefType.ts'
 
-const RE_REF_1 = /^refs\/heads\/([^ ]+) ([0-9a-f]{40}) (?:([0-9a-f]{40}))?(?: (.*))?$/
-const RE_REF_2 = /^refs\/remotes\/([^/]+)\/([^ ]+) ([0-9a-f]{40}) (?:([0-9a-f]{40}))?(?: (.*))?$/
-const RE_REF_3 = /^refs\/tags\/([^ ]+) ([0-9a-f]{40}) (?:([0-9a-f]{40}))?(?: (.*))?$/
+const commitRegex = /^[\da-f]{40}$/
+
+const getMetadata = (
+  commitDate: string,
+  authorName: string,
+  subject: string,
+  peeledCommitDate: string,
+  peeledAuthorName: string,
+  peeledSubject: string,
+): { authorName: string; commitDate: string; subject: string } => {
+  return {
+    authorName: peeledAuthorName || authorName,
+    commitDate: peeledCommitDate || commitDate,
+    subject: peeledSubject || subject,
+  }
+}
 
 export const parseGitRef = (line: string): GitRef | null => {
-  const headMatch = line.match(RE_REF_1)
-  if (headMatch) {
+  const [refName, objectName, peeledObjectName, symbolicRef, commitDate, authorName, subject, peeledCommitDate, peeledAuthorName, peeledSubject] =
+    line.split('\0')
+  if (!refName || !commitRegex.test(objectName) || (peeledObjectName && !commitRegex.test(peeledObjectName))) {
+    return null
+  }
+  const metadata = getMetadata(commitDate, authorName, subject, peeledCommitDate, peeledAuthorName, peeledSubject)
+  if (refName.startsWith('refs/heads/')) {
     return {
-      commit: headMatch[2],
-      name: headMatch[1],
+      ...metadata,
+      commit: objectName,
+      name: refName.slice('refs/heads/'.length),
       remote: '',
       type: GitRefType.Head,
     }
   }
-  const remoteMatch = line.match(RE_REF_2)
-  if (remoteMatch) {
+  if (refName.startsWith('refs/remotes/')) {
+    const name = refName.slice('refs/remotes/'.length)
+    const slashIndex = name.indexOf('/')
+    if (slashIndex === -1) {
+      return null
+    }
     return {
-      commit: remoteMatch[3],
-      name: `${remoteMatch[1]}/${remoteMatch[2]}`,
-      remote: remoteMatch[1],
-      ...(remoteMatch[5] && { symbolicRef: remoteMatch[5] }),
+      ...metadata,
+      commit: objectName,
+      name,
+      remote: name.slice(0, slashIndex),
+      ...(symbolicRef && { symbolicRef }),
       type: GitRefType.RemoteHead,
     }
   }
-  const tagMatch = line.match(RE_REF_3)
-  if (tagMatch) {
+  if (refName.startsWith('refs/tags/')) {
     return {
-      commit: tagMatch[3] ?? tagMatch[2],
-      name: tagMatch[1],
+      ...metadata,
+      commit: peeledObjectName || objectName,
+      name: refName.slice('refs/tags/'.length),
       remote: '',
       type: GitRefType.Tag,
     }
