@@ -7,6 +7,7 @@ import * as QuickPick from '../QuickPick/QuickPick.ts'
 export const commandMap = {
   [ExtensionCommandType.ExecExec]: Exec.exec,
   [ExtensionCommandType.QuickPickShow]: QuickPick.show,
+  [ExtensionCommandType.QuickPickShowInput]: QuickPick.showInput,
   [ExtensionCommandType.ConfigGetWorkspaceFolder]: Config.getWorkspaceFolder,
   [ExtensionCommandType.ConfigGetGitPaths]: Config.getGitPaths,
   [ExtensionCommandType.ConfigConfirmDiscard]: Config.confirmDiscard,

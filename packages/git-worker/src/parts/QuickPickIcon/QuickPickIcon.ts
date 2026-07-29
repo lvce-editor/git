@@ -1,3 +1,4 @@
-export const SourceControl = 1
-export const Cloud = 2
-export const Tag = 3
+export const Add = 'Add'
+export const Cloud = 'Cloud'
+export const SourceControl = 'SourceControl'
+export const Tag = 'Tag'

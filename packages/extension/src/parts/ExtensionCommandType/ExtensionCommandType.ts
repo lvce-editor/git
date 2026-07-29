@@ -1,6 +1,7 @@
 export const RepositoriesGetCurrent = 'Repositories.getCurrent'
 export const ExecExec = 'Exec.exec'
 export const QuickPickShow = 'QuickPick.show'
+export const QuickPickShowInput = 'QuickPick.showInput'
 export const ConfigGetWorkspaceFolder = 'Config.getWorkspaceFolder'
 export const ConfigGetGitPaths = 'Config.getGitPaths'
 export const ConfigConfirmDiscard = 'Config.confirmDiscard'
