@@ -4,7 +4,7 @@ type Rpc = {
   invoke(method: string, ...params: readonly any[]): Promise<any>
 }
 
-export const state = {
+const state = {
   rpcPromise: undefined as Promise<Rpc> | undefined,
 }
 

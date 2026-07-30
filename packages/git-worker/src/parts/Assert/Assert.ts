@@ -35,16 +35,6 @@ export const object = (value: unknown): void => {
   }
 }
 
-export const number = (value: unknown): void => {
-  const type = getType(value)
-  if (type !== 'number') {
-    throw new AssertionError('expected value to be of type number')
-  }
-  if (Number.isNaN(value)) {
-    throw new AssertionError('value is NaN')
-  }
-}
-
 export const array = (value: unknown): void => {
   const type = getType(value)
   if (type !== 'array') {
@@ -56,33 +46,5 @@ export const string = (value: unknown): void => {
   const type = getType(value)
   if (type !== 'string') {
     throw new AssertionError('expected value to be of type string')
-  }
-}
-
-export const null_ = (value: unknown): void => {
-  const type = getType(value)
-  if (type !== 'null') {
-    throw new AssertionError('expected value to be of type null')
-  }
-}
-
-export const boolean = (value: unknown): void => {
-  const type = getType(value)
-  if (type !== 'boolean') {
-    throw new AssertionError('expected value to be of type boolean')
-  }
-}
-
-export const fn = (value: unknown): void => {
-  const type = getType(value)
-  if (type !== 'function') {
-    throw new AssertionError('expected value to be of type function')
-  }
-}
-
-export const uint32array = (value: unknown): void => {
-  const type = getType(value)
-  if (type !== 'uint32array') {
-    throw new AssertionError('expected value to be of type uint32array')
   }
 }

@@ -1,7 +1,6 @@
 export const Modified = 'Modified'
 export const IndexModified = 'Index Modified'
 export const IndexAdded = 'Index Added'
-export const IndexDeleted = 'Index Deleted'
 export const Deleted = 'Deleted'
 export const IndexRenamed = 'Index Renamed'
 export const IndexCopied = 'Index Copied'

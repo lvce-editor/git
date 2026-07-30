@@ -25,5 +25,8 @@
         }
       ]
     }
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.4.1"
   }
 }
