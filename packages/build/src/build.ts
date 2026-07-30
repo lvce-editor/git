@@ -88,18 +88,6 @@ await replace({
   replacement: 'dist/gitWorkerMain.js',
 })
 
-await replace({
-  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.ts'),
-  occurrence: '/extension',
-  replacement: '',
-})
-
-await replace({
-  path: join(root, 'dist', 'git-requests', 'src', 'parts', 'IconRoot', 'IconRoot.ts'),
-  occurrence: 'parts.slice(0, -5)',
-  replacement: 'parts.slice(0, -3)',
-})
-
 await buildNodeClient(join(root, 'dist', 'node', 'src', 'gitClient.js'))
 
 await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'), false)

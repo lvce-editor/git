@@ -24,7 +24,3 @@ export const exec = async (command, args, options) => {
     exitCode,
   }
 }
-
-export const isExecError = (error) => {
-  return error && 'stderr' in error
-}

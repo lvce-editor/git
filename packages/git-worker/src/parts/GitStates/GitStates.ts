@@ -4,7 +4,7 @@ export type GitStatusGroup = {
   readonly items: readonly unknown[]
 }
 
-export type GitRepositoryState = {
+type GitRepositoryState = {
   readonly groups: readonly GitStatusGroup[]
   readonly uri: string
 }

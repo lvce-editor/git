@@ -1,6 +1,6 @@
 // TODO consider using an assertion library like https://github.com/alexreardon/tiny-invariant, https://github.com/tj/better-assert
 
-export const getType = (value) => {
+const getType = (value) => {
   switch (typeof value) {
     case 'number':
       return 'number'
@@ -30,13 +30,6 @@ export const object = (value) => {
   }
 }
 
-export const number = (value) => {
-  const type = getType(value)
-  if (type !== 'number') {
-    throw new Error('expected value to be of type number')
-  }
-}
-
 export const array = (value) => {
   const type = getType(value)
   if (type !== 'array') {
@@ -48,12 +41,5 @@ export const string = (value) => {
   const type = getType(value)
   if (type !== 'string') {
     throw new Error('expected value to be of type string')
-  }
-}
-
-export const boolean = (value) => {
-  const type = getType(value)
-  if (type !== 'boolean') {
-    throw new Error('expected value to be of type boolean')
   }
 }

@@ -1,4 +1,3 @@
-import { CommandNotFoundError } from '../CommandNotFoundError/CommandNotFoundError.ts'
 import * as Config from '../Config/Config.ts'
 import * as Exec from '../Exec/Exec.ts'
 import * as ExtensionCommandType from '../ExtensionCommandType/ExtensionCommandType.ts'
@@ -23,11 +22,4 @@ export const commandMap = {
   ['FileSystem.stat']: Config.stat,
   ['Layout.handleWorkspaceRefresh']: Config.handleWorkspaceRefresh,
   ['Main.openUri']: Config.openUri,
-}
-
-export const getFn = (method) => {
-  const fn = commandMap[method]
-  if (!fn) {
-    throw new CommandNotFoundError(method)
-  }
 }

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "project": ["*.js", "scripts/**/*.js"]
+    },
+    "packages/build": {
+      "entry": [
+        "src/build.ts",
+        "src/build-runtime.ts",
+        "src/build-static.ts",
+        "src/build-watch.ts",
+        "src/computeNodeModulesCacheKey.ts",
+        "src/dev.ts",
+        "test/**/*.test.js"
+      ],
+      "project": ["src/**/*.ts", "test/**/*.js"],
+      "ignoreDependencies": ["@lvce-editor/server", "@lvce-editor/shared-process"]
+    },
+    "packages/e2e": {
+      "entry": ["src/**/*.ts", "fixtures/**/*.js"],
+      "project": ["src/**/*.ts", "fixtures/**/*.js"]
+    },
+    "packages/extension": {
+      "entry": ["src/gitMain.ts", "test/**/*.test.{js,ts}"],
+      "project": ["src/**/*.ts", "test/**/*.{js,ts}"],
+      "ignoreDependencies": ["jest-environment-lvce-editor", "lvce-editor"]
+    },
+    "packages/git-requests": {
+      "entry": ["src/main.ts", "test/**/*.test.ts"],
+      "project": ["src/**/*.ts", "test/**/*.ts"]
+    },
+    "packages/git-web": {
+      "entry": ["src/gitWebMain.ts", "test/**/*.test.ts"],
+      "project": ["src/**/*.ts", "test/**/*.ts"]
+    },
+    "packages/git-worker": {
+      "entry": ["src/gitWorkerMain.ts", "test/**/*.test.ts"],
+      "project": ["src/**/*.ts", "test/**/*.ts"]
+    },
+    "packages/node": {
+      "entry": ["src/gitClient.js"],
+      "project": ["src/**/*.js"]
+    },
+    "packages/server": {
+      "project": []
+    }
+  }
+}

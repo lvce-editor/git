@@ -14,7 +14,7 @@ export type GitExecResult = {
 
 export type GitExec = (options: GitExecOptions) => Promise<GitExecResult> | GitExecResult
 
-export type GitRepository = {
+type GitRepository = {
   readonly gitPath: string
   readonly path: string
   readonly gitVersion?: string

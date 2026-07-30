@@ -9,7 +9,6 @@
   "scripts": {
     "#test": "node --unhandled-rejections=warn --experimental-vm-modules ../../node_modules/jest/bin/jest.js --detectOpenHandles --forceExit",
     "#test:watch": "node --unhandled-rejections=warn --experimental-vm-modules ../../node_modules/jest/bin/jest.js --watch",
-    "build-min": "microbundle --entry src/gitMain.ts --output distmin --format modern",
     "test": "node --unhandled-rejections=warn --experimental-vm-modules ../../node_modules/jest/bin/jest.js --runInBand test/UiSourceControlProviderGit.test.ts"
   },
   "jest": {
@@ -29,10 +28,9 @@
     }
   },
   "devDependencies": {
+    "@jest/globals": "^30.4.1",
     "@lvce-editor/api": "^8.61.0",
-    "@types/express": "^5.0.6",
-    "@types/verror": "^1.10.11",
-    "express": "^5.2.1",
+    "execa": "^9.6.1",
     "jest-environment-lvce-editor": "^0.70.8"
   }
 }

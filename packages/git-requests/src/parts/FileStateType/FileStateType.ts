@@ -15,6 +15,5 @@ export const AddedByThem = 14
 export const DeletedByUs = 15
 export const BothAdded = 16
 export const BothModified = 17
-export const Unknown = 18
 export const IntentToRename = 19
 export const TypeChanged = 20
