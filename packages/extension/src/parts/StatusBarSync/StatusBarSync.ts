@@ -1,6 +1,7 @@
 import { registerStatusBarItemProvider } from '@lvce-editor/api'
 import * as CommandId from '../CommandId/CommandId.ts'
 import * as GetSyncAriaLabel from '../GetSyncAriaLabel/GetSyncAriaLabel.ts'
+import * as GetSyncText from '../GetSyncText/GetSyncText.ts'
 import * as GitWorker from '../GitWorker/GitWorker.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 
@@ -49,7 +50,7 @@ const getStatusBarItem = () => {
     name: CommandId.GitSync,
     onClick: CommandId.GitSync,
     spinning: state.spinning,
-    text: `${state.incoming}↓ ${state.outgoing}↑`,
+    text: GetSyncText.getSyncText(state.incoming, state.outgoing),
   }
 }
 

@@ -28,7 +28,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Si
   // assert
   await FileSystem.shouldHaveFile(`${workspaceDir}/remote-file.txt`, 'remote change')
   await FileSystem.shouldHaveFile(`${workspaceDir}/local-file.txt`, 'local change')
-  await expect(syncStatusBarItem).toHaveText('0↓ 0↑')
+  await expect(syncStatusBarItem).toHaveText('')
   await expect(syncStatusBarItem).toHaveAttribute('aria-label', 'workspace (Git) - Synchronize Changes')
 
   // arrange an outgoing-only change
@@ -39,6 +39,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Si
   await Workspace.setPath(workspaceDir)
 
   // assert
+  await expect(syncStatusBarItem).toHaveText('1↑')
   await expect(syncStatusBarItem).toHaveAttribute('aria-label', 'workspace (Git) - Push 1 commits to origin/main')
 
   // arrange an incoming-only change
@@ -55,5 +56,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Si
   await Workspace.setPath(workspaceDir)
 
   // assert
+  await expect(syncStatusBarItem).toHaveText('1↓')
   await expect(syncStatusBarItem).toHaveAttribute('aria-label', 'workspace (Git) - Pull 1 commits from origin/main')
 }
