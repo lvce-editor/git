@@ -1,6 +1,7 @@
+import { defineConfig } from 'eslint/config'
 import * as config from '@lvce-editor/eslint-config'
 
-export default [
+export default defineConfig([
   {
     ignores: ['packages/git-web/**'],
   },
@@ -43,4 +44,4 @@ export default [
       'unicorn/prefer-number-properties': 'off',
     },
   },
-]
+])
