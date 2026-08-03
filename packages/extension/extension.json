@@ -148,6 +148,10 @@
       "label": "Git: Delete Worktree"
     },
     {
+      "id": "git.deleteWorktree",
+      "label": "Git: Delete Worktree by Path"
+    },
+    {
       "id": "git.deleteRemoteTag",
       "label": "Git: Delete Remote Tag"
     },

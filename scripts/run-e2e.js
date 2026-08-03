@@ -1,13 +1,18 @@
 import { spawn } from 'node:child_process'
 import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import { dirname, extname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
-const root = resolve(currentDir, '../../..')
+const root = resolve(currentDir, '..')
+const requireFromE2e = createRequire(join(root, 'packages', 'e2e', 'package.json'))
+const requireFromServer = createRequire(join(root, 'packages', 'server', 'package.json'))
 
 const getStaticServerPaths = async () => {
-  const staticServerPackagePath = fileURLToPath(import.meta.resolve('@lvce-editor/static-server/package.json'))
+  const serverPackagePath = requireFromServer.resolve('@lvce-editor/server/package.json')
+  const requireFromLvceServer = createRequire(serverPackagePath)
+  const staticServerPackagePath = requireFromLvceServer.resolve('@lvce-editor/static-server/package.json')
   const staticServerRoot = dirname(staticServerPackagePath)
   const staticRoot = join(staticServerRoot, 'static')
   const entries = await readdir(staticRoot, { withFileTypes: true })
@@ -79,7 +84,7 @@ const addExtensionFilesToStaticConfig = async (configPath, staticRoot, extension
 }
 
 const runTests = async (builtinExtensionsPath, builtinExtensionPath) => {
-  const testWithPlaywrightPath = fileURLToPath(import.meta.resolve('@lvce-editor/test-with-playwright/bin/test-with-playwright.js'))
+  const testWithPlaywrightPath = requireFromE2e.resolve('@lvce-editor/test-with-playwright/bin/test-with-playwright.js')
   const args = [testWithPlaywrightPath, `--only-extension=${builtinExtensionPath}`, '--test-path=.', ...process.argv.slice(2)]
   const child = spawn(process.execPath, args, {
     env: {

@@ -84,3 +84,17 @@ test('deleteWorktree - error - unknown git error', async (): Promise<void> => {
     }),
   ).rejects.toThrow(new Error('Git: oops'))
 })
+
+test('deleteWorktree - missing worktree is a no-op', async (): Promise<void> => {
+  const exec = (): never => {
+    throw new ExecError("fatal: '/test/missing-worktree' is not a working tree")
+  }
+  await expect(
+    GitRequestsDeleteWorktree.deleteWorktree({
+      cwd: '/test/test-folder',
+      exec,
+      gitPath: 'git',
+      worktreePath: '/test/missing-worktree',
+    }),
+  ).resolves.toBeUndefined()
+})

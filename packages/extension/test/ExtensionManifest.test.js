@@ -9,6 +9,18 @@ test('all commands have labels', () => {
   expect(missingLabels).toEqual([])
 })
 
+test('all command activation events reference declared commands', () => {
+  const manifestUrl = new URL('../extension.json', import.meta.url)
+  const manifest = JSON.parse(readFileSync(manifestUrl, 'utf8'))
+  const commandIds = new Set(manifest.commands.map((command) => command.id))
+  const undeclaredCommands = manifest.activation
+    .filter((event) => event.startsWith('onCommand:'))
+    .map((event) => event.slice('onCommand:'.length))
+    .filter((commandId) => !commandIds.has(commandId))
+
+  expect(undeclaredCommands).toEqual([])
+})
+
 test('declares the git client node rpc', () => {
   const manifestUrl = new URL('../extension.json', import.meta.url)
   const manifest = JSON.parse(readFileSync(manifestUrl, 'utf8'))
