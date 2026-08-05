@@ -6,15 +6,14 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
   await Workspace.setPath(tmpDir)
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-branch'))
+  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-deleted-file'))
   await Workspace.setPath(workspaceDir)
-  await FileSystem.remove(`${workspaceDir}/file.txt`)
-  await Git.stage('file.txt')
+  await Git.stage('deleted.txt')
 
-  await Git.unstage('file.txt')
+  await Git.unstage('deleted.txt')
 
   const index = await FileSystem.readFile(`${workspaceDir}/.git/index`)
-  if (!index.includes('file.txt')) {
+  if (!index.includes('deleted.txt')) {
     throw new Error('expected unstage to restore the deleted file to the index')
   }
 }

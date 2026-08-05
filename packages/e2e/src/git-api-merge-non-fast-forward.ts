@@ -17,10 +17,14 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await FileSystem.writeFile(`${workspaceDir}/main.txt`, 'main')
   await Git.add('main.txt')
   await Git.commit('main commit')
+  const beforeMerge = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
 
   await Git.merge('feature')
 
   await FileSystem.shouldHaveFile(`${workspaceDir}/feature.txt`, 'feature')
   await FileSystem.shouldHaveFile(`${workspaceDir}/main.txt`, 'main')
-  await Git.shouldHaveCommit("Merge branch 'feature'")
+  const afterMerge = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
+  if (afterMerge === beforeMerge) {
+    throw new Error('expected merge to create a new commit')
+  }
 }

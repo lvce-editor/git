@@ -6,11 +6,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
   await Workspace.setPath(tmpDir)
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-branch'))
+  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-deleted-file'))
   await Workspace.setPath(workspaceDir)
-  await FileSystem.remove(`${workspaceDir}/file.txt`)
 
   await Git.stash()
 
-  await FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'main branch')
+  await FileSystem.shouldHaveFile(`${workspaceDir}/deleted.txt`, 'tracked content')
 }
