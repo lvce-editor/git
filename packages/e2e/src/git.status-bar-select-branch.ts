@@ -30,6 +30,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await Git.commit('Initial commit')
   await SideBar.open('Source Control')
   await Git.checkout('main')
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
   const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
   await expect(branchStatusBarItem).toBeVisible()
