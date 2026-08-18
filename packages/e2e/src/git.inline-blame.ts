@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.inline-blame'
 
-export const test: Test = async ({ expect, FileSystem, Git, Locator, Main, Settings, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Main, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'file.txt'
   const fileUri = `${tmpDir}/${fileName}`
@@ -17,8 +17,7 @@ export const test: Test = async ({ expect, FileSystem, Git, Locator, Main, Setti
   await Main.openUri(fileUri)
 
   const secondRow = Locator('.EditorRow').nth(1)
-  // eslint-disable-next-line e2e/no-direct-click
-  await secondRow.click()
+  await Command.execute('Editor.handleClickAtPosition', 0, 1, 0)
 
   const inlineBlame = secondRow.locator('.EditorLineDecoration')
   await expect(inlineBlame).toBeVisible()
