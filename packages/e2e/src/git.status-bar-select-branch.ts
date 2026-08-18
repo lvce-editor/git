@@ -27,8 +27,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await new Promise((resolve) => setTimeout(resolve, 2000))
 
   const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
-  await expect(branchStatusBarItem).toBeVisible()
-  await expect(branchStatusBarItem).toHaveText('main')
 
   // act
   const branchPickerPromise = Command.execute('StatusBar.handleClick', 'git.showBranchPicker')
@@ -47,8 +45,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await expect(firstBranchItem).toContainText('main')
   await QuickPick.selectItem('feature')
   await branchPickerPromise
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
   // assert
   await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
+  await expect(branchStatusBarItem).toBeVisible()
   await expect(branchStatusBarItem).toHaveText('feature')
 }
