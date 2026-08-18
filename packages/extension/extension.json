@@ -68,6 +68,7 @@
     "onSourceControl:",
     "onSourceControl:file",
     "onSourceControl:memfs",
+    "onEditorLineDecoration",
     "onStatusBarItem"
   ],
   "commands": [
@@ -276,6 +277,10 @@
       "default": 100
     },
     "git.showErrorMessage": {
+      "type": "boolean",
+      "default": false
+    },
+    "git.inlineBlame": {
       "type": "boolean",
       "default": false
     }
