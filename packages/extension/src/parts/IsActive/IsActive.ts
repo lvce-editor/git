@@ -15,21 +15,46 @@ export interface IsActiveDependencies {
 export const createIsActive = (dependencies: IsActiveDependencies) => {
   const state = {
     latestRequest: 0,
+    statusBarUpdate: Promise.resolve(),
   }
 
-  const clearStatusBars = async (): Promise<void> => {
+  const runStatusBarUpdate = async (previousUpdate: Promise<void>, requestId: number, isGitRepository: boolean, root?: string): Promise<void> => {
+    try {
+      await previousUpdate
+    } catch {
+      // A newer status bar update must still run if the previous update failed.
+    }
+    if (requestId !== state.latestRequest) {
+      return
+    }
+    if (isGitRepository && root) {
+      await dependencies.refreshCheckout(root)
+      if (requestId !== state.latestRequest) {
+        return
+      }
+      await dependencies.refreshSync(root)
+      return
+    }
     await dependencies.clearCheckout()
+    if (requestId !== state.latestRequest) {
+      return
+    }
     await dependencies.clearSync()
   }
 
+  const updateStatusBars = async (requestId: number, isGitRepository: boolean, root?: string): Promise<void> => {
+    const currentUpdate = runStatusBarUpdate(state.statusBarUpdate, requestId, isGitRepository, root)
+    state.statusBarUpdate = currentUpdate
+    await currentUpdate
+  }
+
   return async (scheme: string, root?: string): Promise<boolean> => {
-    if (!root || !supportedSchemes.includes(scheme)) {
-      state.latestRequest += 1
-      await clearStatusBars()
-      return false
-    }
     state.latestRequest += 1
     const requestId = state.latestRequest
+    if (!root || !supportedSchemes.includes(scheme)) {
+      await updateStatusBars(requestId, false)
+      return false
+    }
     try {
       const { exitCode } = await dependencies.execute('git', ['rev-parse', '--git-dir'], {
         cwd: root,
@@ -39,19 +64,14 @@ export const createIsActive = (dependencies: IsActiveDependencies) => {
       if (requestId !== state.latestRequest) {
         return isGitRepository
       }
-      if (isGitRepository) {
-        await dependencies.refreshCheckout(root)
-        await dependencies.refreshSync(root)
-      } else {
-        await clearStatusBars()
-      }
+      await updateStatusBars(requestId, isGitRepository, root)
       return isGitRepository
     } catch (error) {
       if (requestId !== state.latestRequest) {
         return false
       }
       console.log({ error })
-      await clearStatusBars()
+      await updateStatusBars(requestId, false)
       return false
     }
   }
