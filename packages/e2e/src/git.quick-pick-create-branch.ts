@@ -33,7 +33,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   // act
   await QuickPick.open()
   await QuickPick.setValue('>Git: Create Branch...')
-  await QuickPick.selectItem('Git: Create Branch...', { waitUntil: 'quickPick' })
+  await QuickPick.selectItem('Git: Create Branch...', { waitUntil: 'none' })
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   const input = Locator('input[name="QuickPickInput"][placeholder="Branch name"]')
   await expect(input).toBeVisible()
   await expect(input).toBeFocused()

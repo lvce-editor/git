@@ -13,9 +13,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Si
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
   await SideBar.open('Source Control')
+  await Git.checkout('main')
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await Command.execute('ExtensionHost.executeCommand', 'git.fetch')
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
-  const branchStatusBarItem = '.StatusBarItem[name="git.showBranchPicker"]'
-  const syncStatusBarItem = Locator(`${branchStatusBarItem} + .StatusBarItem[name="git.sync"]`)
+  const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
   await expect(syncStatusBarItem).toBeVisible()
   await expect(syncStatusBarItem).toHaveText('1↓ 1↑')
   await expect(syncStatusBarItem).toHaveAttribute('aria-label', 'workspace (Git) - Pull 1 and push 1 commits between origin/main')
