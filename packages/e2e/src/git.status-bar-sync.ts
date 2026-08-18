@@ -13,7 +13,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Si
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
   await SideBar.open('Source Control')
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await Git.checkout('main')
 
   const branchStatusBarItem = '.StatusBarItem[name="git.showBranchPicker"]'
   const syncStatusBarItem = Locator(`${branchStatusBarItem} + .StatusBarItem[name="git.sync"]`)
