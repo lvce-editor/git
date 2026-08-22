@@ -17,6 +17,7 @@ const getStaticServerPaths = async () => {
   const staticRoot = join(staticServerRoot, 'static')
   const entries = await readdir(staticRoot, { withFileTypes: true })
   const candidates = []
+  const editorWorkerCandidates = []
   for (const entry of entries) {
     if (!entry.isDirectory()) {
       continue
@@ -27,13 +28,23 @@ const getStaticServerPaths = async () => {
         candidates.push(extensionsPath)
       }
     } catch {}
+    const editorWorkerPath = join(staticRoot, entry.name, 'packages', 'editor-worker', 'dist', 'editorWorkerMain.js')
+    try {
+      if ((await stat(editorWorkerPath)).isFile()) {
+        editorWorkerCandidates.push(editorWorkerPath)
+      }
+    } catch {}
   }
   if (candidates.length !== 1) {
     throw new Error(`Expected one built-in extensions directory, found ${candidates.length}`)
   }
+  if (editorWorkerCandidates.length !== 1) {
+    throw new Error(`Expected one editor worker bundle, found ${editorWorkerCandidates.length}`)
+  }
   return {
     builtinExtensionsPath: candidates[0],
     configPath: join(staticServerRoot, 'config.json'),
+    editorWorkerPath: editorWorkerCandidates[0],
     staticRoot,
   }
 }
@@ -106,16 +117,23 @@ const runTests = async (builtinExtensionsPath, builtinExtensionPath) => {
 }
 
 const main = async () => {
-  const { builtinExtensionsPath, configPath, staticRoot } = await getStaticServerPaths()
+  const { builtinExtensionsPath, configPath, editorWorkerPath, staticRoot } = await getStaticServerPaths()
   const builtinExtensionPath = join(builtinExtensionsPath, 'builtin.git')
+  const publishedEditorWorkerPath = fileURLToPath(import.meta.resolve('@lvce-editor/editor-worker'))
   let originalConfig = ''
+  let originalEditorWorker
   try {
+    originalEditorWorker = await readFile(editorWorkerPath)
+    await cp(publishedEditorWorkerPath, editorWorkerPath)
     await cp(join(root, 'dist'), builtinExtensionPath, { recursive: true })
     originalConfig = await addExtensionFilesToStaticConfig(configPath, staticRoot, [builtinExtensionPath])
     process.exitCode = await runTests(builtinExtensionsPath, builtinExtensionPath)
   } finally {
     if (originalConfig) {
       await writeFile(configPath, originalConfig)
+    }
+    if (originalEditorWorker) {
+      await writeFile(editorWorkerPath, originalEditorWorker)
     }
     await rm(builtinExtensionPath, { force: true, recursive: true })
   }

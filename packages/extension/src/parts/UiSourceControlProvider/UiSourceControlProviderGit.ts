@@ -1,9 +1,11 @@
+import { refreshEditorGutterDecorations } from '@lvce-editor/api'
 import * as Exec from '../Exec/Exec.ts'
 import * as CommandAcceptInput from '../ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.ts'
 import * as CommandAdd from '../ExtensionHostCommand/ExtensionHostCommandGitAdd.ts'
 import * as CommandFetch from '../ExtensionHostCommand/ExtensionHostCommandGitFetch.ts'
 import * as GetBadgeCount from '../GetBadgeCount/GetBadgeCount.ts'
 import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.ts'
+import { createGetChangedFilesWithRefresh } from '../GetChangedFilesWithRefresh/GetChangedFilesWithRefresh.ts'
 import * as GetFileBefore from '../GetFileBefore/GetFileBefore.ts'
 import * as GetGroups from '../GetGroups/GetGroups.ts'
 import * as GetDecorations from '../GetDecorations/GetDecorations.ts'
@@ -31,7 +33,10 @@ export const isActive = IsActive.createIsActive({
 
 export const getBadgeCount = GetBadgeCount.getBadgeCount
 
-export const getChangedFiles = GetChangedFiles.getChangedFiles
+export const getChangedFiles = createGetChangedFilesWithRefresh({
+  getChangedFiles: GetChangedFiles.getChangedFiles,
+  refreshEditorGutterDecorations,
+})
 
 export const getFileDecorations = GetDecorations.getDecorations
 
