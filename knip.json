@@ -22,7 +22,7 @@
       "project": ["src/**/*.ts", "fixtures/**/*.js"]
     },
     "packages/extension": {
-      "entry": ["src/gitMain.ts", "test/**/*.test.{js,ts}"],
+      "entry": ["src/gitMain.ts", "src/gitProcess.ts", "test/**/*.test.{js,ts}"],
       "project": ["src/**/*.ts", "test/**/*.{js,ts}"],
       "ignoreDependencies": ["jest-environment-lvce-editor", "lvce-editor"]
     },

@@ -32,5 +32,8 @@
     "@lvce-editor/api": "^9.20.0",
     "execa": "^9.6.1",
     "jest-environment-lvce-editor": "^0.70.8"
+  },
+  "dependencies": {
+    "@lvce-editor/rpc": "^6.19.1"
   }
 }

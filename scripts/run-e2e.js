@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process'
-import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { cp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, extname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -108,30 +108,16 @@ const runTests = async (builtinExtensionsPath, builtinExtensionPath) => {
 const main = async () => {
   const { builtinExtensionsPath, configPath, staticRoot } = await getStaticServerPaths()
   const builtinExtensionPath = join(builtinExtensionsPath, 'builtin.git')
-  const builtinGitWebPath = join(builtinExtensionsPath, 'git-web')
-  const builtinGitWorkerPath = join(builtinExtensionsPath, 'git-worker')
-  const builtinNodePath = join(builtinExtensionsPath, 'node')
   let originalConfig = ''
   try {
-    await mkdir(builtinExtensionPath, { recursive: true })
-    await Promise.all([
-      cp(join(root, 'packages', 'extension', 'dist'), join(builtinExtensionPath, 'dist'), { recursive: true }),
-      cp(join(root, 'packages', 'extension', 'extension.json'), join(builtinExtensionPath, 'extension.json')),
-      cp(join(root, 'packages', 'extension', 'icon.png'), join(builtinExtensionPath, 'icon.png')),
-      cp(join(root, 'packages', 'extension', 'icons'), join(builtinExtensionPath, 'icons'), { recursive: true }),
-      cp(join(root, 'packages', 'git-web', 'dist'), join(builtinGitWebPath, 'dist'), { recursive: true }),
-      cp(join(root, 'packages', 'git-worker', 'dist'), join(builtinGitWorkerPath, 'dist'), { recursive: true }),
-      cp(join(root, 'packages', 'node'), builtinNodePath, { recursive: true }),
-    ])
-    originalConfig = await addExtensionFilesToStaticConfig(configPath, staticRoot, [builtinExtensionPath, builtinGitWebPath, builtinGitWorkerPath])
+    await cp(join(root, 'dist'), builtinExtensionPath, { recursive: true })
+    originalConfig = await addExtensionFilesToStaticConfig(configPath, staticRoot, [builtinExtensionPath])
     process.exitCode = await runTests(builtinExtensionsPath, builtinExtensionPath)
   } finally {
     if (originalConfig) {
       await writeFile(configPath, originalConfig)
     }
-    await Promise.all(
-      [builtinExtensionPath, builtinGitWebPath, builtinGitWorkerPath, builtinNodePath].map((path) => rm(path, { force: true, recursive: true })),
-    )
+    await rm(builtinExtensionPath, { force: true, recursive: true })
   }
 }
 
