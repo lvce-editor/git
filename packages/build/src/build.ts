@@ -2,7 +2,7 @@ import fs, { readFileSync, writeFileSync } from 'node:fs'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import path, { join } from 'node:path'
 import { bundleJs, packageExtension } from '@lvce-editor/package-extension'
-import { buildNodeClient } from './buildNodeClient.ts'
+import { buildNodeClient, buildNodeProcess } from './buildNodeClient.ts'
 import { root } from './root.ts'
 
 const extension = path.join(root, 'packages', 'extension')
@@ -62,8 +62,8 @@ const updateRelativeJsImportsToTs = async (dir: string): Promise<void> => {
 
 await replace({
   path: join(root, 'dist', 'extension.json'),
-  occurrence: '../node/src/gitClient.js',
-  replacement: 'node/src/gitClient.js',
+  occurrence: 'src/gitProcess.ts',
+  replacement: 'node/gitProcess.js',
 })
 
 await replace({
@@ -89,6 +89,7 @@ await replace({
 })
 
 await buildNodeClient(join(root, 'dist', 'node', 'src', 'gitClient.js'))
+await buildNodeProcess(join(root, 'dist', 'node', 'gitProcess.js'))
 
 await bundleJs(join(root, 'dist', 'git-worker', 'src', 'gitWorkerMain.ts'), join(root, 'dist', 'git-worker', 'dist', 'gitWorkerMain.js'), false)
 

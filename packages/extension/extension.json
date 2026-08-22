@@ -12,9 +12,9 @@
   "rpc": [
     {
       "id": "git-client",
-      "type": "node",
+      "type": "node-process",
       "name": "Git",
-      "url": "../node/src/gitClient.js"
+      "url": "src/gitProcess.ts"
     }
   ],
   "icon": "./icon.png",

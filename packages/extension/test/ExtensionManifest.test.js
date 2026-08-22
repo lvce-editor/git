@@ -28,7 +28,7 @@ test('declares the git client node rpc', () => {
   expect(manifest.rpc).toContainEqual({
     id: 'git-client',
     name: 'Git',
-    type: 'node',
-    url: '../node/src/gitClient.js',
+    type: 'node-process',
+    url: 'src/gitProcess.ts',
   })
 })
