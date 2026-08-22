@@ -69,6 +69,7 @@
     "onSourceControl:file",
     "onSourceControl:memfs",
     "onEditorLineDecoration",
+    "onEditorGutterDecoration",
     "onStatusBarItem"
   ],
   "commands": [
@@ -281,6 +282,10 @@
       "default": false
     },
     "git.inlineBlame": {
+      "type": "boolean",
+      "default": false
+    },
+    "git.gutterDecorations": {
       "type": "boolean",
       "default": false
     }

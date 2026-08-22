@@ -1,10 +1,12 @@
 import {
   activate as activateExtensionApi,
   registerCommand,
+  registerEditorGutterDecorationProvider,
   registerEditorLineDecorationProvider,
   registerSourceControlProvider,
 } from '@lvce-editor/api'
 import * as ExtensionHostCommand from '../ExtensionHostCommand/ExtensionHostCommand.ts'
+import * as GutterDecorationProvider from '../GutterDecorationProvider/GutterDecorationProvider.ts'
 import * as InlineBlameProvider from '../InlineBlameProvider/InlineBlameProvider.ts'
 import * as StatusBarCheckout from '../StatusBarCheckout/StatusBarCheckout.ts'
 import * as StatusBarSync from '../StatusBarSync/StatusBarSync.ts'
@@ -26,6 +28,7 @@ export const activate = async (): Promise<void> => {
   }
 
   registerSourceControlProvider(SourceControlProviderGit)
+  registerEditorGutterDecorationProvider(GutterDecorationProvider)
   registerEditorLineDecorationProvider(InlineBlameProvider)
   StatusBarCheckout.initialize()
   StatusBarSync.initialize()
