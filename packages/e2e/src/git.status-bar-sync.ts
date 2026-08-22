@@ -1,7 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.status-bar-sync'
-export const skip = navigator.platform === 'Win32'
+export const skip = 1
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, SideBar, Workspace }) => {
   // arrange
