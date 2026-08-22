@@ -16,7 +16,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Si
   await Git.checkout('main')
   await new Promise((resolve) => setTimeout(resolve, 2000))
   await Command.execute('ExtensionHost.executeCommand', 'git.fetch')
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise((resolve) => setTimeout(resolve, 5000))
 
   const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
   await expect(syncStatusBarItem).toBeVisible()
