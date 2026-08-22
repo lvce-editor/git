@@ -2,9 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.gutter-decorations'
 
-// Enable after @lvce-editor/api and editor-worker support are released into the test server.
-export const skip = 1
-
 export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Main, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'file.txt'
