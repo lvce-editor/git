@@ -1,16 +1,16 @@
 import { expect, test } from '@jest/globals'
 import * as GetSyncText from '../src/parts/GetSyncText/GetSyncText.ts'
 
-test('returns an empty string when there are no incoming or outgoing changes', () => {
-  expect(GetSyncText.getSyncText(0, 0)).toBe('')
+test('returns zero for incoming and outgoing changes when there are no changes', () => {
+  expect(GetSyncText.getSyncText(0, 0)).toBe('0↓ 0↑')
 })
 
-test('returns only incoming changes when outgoing changes are zero', () => {
-  expect(GetSyncText.getSyncText(1, 0)).toBe('1↓')
+test('includes outgoing changes when the outgoing count is zero', () => {
+  expect(GetSyncText.getSyncText(1, 0)).toBe('1↓ 0↑')
 })
 
-test('returns only outgoing changes when incoming changes are zero', () => {
-  expect(GetSyncText.getSyncText(0, 1)).toBe('1↑')
+test('includes incoming changes when the incoming count is zero', () => {
+  expect(GetSyncText.getSyncText(0, 1)).toBe('0↓ 1↑')
 })
 
 test('returns both incoming and outgoing changes when both are non-zero', () => {
