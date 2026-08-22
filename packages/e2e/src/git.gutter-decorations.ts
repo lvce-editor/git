@@ -2,7 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.gutter-decorations'
 
-export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Main, Settings, Workspace }) => {
+export const test: Test = async ({ Command, Editor, expect, FileSystem, Git, Locator, Main, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'file.txt'
   const fileUri = `${tmpDir}/${fileName}`
@@ -28,4 +28,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Ma
   await expect(modifiedDecoration).toHaveCount(1)
   await expect(deletedDecoration).toHaveCount(1)
   await expect(addedDecoration).toHaveCount(1)
+
+  await Editor.setCursor(0, 9)
+  await Editor.type('!')
+  await expect(modifiedDecoration).toHaveCount(2)
+
+  await Settings.update({ 'git.gutterDecorations': false })
+  await Command.execute('Editor.handleSettingsChanged')
+  await expect(gutterDecoration).toHaveCount(0)
 }
