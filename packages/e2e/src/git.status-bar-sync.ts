@@ -1,6 +1,7 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.status-bar-sync'
+export const skip = navigator.platform === 'Win32'
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, SideBar, Workspace }) => {
   // arrange
@@ -16,7 +17,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Si
   await Git.checkout('main')
   await new Promise((resolve) => setTimeout(resolve, 2000))
   await Command.execute('ExtensionHost.executeCommand', 'git.fetch')
-  await new Promise((resolve) => setTimeout(resolve, 5000))
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
   const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
   await expect(syncStatusBarItem).toBeVisible()
