@@ -8,6 +8,7 @@ import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.ts'
 import { createGetChangedFilesWithRefresh } from '../GetChangedFilesWithRefresh/GetChangedFilesWithRefresh.ts'
 import * as GetFileBefore from '../GetFileBefore/GetFileBefore.ts'
 import * as GetGroups from '../GetGroups/GetGroups.ts'
+import { createGetGroupsWithRefresh } from '../GetGroupsWithRefresh/GetGroupsWithRefresh.ts'
 import * as GetDecorations from '../GetDecorations/GetDecorations.ts'
 import * as IsActive from '../IsActive/IsActive.ts'
 import * as StatusBarCheckout from '../StatusBarCheckout/StatusBarCheckout.ts'
@@ -40,7 +41,10 @@ export const getChangedFiles = createGetChangedFilesWithRefresh({
 
 export const getFileDecorations = GetDecorations.getDecorations
 
-export const getGroups = GetGroups.getGroups
+export const getGroups = createGetGroupsWithRefresh({
+  getGroups: GetGroups.getGroups,
+  refreshEditorGutterDecorations,
+})
 
 export const getFileBefore = GetFileBefore.getFileBefore
 
