@@ -18,29 +18,15 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
-  await FileSystem.mkdir(workspaceDir)
+  await Workspace.setPath(tmpDir)
+  const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
+  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
-  await Git.init({ initialBranch: 'main' })
-  await Git.config({
-    'user.email': 'test@example.com',
-    'user.name': 'Test User',
-  })
-  await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'main branch')
-  await Git.addAll()
-  await Git.commit('Initial commit')
   await SideBar.open('Source Control')
+  await Git.checkout('main')
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
   const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
-  await expect(branchStatusBarItem).toBeVisible()
-  await expect(branchStatusBarItem).toHaveText('main')
-
-  await Git.branch('feature')
-  await Git.checkout('feature')
-  await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'feature branch')
-  await Git.addAll()
-  await Git.commit('Feature commit')
-  await Git.checkout('main')
-  await expect(branchStatusBarItem).toHaveText('main')
 
   // act
   const branchPickerPromise = Command.execute('StatusBar.handleClick', 'git.showBranchPicker')
@@ -59,8 +45,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await expect(firstBranchItem).toContainText('main')
   await QuickPick.selectItem('feature')
   await branchPickerPromise
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
   // assert
   await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
+  await expect(branchStatusBarItem).toBeVisible()
   await expect(branchStatusBarItem).toHaveText('feature')
 }

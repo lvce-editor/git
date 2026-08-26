@@ -12,9 +12,9 @@
   "rpc": [
     {
       "id": "git-client",
-      "type": "node",
+      "type": "node-process",
       "name": "Git",
-      "url": "../node/src/gitClient.js"
+      "url": "src/gitProcess.ts"
     }
   ],
   "icon": "./icon.png",
@@ -68,6 +68,8 @@
     "onSourceControl:",
     "onSourceControl:file",
     "onSourceControl:memfs",
+    "onEditorLineDecoration",
+    "onEditorGutterDecoration",
     "onStatusBarItem"
   ],
   "commands": [
@@ -275,7 +277,20 @@
       "type": "number",
       "default": 100
     },
+    "git.runFetchOnWorkspaceOpen": {
+      "type": "boolean",
+      "default": false,
+      "description": "Run git fetch after opening or switching a workspace."
+    },
     "git.showErrorMessage": {
+      "type": "boolean",
+      "default": false
+    },
+    "git.inlineBlame": {
+      "type": "boolean",
+      "default": false
+    },
+    "git.gutterDecorations": {
       "type": "boolean",
       "default": false
     }

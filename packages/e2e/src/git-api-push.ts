@@ -28,10 +28,8 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   if (content !== 'pushed content') {
     throw new Error(`expected pushed content, got ${content}`)
   }
-  await Git.shouldHaveInvocations([
-    {
-      command: ['git', 'push', '--porcelain', '--set-upstream', 'origin', 'main'],
-      cwd: workspaceDir,
-    },
-  ])
+  const config = await FileSystem.readFile(`${workspaceDir}/.git/config`)
+  if (!config.includes('[branch "main"]') || !config.includes('remote = origin') || !config.includes('merge = refs/heads/main')) {
+    throw new Error(`expected main to track origin/main, got ${config}`)
+  }
 }

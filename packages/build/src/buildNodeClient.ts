@@ -7,3 +7,8 @@ export const buildNodeClient = async (outFile: string): Promise<void> => {
   await mkdir(dirname(outFile), { recursive: true })
   await bundleJs(join(root, 'packages', 'node', 'src', 'gitClient.js'), outFile, false)
 }
+
+export const buildNodeProcess = async (outFile: string): Promise<void> => {
+  await mkdir(dirname(outFile), { recursive: true })
+  await bundleJs(join(root, 'packages', 'extension', 'src', 'gitProcess.ts'), outFile, false)
+}

@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process'
-import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { cp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, extname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -17,6 +17,7 @@ const getStaticServerPaths = async () => {
   const staticRoot = join(staticServerRoot, 'static')
   const entries = await readdir(staticRoot, { withFileTypes: true })
   const candidates = []
+  const editorWorkerCandidates = []
   for (const entry of entries) {
     if (!entry.isDirectory()) {
       continue
@@ -27,13 +28,23 @@ const getStaticServerPaths = async () => {
         candidates.push(extensionsPath)
       }
     } catch {}
+    const editorWorkerPath = join(staticRoot, entry.name, 'packages', 'editor-worker', 'dist', 'editorWorkerMain.js')
+    try {
+      if ((await stat(editorWorkerPath)).isFile()) {
+        editorWorkerCandidates.push(editorWorkerPath)
+      }
+    } catch {}
   }
   if (candidates.length !== 1) {
     throw new Error(`Expected one built-in extensions directory, found ${candidates.length}`)
   }
+  if (editorWorkerCandidates.length !== 1) {
+    throw new Error(`Expected one editor worker bundle, found ${editorWorkerCandidates.length}`)
+  }
   return {
     builtinExtensionsPath: candidates[0],
     configPath: join(staticServerRoot, 'config.json'),
+    editorWorkerPath: editorWorkerCandidates[0],
     staticRoot,
   }
 }
@@ -106,32 +117,25 @@ const runTests = async (builtinExtensionsPath, builtinExtensionPath) => {
 }
 
 const main = async () => {
-  const { builtinExtensionsPath, configPath, staticRoot } = await getStaticServerPaths()
+  const { builtinExtensionsPath, configPath, editorWorkerPath, staticRoot } = await getStaticServerPaths()
   const builtinExtensionPath = join(builtinExtensionsPath, 'builtin.git')
-  const builtinGitWebPath = join(builtinExtensionsPath, 'git-web')
-  const builtinGitWorkerPath = join(builtinExtensionsPath, 'git-worker')
-  const builtinNodePath = join(builtinExtensionsPath, 'node')
+  const publishedEditorWorkerPath = fileURLToPath(import.meta.resolve('@lvce-editor/editor-worker'))
   let originalConfig = ''
+  let originalEditorWorker
   try {
-    await mkdir(builtinExtensionPath, { recursive: true })
-    await Promise.all([
-      cp(join(root, 'packages', 'extension', 'dist'), join(builtinExtensionPath, 'dist'), { recursive: true }),
-      cp(join(root, 'packages', 'extension', 'extension.json'), join(builtinExtensionPath, 'extension.json')),
-      cp(join(root, 'packages', 'extension', 'icon.png'), join(builtinExtensionPath, 'icon.png')),
-      cp(join(root, 'packages', 'extension', 'icons'), join(builtinExtensionPath, 'icons'), { recursive: true }),
-      cp(join(root, 'packages', 'git-web', 'dist'), join(builtinGitWebPath, 'dist'), { recursive: true }),
-      cp(join(root, 'packages', 'git-worker', 'dist'), join(builtinGitWorkerPath, 'dist'), { recursive: true }),
-      cp(join(root, 'packages', 'node'), builtinNodePath, { recursive: true }),
-    ])
-    originalConfig = await addExtensionFilesToStaticConfig(configPath, staticRoot, [builtinExtensionPath, builtinGitWebPath, builtinGitWorkerPath])
+    originalEditorWorker = await readFile(editorWorkerPath)
+    await cp(publishedEditorWorkerPath, editorWorkerPath)
+    await cp(join(root, 'dist'), builtinExtensionPath, { recursive: true })
+    originalConfig = await addExtensionFilesToStaticConfig(configPath, staticRoot, [builtinExtensionPath])
     process.exitCode = await runTests(builtinExtensionsPath, builtinExtensionPath)
   } finally {
     if (originalConfig) {
       await writeFile(configPath, originalConfig)
     }
-    await Promise.all(
-      [builtinExtensionPath, builtinGitWebPath, builtinGitWorkerPath, builtinNodePath].map((path) => rm(path, { force: true, recursive: true })),
-    )
+    if (originalEditorWorker) {
+      await writeFile(editorWorkerPath, originalEditorWorker)
+    }
+    await rm(builtinExtensionPath, { force: true, recursive: true })
   }
 }
 
