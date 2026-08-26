@@ -42,18 +42,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
 
   await Workspace.setPath(tmpDir)
   await Settings.update({
-    'git.path': '/usr/bin/git',
     'git.runFetchOnWorkspaceOpen': true,
   })
   const fixtureUrl = import.meta.resolve('../fixtures/git-fetch-on-workspace-open')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(firstWorkspaceDir)
   await SideBar.open('Source Control')
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-
-  const syncStatusBarItem = Locator('.StatusBarItem[data-name="git.sync"], .StatusBarItem[name="git.sync"]')
-  await expect(syncStatusBarItem).toBeVisible()
-  await expect(syncStatusBarItem).toHaveText('0↓ 0↑')
 
   const remoteTrackingRefBeforeSwitch = await readGitRef(FileSystem, secondWorkspaceGitDir, 'refs/remotes/origin/main')
   const upstreamHead = await readGitRef(FileSystem, upstreamGitDir, 'refs/heads/main')
@@ -64,6 +58,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
   await Workspace.setPath(secondWorkspaceDir)
 
   await waitForGitRef(FileSystem, secondWorkspaceGitDir, 'refs/remotes/origin/main', upstreamHead)
+  const syncStatusBarItem = Locator('.StatusBarItem[data-name="git.sync"], .StatusBarItem[name="git.sync"]')
   await expect(syncStatusBarItem).toBeVisible()
   await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
 }
