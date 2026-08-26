@@ -33,7 +33,7 @@ const waitForGitRef = async (
   throw new Error(`expected ${refName} to be ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
 }
 
-export const test: Test = async ({ Command, expect, FileSystem, Locator, Settings, SideBar, Workspace }) => {
+export const test: Test = async ({ Command, FileSystem, Settings, SideBar, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const firstWorkspaceDir = `${tmpDir}/first-workspace`
   const secondWorkspaceDir = `${tmpDir}/second-workspace`
@@ -51,16 +51,24 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
   await new Promise((resolve) => setTimeout(resolve, 2000))
 
   const remoteTrackingRefBeforeSwitch = await readGitRef(FileSystem, secondWorkspaceGitDir, 'refs/remotes/origin/main')
+  const localHeadBeforeSwitch = await readGitRef(FileSystem, secondWorkspaceGitDir, 'refs/heads/main')
   const upstreamHead = await readGitRef(FileSystem, upstreamGitDir, 'refs/heads/main')
   if (remoteTrackingRefBeforeSwitch === upstreamHead) {
     throw new Error('expected the second workspace remote-tracking ref to be stale before switching workspaces')
+  }
+  if (remoteTrackingRefBeforeSwitch !== localHeadBeforeSwitch) {
+    throw new Error('expected the second workspace local branch to match origin/main before switching workspaces')
   }
 
   await Workspace.setPath(secondWorkspaceDir)
 
   await waitForGitRef(FileSystem, secondWorkspaceGitDir, 'refs/remotes/origin/main', upstreamHead)
-  await new Promise((resolve) => setTimeout(resolve, 5000))
-  const syncStatusBarItem = Locator('.StatusBarItem[data-name="git.sync"], .StatusBarItem[name="git.sync"]')
-  await expect(syncStatusBarItem).toBeVisible()
-  await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
+  const localHeadAfterSwitch = await readGitRef(FileSystem, secondWorkspaceGitDir, 'refs/heads/main')
+  if (localHeadAfterSwitch !== localHeadBeforeSwitch) {
+    throw new Error('expected automatic fetch not to move the second workspace local branch')
+  }
+  const fetchHead = await FileSystem.readFile(`${secondWorkspaceGitDir}/FETCH_HEAD`)
+  if (!fetchHead.startsWith(upstreamHead.trim())) {
+    throw new Error(`expected FETCH_HEAD to start with ${upstreamHead.trim()}, got ${fetchHead}`)
+  }
 }
