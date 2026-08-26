@@ -277,6 +277,11 @@
       "type": "number",
       "default": 100
     },
+    "git.runFetchOnWorkspaceOpen": {
+      "type": "boolean",
+      "default": false,
+      "description": "Run git fetch after opening or switching a workspace."
+    },
     "git.showErrorMessage": {
       "type": "boolean",
       "default": false

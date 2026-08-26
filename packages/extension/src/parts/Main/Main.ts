@@ -1,5 +1,6 @@
 import {
   activate as activateExtensionApi,
+  getPreference,
   registerCommand,
   registerEditorGutterDecorationProvider,
   registerEditorLineDecorationProvider,
@@ -8,6 +9,7 @@ import {
 import * as ExtensionHostCommand from '../ExtensionHostCommand/ExtensionHostCommand.ts'
 import * as GutterDecorationProvider from '../GutterDecorationProvider/GutterDecorationProvider.ts'
 import * as InlineBlameProvider from '../InlineBlameProvider/InlineBlameProvider.ts'
+import { runFetchOnWorkspaceOpen } from '../RunFetchOnWorkspaceOpen/RunFetchOnWorkspaceOpen.ts'
 import * as StatusBarCheckout from '../StatusBarCheckout/StatusBarCheckout.ts'
 import * as StatusBarSync from '../StatusBarSync/StatusBarSync.ts'
 import * as SourceControlProviderGit from '../UiSourceControlProvider/UiSourceControlProviderGit.ts'
@@ -34,6 +36,10 @@ export const activate = async (): Promise<void> => {
   StatusBarSync.initialize()
   await StatusBarCheckout.refresh()
   await StatusBarSync.refresh()
+  await runFetchOnWorkspaceOpen({
+    fetch: ExtensionHostCommand.GitFetch.execute,
+    getRunFetchOnWorkspaceOpen: () => getPreference('git.runFetchOnWorkspaceOpen'),
+  })
 }
 
 export const deactivate = (): void => {}
