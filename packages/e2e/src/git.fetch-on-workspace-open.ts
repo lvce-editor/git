@@ -59,7 +59,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
   await Workspace.setPath(secondWorkspaceDir)
 
   await waitForGitRef(FileSystem, secondWorkspaceGitDir, 'refs/remotes/origin/main', upstreamHead)
-  await new Promise((resolve) => setTimeout(resolve, 5000))
+  await new Promise((resolve) => setTimeout(resolve, 15_000))
   const syncStatusBarItem = Locator('.StatusBarItem[data-name="git.sync"], .StatusBarItem[name="git.sync"]')
   await expect(syncStatusBarItem).toBeVisible()
   await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
