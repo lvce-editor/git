@@ -34,12 +34,12 @@ export const activate = async (): Promise<void> => {
   registerEditorLineDecorationProvider(InlineBlameProvider)
   StatusBarCheckout.initialize()
   StatusBarSync.initialize()
+  await StatusBarCheckout.refresh()
+  await StatusBarSync.refresh()
   await runFetchOnWorkspaceOpen({
     fetch: ExtensionHostCommand.GitFetch.execute,
     getRunFetchOnWorkspaceOpen: () => getPreference('git.runFetchOnWorkspaceOpen'),
   })
-  await StatusBarCheckout.refresh()
-  await StatusBarSync.refresh()
 }
 
 export const deactivate = (): void => {}
