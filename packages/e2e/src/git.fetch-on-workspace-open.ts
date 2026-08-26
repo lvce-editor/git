@@ -33,19 +33,6 @@ const waitForGitRef = async (
   throw new Error(`expected ${refName} to be ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
 }
 
-const retryAssertion = async (assertion: () => Promise<void>): Promise<void> => {
-  for (let i = 0; i < 5; i++) {
-    try {
-      await assertion()
-      return
-    } catch (error) {
-      if (i === 4) {
-        throw error
-      }
-    }
-  }
-}
-
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Settings, SideBar, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const firstWorkspaceDir = `${tmpDir}/first-workspace`
@@ -72,9 +59,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
   await Workspace.setPath(secondWorkspaceDir)
 
   await waitForGitRef(FileSystem, secondWorkspaceGitDir, 'refs/remotes/origin/main', upstreamHead)
+  await new Promise((resolve) => setTimeout(resolve, 5000))
   const syncStatusBarItem = Locator('.StatusBarItem[data-name="git.sync"], .StatusBarItem[name="git.sync"]')
-  await retryAssertion(async () => {
-    await expect(syncStatusBarItem).toBeVisible()
-    await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
-  })
+  await expect(syncStatusBarItem).toBeVisible()
+  await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
 }
