@@ -49,6 +49,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(firstWorkspaceDir)
   await SideBar.open('Source Control')
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
   const syncStatusBarItem = Locator('.StatusBarItem[data-name="git.sync"], .StatusBarItem[name="git.sync"]')
   await expect(syncStatusBarItem).toBeVisible()
