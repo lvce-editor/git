@@ -32,3 +32,10 @@ test('declares the git client node rpc', () => {
     url: 'src/gitProcess.ts',
   })
 })
+
+test('enables fetch on workspace open by default', () => {
+  const manifestUrl = new URL('../extension.json', import.meta.url)
+  const manifest = JSON.parse(readFileSync(manifestUrl, 'utf8'))
+
+  expect(manifest.configuration['git.runFetchOnWorkspaceOpen'].default).toBe(true)
+})
