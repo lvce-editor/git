@@ -39,3 +39,17 @@ test('enables fetch on workspace open by default', () => {
 
   expect(manifest.configuration['git.runFetchOnWorkspaceOpen'].default).toBe(true)
 })
+
+test('contributes the clone command and default clone location setting', () => {
+  const manifestUrl = new URL('../extension.json', import.meta.url)
+  const manifest = JSON.parse(readFileSync(manifestUrl, 'utf8'))
+
+  expect(manifest.commands).toContainEqual({
+    id: 'git.clone',
+    label: 'Git: Clone',
+  })
+  expect(manifest.configuration['git.defaultCloneLocation']).toEqual({
+    type: 'string',
+    description: 'Directory in which cloned repositories are created. Defaults to the Documents directory inside the user data directory.',
+  })
+})

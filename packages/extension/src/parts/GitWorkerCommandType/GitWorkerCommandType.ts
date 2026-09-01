@@ -1,4 +1,5 @@
 export const CommandUndoLastCommit = 'Command.gitUndoLastCommit'
+export const CommandClone = 'Command.gitClone'
 export const GitAddRemote = 'Git.addRemote'
 export const GitApplyStash = 'Git.applyStash'
 export const GitBranch = 'Git.branch'

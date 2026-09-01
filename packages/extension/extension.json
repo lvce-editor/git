@@ -24,6 +24,7 @@
     "onCommand:git.addRemote",
     "onCommand:git.applyStash",
     "onCommand:git.checkout",
+    "onCommand:git.clone",
     "onCommand:git.deleteBranch",
     "onCommand:git.fetchPrune",
     "onCommand:git.getCommits",
@@ -202,6 +203,10 @@
       "label": "Git: Checkout"
     },
     {
+      "id": "git.clone",
+      "label": "Git: Clone"
+    },
+    {
       "id": "git.cleanAll",
       "label": "Git: Discard All Changes"
     },
@@ -276,6 +281,10 @@
     "git.autoFetchPeriod": {
       "type": "number",
       "default": 100
+    },
+    "git.defaultCloneLocation": {
+      "type": "string",
+      "description": "Directory in which cloned repositories are created. Defaults to the Documents directory inside the user data directory."
     },
     "git.runFetchOnWorkspaceOpen": {
       "type": "boolean",
