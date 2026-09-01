@@ -2,6 +2,7 @@ import {
   confirm,
   exists as fileSystemExists,
   getPreference,
+  getUserDataDir as getUserDataDirFromApi,
   getWorkspaceFolder as getWorkspaceFolderFromApi,
   handleWorkspaceRefresh as handleWorkspaceRefreshFromApi,
   mkdir as makeDirectory,
@@ -10,6 +11,7 @@ import {
   readFile as readFileFromApi,
   remove as removeFromApi,
   stat as statFromApi,
+  setWorkspaceUri as setWorkspaceUriFromApi,
   writeFile,
 } from '@lvce-editor/api'
 
@@ -43,6 +45,18 @@ export const confirmDiscard = async () => {
 
 export const showErrorMessage = async () => {
   return getPreference('git.showErrorMessage')
+}
+
+export const getDefaultCloneLocation = async () => {
+  return getPreference('git.defaultCloneLocation')
+}
+
+export const getUserDataDir = async () => {
+  return getUserDataDirFromApi()
+}
+
+export const setWorkspaceUri = async (uri: string) => {
+  await setWorkspaceUriFromApi(uri)
 }
 
 export const exists = async (uri) => {
