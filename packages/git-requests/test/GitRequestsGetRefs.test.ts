@@ -107,6 +107,8 @@ test('getRefs', async (): Promise<void> => {
   expect(calls).toEqual([
     [
       'for-each-ref',
+      '--sort',
+      '-committerdate',
       '--format',
       [
         '%(refname)',

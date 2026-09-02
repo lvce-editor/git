@@ -2,6 +2,7 @@ import * as CheckoutPickType from '../CheckoutPickType/CheckoutPickType.ts'
 import * as GetBranchQuickPickIcon from '../GetBranchQuickPickIcon/GetBranchQuickPickIcon.ts'
 import * as GetShortCommit from '../GetShortCommit/GetShortCommit.ts'
 import * as Git from '../Git/Git.ts'
+import * as GitRefType from '../GitRefType/GitRefType.ts'
 import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
@@ -65,8 +66,15 @@ const getRawPicks = async (): Promise<readonly Ref[]> => {
   return refs
 }
 
+const refTypeOrder = [GitRefType.Head, GitRefType.RemoteHead, GitRefType.Tag]
+
+const orderRefs = (refs: readonly Ref[]): readonly Ref[] => {
+  const prioritizedRefs = PrioritizeDefaultBranch.prioritizeDefaultBranch(refs)
+  return refTypeOrder.flatMap((type) => prioritizedRefs.filter((ref) => ref.type === type && !ref.symbolicRef))
+}
+
 export const getCheckoutPicks = async (): Promise<readonly QuickPickItem[]> => {
   const rawPicks = await getRawPicks()
-  const prioritizedPicks = PrioritizeDefaultBranch.prioritizeDefaultBranch(rawPicks)
-  return [...actionPicks, ...prioritizedPicks.map(toPick)]
+  const orderedRefs = orderRefs(rawPicks)
+  return [...actionPicks, ...orderedRefs.map(toPick)]
 }

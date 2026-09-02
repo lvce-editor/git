@@ -17,7 +17,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, QuickPi
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
   // assert
-  const remoteMainItem = Locator('#QuickPick .QuickPickItem').nth(4)
+  const remoteMainItem = Locator('#QuickPick .QuickPickItem').nth(3)
   await expect(remoteMainItem).toContainText('origin/main')
   await expect(remoteMainItem.locator('.MaskIconCloud')).toBeVisible()
   await QuickPick.selectItem('main')
