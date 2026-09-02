@@ -19,7 +19,7 @@ const format = [
 export const getRefs = async ({ cwd, exec, gitPath }: GitRequestContext): Promise<readonly GitRef[]> => {
   try {
     const gitResult = await exec({
-      args: ['for-each-ref', '--format', format],
+      args: ['for-each-ref', '--sort', '-committerdate', '--format', format],
       cwd,
       gitPath,
       name: 'getRefs',
