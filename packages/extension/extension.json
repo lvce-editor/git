@@ -71,7 +71,8 @@
     "onSourceControl:memfs",
     "onEditorLineDecoration",
     "onEditorGutterDecoration",
-    "onStatusBarItem"
+    "onStatusBarItem",
+    "onCommand:git.getPullRequestDefaults"
   ],
   "commands": [
     {
@@ -257,6 +258,10 @@
     {
       "id": "git.unstageAll",
       "label": "Git: Unstage All"
+    },
+    {
+      "id": "git.getPullRequestDefaults",
+      "label": "Git: Get Pull Request Defaults"
     }
   ],
   "quickPick": [
