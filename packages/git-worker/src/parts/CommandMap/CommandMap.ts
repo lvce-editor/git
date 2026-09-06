@@ -11,6 +11,7 @@ import * as CommandFetch from '../CommandFetch/CommandFetch.ts'
 import * as CommandFetchPrune from '../CommandFetchPrune/CommandFetchPrune.ts'
 import * as CommandGetBranchNames from '../CommandGetBranchNames/CommandGetBranchNames.ts'
 import * as CommandGetFileDecorations from '../CommandGetFileDecorations/GetFileDecorations.ts'
+import { commandGetPullRequestDefaults } from '../CommandGetPullRequestDefaults/CommandGetPullRequestDefaults.ts'
 import * as CommandInit from '../CommandInit/CommandInit.ts'
 import * as CommandLoadFixture from '../CommandLoadFixture/CommandLoadFixture.ts'
 import * as CommandMerge from '../CommandMerge/CommandMerge.ts'
@@ -30,6 +31,7 @@ import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandT
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
 export const commandMap = {
+  'Git.getPullRequestDefaults': commandGetPullRequestDefaults,
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
   [GitWorkerCommandType.CommandAdd]: CommandAdd.commandAdd,
   [GitWorkerCommandType.CommandAddAll]: CommandAddAll.commandAddAll,
