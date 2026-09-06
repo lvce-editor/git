@@ -1,7 +1,14 @@
 import type { GitMessageRequest } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
 
-export const addAllAndCommit = async ({ cwd, exec, gitPath, message }: GitMessageRequest): Promise<void> => {
+export const addAllAndCommit = async ({
+  cwd,
+  exec,
+  gitPath,
+  message,
+  newBranch,
+  push = true,
+}: GitMessageRequest & { readonly newBranch?: string; readonly push?: boolean }): Promise<void> => {
   try {
     // Check if there are any staged files
     const { stdout: stagedFiles } = await exec({
@@ -28,6 +35,9 @@ export const addAllAndCommit = async ({ cwd, exec, gitPath, message }: GitMessag
       gitPath,
       name: 'addAllAndCommit/commit',
     })
+    if (!push) {
+      return
+    }
     const { stdout: remoteUrl } = await exec({
       args: ['config', '--get', 'remote.origin.url'],
       cwd,
@@ -41,7 +51,7 @@ export const addAllAndCommit = async ({ cwd, exec, gitPath, message }: GitMessag
 
     try {
       await exec({
-        args: ['push'],
+        args: newBranch ? ['push', '--set-upstream', 'origin', newBranch] : ['push'],
         cwd,
         gitPath,
         name: 'addAllAndCommit/push',

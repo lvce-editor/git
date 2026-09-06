@@ -2,7 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.checkout-branch-with-slash'
 
-export const test: Test = async ({ FileSystem, Git, Workspace }) => {
+export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
+  await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const branchName = 'feature/nested'
 

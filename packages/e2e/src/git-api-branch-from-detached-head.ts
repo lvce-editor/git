@@ -2,7 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.branch-from-detached-head'
 
-export const test: Test = async ({ FileSystem, Git, Workspace }) => {
+export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
+  await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
 
   await Workspace.setPath(tmpDir)

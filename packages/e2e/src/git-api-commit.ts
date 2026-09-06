@@ -6,6 +6,7 @@ export const name = 'git.commit'
 
 // @ts-ignore
 export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SideBar, SourceControl, Workspace }) => {
+  await Settings.update({ 'git.branchProtection': false })
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setPath(tmpDir)

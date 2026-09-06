@@ -4,7 +4,14 @@ import { runtimeBuildTargets } from './runtimeBuildTargets.ts'
 
 const main = async () => {
   await Promise.all(
-    runtimeBuildTargets.map((target) =>
+    [
+      ...runtimeBuildTargets,
+      {
+        entryPoint: 'packages/e2e/fixtures/branch-protection-dialog/main.ts',
+        external: ['electron', 'node*'],
+        outfile: 'packages/e2e/fixtures/branch-protection-dialog/dist/main.js',
+      },
+    ].map((target) =>
       build({
         absWorkingDir: root,
         bundle: true,

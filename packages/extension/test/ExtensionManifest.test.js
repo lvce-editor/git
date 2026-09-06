@@ -53,3 +53,8 @@ test('contributes the clone command and default clone location setting', () => {
     description: 'Directory in which cloned repositories are created. Defaults to the Documents directory inside the user data directory.',
   })
 })
+
+test('enables main branch protection by default', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../extension.json', import.meta.url), 'utf8'))
+  expect(manifest.configuration['git.branchProtection']).toMatchObject({ type: 'boolean', default: true })
+})

@@ -4,7 +4,8 @@ export const name = 'git.commitStaged'
 
 // export const skip = 1
 
-export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
+export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace }) => {
+  await Settings.update({ 'git.branchProtection': false })
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const stagedFile = 'staged.txt'
