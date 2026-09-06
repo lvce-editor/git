@@ -1,3 +1,4 @@
+/// <reference types="node" />
 /* eslint-disable jest/no-restricted-jest-methods */
 import { afterEach, beforeEach, expect, jest, test } from '@jest/globals'
 import { execFile } from 'node:child_process'
