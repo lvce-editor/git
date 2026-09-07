@@ -27,11 +27,11 @@
     }
   },
   "devDependencies": {
-    "@jest/globals": "^30.4.1",
+    "@jest/globals": "^30.5.1",
     "@types/jest": "^30.0.0"
   },
   "dependencies": {
-    "@lvce-editor/rpc": "^6.18.0",
+    "@lvce-editor/rpc": "^6.19.3",
     "execa": "^10.0.1"
   }
 }
