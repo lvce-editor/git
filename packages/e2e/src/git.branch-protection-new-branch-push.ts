@@ -2,9 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.branch-protection-new-branch-push'
 
-// Enable once the editor runtime includes the custom-input callback fix.
-export const skip = 1
-
 export const test: Test = async ({ Command, expect, Extension, FileSystem, Git, KeyBoard, Locator, SourceControl, Workspace }) => {
   await Extension.addWebExtension(import.meta.resolve('../fixtures/branch-protection-dialog'))
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
