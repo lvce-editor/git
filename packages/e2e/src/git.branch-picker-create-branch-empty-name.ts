@@ -11,6 +11,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, QuickPi
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
   await Workspace.setPath(workspaceDir)
   await SideBar.open('Source Control')
+  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
+  await expect(branchStatusBarItem).toHaveText('main')
 
   // act
   const branchPickerPromise = Command.execute('StatusBar.handleClick', 'git.showBranchPicker')
@@ -28,6 +30,5 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, QuickPi
     throw new Error('expected empty branch name not to create a branch')
   }
   await FileSystem.shouldHaveFile(`${workspaceDir}/.git/HEAD`, 'ref: refs/heads/main\n')
-  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
   await expect(branchStatusBarItem).toHaveText('main')
 }

@@ -6,7 +6,8 @@ type GitCommit = {
   readonly message: string
 }
 
-export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
+export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace }) => {
+  await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
 
   await Workspace.setPath(tmpDir)

@@ -1,0 +1,20 @@
+{
+  "id": "test.branch-protection-dialog",
+  "browser": "dist/main.js",
+  "isolated": true,
+  "activation": ["onCommand:Dialog.showMessageBox", "onCommand:test.configureBranchDialog", "onCommand:test.getBranchDialogOptions"],
+  "commands": [
+    {
+      "id": "Dialog.showMessageBox",
+      "label": "Dialog.showMessageBox"
+    },
+    {
+      "id": "test.configureBranchDialog",
+      "label": "test.configureBranchDialog"
+    },
+    {
+      "id": "test.getBranchDialogOptions",
+      "label": "test.getBranchDialogOptions"
+    }
+  ]
+}

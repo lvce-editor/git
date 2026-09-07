@@ -4,7 +4,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.merge-conflict'
 
-export const test: Test = async ({ FileSystem, Git, Workspace }) => {
+export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
+  await Settings.update({ 'git.branchProtection': false })
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'file.txt'

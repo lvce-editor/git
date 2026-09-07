@@ -7,7 +7,8 @@ type GitCommit = {
   readonly message: string
 }
 
-export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
+export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace }) => {
+  await Settings.update({ 'git.branchProtection': false })
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const message = "It's ready: [e2e]"
