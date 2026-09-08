@@ -16,3 +16,7 @@ test('normalizes a windows file uri', () => {
 test('decodes a file uri', () => {
   expect(toFileSystemPath('file:///workspace/test%20folder')).toBe('/workspace/test folder')
 })
+
+test('decodes remote paths for native Git arguments', () => {
+  expect(toFileSystemPath('remote-ssh://user@host:2222/work/test%20folder')).toBe('/work/test folder')
+})

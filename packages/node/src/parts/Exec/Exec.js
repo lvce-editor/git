@@ -3,6 +3,9 @@ import { execa } from 'execa'
 import * as Assert from '../Assert/Assert.js'
 
 const getActualOptions = (options) => {
+  if (options?.cwd?.startsWith('remote-ssh://')) {
+    return { ...options, cwd: decodeURIComponent(new URL(options.cwd).pathname) }
+  }
   if (options && options.cwd && options.cwd.startsWith('file://')) {
     return {
       ...options,

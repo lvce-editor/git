@@ -8,5 +8,8 @@
   "main": "index.js",
   "dependencies": {
     "execa": "^7.1.1"
+  },
+  "scripts": {
+    "test": "node --test"
   }
 }

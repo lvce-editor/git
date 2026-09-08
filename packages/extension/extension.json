@@ -14,7 +14,8 @@
       "id": "git-client",
       "type": "node-process",
       "name": "Git",
-      "url": "src/gitProcess.ts"
+      "url": "src/gitProcess.ts",
+      "onRemote": "runOnRemote"
     }
   ],
   "icon": "./icon.png",
@@ -72,7 +73,8 @@
     "onEditorLineDecoration",
     "onEditorGutterDecoration",
     "onStatusBarItem",
-    "onCommand:git.getPullRequestDefaults"
+    "onCommand:git.getPullRequestDefaults",
+    "onSourceControl:remote-ssh"
   ],
   "commands": [
     {

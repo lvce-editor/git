@@ -68,3 +68,10 @@ test('a current status bar refresh finishes after an older refresh', async () =>
 
   expect(calls).toEqual(['checkout:/tmp/old', 'checkout:/tmp/current', 'sync:/tmp/current'])
 })
+
+test('checks Git repositories over the remote SSH scheme', async () => {
+  execute.mockResolvedValue({ exitCode: 0 })
+  const isActive = createIsActive({ clearCheckout, clearSync, execute, refreshCheckout, refreshSync })
+  await expect(isActive('remote-ssh', 'remote-ssh://host/work')).resolves.toBe(true)
+  expect(execute).toHaveBeenCalledWith('git', ['rev-parse', '--git-dir'], { cwd: 'remote-ssh://host/work', reject: false })
+})
