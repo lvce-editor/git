@@ -1,6 +1,9 @@
 const windowsPathRegex = /^\/[A-Za-z]:\//
 
 export const toFileSystemPath = (path: string): string => {
+  if (path.startsWith('remote-ssh://')) {
+    return decodeURIComponent(new URL(path).pathname)
+  }
   if (!path.startsWith('file://')) {
     return path
   }

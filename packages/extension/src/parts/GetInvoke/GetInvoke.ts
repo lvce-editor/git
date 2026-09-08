@@ -13,7 +13,7 @@ const getScheme = (uri) => {
 
 export const getInvoke = (uri) => {
   const scheme = getScheme(uri)
-  if (!scheme || scheme.startsWith('file://')) {
+  if (!scheme || scheme.startsWith('file://') || scheme === 'remote-ssh://') {
     return Rpc.invoke
   }
   return invoke

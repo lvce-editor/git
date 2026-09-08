@@ -1,4 +1,4 @@
-const supportedSchemes = ['file', '', 'memfs']
+const supportedSchemes = ['file', '', 'memfs', 'remote-ssh']
 
 export interface IsActiveDependencies {
   readonly clearCheckout: () => Promise<void>
