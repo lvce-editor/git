@@ -1,5 +1,5 @@
 import { strictEqual } from 'node:assert/strict'
-import { mkdtemp, rm } from 'node:fs/promises'
+import { mkdtemp, realpath, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { test } from 'node:test'
@@ -12,7 +12,7 @@ test('remote Git runs in the decoded workspace directory', { skip: process.platf
     uri.pathname = cwd
     await exec('git', ['init', '--quiet'], { cwd: uri.href })
     const result = await exec('git', ['rev-parse', '--show-toplevel'], { cwd: uri.href })
-    strictEqual(result.stdout, cwd)
+    strictEqual(result.stdout, await realpath(cwd))
   } finally {
     await rm(cwd, { recursive: true, force: true })
   }
