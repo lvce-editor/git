@@ -14,14 +14,15 @@ const toPath = (uri: string): string => {
 }
 
 export const getRelativePath = (workspaceUri: string, documentUri: string): string | undefined => {
-  if ((workspaceUri.startsWith('remote-ssh://') || documentUri.startsWith('remote-ssh://')) && (
-      !workspaceUri.startsWith('remote-ssh://') ||
+  if (
+    (workspaceUri.startsWith('remote-ssh://') || documentUri.startsWith('remote-ssh://')) &&
+    (!workspaceUri.startsWith('remote-ssh://') ||
       !documentUri.startsWith('remote-ssh://') ||
       new URL(workspaceUri).host !== new URL(documentUri).host ||
-      new URL(workspaceUri).username !== new URL(documentUri).username
-    )) {
-      return undefined
-    }
+      new URL(workspaceUri).username !== new URL(documentUri).username)
+  ) {
+    return undefined
+  }
   const workspacePath = toPath(workspaceUri).replaceAll('\\', '/').replace(/\/$/, '')
   const documentPath = toPath(documentUri).replaceAll('\\', '/')
   if (documentPath === workspacePath) {
