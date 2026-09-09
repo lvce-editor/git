@@ -1,5 +1,5 @@
 import * as requests from '../../../../git-requests/src/main.ts'
-import { toGitPath, toRelativePath, toRemoteUri } from '../WorkspaceUris/WorkspaceUris.ts'
+import { toGitPath, toRelativePath, toResourceUri } from '../WorkspaceUris/WorkspaceUris.ts'
 
 export * from '../../../../git-requests/src/main.ts'
 
@@ -12,7 +12,7 @@ const withFile =
 const withWorktree =
   <T extends { readonly cwd: string; readonly worktreePath: string }, R>(fn: (args: T) => R) =>
   (args: T): R => {
-    return fn({ ...args, worktreePath: toGitPath(args.worktreePath, args.cwd) })
+    return fn({ ...args, worktreePath: toGitPath(toResourceUri(args.worktreePath, args.cwd), args.cwd) })
   }
 
 export const add = withFile(requests.add)
@@ -27,5 +27,5 @@ export const getFileBefore = (args: Parameters<typeof requests.getFileBefore>[0]
 }
 
 export const getDecorations = (args: Parameters<typeof requests.getDecorations>[0]): ReturnType<typeof requests.getDecorations> => {
-  return requests.getDecorations({ ...args, uris: args.uris.map((uri) => toRemoteUri(uri, args.cwd)) })
+  return requests.getDecorations({ ...args, uris: args.uris.map((uri) => toResourceUri(uri, args.cwd)) })
 }

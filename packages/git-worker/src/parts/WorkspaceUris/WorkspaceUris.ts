@@ -28,6 +28,29 @@ export const toRemoteUri = (uri: string, workspaceUri = uri): string => {
   return `file://${url.pathname}`
 }
 
+// Explorer resource strings may contain unescaped filename characters. Keep
+// workspace validation strict, but encode the path of these known file inputs.
+export const toResourceUri = (uri: string, workspaceUri: string): string => {
+  const remote = uri.startsWith('remote-ssh://')
+  if (!remote && !uri.startsWith('file://')) {
+    return uri
+  }
+  const pathIndex = uri.indexOf('/', uri.indexOf('://') + 3)
+  if (pathIndex === -1) {
+    return toRemoteUri(uri, workspaceUri)
+  }
+  const root = toRemoteUri(`${uri.slice(0, pathIndex)}/`, workspaceUri)
+  const path = uri
+    .slice(pathIndex + 1)
+    .split('/')
+    .map((segment) => {
+      const escaped = segment.replaceAll(/%(?![\dA-Fa-f]{2})/g, '%25')
+      return encodeURIComponent(decodeURIComponent(escaped))
+    })
+    .join('/')
+  return `${root}${path}`
+}
+
 export const getWorkspaceUris = (workspaceUri: string): WorkspaceUris => ({
   remoteWorkspaceUri: toRemoteUri(workspaceUri),
   workspaceUri,
@@ -42,8 +65,11 @@ export const toRelativePath = (uri: string, workspaceUri: string): string => {
     return uri
   }
   const normalize = (path: string): string => (workspaceUri.startsWith('remote-ssh://') ? path : path.replaceAll('\\', '/'))
-  const path = normalize(toGitPath(uri, workspaceUri))
+  const path = normalize(toGitPath(toResourceUri(uri, workspaceUri), workspaceUri))
   const root = normalize(toGitPath(workspaceUri, workspaceUri)).replace(/\/$/, '')
+  if (path === root) {
+    return '.'
+  }
   if (!path.startsWith(`${root}/`)) {
     throw new Error('Git resource is outside the repository')
   }

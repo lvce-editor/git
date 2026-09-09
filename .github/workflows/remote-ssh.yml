@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: lvce-editor/remote-ssh
-          ref: d86576f9f43b9dfaa371eced3c492e05a5e919e5
+          ref: b0b64df7a47dc954f707eb24313cff5f25b5bbb9
           path: .tmp/remote-ssh
       - run: npm ci
         working-directory: .tmp/remote-ssh

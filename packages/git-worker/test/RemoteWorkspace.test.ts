@@ -74,8 +74,8 @@ test('worktree destinations use decoded remote filesystem paths', async () => {
   )
 })
 
-test('ignore decorations round trip to the original remote authority and encoded resource URI', async () => {
-  const uri = `${workspaceUri}/ignored%20%23%25.txt`
+test.each(['ignored%20%23%25.txt', 'ignored #%.txt'])('ignore decorations preserve the exact editor resource identity: %s', async (name) => {
+  const uri = `${workspaceUri}/${name}`
   await getCurrent()
   // getCurrent reads the workspace before the decoration request.
   invoke.mockReset()

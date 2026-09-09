@@ -6,6 +6,10 @@ import { promisify } from 'node:util'
 const run = promisify(execFile)
 
 export const test = async ({ page, expect, sshServer, port, socketUrls, sockets }) => {
+  const errors = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text())
+  })
   const requests = []
   for (const socket of sockets) {
     const url = new URL(socket.url())
@@ -41,6 +45,13 @@ export const test = async ({ page, expect, sshServer, port, socketUrls, sockets 
     expect(stdout).toBe('')
   }).toPass({ timeout: 30_000 })
   expect(await readFile(sshServer.filePath, 'utf8')).toBe(sshServer.fixture.updatedContent)
+
+  await page.keyboard.press('Control+Shift+E')
+  await expect(page.locator(`.TreeItem[aria-label="${specialName}"]`)).toBeVisible({ timeout: 30_000 })
+  await expect(async () => {
+    expect(requests.some(({ params }) => params[1][0] === 'check-ignore' && params[2].input.includes(specialName))).toBe(true)
+  }).toPass({ timeout: 30_000 })
+  expect(errors).toEqual([])
 
   const gitSockets = socketUrls.filter(
     (url) => url.pathname === '/websocket/extension-node-process' && url.searchParams.get('extensionId') === 'builtin.git',
