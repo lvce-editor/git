@@ -2,6 +2,7 @@ import * as Confirm from '../Confirm/Confirm.ts'
 import * as Git from '../Git/Git.ts'
 import * as GitRepositories from '../GitRepositories/GitRepositories.ts'
 import * as GitStates from '../GitStates/GitStates.ts'
+import { toRemoteUri } from '../WorkspaceUris/WorkspaceUris.ts'
 
 export const wrapGitCommand =
   <Args extends Readonly<Record<string, any>>, Result>(id: string, fn: (args: Args) => Promise<Result>) =>
@@ -9,6 +10,7 @@ export const wrapGitCommand =
     const repository = await GitRepositories.getCurrent()
     const { gitPath, path } = repository
     const targetPath = typeof _cwd === 'string' && _cwd ? _cwd : path
+    toRemoteUri(targetPath, path)
     GitStates.ensureRepository(path, targetPath)
     const getRepository = async (): Promise<typeof repository> => {
       return {

@@ -50,6 +50,8 @@ test('checks out selected branch', async (): Promise<void> => {
     gitPath: '/test/git',
     gitVersion: '2.39.2',
     path: '/test/folder',
+    remoteWorkspaceUri: '/test/folder',
+    workspaceUri: '/test/folder',
   })
   mockExecute.mockResolvedValue(undefined)
 
@@ -90,6 +92,8 @@ test('creates and checks out a new branch', async (): Promise<void> => {
     gitPath: '/test/git',
     gitVersion: '2.39.2',
     path: '/test/folder',
+    remoteWorkspaceUri: '/test/folder',
+    workspaceUri: '/test/folder',
   })
   mockExecute.mockResolvedValue(undefined)
 
@@ -152,6 +156,8 @@ test('creates and checks out a new branch from a selected ref', async (): Promis
     gitPath: '/test/git',
     gitVersion: '2.39.2',
     path: '/test/folder',
+    remoteWorkspaceUri: '/test/folder',
+    workspaceUri: '/test/folder',
   })
   mockExecute.mockResolvedValue(undefined)
 

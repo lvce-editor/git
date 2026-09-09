@@ -3,6 +3,7 @@ import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
+import { toGitPath } from '../WorkspaceUris/WorkspaceUris.ts'
 
 type WorktreePick = {
   readonly description: string
@@ -41,7 +42,7 @@ export const commandDeleteWorktreeSelect = async (): Promise<string | undefined>
     fn: GitRequests.getWorktrees,
     id: 'getWorktrees',
   })
-  const currentWorktree = GitRequests.toFileSystemPath(path)
+  const currentWorktree = toGitPath(path, path)
   const picks = getWorktreePicks(worktrees, currentWorktree)
   const selectedPick = await Rpc.invoke('QuickPick.show', picks)
   if (!selectedPick) {

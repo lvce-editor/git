@@ -22,3 +22,9 @@ npm test
 ## Credits
 
 This extension is based on https://github.com/microsoft/vscode/tree/main/extensions/git by Microsoft (License MIT)
+
+### Git over Remote SSH regression
+
+Build this extension with `npm run build`, then run `LVCE_REMOTE_SSH_TEST_REPO=/absolute/path/to/remote-ssh npm run e2e:remote-ssh` on Linux. Install dependencies in both repositories first. The Remote SSH checkout must support `LVCE_REMOTE_SSH_TEST_GIT_EXTENSION_PATH` and `LVCE_REMOTE_SSH_TEST_GIT_SCENARIO`. OpenSSH server and Playwright Chromium are required.
+
+The test reuses Remote SSH's temporary SSH server and editor harness, installs this Git build on both ends, and verifies branch display, remote changes, staging and unstaging, and remote Node process routing.

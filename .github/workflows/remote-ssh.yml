@@ -1,0 +1,42 @@
+name: Git over SSH
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  remote-ssh:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/checkout@v4
+        with:
+          repository: lvce-editor/remote-ssh
+          ref: d86576f9f43b9dfaa371eced3c492e05a5e919e5
+          path: .tmp/remote-ssh
+      - run: npm ci
+        working-directory: .tmp/remote-ssh
+      - name: Install OpenSSH server
+        run: sudo apt-get update && sudo apt-get install --yes openssh-server
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+        working-directory: .tmp/remote-ssh/packages/e2e
+      - name: Test candidate Git build over SSH
+        run: npm run e2e:remote-ssh
+        env:
+          LVCE_REMOTE_SSH_TEST_REPO: ${{ github.workspace }}/.tmp/remote-ssh
+      - name: Upload failure screenshot
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: git-remote-ssh-failure
+          path: .tmp/remote-ssh/.tmp/remote-ssh-e2e-failure.png
+          if-no-files-found: ignore

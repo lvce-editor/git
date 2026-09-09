@@ -30,6 +30,8 @@ beforeEach(() => {
     gitPath: '/test/git',
     gitVersion: '2.39.2',
     path: '/test/workspace',
+    remoteWorkspaceUri: '/test/workspace',
+    workspaceUri: '/test/workspace',
   })
 })
 
@@ -71,6 +73,8 @@ test('does not delete the current worktree', async (): Promise<void> => {
     gitPath: '/test/git',
     gitVersion: '2.39.2',
     path: 'file:///test/workspace',
+    remoteWorkspaceUri: 'file:///test/workspace',
+    workspaceUri: 'file:///test/workspace',
   })
   mockExecute.mockResolvedValue(['/test/workspace'])
   mockInvoke.mockResolvedValue(undefined)

@@ -1,5 +1,5 @@
 import { refreshEditorGutterDecorations } from '@lvce-editor/api'
-import * as Exec from '../Exec/Exec.ts'
+import * as GitWorker from '../GitWorker/GitWorker.ts'
 import * as CommandAcceptInput from '../ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.ts'
 import * as CommandAdd from '../ExtensionHostCommand/ExtensionHostCommandGitAdd.ts'
 import * as CommandFetch from '../ExtensionHostCommand/ExtensionHostCommandGitFetch.ts'
@@ -27,7 +27,7 @@ export const discard = CommandAdd.execute
 export const isActive = IsActive.createIsActive({
   clearCheckout: StatusBarCheckout.clear,
   clearSync: StatusBarSync.clear,
-  execute: Exec.exec,
+  execute: (command, args, options) => GitWorker.invoke('Git.exec', command, args, options),
   refreshCheckout: StatusBarCheckout.refresh,
   refreshSync: StatusBarSync.refresh,
 })

@@ -26,11 +26,13 @@ import * as CommandUndoLastCommit from '../CommandUndoLastCommit/CommandUndoLast
 import * as CommandUnstage from '../CommandUnstage/CommandUnstage.ts'
 import * as CommandUnstageAll from '../CommandUnstageAll/CommandUnstageAll.ts'
 import * as CommandUnstash from '../CommandUnstash/CommandUnstash.ts'
+import * as Exec from '../Exec/Exec.ts'
 import * as GitInvocations from '../GitInvocations/GitInvocations.ts'
 import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandType.ts'
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
 export const commandMap = {
+  'Git.exec': Exec.exec,
   'Git.getPullRequestDefaults': commandGetPullRequestDefaults,
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
   [GitWorkerCommandType.CommandAdd]: CommandAdd.commandAdd,

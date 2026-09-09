@@ -19,7 +19,8 @@
     "format": "prettier --write .",
     "lint": "eslint . && prettier --check . && knip --no-config-hints",
     "test": "npm test --workspaces --if-present",
-    "type-check": "tsc -b"
+    "type-check": "tsc -b",
+    "e2e:remote-ssh": "node scripts/run-remote-ssh-e2e.js"
   },
   "prettier": {
     "semi": false,

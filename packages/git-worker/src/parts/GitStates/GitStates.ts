@@ -1,3 +1,5 @@
+import { getWorkspaceUris, type WorkspaceUris } from '../WorkspaceUris/WorkspaceUris.ts'
+
 export type GitStatusGroup = {
   readonly id: string
   readonly label: string
@@ -9,7 +11,7 @@ type GitRepositoryState = {
   readonly uri: string
 }
 
-export type GitState = {
+export type GitState = WorkspaceUris & {
   readonly gitPath: string
   readonly gitRepositories: readonly GitRepositoryState[]
   readonly parsedGitVersion: string
@@ -45,9 +47,10 @@ export const get = (applicationId: string): GitState | undefined => {
   return states[applicationId]
 }
 
-export const set = (applicationId: string, gitState: GitState): GitState => {
-  states[applicationId] = gitState
-  return gitState
+export const set = (applicationId: string, gitState: Omit<GitState, keyof WorkspaceUris>): GitState => {
+  const state = { ...gitState, ...getWorkspaceUris(applicationId) }
+  states[applicationId] = state
+  return state
 }
 
 export const reset = (): void => {
@@ -65,7 +68,7 @@ export const setGitState = (
   }>,
 ): GitState => {
   const currentState = get(applicationId)
-  const nextState: GitState = {
+  const nextState = {
     gitPath: gitState.gitPath,
     gitRepositories: currentState?.gitRepositories || [],
     parsedGitVersion: gitState.parsedGitVersion,
