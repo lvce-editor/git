@@ -1,5 +1,6 @@
 import type { GitExec, GitExecResult } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
+import { toFileSystemPath } from '../ToFileSystemPath/ToFileSystemPath.ts'
 
 const joinByNull = (strings: readonly string[]): string => {
   return strings.join('\0')
@@ -17,7 +18,7 @@ export const getDecorations = async ({
   readonly exec: GitExec
 }): Promise<GitExecResult> => {
   try {
-    const paths = uris.map((uri) => uri.slice('file://'.length))
+    const paths = uris.map(toFileSystemPath)
     const input = joinByNull(paths)
     const gitResult = await exec({
       args: ['check-ignore', '-v', '-z', '--stdin'],

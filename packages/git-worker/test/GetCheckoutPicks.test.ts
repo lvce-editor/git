@@ -24,6 +24,8 @@ beforeEach(() => {
     gitPath: '/test/git',
     gitVersion: '2.39.2',
     path: '/test/folder',
+    remoteWorkspaceUri: '/test/folder',
+    workspaceUri: '/test/folder',
   })
 })
 

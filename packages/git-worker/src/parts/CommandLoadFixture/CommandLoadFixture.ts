@@ -1,4 +1,5 @@
 import { commandInit } from '../CommandInit/CommandInit.ts'
+import * as Exec from '../Exec/Exec.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 import { toFileSystemPath } from '../ToFileSystemPath/ToFileSystemPath.ts'
 
@@ -40,7 +41,7 @@ const writeFile = async (pathName: string, content: string): Promise<void> => {
 
 const exec = async (cwd: string, command: string, args: readonly string[]): Promise<void> => {
   const absoluteCwd = await resolvePath(cwd)
-  await Rpc.invoke('Exec.exec', command, args, {
+  await Exec.exec(command, args, {
     cwd: absoluteCwd,
   })
 }
@@ -55,7 +56,7 @@ const clone = async (repositoryPath: string, targetPath: string): Promise<void> 
   const targetAbsolutePath = toFileSystemPath(await resolvePath(targetPath))
   const folder = toFileSystemPath(await getWorkspaceFolder())
   const gitPath = await getGitPath()
-  await Rpc.invoke('Exec.exec', gitPath, ['clone', repositoryAbsolutePath, targetAbsolutePath], {
+  await Exec.exec(gitPath, ['clone', repositoryAbsolutePath, targetAbsolutePath], {
     cwd: folder,
   })
 }

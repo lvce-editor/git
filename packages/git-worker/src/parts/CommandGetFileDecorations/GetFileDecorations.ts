@@ -2,6 +2,7 @@ import * as Git from '../Git/Git.ts'
 import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
+import { toGitPath, toResourceUri, toWorkspaceUri } from '../WorkspaceUris/WorkspaceUris.ts'
 
 const parseDecorations = (stdout: string): readonly any[] => {
   if (!stdout) {
@@ -35,5 +36,6 @@ export const getFileDecorations = async (uris: readonly string[]): Promise<reado
     id: 'decorations',
   })
   const parsed = parseDecorations(gitResult.stdout)
-  return parsed
+  const originalUris = new Map(uris.map((uri) => [toGitPath(toResourceUri(uri, repository.path), repository.path), uri]))
+  return parsed.map((item) => ({ ...item, uri: originalUris.get(item.uri) ?? toWorkspaceUri(item.uri, repository.path) }))
 }
