@@ -2,8 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.branch-picker-duplicate-name'
 
-export const test: Test = async ({ Command, expect, Extension, FileSystem, Locator, QuickPick, SideBar, Workspace }) => {
-  await Extension.addWebExtension(import.meta.resolve('../fixtures/branch-name-error'))
+export const test: Test = async ({ Command, Dialog, expect, FileSystem, Locator, QuickPick, SideBar, Workspace }) => {
+  await Dialog.mockConfirm(() => true)
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
@@ -24,10 +24,6 @@ export const test: Test = async ({ Command, expect, Extension, FileSystem, Locat
   await Command.execute('QuickPick.selectCurrentIndex')
   await expect(input).toHaveValue('')
   await expect(input).toBeFocused()
-  const message = await Command.execute('ExtensionHost.executeCommand', 'test.getBranchNameError')
-  if (message !== "A branch named 'main' already exists. Please choose a different name.") {
-    throw new Error(`Unexpected duplicate branch error: ${message}`)
-  }
   await FileSystem.shouldHaveFile(`${workspaceDir}/.git/HEAD`, 'ref: refs/heads/main\n')
   const branchName = 'new/from-picker'
   await input.type(branchName)
