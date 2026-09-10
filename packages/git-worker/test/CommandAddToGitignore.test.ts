@@ -15,10 +15,12 @@ jest.unstable_mockModule('../src/parts/Rpc/Rpc.ts', () => ({
       case 'Config.getWorkspaceFolder':
         return state.directory
       case 'FileSystem.exists':
-        return access(uri).then(
-          () => true,
-          () => false,
-        )
+        try {
+          await access(uri)
+          return true
+        } catch {
+          return false
+        }
       case 'FileSystem.readFile':
         return readFile(uri, 'utf8')
       case 'FileSystem.writeFile':
