@@ -1,18 +1,11 @@
 import * as CheckoutPickType from '../CheckoutPickType/CheckoutPickType.ts'
 import * as GetCheckoutPicks from '../GetCheckoutPicks/GetCheckoutPicks.ts'
+import * as GetNewBranchName from '../GetNewBranchName/GetNewBranchName.ts'
 import * as Git from '../Git/Git.ts'
 import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
-
-const getBranchName = async (): Promise<string | undefined> => {
-  const name = await Rpc.invoke('QuickPick.showInput', 'Branch name')
-  if (typeof name !== 'string' || name === '') {
-    return undefined
-  }
-  return name
-}
 
 const createAndCheckout = async (name: string, startPoint?: string): Promise<string> => {
   const repository = await Repositories.getCurrent()
@@ -47,11 +40,11 @@ export const commandCheckout = async (): Promise<string | undefined> => {
     return
   }
   if (selectedPick.type === CheckoutPickType.CreateBranch) {
-    const name = await getBranchName()
+    const name = await GetNewBranchName.getNewBranchName()
     return name ? createAndCheckout(name) : undefined
   }
   if (selectedPick.type === CheckoutPickType.CreateBranchFrom) {
-    const name = await getBranchName()
+    const name = await GetNewBranchName.getNewBranchName()
     if (!name) {
       return undefined
     }
