@@ -2,8 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.quick-pick-checkout'
 
-export const skip = 1
-
 const waitForFileContent = async (FileSystem: { readFile: (uri: string) => Promise<string> }, uri: string, expected: string): Promise<void> => {
   for (let i = 0; i < 20; i++) {
     const actual = await FileSystem.readFile(uri)
@@ -27,13 +25,19 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, QuickPi
   await Workspace.setPath(workspaceDir)
   await SideBar.open('Source Control')
 
+  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
+  await expect(branchStatusBarItem).toHaveText('main')
+
   // act
-  await QuickPick.executeCommand('Git Checkout')
-  const branchItem = Locator('text=feature')
+  await QuickPick.open()
+  await QuickPick.setValue('>Git Checkout')
+  await QuickPick.selectItem('Git Checkout', { waitUntil: 'none' })
+  const branchItem = Locator('#QuickPick').locator('text=feature')
   await expect(branchItem).toBeVisible()
   await QuickPick.selectItem('feature')
 
   // assert
   await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
   await waitForFileContent(FileSystem, `${workspaceDir}/file.txt`, 'feature branch')
+  await expect(branchStatusBarItem).toHaveText('feature')
 }
