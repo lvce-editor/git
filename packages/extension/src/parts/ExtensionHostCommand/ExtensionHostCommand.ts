@@ -45,3 +45,5 @@ export * as GitUnstage from './ExtensionHostCommandGitUnstage.ts'
 export * as GitUnstageAll from './ExtensionHostCommandGitUnstageAll.ts'
 export * as GitSelectBranch from './ExtensionHostCommandSelectBranch.ts'
 export * as GitGetPullRequestDefaults from './ExtensionHostCommandGitGetPullRequestDefaults.ts'
+
+export * as GitAddToGitignore from './ExtensionHostCommandGitAddToGitignore.ts'

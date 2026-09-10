@@ -1,6 +1,7 @@
 import * as CommandAcceptInput from '../CommandAcceptInput/CommandAcceptInput.ts'
 import * as CommandAdd from '../CommandAdd/CommandAdd.ts'
 import * as CommandAddAll from '../CommandAddAll/CommandAddAll.ts'
+import { commandAddToGitignore } from '../CommandAddToGitignore/CommandAddToGitignore.ts'
 import * as CommandApplyStash from '../CommandApplyStash/CommandApplyStash.ts'
 import * as CommandCheckout from '../CommandCheckout/CommandCheckout.ts'
 import * as CommandCleanAll from '../CommandCleanAll/CommandCleanAll.ts'
@@ -32,6 +33,7 @@ import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandT
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
 export const commandMap = {
+  'Command.gitAddToGitignore': commandAddToGitignore,
   'Git.exec': Exec.exec,
   'Git.getPullRequestDefaults': commandGetPullRequestDefaults,
   [GitWorkerCommandType.CommandAcceptInput]: CommandAcceptInput.commandAcceptInput,
