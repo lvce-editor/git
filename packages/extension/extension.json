@@ -74,7 +74,8 @@
     "onEditorGutterDecoration",
     "onStatusBarItem",
     "onCommand:git.getPullRequestDefaults",
-    "onSourceControl:remote-ssh"
+    "onSourceControl:remote-ssh",
+    "onCommand:git.addToGitignore"
   ],
   "commands": [
     {
@@ -264,6 +265,10 @@
     {
       "id": "git.getPullRequestDefaults",
       "label": "Git: Get Pull Request Defaults"
+    },
+    {
+      "id": "git.addToGitignore",
+      "label": "Git: Add to Gitignore"
     }
   ],
   "quickPick": [
@@ -404,6 +409,11 @@
         "command": "git.stage",
         "label": "Stage",
         "icon": "Add"
+      },
+      {
+        "command": "git.addToGitignore",
+        "label": "Add to Gitignore",
+        "icon": "Exclude"
       }
     ]
   },
