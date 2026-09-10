@@ -9,7 +9,7 @@ export const getNewBranchName = async (): Promise<string | undefined> => {
       return undefined
     }
     const refs = (await WrappedGitRequests.wrappedGitRequests.getRefs({})) as readonly { readonly name: string; readonly type: number }[]
-    if (!refs.some((ref) => ref.type === GitRefType.Head && ref.name === name)) {
+    if (refs.every((ref) => ref.type !== GitRefType.Head || ref.name !== name)) {
       return name
     }
     const retry = await Rpc.invoke('Confirm.prompt', `A branch named '${name}' already exists. Please choose a different name.`)

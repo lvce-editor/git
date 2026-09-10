@@ -7,7 +7,6 @@ export const test: Test = async ({ Command, expect, Extension, FileSystem, Locat
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
-  const branchName = 'new/from-picker'
   await Workspace.setPath(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
@@ -30,6 +29,7 @@ export const test: Test = async ({ Command, expect, Extension, FileSystem, Locat
     throw new Error(`Unexpected duplicate branch error: ${message}`)
   }
   await FileSystem.shouldHaveFile(`${workspaceDir}/.git/HEAD`, 'ref: refs/heads/main\n')
+  const branchName = 'new/from-picker'
   await input.type(branchName)
   await Command.execute('QuickPick.selectCurrentIndex')
   await branchPickerPromise

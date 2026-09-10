@@ -27,7 +27,7 @@ jest.unstable_mockModule('../src/parts/Rpc/Rpc.ts', () => ({
 }))
 
 jest.unstable_mockModule('../src/parts/WrappedGitRequests/WrappedGitRequests.ts', () => ({
-  wrappedGitRequests: { getRefs: async () => [] },
+  wrappedGitRequests: { getRefs: async (): Promise<readonly unknown[]> => [] },
 }))
 
 const CommandCheckout = await import('../src/parts/CommandCheckout/CommandCheckout.ts')
