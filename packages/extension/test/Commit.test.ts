@@ -122,7 +122,7 @@ test('command palette prompts for a missing commit message', async () => {
   expect(invoke).toHaveBeenLastCalledWith('Git.commit', { cwd: '/repo', message: 'Second commit' })
 })
 
-test.each([undefined, '', '   '])('cancelled or blank message (%s) never commits or syncs', async (input) => {
+test.each([undefined, '', ' '.repeat(3)])('cancelled or blank message (%s) never commits or syncs', async (input) => {
   showQuickInput.mockResolvedValue(input)
   await commit(undefined, { postCommitCommand: 'sync' })
   expect(invoke).not.toHaveBeenCalled()
