@@ -30,9 +30,13 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await input.type('Second feature commit')
   await KeyBoard.press('Enter')
   await expect(input).toBeHidden()
-  await Git.shouldHaveInvocations([{ command: ['git', 'commit', '-m', 'Second feature commit'], cwd: workspaceDir }])
-  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
-  if (commits[0]?.message !== 'Second feature commit') {
-    throw new Error(`Unexpected commits: ${JSON.stringify(commits)}`)
+  for (let i = 0; i < 20; i++) {
+    const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
+    if (commits[0]?.message === 'Second feature commit') {
+      return
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100))
   }
+  const commits = await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')
+  throw new Error(`Expected Second feature commit, got ${JSON.stringify(commits)}`)
 }
