@@ -9,7 +9,7 @@ const refresh = jest.fn<() => Promise<void>>()
 const setSpinning = jest.fn<(value: boolean) => Promise<void>>()
 const refreshCheckout = jest.fn<() => Promise<void>>()
 
-const commit = (message: string, options: CommitOptions = {}): Promise<void> =>
+const commit = (message: string | undefined, options: CommitOptions = {}): Promise<void> =>
   runCommit(message, options, {
     executeCommand,
     getPreference,
@@ -112,4 +112,19 @@ test('syncs existing branches after committing', async () => {
     ['Git.commit', { cwd: '/repo', message: 'message' }],
     ['Git.sync', { cwd: '/repo' }],
   ])
+})
+
+test('command palette prompts for a missing commit message', async () => {
+  invoke.mockResolvedValue('feature/test')
+  showQuickInput.mockResolvedValue('Second commit')
+  await commit(undefined)
+  expect(showQuickInput).toHaveBeenCalledWith({ placeholder: 'Commit message', value: '' })
+  expect(invoke).toHaveBeenLastCalledWith('Git.commit', { cwd: '/repo', message: 'Second commit' })
+})
+
+test.each([undefined, '', '   '])('cancelled or blank message (%s) never commits or syncs', async (input) => {
+  showQuickInput.mockResolvedValue(input)
+  await commit(undefined, { postCommitCommand: 'sync' })
+  expect(invoke).not.toHaveBeenCalled()
+  expect(setSpinning).not.toHaveBeenCalled()
 })
