@@ -1,3 +1,4 @@
+import * as OperationProgress from '../OperationProgress/OperationProgress.ts'
 import { refreshEditorGutterDecorations } from '@lvce-editor/api'
 import * as GitWorker from '../GitWorker/GitWorker.ts'
 import * as CommandAcceptInput from '../ExtensionHostCommand/ExtensionHostCommandGitAcceptInput.ts'
@@ -49,3 +50,5 @@ export const getGroups = createGetGroupsWithRefresh({
 export const getFileBefore = GetFileBefore.getFileBefore
 
 export const fetch = CommandFetch
+
+export const getProgress = OperationProgress.getProgress
