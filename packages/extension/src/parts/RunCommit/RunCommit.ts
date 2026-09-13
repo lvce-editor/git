@@ -62,7 +62,13 @@ const runPostCommitAction = async (cwd: string, action: unknown, newBranch: stri
   await dependencies.invoke(command, { cwd })
 }
 
-export const runCommit = async (message: string, options: CommitOptions, dependencies: CommitDependencies): Promise<void> => {
+export const runCommit = async (message: string | undefined, options: CommitOptions, dependencies: CommitDependencies): Promise<void> => {
+  if (message === undefined) {
+    message = await dependencies.showQuickInput({ placeholder: 'Commit message', value: '' })
+    if (!message?.trim()) {
+      return
+    }
+  }
   const cwd = await dependencies.getWorkspaceFolder()
   const postCommitCommand = options.postCommitCommand
   const newBranch = await prepareBranch(cwd, dependencies)

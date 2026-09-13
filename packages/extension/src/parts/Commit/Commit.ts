@@ -7,7 +7,7 @@ import * as StatusBarSync from '../StatusBarSync/StatusBarSync.ts'
 
 const state = { committing: false }
 
-export const commit = async (message: string, options: CommitOptions = {}): Promise<void> => {
+export const commit = async (message: string | undefined, options: CommitOptions = {}): Promise<void> => {
   if (state.committing) {
     return
   }
