@@ -11,7 +11,7 @@ export const test = async ({ electronApp, expect }) => {
   const executablePath = await electronApp.evaluate(({ app }) => app.getPath('exe'))
   await electronApp.close()
   const profile = await mkdtemp(join(tmpdir(), 'lvce-open-remote-'))
-  await writeFile(join(profile, 'example.txt'), 'Editor fixture')
+  await writeFile(join(profile, 'zz-remote-fixture.txt'), 'Editor fixture')
   const { execFileSync } = await import('node:child_process')
   execFileSync('git', ['init', profile])
   execFileSync('git', ['-C', profile, 'remote', 'add', 'origin', 'git@github.com:owner/repo.git'])
@@ -55,6 +55,9 @@ export const test = async ({ electronApp, expect }) => {
     await page.getByRole('treeitem', { name: 'cache', exact: true }).click()
     await expect(page.getByRole('treeitem', { name: 'cache', exact: true })).toHaveAttribute('id', 'TreeItemActive')
     await expect(explorer).toBeFocused()
+    // A handled Explorer shortcut confirms its asynchronous keybinding context is active.
+    await explorer.press('End')
+    await expect(page.getByRole('treeitem', { name: 'zz-remote-fixture.txt', exact: true })).toHaveAttribute('id', 'TreeItemActive')
     await page.keyboard.press('.')
     const address = page.locator('[name="simple-browser-address"]')
     await expect(address).toHaveValue(url)
@@ -89,6 +92,9 @@ export const test = async ({ electronApp, expect }) => {
     await page.getByRole('treeitem', { name: 'cache', exact: true }).click()
     await expect(page.getByRole('treeitem', { name: 'cache', exact: true })).toHaveAttribute('id', 'TreeItemActive')
     await expect(explorer).toBeFocused()
+    // A handled Explorer shortcut confirms its asynchronous keybinding context is active.
+    await explorer.press('End')
+    await expect(page.getByRole('treeitem', { name: 'zz-remote-fixture.txt', exact: true })).toHaveAttribute('id', 'TreeItemActive')
     await page.keyboard.press('.')
     await expect(address).toHaveValue(url)
     await expect.poll(token).toBeTruthy()
