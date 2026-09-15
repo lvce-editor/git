@@ -8,9 +8,11 @@
     "pree2e": "node ../build/src/build-runtime.ts",
     "e2e": "node ../../scripts/run-e2e.js",
     "pree2e:headless": "node ../build/src/build-runtime.ts",
-    "e2e:headless": "node ../../scripts/run-e2e.js --headless"
+    "e2e:headless": "node ../../scripts/run-e2e.js --headless",
+    "e2e:remote-shortcut": "node scripts/run-remote-shortcut.mjs"
   },
   "devDependencies": {
-    "@lvce-editor/test-with-playwright": "^22.23.0"
+    "@lvce-editor/test-with-playwright": "^22.23.0",
+    "@playwright/test": "1.62.1"
   }
 }
