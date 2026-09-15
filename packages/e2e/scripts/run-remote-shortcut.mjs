@@ -15,7 +15,8 @@ const child = spawn(
   [
     fileURLToPath(import.meta.resolve('@lvce-editor/test-with-playwright/bin/test-with-playwright.js')),
     '--test-path=electron',
-    '--electron',
+    '--only-extension=.',
+    '--runtime=electron',
     '--electron-version=v0.115.10',
     '--timeout=60000',
   ],
