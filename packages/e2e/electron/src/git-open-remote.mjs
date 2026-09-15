@@ -21,16 +21,16 @@ export const test = async ({ electronApp, expect }) => {
   })
   await new Promise((resolveListen) => server.listen(0, '127.0.0.1', resolveListen))
   const url = `http://127.0.0.1:${server.address().port}/owner/repo`
-  await mkdir(join(profile, 'config/lvce-oss'), { recursive: true })
+  await mkdir(join(profile, 'config/lvce'), { recursive: true })
   await writeFile(
-    join(profile, 'config/lvce-oss/settings.json'),
+    join(profile, 'config/lvce/settings.json'),
     JSON.stringify({
       'git.remoteHosts': { 'github.com': `http://127.0.0.1:${server.address().port}` },
     }),
   )
   let app
   try {
-    const env = { ...process.env }
+    const env = { ...process.env, ONLY_EXTENSION: new URL('../../../../dist/', import.meta.url).pathname }
     delete env.ELECTRON_RUN_AS_NODE
     for (const key of ['CONFIG', 'DATA', 'STATE', 'CACHE']) env[`XDG_${key}_HOME`] = join(profile, key.toLowerCase())
     app = await _electron.launch({
