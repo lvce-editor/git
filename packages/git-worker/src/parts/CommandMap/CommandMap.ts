@@ -21,6 +21,7 @@ import * as CommandPull from '../CommandPull/CommandPull.ts'
 import * as CommandPullRebase from '../CommandPullRebase/CommandPullRebase.ts'
 import * as CommandStage from '../CommandStage/CommandStage.ts'
 import * as CommandStageAll from '../CommandStageAll/CommandStageAll.ts'
+import * as CommandStageAllMergeChanges from '../CommandStageAllMergeChanges/CommandStageAllMergeChanges.ts'
 import * as CommandStash from '../CommandStash/CommandStash.ts'
 import * as CommandSync from '../CommandSync/CommandSync.ts'
 import * as CommandUndoLastCommit from '../CommandUndoLastCommit/CommandUndoLastCommit.ts'
@@ -56,6 +57,7 @@ export const commandMap = {
   [GitWorkerCommandType.CommandPullRebase]: CommandPullRebase.commandPullRebase,
   [GitWorkerCommandType.CommandStage]: CommandStage.commandStage,
   [GitWorkerCommandType.CommandStageAll]: CommandStageAll.commandStageAll,
+  [GitWorkerCommandType.CommandStageAllMergeChanges]: CommandStageAllMergeChanges.commandStageAllMergeChanges,
   [GitWorkerCommandType.CommandStash]: CommandStash.commandStash,
   [GitWorkerCommandType.CommandSync]: CommandSync.commandSync,
   [GitWorkerCommandType.CommandUndoLastCommit]: CommandUndoLastCommit.commandUndoLastCommit,

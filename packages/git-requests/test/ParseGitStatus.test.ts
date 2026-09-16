@@ -38,6 +38,22 @@ AU new-file.js`
   ])
 })
 
+test('parseLines - quoted paths', () => {
+  const stdout = `UU "conflict one.txt"
+R  "old name.txt" -> "new name.txt"`
+  const lines = stdout.split('\n')
+  expect(ParseGitStatus.parseGitStatus(lines)).toEqual([
+    {
+      file: 'conflict one.txt',
+      status: FileStateType.BothModified,
+    },
+    {
+      file: 'new name.txt',
+      status: FileStateType.IndexRenamed,
+    },
+  ])
+})
+
 test('parseLines - both added', () => {
   const stdout = `AA index.js`
   const lines = stdout.split('\n')

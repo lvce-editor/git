@@ -57,6 +57,7 @@
     "onCommand:git.stage",
     "onCommand:git.unstage",
     "onCommand:git.stageAll",
+    "onCommand:git.stageAllMergeChanges",
     "onCommand:git.unstageAll",
     "onCommand:git.cleanAll",
     "onCommand:git.discard",
@@ -251,6 +252,10 @@
       "label": "Git: Stage All"
     },
     {
+      "id": "git.stageAllMergeChanges",
+      "label": "Git: Stage All Merge Changes"
+    },
+    {
       "id": "git.unstash",
       "label": "Git: Unstash"
     },
@@ -379,6 +384,13 @@
       {
         "command": "git.stage",
         "label": "Stage File",
+        "icon": "Add"
+      }
+    ],
+    "merge": [
+      {
+        "command": "git.stageAllMergeChanges",
+        "label": "Stage All Merge Changes",
         "icon": "Add"
       }
     ],

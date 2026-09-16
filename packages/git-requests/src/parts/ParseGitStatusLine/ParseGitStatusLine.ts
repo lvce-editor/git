@@ -14,8 +14,48 @@ const getStatusY = (line: string): string => {
   return line[1]
 }
 
+const gitPathEscapeMap: Readonly<Record<string, string>> = {
+  a: '\u{7}',
+  b: '\u{8}',
+  f: '\u{C}',
+  n: '\u{A}',
+  r: '\u{D}',
+  t: '\u{9}',
+  v: '\u{B}',
+}
+
+const decodeGitPath = (path: string): string => {
+  if (!path.startsWith('"') || !path.endsWith('"')) {
+    return path
+  }
+  const content = path.slice(1, -1)
+  const bytes: number[] = []
+  const encoder = new TextEncoder()
+  for (let i = 0; i < content.length; i++) {
+    const char = content[i]
+    if (char !== '\\') {
+      bytes.push(...encoder.encode(char))
+      continue
+    }
+    const next = content[i + 1]
+    const octal = content.slice(i + 1, i + 4)
+    if (/^[0-7]{3}$/.test(octal)) {
+      bytes.push(Number.parseInt(octal, 8))
+      i += 3
+      continue
+    }
+    if (next in gitPathEscapeMap) {
+      bytes.push(...encoder.encode(gitPathEscapeMap[next]))
+    } else if (next) {
+      bytes.push(...encoder.encode(next))
+    }
+    i++
+  }
+  return new TextDecoder().decode(new Uint8Array(bytes))
+}
+
 const getFile = (line: string): string => {
-  return line.slice(3)
+  return decodeGitPath(line.slice(3))
 }
 
 export const parseGitStatusLine = (index: GitStatusFile[], line: string): void => {
@@ -103,7 +143,7 @@ export const parseGitStatusLine = (index: GitStatusFile[], line: string): void =
       const arrowIndex = line.indexOf('->')
       if (arrowIndex !== -1) {
         index.push({
-          file: line.slice(arrowIndex + 3),
+          file: decodeGitPath(line.slice(arrowIndex + 3)),
           status: FileStateType.IndexRenamed,
         })
       }
