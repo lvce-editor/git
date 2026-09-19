@@ -5,25 +5,32 @@ import { runCommit, type CommitOptions } from '../RunCommit/RunCommit.ts'
 import * as StatusBarCheckout from '../StatusBarCheckout/StatusBarCheckout.ts'
 import * as StatusBarSync from '../StatusBarSync/StatusBarSync.ts'
 
-const state = { committing: false }
+const state: { promise: Promise<void> | undefined } = {
+  promise: undefined,
+}
 
 export const commit = async (message: string | undefined, options: CommitOptions = {}): Promise<void> => {
-  if (state.committing) {
-    return
-  }
-  state.committing = true
+  const previous = state.promise || Promise.resolve()
+  const promise = previous
+    .catch(() => {})
+    .then(() =>
+      runCommit(message, options, {
+        executeCommand,
+        getPreference,
+        getWorkspaceFolder: Config.getWorkspaceFolder,
+        invoke: GitWorker.invoke,
+        refresh: StatusBarSync.refresh,
+        refreshCheckout: StatusBarCheckout.refresh,
+        setSpinning: StatusBarSync.setSpinning,
+        showQuickInput,
+      }),
+    )
+  state.promise = promise
   try {
-    await runCommit(message, options, {
-      executeCommand,
-      getPreference,
-      getWorkspaceFolder: Config.getWorkspaceFolder,
-      invoke: GitWorker.invoke,
-      refresh: StatusBarSync.refresh,
-      refreshCheckout: StatusBarCheckout.refresh,
-      setSpinning: StatusBarSync.setSpinning,
-      showQuickInput,
-    })
+    await promise
   } finally {
-    state.committing = false
+    if (state.promise === promise) {
+      state.promise = undefined
+    }
   }
 }
