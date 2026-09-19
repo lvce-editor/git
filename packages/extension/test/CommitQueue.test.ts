@@ -1,24 +1,39 @@
-import { expect, jest, test } from '@jest/globals'
-
-const runCommit = jest.fn()
-jest.unstable_mockModule('../src/parts/RunCommit/RunCommit.ts', () => ({
-  runCommit,
-}))
-
-const Commit = await import('../src/parts/Commit/Commit.ts')
+import { expect, test } from '@jest/globals'
+import * as CommitQueue from '../src/parts/CommitQueue/CommitQueue.ts'
 
 test('queues a commit requested while another commit is finishing', async () => {
   const firstCommitFinished = Promise.withResolvers<void>()
-  runCommit.mockImplementationOnce(async () => firstCommitFinished.promise)
+  const queue = CommitQueue.create()
+  const started: string[] = []
 
-  const first = Commit.commit('first')
-  const second = Commit.commit('second')
+  const first = queue.run(async () => {
+    started.push('first')
+    await firstCommitFinished.promise
+  })
+  const second = queue.run(async () => {
+    started.push('second')
+  })
   await new Promise((resolve) => setTimeout(resolve, 0))
 
-  expect(runCommit).toHaveBeenCalledTimes(1)
+  expect(started).toEqual(['first'])
   firstCommitFinished.resolve()
   await Promise.all([first, second])
 
-  expect(runCommit).toHaveBeenCalledTimes(2)
-  expect(runCommit.mock.calls.map(([message]) => message)).toEqual(['first', 'second'])
+  expect(started).toEqual(['first', 'second'])
+})
+
+test('continues after a failed commit', async () => {
+  const queue = CommitQueue.create()
+  const started: string[] = []
+  const first = queue.run(async () => {
+    started.push('first')
+    throw new Error('failed')
+  })
+  const second = queue.run(async () => {
+    started.push('second')
+  })
+
+  await expect(first).rejects.toThrow('failed')
+  await second
+  expect(started).toEqual(['first', 'second'])
 })
