@@ -1,10 +1,25 @@
 import type { GitRefRequest } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
 
-export const checkout = async ({ create = false, cwd, exec, gitPath, ref }: GitRefRequest & { readonly create?: boolean }): Promise<void> => {
+export const checkout = async ({
+  create = false,
+  cwd,
+  exec,
+  gitPath,
+  ref,
+  track = false,
+}: GitRefRequest & { readonly create?: boolean; readonly track?: boolean }): Promise<void> => {
   try {
+    let args
+    if (track) {
+      args = ['checkout', '--track', ref]
+    } else if (create) {
+      args = ['checkout', '-b', ref]
+    } else {
+      args = ['checkout', ref]
+    }
     await exec({
-      args: create ? ['checkout', '-b', ref] : ['checkout', ref],
+      args,
       cwd,
       gitPath,
       name: 'checkout',

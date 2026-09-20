@@ -1,3 +1,4 @@
+import type { GitExec } from '../src/parts/Types/Types.js'
 import * as GitRequestsCheckout from '../src/parts/GitRequestsCheckout/GitRequestsCheckout.js'
 
 // TODO mock exec instead
@@ -35,4 +36,20 @@ test('checkout - error - unknown git error', async (): Promise<void> => {
       ref: '',
     }),
   ).rejects.toThrow(new Error('Git: oops'))
+})
+
+test('checkout - tracks remote branch', async (): Promise<void> => {
+  const calls: string[][] = []
+  const exec: GitExec = (options) => {
+    calls.push([...options.args])
+    return { stderr: '', stdout: '' }
+  }
+  await GitRequestsCheckout.checkout({
+    cwd: '/test/folder',
+    exec,
+    gitPath: '/test/git',
+    ref: 'origin/feature',
+    track: true,
+  })
+  expect(calls).toEqual([['checkout', '--track', 'origin/feature']])
 })

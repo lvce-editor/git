@@ -24,6 +24,7 @@ export type QuickPickItem = {
   readonly description: string
   readonly icon: string
   readonly label: string
+  readonly remote?: string
   readonly type: string
 }
 
@@ -33,6 +34,7 @@ const toPick = (ref: Readonly<Ref>): QuickPickItem => {
     description,
     icon: GetBranchQuickPickIcon.getBranchQuickPickIcon(ref.type),
     label: ref.name,
+    ...(ref.type === GitRefType.RemoteHead && { remote: ref.remote }),
     type: CheckoutPickType.Ref,
   }
 }
