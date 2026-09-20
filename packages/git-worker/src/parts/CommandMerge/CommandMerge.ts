@@ -1,16 +1,30 @@
+import * as GetCheckoutPicks from '../GetCheckoutPicks/GetCheckoutPicks.ts'
 import * as Git from '../Git/Git.ts'
 import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
+import * as Rpc from '../Rpc/Rpc.ts'
 
-export const commandMerge = async (ref: string): Promise<void> => {
+export const commandMerge = async (ref?: string): Promise<void> => {
+  let mergeRef = ref
+  if (!mergeRef) {
+    const branchPicks = await GetCheckoutPicks.getBranchPicks()
+    const selectedPick = await Rpc.invoke('QuickPick.show', branchPicks)
+    if (!selectedPick) {
+      return
+    }
+    mergeRef = selectedPick.label
+  }
+  if (!mergeRef) {
+    return
+  }
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
     args: {
       cwd: repository.path,
       exec: Git.exec,
       gitPath: repository.gitPath,
-      ref,
+      ref: mergeRef,
     },
     fn: GitRequests.merge,
     id: 'merge',
