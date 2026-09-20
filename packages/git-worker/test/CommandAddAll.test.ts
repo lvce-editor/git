@@ -2,11 +2,9 @@
 import { jest } from '@jest/globals'
 import type * as GitRepositories from '../src/parts/GitRepositories/GitRepositories.ts'
 import type * as GitRepositoriesRequests from '../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts'
-import type * as Rpc from '../src/parts/Rpc/Rpc.ts'
 
 const mockGetCurrent = jest.fn<typeof GitRepositories.getCurrent>()
 const mockExecute = jest.fn<typeof GitRepositoriesRequests.execute>()
-const mockInvoke = jest.fn<typeof Rpc.invoke>()
 
 jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () => ({
   getCurrent: mockGetCurrent,
@@ -14,10 +12,6 @@ jest.unstable_mockModule('../src/parts/GitRepositories/GitRepositories.ts', () =
 
 jest.unstable_mockModule('../src/parts/GitRepositoriesRequests/GitRepositoriesRequests.ts', () => ({
   execute: mockExecute,
-}))
-
-jest.unstable_mockModule('../src/parts/Rpc/Rpc.ts', () => ({
-  invoke: mockInvoke,
 }))
 
 const CommandAddAll = await import('../src/parts/CommandAddAll/CommandAddAll.ts')
@@ -28,7 +22,7 @@ beforeEach(() => {
   jest.resetAllMocks()
 })
 
-test('commandAddAll refreshes the workspace after staging', async (): Promise<void> => {
+test('commandAddAll stages all files', async (): Promise<void> => {
   mockGetCurrent.mockResolvedValue({
     gitPath: '/test/git',
     gitVersion: '2.39.2',
@@ -37,7 +31,6 @@ test('commandAddAll refreshes the workspace after staging', async (): Promise<vo
     workspaceUri: '/test/folder',
   })
   mockExecute.mockResolvedValue(undefined)
-  mockInvoke.mockResolvedValue(undefined)
 
   await CommandAddAll.commandAddAll()
 
@@ -50,10 +43,9 @@ test('commandAddAll refreshes the workspace after staging', async (): Promise<vo
     fn: GitRequests.addAll,
     id: 'addAll',
   })
-  expect(mockInvoke).toHaveBeenCalledWith('Layout.handleWorkspaceRefresh')
 })
 
-test('commandAddAll does not refresh the workspace when staging fails', async (): Promise<void> => {
+test('commandAddAll propagates staging failures', async (): Promise<void> => {
   const error = new Error('staging failed')
   mockGetCurrent.mockResolvedValue({
     gitPath: '/test/git',
@@ -65,5 +57,4 @@ test('commandAddAll does not refresh the workspace when staging fails', async ()
   mockExecute.mockRejectedValue(error)
 
   await expect(CommandAddAll.commandAddAll()).rejects.toBe(error)
-  expect(mockInvoke).not.toHaveBeenCalled()
 })

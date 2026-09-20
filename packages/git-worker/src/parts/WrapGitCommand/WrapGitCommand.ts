@@ -2,6 +2,7 @@ import * as Confirm from '../Confirm/Confirm.ts'
 import * as Git from '../Git/Git.ts'
 import * as GitRepositories from '../GitRepositories/GitRepositories.ts'
 import * as GitStates from '../GitStates/GitStates.ts'
+import * as RefreshAfterGitCommand from '../RefreshAfterGitCommand/RefreshAfterGitCommand.ts'
 import { toRemoteUri } from '../WorkspaceUris/WorkspaceUris.ts'
 
 export const wrapGitCommand =
@@ -30,5 +31,6 @@ export const wrapGitCommand =
     if (id === 'getGroups' && Array.isArray(result)) {
       GitStates.setRepositoryGroups(path, targetPath, result)
     }
+    await RefreshAfterGitCommand.refreshAfterGitCommand(id)
     return result
   }

@@ -1,5 +1,6 @@
 // import pTimeout from 'p-timeout'
 
+import * as RefreshAfterGitCommand from '../RefreshAfterGitCommand/RefreshAfterGitCommand.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
 /**
@@ -10,9 +11,11 @@ import * as Rpc from '../Rpc/Rpc.ts'
 export const execute = async <Result, Args>({
   args,
   fn,
+  id,
 }: Readonly<{ args: Args; fn: (args: Args) => Promise<Result>; id: string }>): Promise<Result> => {
   try {
     const r = await fn(args)
+    await RefreshAfterGitCommand.refreshAfterGitCommand(id)
     return r
   } catch (error) {
     // @ts-ignore
