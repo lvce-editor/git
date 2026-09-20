@@ -75,8 +75,18 @@ const orderRefs = (refs: readonly Ref[]): readonly Ref[] => {
   return refTypeOrder.flatMap((type) => prioritizedRefs.filter((ref) => ref.type === type && !ref.symbolicRef))
 }
 
-export const getCheckoutPicks = async (): Promise<readonly QuickPickItem[]> => {
+const getOrderedRefs = async (): Promise<readonly Ref[]> => {
   const rawPicks = await getRawPicks()
-  const orderedRefs = orderRefs(rawPicks)
+  return orderRefs(rawPicks)
+}
+
+export const getCheckoutPicks = async (): Promise<readonly QuickPickItem[]> => {
+  const orderedRefs = await getOrderedRefs()
   return [...actionPicks, ...orderedRefs.map(toPick)]
+}
+
+export const getBranchPicks = async (): Promise<readonly QuickPickItem[]> => {
+  const orderedRefs = await getOrderedRefs()
+  const branchRefs = orderedRefs.filter((ref) => ref.type === GitRefType.Head || ref.type === GitRefType.RemoteHead)
+  return branchRefs.map(toPick)
 }

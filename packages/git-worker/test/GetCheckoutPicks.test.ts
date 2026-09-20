@@ -135,3 +135,51 @@ test('puts actions first, then local branches, remote branches, and tags ordered
     },
   ])
 })
+
+test('getBranchPicks excludes tags and orders local and remote branches', async () => {
+  mockExecute.mockResolvedValue([
+    {
+      authorName: 'Release Bot',
+      commit: '34567890abcdef1234567890abcdef1234567890',
+      commitDate: '3 minutes ago',
+      name: 'v1.0.0',
+      remote: '',
+      subject: 'Release 1.0.0',
+      type: GitRefType.Tag,
+    },
+    {
+      authorName: 'Feature Author',
+      commit: '234567890abcdef1234567890abcdef123456789',
+      commitDate: '2 minutes ago',
+      name: 'feature',
+      remote: '',
+      subject: 'Local feature',
+      type: GitRefType.Head,
+    },
+    {
+      authorName: 'Remote User',
+      commit: 'abcdef1234567890abcdef1234567890abcdef12',
+      commitDate: '1 minute ago',
+      name: 'origin/feature',
+      remote: 'origin',
+      subject: 'Remote feature',
+      type: GitRefType.RemoteHead,
+    },
+  ])
+
+  await expect(GetCheckoutPicks.getBranchPicks()).resolves.toEqual([
+    {
+      description: '2 minutes ago • Feature Author • 23456789 • Local feature',
+      icon: 'SourceControl',
+      label: 'feature',
+      type: CheckoutPickType.Ref,
+    },
+    {
+      description: '1 minute ago • Remote User • abcdef12 • Remote feature',
+      icon: 'Cloud',
+      label: 'origin/feature',
+      remote: 'origin',
+      type: CheckoutPickType.Ref,
+    },
+  ])
+})
