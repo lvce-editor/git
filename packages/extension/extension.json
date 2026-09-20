@@ -257,7 +257,7 @@
     },
     {
       "id": "git.unstash",
-      "label": "Git: Unstash"
+      "label": "Git: Pop Latest Stash"
     },
     {
       "id": "git.unstage",
@@ -285,6 +285,9 @@
     },
     {
       "id": "git.stash"
+    },
+    {
+      "id": "git.unstash"
     }
   ],
   "categories": ["Source Control"],
