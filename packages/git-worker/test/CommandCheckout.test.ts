@@ -73,6 +73,80 @@ test('checks out selected branch', async (): Promise<void> => {
   })
 })
 
+test('checks out a remote branch by creating a local tracking branch', async (): Promise<void> => {
+  const picks = [
+    {
+      description: '1234567',
+      icon: 'Cloud',
+      label: 'origin/feature',
+      remote: 'origin',
+      type: CheckoutPickType.Ref,
+    },
+  ]
+  mockGetCheckoutPicks.mockResolvedValue(picks)
+  mockInvoke.mockResolvedValue(picks[0])
+  mockGetCurrent.mockResolvedValue({
+    gitPath: '/test/git',
+    gitVersion: '2.39.2',
+    path: '/test/folder',
+    remoteWorkspaceUri: '/test/folder',
+    workspaceUri: '/test/folder',
+  })
+  mockExecute.mockResolvedValue(undefined)
+
+  await expect(CommandCheckout.commandCheckout()).resolves.toBe('feature')
+  expect(mockExecute).toHaveBeenCalledWith({
+    args: {
+      cwd: '/test/folder',
+      exec: Git.exec,
+      gitPath: '/test/git',
+      ref: 'origin/feature',
+      track: true,
+    },
+    fn: GitRequests.checkout,
+    id: 'checkout',
+  })
+})
+
+test('checks out an existing local branch when a remote branch has the same name', async (): Promise<void> => {
+  const remotePick = {
+    description: '1234567',
+    icon: 'Cloud',
+    label: 'origin/feature',
+    remote: 'origin',
+    type: CheckoutPickType.Ref,
+  }
+  const localPick = {
+    description: '1234567',
+    icon: 'SourceControl',
+    label: 'feature',
+    type: CheckoutPickType.Ref,
+  }
+  const picks = [localPick, remotePick]
+  mockGetCheckoutPicks.mockResolvedValue(picks)
+  mockInvoke.mockResolvedValue(remotePick)
+  mockGetCurrent.mockResolvedValue({
+    gitPath: '/test/git',
+    gitVersion: '2.39.2',
+    path: '/test/folder',
+    remoteWorkspaceUri: '/test/folder',
+    workspaceUri: '/test/folder',
+  })
+  mockExecute.mockResolvedValue(undefined)
+
+  await expect(CommandCheckout.commandCheckout()).resolves.toBe('feature')
+  expect(mockExecute).toHaveBeenCalledWith({
+    args: {
+      cwd: '/test/folder',
+      exec: Git.exec,
+      gitPath: '/test/git',
+      ref: 'feature',
+    },
+    fn: GitRequests.checkout,
+    id: 'checkout',
+  })
+})
+
 test('does not checkout when quick pick is canceled', async (): Promise<void> => {
   mockGetCheckoutPicks.mockResolvedValue([])
   mockInvoke.mockResolvedValue(undefined)

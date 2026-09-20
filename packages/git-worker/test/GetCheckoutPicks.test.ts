@@ -117,12 +117,14 @@ test('puts actions first, then local branches, remote branches, and tags ordered
       description: '1 minute ago • Remote User • abcdef12 • Remote feature',
       icon: 'Cloud',
       label: 'origin/feature',
+      remote: 'origin',
       type: CheckoutPickType.Ref,
     },
     {
       description: '5 minutes ago • Remote User • 4567890a • Remote main',
       icon: 'Cloud',
       label: 'origin/main',
+      remote: 'origin',
       type: CheckoutPickType.Ref,
     },
     {
