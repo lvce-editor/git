@@ -15,7 +15,7 @@ export const commandUnstage = async (file: string): Promise<void> => {
       file,
       gitPath: repository.gitPath,
     },
-    fn: GitRequests.unstage,
+    fn: GitRequests.unstageRootRelative,
     id: 'unstage',
   })
 }
