@@ -8,6 +8,7 @@ export type GitExecOptions = {
 }
 
 export type GitExecResult = {
+  readonly exitCode?: number
   readonly stdout: string
   readonly stderr: string
 }

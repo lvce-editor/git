@@ -8,6 +8,7 @@ import * as GetBadgeCount from '../GetBadgeCount/GetBadgeCount.ts'
 import * as GetChangedFiles from '../GetChangedFiles/GetChangedFiles.ts'
 import { createGetChangedFilesWithRefresh } from '../GetChangedFilesWithRefresh/GetChangedFilesWithRefresh.ts'
 import * as GetCurrentBranch from '../GetCurrentBranch/GetCurrentBranch.ts'
+import * as GetDefaultCommitMessage from '../GetDefaultCommitMessage/GetDefaultCommitMessage.ts'
 import * as GetFileBefore from '../GetFileBefore/GetFileBefore.ts'
 import * as GetGroups from '../GetGroups/GetGroups.ts'
 import { createGetGroupsWithRefresh } from '../GetGroupsWithRefresh/GetGroupsWithRefresh.ts'
@@ -42,6 +43,8 @@ export const getChangedFiles = createGetChangedFilesWithRefresh({
 })
 
 export const getCurrentBranch = GetCurrentBranch.getCurrentBranch
+
+export const getDefaultCommitMessage = GetDefaultCommitMessage.getDefaultCommitMessage
 
 export const getFileDecorations = GetDecorations.getDecorations
 
