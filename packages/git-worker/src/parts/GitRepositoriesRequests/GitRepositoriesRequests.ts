@@ -24,6 +24,11 @@ export const execute = async <Result, Args>({
     if (shouldShowError) {
       await Rpc.invoke('Confirm.prompt', String(error))
     }
+    // A sync can update the workspace during pull --rebase before push fails.
+    // Refresh in that case while preserving the original Git error.
+    if (id === 'sync') {
+      await RefreshAfterGitCommand.refreshAfterGitCommand(id)
+    }
     throw error
   }
 }

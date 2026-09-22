@@ -22,6 +22,14 @@ test('refreshAfterGitCommand refreshes after a successful mutation', async (): P
   expect(mockInvoke).toHaveBeenCalledWith('Layout.handleWorkspaceRefresh')
 })
 
+test.each(['pull', 'pullAndRebase', 'sync'])('refreshAfterGitCommand refreshes after %s', async (id): Promise<void> => {
+  mockInvoke.mockResolvedValue(undefined)
+
+  await RefreshAfterGitCommand.refreshAfterGitCommand(id)
+
+  expect(mockInvoke).toHaveBeenCalledWith('Layout.handleWorkspaceRefresh')
+})
+
 test('refreshAfterGitCommand does not refresh after a read request', async (): Promise<void> => {
   await RefreshAfterGitCommand.refreshAfterGitCommand('getGroups')
 
