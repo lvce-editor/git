@@ -1,5 +1,16 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+const expectTextWithRetry = async (assertText: () => Promise<void>): Promise<void> => {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      await assertText()
+      return
+    } catch (error) {
+      if (attempt === 2) throw error
+    }
+  }
+}
+
 export const name = 'git.branch-picker-duplicate-name'
 
 export const test: Test = async ({ Command, Dialog, expect, FileSystem, Locator, QuickPick, SideBar, Workspace }) => {
@@ -35,5 +46,5 @@ export const test: Test = async ({ Command, Dialog, expect, FileSystem, Locator,
   await FileSystem.shouldHaveFile(`${workspaceDir}/.git/refs/heads/${branchName}`, mainRef)
   await FileSystem.shouldHaveFile(`${workspaceDir}/.git/HEAD`, `ref: refs/heads/${branchName}\n`)
   const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
-  await expect(branchStatusBarItem).toHaveText(branchName, { timeout: 15_000 })
+  await expectTextWithRetry(() => expect(branchStatusBarItem).toHaveText(branchName))
 }
