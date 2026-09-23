@@ -2,6 +2,9 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.quick-pick-checkout'
 
+// Enable after the editor runtime integrates the main-area-worker reloadAll change.
+export const skip = 1
+
 const waitForFileContent = async (FileSystem: { readFile: (uri: string) => Promise<string> }, uri: string, expected: string): Promise<void> => {
   for (let i = 0; i < 20; i++) {
     const actual = await FileSystem.readFile(uri)
