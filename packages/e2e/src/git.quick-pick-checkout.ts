@@ -42,7 +42,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Ma
   const explorerMainFile = Locator('.Explorer .TreeItem[aria-label="main-only.txt"]')
   await expect(explorerMainFile).toBeVisible()
   await expect(explorerFeatureFile).toBeHidden()
-  await SideBar.open('Source Control')
 
   const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
   await expect(branchStatusBarItem).toHaveText('main')
