@@ -4,7 +4,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.merge-conflict'
 
-export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
+export const test: Test = async ({ expect, FileSystem, Git, Locator, Settings, SideBar, Workspace }) => {
   await Settings.update({ 'git.branchProtection': false })
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
@@ -57,12 +57,17 @@ export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
   await FileSystem.shouldHaveFile(`${tmpDir}/.git/HEAD`, 'ref: refs/heads/main\n')
   await FileSystem.shouldHaveFile(`${tmpDir}/.git/MERGE_HEAD`, `${(await FileSystem.readFile(`${tmpDir}/.git/refs/heads/feature`)).trim()}\n`)
 
+  await SideBar.open('Source Control')
+  const sourceControlInput = Locator('[aria-label="Source Control Input"]')
+  await expect(sourceControlInput).toHaveValue("Merge branch 'feature'")
+
   const resolvedContent = 'main\nfeature\n'
   await FileSystem.writeFile(filePath, resolvedContent)
   await Git.add(fileName)
   await Git.commit('resolve merge conflict')
 
   await FileSystem.shouldHaveFile(filePath, resolvedContent)
+  await expect(sourceControlInput).toHaveValue('')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'init', '--initial-branch', 'main'],
