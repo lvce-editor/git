@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const profile = await mkdtemp(join(tmpdir(), 'git-remote-shortcut-launcher-'))
+const profile = await mkdtemp(join(tmpdir(), 'git-status-bar-context-menu-launcher-'))
 const env = { ...process.env }
 for (const kind of ['CONFIG', 'DATA', 'STATE', 'CACHE']) {
   env[`XDG_${kind}_HOME`] = join(profile, kind.toLowerCase())
@@ -15,10 +15,10 @@ const child = spawn(
   [
     fileURLToPath(import.meta.resolve('@lvce-editor/test-with-playwright/bin/test-with-playwright.js')),
     '--test-path=electron',
-    '--filter=git-open-remote',
+    '--filter=git-status-bar-context-menu',
     '--only-extension=.',
     '--runtime=electron',
-    '--electron-version=v0.115.10',
+    '--electron-version=v0.116.28',
     '--timeout=60000',
   ],
   { env, stdio: 'inherit', detached: grouped },
