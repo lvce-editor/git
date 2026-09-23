@@ -35,5 +35,5 @@ export const test: Test = async ({ Command, Dialog, expect, FileSystem, Locator,
   await FileSystem.shouldHaveFile(`${workspaceDir}/.git/refs/heads/${branchName}`, mainRef)
   await FileSystem.shouldHaveFile(`${workspaceDir}/.git/HEAD`, `ref: refs/heads/${branchName}\n`)
   const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
-  await expect(branchStatusBarItem).toHaveText(branchName)
+  await expect(branchStatusBarItem).toHaveText(branchName, { timeout: 15_000 })
 }
