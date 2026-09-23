@@ -2,9 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.quick-pick-checkout'
 
-// Enable after the editor runtime integrates the main-area-worker reloadAll change.
-export const skip = 1
-
 const waitForFileContent = async (FileSystem: { readFile: (uri: string) => Promise<string> }, uri: string, expected: string): Promise<void> => {
   for (let i = 0; i < 20; i++) {
     const actual = await FileSystem.readFile(uri)
@@ -50,15 +47,35 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Ma
   const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
   await expect(branchStatusBarItem).toHaveText('main')
 
+  const selectBranch = async (branchName: string): Promise<void> => {
+    await QuickPick.open()
+    await QuickPick.setValue('>Git Checkout')
+    await QuickPick.selectItem('Git Checkout', { waitUntil: 'none' })
+    const branchItem = Locator('#QuickPick').locator(`text=${branchName}`)
+    await expect(branchItem).toBeVisible()
+    await QuickPick.selectItem(branchName)
+  }
+
   // act
-  await QuickPick.open()
-  await QuickPick.setValue('>Git Checkout')
-  await QuickPick.selectItem('Git Checkout', { waitUntil: 'none' })
-  const branchItem = Locator('#QuickPick').locator('text=feature')
-  await expect(branchItem).toBeVisible()
-  await QuickPick.selectItem('feature')
+  await selectBranch('feature')
 
   // assert
+  await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
+  await waitForFileContent(FileSystem, `${workspaceDir}/file.txt`, 'feature branch')
+  await expect(editor).toContainText('feature branch')
+  await expect(explorerFeatureFile).toBeVisible()
+  await expect(explorerMainFile).toBeHidden()
+  await expect(branchStatusBarItem).toHaveText('feature')
+
+  await selectBranch('main')
+  await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/main\n')
+  await waitForFileContent(FileSystem, `${workspaceDir}/file.txt`, 'main branch')
+  await expect(editor).toContainText('main branch')
+  await expect(explorerMainFile).toBeVisible()
+  await expect(explorerFeatureFile).toBeHidden()
+  await expect(branchStatusBarItem).toHaveText('main')
+
+  await selectBranch('feature')
   await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
   await waitForFileContent(FileSystem, `${workspaceDir}/file.txt`, 'feature branch')
   await expect(editor).toContainText('feature branch')
