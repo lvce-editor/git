@@ -61,6 +61,7 @@ test('checks out selected branch', async (): Promise<void> => {
 
   await expect(CommandCheckout.commandCheckout()).resolves.toBe('feature')
   expect(mockInvoke).toHaveBeenCalledWith('QuickPick.show', picks)
+  expect(mockInvoke).toHaveBeenLastCalledWith('Layout.handleWorkspaceRefresh', { reloadAll: true })
   expect(mockExecute).toHaveBeenCalledWith({
     args: {
       cwd: '/test/folder',
@@ -153,6 +154,7 @@ test('does not checkout when quick pick is canceled', async (): Promise<void> =>
 
   await expect(CommandCheckout.commandCheckout()).resolves.toBeUndefined()
   expect(mockExecute).not.toHaveBeenCalled()
+  expect(mockInvoke).not.toHaveBeenCalledWith('Layout.handleWorkspaceRefresh', { reloadAll: true })
 })
 
 test('creates and checks out a new branch', async (): Promise<void> => {
