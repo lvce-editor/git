@@ -2,9 +2,6 @@
 /* eslint-disable sonarjs/no-nested-template-literals */
 import type { Test } from '@lvce-editor/test-with-playwright'
 
-// Enable after the source-control-view release is integrated into the Git extension test runtime.
-export const skip = 1
-
 export const name = 'git.merge-conflict'
 
 export const test: Test = async ({ expect, FileSystem, Git, Locator, Settings, SideBar, Workspace }) => {
