@@ -22,4 +22,6 @@ replace("const refreshSourceControlBadgeCount = async state => {", """const refr
   void state$A.rpc.invoke('Viewlet.sendMultiple', [], { diagnostic: 'badge-start', uid: state.uid });""")
 replace("    return setBadgeCount(state, SourceControl, badgeCount);", """    void state$A.rpc.invoke('Viewlet.sendMultiple', [], { diagnostic: 'badge-end', uid: state.uid, badgeCount });
     return setBadgeCount(state, SourceControl, badgeCount);""")
+replace("    const newState = await value.factory.Commands[eventName](oldState, ...args);", """    const newState = await value.factory.Commands[eventName](oldState, ...args);
+    void state$A.rpc.invoke('Viewlet.sendMultiple', [], { diagnostic: 'global-handler-result', eventName, uid: oldState.uid, commands: newState?.commands });""")
 p.write_text(s)
