@@ -1,4 +1,3 @@
-import * as StatusTrace from '../StatusTrace/StatusTrace.ts'
 import {
   confirm,
   exists as fileSystemExists,
@@ -96,9 +95,7 @@ export const confirmPrompt = async (message) => {
 }
 
 export const handleWorkspaceRefresh = async () => {
-  StatusTrace.record('workspace-refresh-start')
   await handleWorkspaceRefreshFromApi()
-  StatusTrace.record('workspace-refresh-end')
 }
 
 export const openUri = async (uri) => {

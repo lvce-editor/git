@@ -1,4 +1,3 @@
-import * as StatusTrace from '../StatusTrace/StatusTrace.ts'
 import { registerStatusBarItemProvider } from '@lvce-editor/api'
 import * as CommandId from '../CommandId/CommandId.ts'
 import * as GetSyncAriaLabel from '../GetSyncAriaLabel/GetSyncAriaLabel.ts'
@@ -67,18 +66,15 @@ export const clear = async (): Promise<void> => {
   state.outgoing = 0
   state.upstream = ''
   state.visible = false
-  StatusTrace.record('sync-publish', { ...state, handle: undefined })
   await state.handle?.refresh()
 }
 
 export const setSpinning = async (spinning: boolean): Promise<void> => {
   state.spinning = spinning
-  StatusTrace.record('sync-publish', { ...state, handle: undefined })
   await state.handle?.refresh()
 }
 
 export const refresh = async (cwd?: string): Promise<void> => {
-  StatusTrace.record('sync-refresh-start', { cwd })
   if (cwd) {
     state.repositoryName = getRepositoryName(cwd)
   }
@@ -104,6 +100,5 @@ export const refresh = async (cwd?: string): Promise<void> => {
     state.outgoing = 0
     state.upstream = ''
   }
-  StatusTrace.record('sync-publish', { ...state, handle: undefined })
   await state.handle?.refresh()
 }

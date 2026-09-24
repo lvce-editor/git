@@ -1,4 +1,3 @@
-import * as StatusTrace from '../StatusTrace/StatusTrace.ts'
 import * as OperationProgress from '../OperationProgress/OperationProgress.ts'
 import * as LaunchGitWorker from '../LaunchGitWorker/LaunchGitWorker.ts'
 
@@ -23,15 +22,7 @@ const progressMethods = new Set(['Git.commit', 'Git.addAllAndCommit', 'Git.push'
 export const invoke = async (method, ...params) => {
   const invokeActual = async () => {
     const rpc = await getOrCreateRpc()
-    StatusTrace.record('invoke-start', { method, params })
-    try {
-      const result = await rpc.invoke(method, ...params)
-      StatusTrace.record('invoke-end', { method, result: method.includes('Upstream') || method.includes('CurrentBranch') ? result : undefined })
-      return result
-    } catch (error) {
-      StatusTrace.record('invoke-error', { method, error: String(error) })
-      throw error
-    }
+    return rpc.invoke(method, ...params)
   }
   if (progressMethods.has(method)) {
     return OperationProgress.run(invokeActual)
