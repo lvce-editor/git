@@ -52,6 +52,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
 
   const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
   await expect(syncStatusBarItem).toBeVisible()
-  await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
+  try {
+    await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
+  } catch (error) {
+    const trace = await Command.execute('ExtensionHost.executeCommand', 'git.getInvocations', true)
+    throw new Error(`${String(error)} STATUS_TRACE ${JSON.stringify(trace)}`)
+  }
   await expect(syncStatusBarItem).toHaveAttribute('aria-label', 'second-workspace (Git) - Pull 2 commits from origin/main')
 }

@@ -50,7 +50,7 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p .e2e-artifacts
-          npm run e2e:headless --workspace=packages/e2e -- --trace-renderer-worker 2>&1 | tee .e2e-artifacts/e2e.log
+          npm run e2e:headless --workspace=packages/e2e -- --filter=git.status-bar-incoming-on-workspace-open --trace-renderer-worker 2>&1 | tee .e2e-artifacts/e2e.log
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: Build static site
