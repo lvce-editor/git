@@ -1,4 +1,3 @@
-import * as GitStatusTrace from '../GitStatusTrace/GitStatusTrace.ts'
 import { registerStatusBarItemProvider } from '@lvce-editor/api'
 import * as CommandId from '../CommandId/CommandId.ts'
 import * as GitWorker from '../GitWorker/GitWorker.ts'
@@ -15,7 +14,6 @@ const state: {
 }
 
 const getStatusBarItem = () => {
-  GitStatusTrace.record('checkout.get', { branch: state.branch })
   if (!state.branch) {
     return undefined
   }
@@ -35,22 +33,15 @@ export const initialize = (): void => {
 }
 
 export const clear = async (): Promise<void> => {
-  GitStatusTrace.record('checkout.clear', { branch: state.branch })
   state.branch = ''
   await state.handle?.refresh()
-  GitStatusTrace.record('checkout.refresh.notified', { branch: state.branch })
 }
 
 export const refresh = async (cwd?: string): Promise<void> => {
-  const request = { cwd, started: performance.now() }
-  GitStatusTrace.record('checkout.refresh.start', request)
   try {
     state.branch = await GitWorker.invoke(GitWorkerCommandType.GitGetCurrentBranch, { cwd })
-    GitStatusTrace.record('checkout.refresh.result', { ...request, branch: state.branch })
-  } catch (error) {
-    GitStatusTrace.record('checkout.refresh.error', { ...request, error: String(error) })
+  } catch {
     state.branch = ''
   }
   await state.handle?.refresh()
-  GitStatusTrace.record('checkout.refresh.notified', { branch: state.branch })
 }

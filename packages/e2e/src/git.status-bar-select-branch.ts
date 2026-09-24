@@ -15,45 +15,40 @@ const waitForFileContent = async (FileSystem: { readFile: (uri: string) => Promi
 }
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, QuickPick, SideBar, Workspace }) => {
-  try {
-    // arrange
-    const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-    const workspaceDir = `${tmpDir}/workspace`
-    await Workspace.setPath(tmpDir)
-    const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
-    await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-    await Workspace.setPath(workspaceDir)
-    await SideBar.open('Source Control')
-    await Git.checkout('main')
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+  // arrange
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+  const workspaceDir = `${tmpDir}/workspace`
+  await Workspace.setPath(tmpDir)
+  const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
+  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+  await Workspace.setPath(workspaceDir)
+  await SideBar.open('Source Control')
+  await Git.checkout('main')
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
+  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
 
-    // act
-    const branchPickerPromise = Command.execute('StatusBar.handleClick', 'git.showBranchPicker')
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    const quickPick = Locator('#QuickPick')
-    const featureBranchItem = quickPick.locator('text=feature')
-    const mainBranchItem = quickPick.locator('text=main')
-    const createBranchItem = quickPick.locator('.QuickPickItem').nth(0)
-    const createBranchFromItem = quickPick.locator('.QuickPickItem').nth(1)
-    const firstBranchItem = quickPick.locator('.QuickPickItem').nth(2)
-    await expect(quickPick).toBeVisible()
-    await expect(featureBranchItem).toBeVisible()
-    await expect(mainBranchItem).toBeVisible()
-    await expect(createBranchItem).toContainText('Create new branch...')
-    await expect(createBranchFromItem).toContainText('Create new branch from...')
-    await expect(firstBranchItem).toContainText('main')
-    await QuickPick.selectItem('feature')
-    await branchPickerPromise
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+  // act
+  const branchPickerPromise = Command.execute('StatusBar.handleClick', 'git.showBranchPicker')
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  const quickPick = Locator('#QuickPick')
+  const featureBranchItem = quickPick.locator('text=feature')
+  const mainBranchItem = quickPick.locator('text=main')
+  const createBranchItem = quickPick.locator('.QuickPickItem').nth(0)
+  const createBranchFromItem = quickPick.locator('.QuickPickItem').nth(1)
+  const firstBranchItem = quickPick.locator('.QuickPickItem').nth(2)
+  await expect(quickPick).toBeVisible()
+  await expect(featureBranchItem).toBeVisible()
+  await expect(mainBranchItem).toBeVisible()
+  await expect(createBranchItem).toContainText('Create new branch...')
+  await expect(createBranchFromItem).toContainText('Create new branch from...')
+  await expect(firstBranchItem).toContainText('main')
+  await QuickPick.selectItem('feature')
+  await branchPickerPromise
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    // assert
-    await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
-    await expect(branchStatusBarItem).toBeVisible()
-    await expect(branchStatusBarItem).toHaveText('feature')
-  } catch (error) {
-    const statusTrace = await Command.execute('ExtensionHost.executeCommand', 'git.debugStatusBarTrace')
-    throw new Error(`${String(error)}\nGIT_STATUS_TRACE ${JSON.stringify(statusTrace)}`)
-  }
+  // assert
+  await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
+  await expect(branchStatusBarItem).toBeVisible()
+  await expect(branchStatusBarItem).toHaveText('feature')
 }

@@ -40,6 +40,8 @@ jobs:
         run: npx playwright install chromium
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
+      - name: Trace renderer commit handoffs
+        run: python3 scripts/trace-render-handoff.py
       - name: Build extension
         run: npm run build
       - name: Git remote shortcut in Electron
