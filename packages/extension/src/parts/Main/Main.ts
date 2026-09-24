@@ -1,3 +1,4 @@
+import * as GitStatusTrace from '../GitStatusTrace/GitStatusTrace.ts'
 import {
   activate as activateExtensionApi,
   getPreference,
@@ -29,6 +30,7 @@ export const activate = async (): Promise<void> => {
     registerCommand(command)
   }
 
+  registerCommand({ id: 'git.debugStatusBarTrace', execute: GitStatusTrace.get })
   registerSourceControlProvider(SourceControlProviderGit)
   registerEditorGutterDecorationProvider(GutterDecorationProvider)
   registerEditorLineDecorationProvider(InlineBlameProvider)

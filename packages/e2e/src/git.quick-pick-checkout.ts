@@ -15,29 +15,34 @@ const waitForFileContent = async (FileSystem: { readFile: (uri: string) => Promi
 }
 
 export const test: Test = async ({ Command, expect, FileSystem, Locator, QuickPick, SideBar, Workspace }) => {
-  // arrange
-  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  const workspaceDir = `${tmpDir}/workspace`
+  try {
+    // arrange
+    const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
+    const workspaceDir = `${tmpDir}/workspace`
 
-  await Workspace.setPath(tmpDir)
-  const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
-  await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
-  await SideBar.open('Source Control')
+    await Workspace.setPath(tmpDir)
+    const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
+    await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
+    await Workspace.setPath(workspaceDir)
+    await SideBar.open('Source Control')
 
-  const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
-  await expect(branchStatusBarItem).toHaveText('main')
+    const branchStatusBarItem = Locator('.StatusBarItem[data-name="git.showBranchPicker"], .StatusBarItem[name="git.showBranchPicker"]')
+    await expect(branchStatusBarItem).toHaveText('main')
 
-  // act
-  await QuickPick.open()
-  await QuickPick.setValue('>Git Checkout')
-  await QuickPick.selectItem('Git Checkout', { waitUntil: 'none' })
-  const branchItem = Locator('#QuickPick').locator('text=feature')
-  await expect(branchItem).toBeVisible()
-  await QuickPick.selectItem('feature')
+    // act
+    await QuickPick.open()
+    await QuickPick.setValue('>Git Checkout')
+    await QuickPick.selectItem('Git Checkout', { waitUntil: 'none' })
+    const branchItem = Locator('#QuickPick').locator('text=feature')
+    await expect(branchItem).toBeVisible()
+    await QuickPick.selectItem('feature')
 
-  // assert
-  await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
-  await waitForFileContent(FileSystem, `${workspaceDir}/file.txt`, 'feature branch')
-  await expect(branchStatusBarItem).toHaveText('feature')
+    // assert
+    await waitForFileContent(FileSystem, `${workspaceDir}/.git/HEAD`, 'ref: refs/heads/feature\n')
+    await waitForFileContent(FileSystem, `${workspaceDir}/file.txt`, 'feature branch')
+    await expect(branchStatusBarItem).toHaveText('feature')
+  } catch (error) {
+    const statusTrace = await Command.execute('ExtensionHost.executeCommand', 'git.debugStatusBarTrace')
+    throw new Error(`${String(error)}\nGIT_STATUS_TRACE ${JSON.stringify(statusTrace)}`)
+  }
 }
