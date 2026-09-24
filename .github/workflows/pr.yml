@@ -8,10 +8,8 @@ on:
 jobs:
   pr:
     strategy:
-      fail-fast: false
       matrix:
-        os: [macos-15]
-        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        os: [ubuntu-24.04, macos-15, windows-2025]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
@@ -23,7 +21,7 @@ jobs:
         id: nodeModulesCacheKey
         run: echo "value=$(node packages/build/src/computeNodeModulesCacheKey.ts)" >> $GITHUB_OUTPUT
         shell: bash
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache@v5
         id: npm-cache
         with:
           path: '**/node_modules'
@@ -34,10 +32,10 @@ jobs:
       - run: npm run type-check
       - run: npm test
       - run: npm run lint
-      - name: Install diagnostic capture runner
-        run: npm install --no-save --package-lock=false --ignore-scripts @lvce-editor/test-with-playwright@22.36.3 @playwright/test@1.63.0
       - name: install playwright dependencies
+        working-directory: ./packages/e2e
         run: npx playwright install chromium
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: Build extension
@@ -46,24 +44,10 @@ jobs:
         if: matrix.os == 'ubuntu-24.04'
         run: xvfb-run -a npm run e2e:remote-shortcut --workspace=packages/e2e
       - name: Run headless test
-        shell: bash
-        run: |
-          set -o pipefail
-          mkdir -p .e2e-artifacts
-          npm run e2e:headless --workspace=packages/e2e -- --filter=git.status-bar-incoming-on-workspace-open --trace-renderer-worker 2>&1 | tee .e2e-artifacts/e2e.log
+        run: npm run e2e:headless
         env:
           PLAYWRIGHT_BROWSERS_PATH: 0
       - name: Build static site
         run: npm run build:static
         env:
           PATH_PREFIX: auto
-      - name: Upload e2e evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: git-e2e-${{ matrix.os }}-${{ matrix.attempt }}
-          path: |
-            .e2e-artifacts/
-            packages/e2e/renderer-worker-traces/
-          include-hidden-files: true
-          if-no-files-found: warn
