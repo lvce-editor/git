@@ -45,4 +45,14 @@ export const actions = [
     cwd: 'workspace',
     args: ['remote', 'add', 'origin', '../remote.git'],
   },
+  {
+    type: 'git',
+    cwd: 'workspace',
+    args: ['config', 'branch.main.remote', 'origin'],
+  },
+  {
+    type: 'git',
+    cwd: 'workspace',
+    args: ['config', 'branch.main.merge', 'refs/heads/main'],
+  },
 ]
