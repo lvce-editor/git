@@ -59,3 +59,16 @@ test('enables main branch protection by default', () => {
   const manifest = JSON.parse(readFileSync(new URL('../extension.json', import.meta.url), 'utf8'))
   expect(manifest.configuration['git.branchProtection']).toMatchObject({ type: 'boolean', default: true })
 })
+
+test('describes Git settings', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../extension.json', import.meta.url), 'utf8'))
+  const { configuration } = manifest
+
+  expect(configuration['git.path'].description).toBe('Path to the Git executable. Defaults to git on your system path.')
+  expect(configuration['git.showErrorMessage'].description).toBe('Show an error prompt when a Git operation fails.')
+  expect(configuration['git.inlineBlame'].description).toBe('Show the author, date, and commit summary for the current line.')
+  expect(configuration['git.gutterDecorations'].description).toBe('Mark added, changed, and deleted lines compared with the current commit.')
+  expect(configuration['git.defaultCloneLocation'].description).toBeTruthy()
+  expect(configuration['git.runFetchOnWorkspaceOpen'].description).toBeTruthy()
+  expect(configuration['git.branchProtection'].description).toBeTruthy()
+})

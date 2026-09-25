@@ -293,7 +293,8 @@
   "categories": ["Source Control"],
   "configuration": {
     "git.path": {
-      "type": "string"
+      "type": "string",
+      "description": "Path to the Git executable. Defaults to git on your system path."
     },
     "git.autoFetch": {
       "type": "boolean"
@@ -313,15 +314,18 @@
     },
     "git.showErrorMessage": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "description": "Show an error prompt when a Git operation fails."
     },
     "git.inlineBlame": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "description": "Show the author, date, and commit summary for the current line."
     },
     "git.gutterDecorations": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "description": "Mark added, changed, and deleted lines compared with the current commit."
     },
     "git.branchProtection": {
       "type": "boolean",
