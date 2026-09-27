@@ -2,8 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.status-bar-context-menu-generic'
 
-export const test: Test = async ({ Command, expect, Git, Locator, SideBar, Workspace }) => {
-  const tmpDir = `file:///tmp/lvce-git-status-bar-generic-menu-${crypto.randomUUID()}`
+export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, SideBar, Workspace }) => {
+  const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
   await Workspace.setPath(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
