@@ -94,8 +94,8 @@ export const confirmPrompt = async (message) => {
   return confirm(message)
 }
 
-export const handleWorkspaceRefresh = async () => {
-  await handleWorkspaceRefreshFromApi()
+export const handleWorkspaceRefresh = async (changes?: { readonly reloadAll?: boolean }) => {
+  await handleWorkspaceRefreshFromApi(changes)
 }
 
 export const openUri = async (uri) => {

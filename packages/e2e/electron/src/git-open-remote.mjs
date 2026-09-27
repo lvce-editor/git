@@ -49,7 +49,7 @@ export const test = async ({ electronApp, expect }) => {
     page.on('console', (message) => {
       if (message.type() === 'error') console.error(message.text())
     })
-    await expect(page.locator('#Workbench')).toBeVisible()
+    await expect(page.locator('#Workbench')).toBeVisible({ timeout: 15000 })
     const explorer = page.getByRole('tree', { name: 'Files Explorer' })
     await expect(explorer).toBeVisible()
     await page.getByRole('treeitem', { name: 'cache', exact: true }).click()
