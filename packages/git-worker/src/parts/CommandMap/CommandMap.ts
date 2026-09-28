@@ -35,7 +35,6 @@ import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandT
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
 export const commandMap = {
-  [GitWorkerCommandType.GitIsClean]: WrappedGitRequests.wrappedGitRequests.isClean,
   'Command.gitAddToGitignore': commandAddToGitignore,
   'Command.gitGetNewBranchName': GetNewBranchName.getNewBranchName,
   'Git.exec': Exec.exec,
@@ -96,6 +95,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitGetRefs]: WrappedGitRequests.wrappedGitRequests.getRefs,
   [GitWorkerCommandType.GitGetUpstreamChanges]: WrappedGitRequests.wrappedGitRequests.getUpstreamChanges,
   [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
+  [GitWorkerCommandType.GitIsClean]: WrappedGitRequests.wrappedGitRequests.isClean,
   [GitWorkerCommandType.GitMerge]: WrappedGitRequests.wrappedGitRequests.merge,
   [GitWorkerCommandType.GitOpenFile]: CommandOpenFile.commandOpenFile,
   [GitWorkerCommandType.GitPull]: WrappedGitRequests.wrappedGitRequests.pull,
