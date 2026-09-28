@@ -2,7 +2,8 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.commit-error-empty-message'
 
-export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Settings, Workspace }) => {
+  await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setUri(tmpDir)
   await Git.init({ initialBranch: 'main' })
