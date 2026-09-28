@@ -10,7 +10,7 @@ const trimLines = (string: string): string => {
 
 export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.pull-error-connection-closed-show-output/git.js`)
   await Settings.update({
     'git.path': gitPath,

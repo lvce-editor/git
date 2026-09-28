@@ -22,10 +22,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-delete-worktree')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   // act
   await QuickPick.open()
@@ -41,7 +41,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'worktree', 'list', '--porcelain', '-z'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

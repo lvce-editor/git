@@ -6,7 +6,7 @@ export const test: Test = async ({ expect, FileSystem, Git, Locator, Settings, S
   await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const files = ['conflict one.txt', 'conflict two.txt']
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init({ initialBranch: 'main' })
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')

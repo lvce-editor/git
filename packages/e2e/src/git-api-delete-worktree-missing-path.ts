@@ -6,7 +6,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const missingWorktree = `${tmpDir}/missing-worktree`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init({ initialBranch: 'main' })
 
   await Git.deleteWorktree(missingWorktree)

@@ -5,9 +5,9 @@ export const name = 'git.branch-numeric-name'
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-branch'))
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   await Git.branch('2026-release')
 

@@ -7,7 +7,7 @@ export const skip = true
 export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Settings, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.push-error-timeout/git.js`)
   await Settings.update({
     'git.path': gitPath,

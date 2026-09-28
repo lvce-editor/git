@@ -9,10 +9,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const remoteDir = `${tmpDir}/remote.git`
   const tagName = 'v0.1'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-delete-remote-tag')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   // act
   await Command.execute('ExtensionHost.executeCommand', 'git.deleteRemoteTag', tagName)
@@ -31,7 +31,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'push', 'origin', `:refs/tags/${tagName}`],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

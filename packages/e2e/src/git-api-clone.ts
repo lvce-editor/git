@@ -9,7 +9,7 @@ export const test: Test = async ({ Command, FileSystem, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const cloneDir = `${tmpDir}/clone`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const setupFixtureUrl = import.meta.resolve('../fixtures/git-api-clone')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', setupFixtureUrl)
 

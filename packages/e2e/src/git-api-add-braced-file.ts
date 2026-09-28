@@ -5,7 +5,7 @@ export const name = 'git.add-braced-file'
 export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'report{draft}.txt'
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await FileSystem.writeFile(`${tmpDir}/${fileName}`, 'draft')
 

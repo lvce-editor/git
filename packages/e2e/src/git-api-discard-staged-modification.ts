@@ -5,9 +5,9 @@ export const name = 'git.discard-staged-modification'
 export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-branch'))
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'staged content')
   await Git.stage('file.txt')
   await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'working content')

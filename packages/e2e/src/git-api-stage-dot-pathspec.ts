@@ -4,7 +4,7 @@ export const name = 'git.stage-dot-pathspec'
 
 export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await FileSystem.setFiles([
     { content: 'one', uri: `${tmpDir}/one.txt` },

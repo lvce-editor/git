@@ -9,7 +9,7 @@ export const name = 'git.pull-error-cannot-fast-forward-multiple-branches'
 export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   // act
   await QuickPick.executeCommand('Git: Pull')

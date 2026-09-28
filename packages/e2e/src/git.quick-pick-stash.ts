@@ -19,10 +19,10 @@ export const test: Test = async ({ Command, FileSystem, Git, QuickPick, SideBar,
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-stash')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await SideBar.open('Source Control')
 
   // arrange
@@ -47,19 +47,19 @@ export const test: Test = async ({ Command, FileSystem, Git, QuickPick, SideBar,
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'stash', 'push'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'stash', 'push'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'stash', 'pop'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'stash', 'apply', 'stash@{0}'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

@@ -6,9 +6,9 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-branch'))
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   const previousHead = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
   await FileSystem.setFiles([
     { content: 'one', uri: `${workspaceDir}/one.txt` },

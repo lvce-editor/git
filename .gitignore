@@ -136,3 +136,5 @@ dist
 .pnp.*
 
 .test-with-playwright/
+
+renderer-worker-traces/

@@ -8,7 +8,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const folderName = 'nested'
   const fileName = `${folderName}/file.txt`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await FileSystem.mkdir(`${tmpDir}/${folderName}`)
   await FileSystem.writeFile(`${tmpDir}/${fileName}`, 'nested content')
   await Git.init()
@@ -24,7 +24,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'add', fileName],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

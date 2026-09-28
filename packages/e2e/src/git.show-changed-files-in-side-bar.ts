@@ -5,7 +5,7 @@ export const name = 'git.show-changed-files-in-side-bar'
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git.show-changed-files-in-side-bar')
   await Command.execute('ExtensionHost.executeCommand', `git.loadFixture`, fixtureUrl)
 

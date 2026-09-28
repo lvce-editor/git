@@ -4,6 +4,7 @@ import {
   getPreference,
   getUserDataDir as getUserDataDirFromApi,
   getWorkspaceFolder as getWorkspaceFolderFromApi,
+  getWorkspaceUri as getWorkspaceUriFromApi,
   handleWorkspaceRefresh as handleWorkspaceRefreshFromApi,
   mkdir as makeDirectory,
   openUri as openUriFromApi,
@@ -14,6 +15,8 @@ import {
   setWorkspaceUri as setWorkspaceUriFromApi,
   writeFile,
 } from '@lvce-editor/api'
+
+export const getWorkspaceUri = () => getWorkspaceUriFromApi()
 
 export const getWorkspaceFolder = () => {
   return getWorkspaceFolderFromApi()

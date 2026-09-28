@@ -6,9 +6,9 @@ export const test: Test = async ({ Command, FileSystem, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
   const message = '保存进行中的工作'
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-stash'))
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   await Command.execute('ExtensionHost.executeCommand', 'git.stash', { message })
 

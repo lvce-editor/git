@@ -8,10 +8,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const workspaceDir = `${tmpDir}/workspace`
   const fileName = 'file.txt'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-branch')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await Settings.update({
     'git.confirmDiscard': false,
   })
@@ -25,11 +25,11 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'status', '--porcelain', '-uall'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'restore', '--', fileName],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

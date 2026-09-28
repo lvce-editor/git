@@ -67,7 +67,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const fileName = 'file.txt'
   const gitPath = /^[A-Za-z]:/.test(tmpDir) ? 'file:///C:/Program%20Files/Git/cmd/git.exe' : 'file:///usr/bin/git'
 
-  await Workspace.setPath(tmpDirUrl)
+  await Workspace.setUri(tmpDirUrl)
   await Settings.update({
     'git.path': gitPath,
   })
@@ -82,7 +82,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await FileSystem.writeFile(`${upstreamDirUrl}/${fileName}`, 'version 2')
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'add', '.'], {})
   await Command.execute('Exec.exec', gitPath, ['-C', upstreamDir, 'commit', '-m', 'Update file'], {})
-  await Workspace.setPath(workspaceDirUrl)
+  await Workspace.setUri(workspaceDirUrl)
 
   // act
   await (Git as unknown as GitPullWithFrom).pull({
@@ -94,7 +94,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'pull', 'origin', 'main'],
-      cwd: workspaceDirUrl,
+      cwd: decodeURIComponent(new URL(workspaceDirUrl).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

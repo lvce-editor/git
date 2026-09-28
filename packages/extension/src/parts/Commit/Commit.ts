@@ -8,9 +8,10 @@ import * as StatusBarSync from '../StatusBarSync/StatusBarSync.ts'
 
 const commitQueue = CommitQueue.create()
 
-export const commit = async (message: string | undefined, options: CommitOptions = {}): Promise<void> => {
+export const commit = async (message: string | undefined, options: CommitOptions = {}): Promise<boolean | void> => {
+  let result: boolean | void = undefined
   await commitQueue.run(async () => {
-    await runCommit(message, options, {
+    result = await runCommit(message, options, {
       executeCommand,
       getPreference,
       getWorkspaceFolder: Config.getWorkspaceFolder,
@@ -21,4 +22,5 @@ export const commit = async (message: string | undefined, options: CommitOptions
       showQuickInput,
     })
   })
+  return result
 }

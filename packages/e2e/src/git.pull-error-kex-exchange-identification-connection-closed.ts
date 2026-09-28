@@ -7,7 +7,7 @@ export const name = 'git.pull-error-kex-exchange-identification-connection-close
 
 export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   // act
   await QuickPick.executeCommand('Git: Pull')

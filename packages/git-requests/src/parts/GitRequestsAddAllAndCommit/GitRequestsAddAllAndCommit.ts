@@ -2,13 +2,14 @@ import type { GitMessageRequest } from '../Types/Types.ts'
 import { GitError } from '../GitError/GitError.ts'
 
 export const addAllAndCommit = async ({
+  allowEmpty = false,
   cwd,
   exec,
   gitPath,
   message,
   newBranch,
   push = true,
-}: GitMessageRequest & { readonly newBranch?: string; readonly push?: boolean }): Promise<void> => {
+}: GitMessageRequest & { readonly allowEmpty?: boolean; readonly newBranch?: string; readonly push?: boolean }): Promise<void> => {
   try {
     // Check if there are any staged files
     const { stdout: stagedFiles } = await exec({
@@ -20,7 +21,7 @@ export const addAllAndCommit = async ({
     })
 
     // Only add all files if there are no staged files
-    if (!stagedFiles || stagedFiles.trim() === '') {
+    if (!allowEmpty && (!stagedFiles || stagedFiles.trim() === '')) {
       await exec({
         args: ['add', '.'],
         cwd,
@@ -30,7 +31,7 @@ export const addAllAndCommit = async ({
     }
 
     await exec({
-      args: ['commit', '-m', message],
+      args: allowEmpty ? ['commit', '--allow-empty', '--only', '-m', message] : ['commit', '-m', message],
       cwd,
       gitPath,
       name: 'addAllAndCommit/commit',

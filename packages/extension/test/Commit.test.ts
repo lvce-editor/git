@@ -9,7 +9,7 @@ const refresh = jest.fn<() => Promise<void>>()
 const setSpinning = jest.fn<(value: boolean) => Promise<void>>()
 const refreshCheckout = jest.fn<() => Promise<void>>()
 
-const commit = (message: string | undefined, options: CommitOptions = {}): Promise<void> =>
+const commit = (message: string | undefined, options: CommitOptions = {}): Promise<boolean | void> =>
   runCommit(message, options, {
     executeCommand,
     getPreference,
@@ -103,7 +103,10 @@ test('aborts if the branch changed while the dialog was open', async () => {
 test('accept input stages changes and preserves its automatic push', async () => {
   getPreference.mockResolvedValue(false)
   await commit('message', { all: true })
-  expect(invoke.mock.calls).toEqual([['Git.addAllAndCommit', { cwd: '/repo', message: 'message', newBranch: undefined, push: true }]])
+  expect(invoke.mock.calls).toEqual([
+    ['Git.isClean', { cwd: '/repo' }],
+    ['Git.addAllAndCommit', { cwd: '/repo', message: 'message', newBranch: undefined, push: true }],
+  ])
 })
 
 test('syncs existing branches after committing', async () => {
@@ -126,5 +129,48 @@ test.each([undefined, '', ' '.repeat(3)])('cancelled or blank message (%s) never
   showQuickInput.mockResolvedValue(input)
   await commit(undefined, { postCommitCommand: 'sync' })
   expect(invoke).not.toHaveBeenCalled()
+  expect(setSpinning).not.toHaveBeenCalled()
+})
+
+test.each([undefined, -1, 1])('dismissing the empty commit prompt (%s) preserves the repository', async (choice) => {
+  invoke.mockImplementation(async (command) => (command === 'Git.isClean' ? true : 'feature/test'))
+  executeCommand.mockResolvedValue(choice)
+  await expect(commit('empty message', { all: true })).resolves.toBe(false)
+  expect(executeCommand).toHaveBeenCalledWith('Notification.showWithOptions', 'info', 'There are no changes to commit', ['Create Empty Commit'])
+  expect(invoke.mock.calls.map(([command]) => command)).toEqual(['Git.isClean', 'Git.getCurrentBranch'])
+  expect(setSpinning).not.toHaveBeenCalled()
+})
+
+test('explicitly choosing an empty commit retains the original message and refreshes', async () => {
+  invoke.mockImplementation(async (command) => (command === 'Git.isClean' ? true : 'feature/test'))
+  executeCommand.mockResolvedValue(0)
+  await commit('my empty commit', { all: true })
+  expect(invoke).toHaveBeenLastCalledWith('Git.addAllAndCommit', {
+    allowEmpty: true,
+    cwd: '/repo',
+    message: 'my empty commit',
+    newBranch: undefined,
+    push: true,
+  })
+  expect(refresh).toHaveBeenCalledTimes(1)
+  expect(setSpinning).toHaveBeenLastCalledWith(false)
+})
+
+test('a failed status request never offers an empty commit', async () => {
+  invoke.mockRejectedValue(new Error('not a git repository'))
+  await expect(commit('message', { all: true })).rejects.toThrow('not a git repository')
+  expect(executeCommand).not.toHaveBeenCalled()
+})
+
+test('blank messages never offer an empty commit', async () => {
+  await expect(commit('  ', { all: true })).rejects.toThrow('empty commit message')
+  expect(invoke).not.toHaveBeenCalled()
+  expect(executeCommand).not.toHaveBeenCalled()
+})
+
+test('changing branches while an empty commit prompt is open aborts the commit', async () => {
+  invoke.mockResolvedValueOnce(true).mockResolvedValueOnce('feature/first').mockResolvedValueOnce('feature/second')
+  executeCommand.mockResolvedValue(0)
+  await expect(commit('message', { all: true })).rejects.toThrow('repository changed')
   expect(setSpinning).not.toHaveBeenCalled()
 })

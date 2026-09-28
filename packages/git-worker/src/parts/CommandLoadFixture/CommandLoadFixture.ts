@@ -7,8 +7,8 @@ const gitInit = async (): Promise<void> => {
   await commandInit()
 }
 
-const getWorkspaceFolder = async (): Promise<string> => {
-  return Rpc.invoke('Config.getWorkspaceFolder')
+const getWorkspaceUri = async (): Promise<string> => {
+  return Rpc.invoke('Config.getWorkspaceUri')
 }
 
 const getGitPath = async (): Promise<string> => {
@@ -17,7 +17,7 @@ const getGitPath = async (): Promise<string> => {
 }
 
 const resolvePath = async (path: string): Promise<string> => {
-  const folder = await getWorkspaceFolder()
+  const folder = await getWorkspaceUri()
   if (!path) {
     return folder
   }
@@ -54,7 +54,7 @@ const git = async (cwd: string, args: readonly string[]): Promise<void> => {
 const clone = async (repositoryPath: string, targetPath: string): Promise<void> => {
   const repositoryAbsolutePath = toFileSystemPath(await resolvePath(repositoryPath))
   const targetAbsolutePath = toFileSystemPath(await resolvePath(targetPath))
-  const folder = toFileSystemPath(await getWorkspaceFolder())
+  const folder = toFileSystemPath(await getWorkspaceUri())
   const gitPath = await getGitPath()
   await Exec.exec(gitPath, ['clone', repositoryAbsolutePath, targetAbsolutePath], {
     cwd: folder,

@@ -40,13 +40,13 @@ export const test: Test = async ({ Command, FileSystem, Settings, SideBar, Works
   const secondWorkspaceGitDir = `${secondWorkspaceDir}/.git`
   const upstreamGitDir = `${tmpDir}/upstream/.git`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Settings.update({
     'git.runFetchOnWorkspaceOpen': true,
   })
   const fixtureUrl = import.meta.resolve('../fixtures/git-fetch-on-workspace-open')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(firstWorkspaceDir)
+  await Workspace.setUri(firstWorkspaceDir)
   await SideBar.open('Source Control')
   await new Promise((resolve) => setTimeout(resolve, 2000))
 
@@ -60,7 +60,7 @@ export const test: Test = async ({ Command, FileSystem, Settings, SideBar, Works
     throw new Error('expected the second workspace local branch to match origin/main before switching workspaces')
   }
 
-  await Workspace.setPath(secondWorkspaceDir)
+  await Workspace.setUri(secondWorkspaceDir)
 
   await waitForGitRef(FileSystem, secondWorkspaceGitDir, 'refs/remotes/origin/main', upstreamHead)
   const localHeadAfterSwitch = await readGitRef(FileSystem, secondWorkspaceGitDir, 'refs/heads/main')

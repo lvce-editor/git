@@ -5,9 +5,9 @@ export const name = 'git.pull-request-defaults'
 export const test: Test = async ({ Command, FileSystem, Settings, Workspace }) => {
   await Settings.update({ 'git.runFetchOnWorkspaceOpen': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-pr-defaults'))
-  await Workspace.setPath(`${tmpDir}/workspace`)
+  await Workspace.setUri(`${tmpDir}/workspace`)
   const result = (await Command.execute('ExtensionHost.executeCommand', 'git.getPullRequestDefaults')) as {
     readonly baseBranch: string
     readonly headBranch: string

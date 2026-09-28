@@ -4,7 +4,7 @@ export const name = 'git.quick-pick-clone'
 
 export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   await QuickPick.open()
   await QuickPick.setValue('>Git: Clone')

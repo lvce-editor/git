@@ -95,6 +95,7 @@ export const commandMap = {
   [GitWorkerCommandType.GitGetRefs]: WrappedGitRequests.wrappedGitRequests.getRefs,
   [GitWorkerCommandType.GitGetUpstreamChanges]: WrappedGitRequests.wrappedGitRequests.getUpstreamChanges,
   [GitWorkerCommandType.GitInit]: WrappedGitRequests.wrappedGitRequests.init,
+  [GitWorkerCommandType.GitIsClean]: WrappedGitRequests.wrappedGitRequests.isClean,
   [GitWorkerCommandType.GitMerge]: WrappedGitRequests.wrappedGitRequests.merge,
   [GitWorkerCommandType.GitOpenFile]: CommandOpenFile.commandOpenFile,
   [GitWorkerCommandType.GitPull]: WrappedGitRequests.wrappedGitRequests.pull,

@@ -6,7 +6,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'café-你好.txt'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await FileSystem.writeFile(`${tmpDir}/${fileName}`, 'unicode path')
 

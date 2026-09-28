@@ -10,10 +10,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Se
   const upstreamDir = `${tmpDir}/upstream`
   const workspaceDir = `${tmpDir}/workspace`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-status-bar-sync')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await SideBar.open('Source Control')
   await Git.checkout('main')
   await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -40,8 +40,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Se
   await FileSystem.writeFile(`${workspaceDir}/outgoing.txt`, 'outgoing change')
   await Git.add('outgoing.txt')
   await Git.commit('Outgoing change')
-  await Workspace.setPath(tmpDir)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(tmpDir)
+  await Workspace.setUri(workspaceDir)
 
   // assert
   await expect(syncStatusBarItem).toHaveText('0↓ 1↑')
@@ -49,16 +49,16 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Se
 
   // arrange an incoming-only change
   await Command.execute('ExtensionHost.executeCommand', 'git.push', {})
-  await Workspace.setPath(upstreamDir)
+  await Workspace.setUri(upstreamDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.pull', {})
   await FileSystem.writeFile(`${upstreamDir}/incoming.txt`, 'incoming change')
   await Git.add('incoming.txt')
   await Git.commit('Incoming change')
   await Command.execute('ExtensionHost.executeCommand', 'git.push', {})
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.fetch')
-  await Workspace.setPath(tmpDir)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(tmpDir)
+  await Workspace.setUri(workspaceDir)
 
   // assert
   await expect(syncStatusBarItem).toHaveText('1↓ 0↑')

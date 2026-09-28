@@ -5,7 +5,7 @@ export const name = 'git.init-quick-pick'
 export const test: Test = async ({ FileSystem, Git, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   // act
   await QuickPick.open()
@@ -18,7 +18,7 @@ export const test: Test = async ({ FileSystem, Git, QuickPick, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'init'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

@@ -5,10 +5,10 @@ export const name = 'git.branch-protection-anyway'
 export const test: Test = async ({ Command, Extension, FileSystem, Git, Workspace }) => {
   await Extension.addWebExtension(import.meta.resolve('../fixtures/branch-protection-dialog'))
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-push'))
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await FileSystem.writeFile(`${workspaceDir}/new-file.txt`, 'protected commit')
   await Git.stage('new-file.txt')
   await Command.execute('ExtensionHost.executeCommand', 'test.configureBranchDialog', 0)

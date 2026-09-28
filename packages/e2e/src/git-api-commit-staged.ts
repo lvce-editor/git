@@ -10,7 +10,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const stagedFile = 'staged.txt'
   const unstagedFile = 'unstaged.txt'
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await FileSystem.setFiles([
     {
       content: 'staged content',
@@ -39,15 +39,15 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'init'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'add', stagedFile],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'commit', '-m', 'First staged commit'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

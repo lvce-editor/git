@@ -19,10 +19,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Ma
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-checkout')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   await Settings.update({ 'git.branchProtection': false })
   await FileSystem.writeFile(`${workspaceDir}/main-only.txt`, 'main only')

@@ -39,14 +39,14 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
   const workspaceGitDir = `${workspaceDir}/.git`
   const upstreamGitDir = `${tmpDir}/upstream/.git`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Settings.update({
     'git.runFetchOnWorkspaceOpen': true,
   })
   const fixtureUrl = import.meta.resolve('../fixtures/git-fetch-on-workspace-open')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
 
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   const upstreamHead = await FileSystem.readFile(`${upstreamGitDir}/refs/heads/main`)
   await waitForGitRef(FileSystem, workspaceGitDir, 'refs/remotes/origin/main', upstreamHead)
 

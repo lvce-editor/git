@@ -8,10 +8,10 @@ export const test: Test = async ({ Command, Dialog, FileSystem, Settings, Worksp
   const workspaceDir = `${tmpDir}/workspace`
   const fileName = 'file.txt'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-branch')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await Settings.update({
     'git.confirmDiscard': true,
   })

@@ -7,7 +7,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const folderName = 'nested folder'
   const fileName = `${folderName}/file name.txt`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await FileSystem.mkdir(`${tmpDir}/${folderName}`)
   await FileSystem.writeFile(`${tmpDir}/${fileName}`, 'nested path')
