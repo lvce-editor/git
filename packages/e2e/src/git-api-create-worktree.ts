@@ -27,7 +27,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   }
   await Git.shouldHaveInvocations([
     {
-      command: ['git', 'worktree', 'add', worktreeDir],
+      command: ['git', 'worktree', 'add', decodeURIComponent(new URL(worktreeDir).pathname).replace(/^\/(?=[A-Za-z]:)/, '')],
       cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])

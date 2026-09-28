@@ -12,7 +12,6 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const workspaceDir = `${tmpDir}/workspace`
   const worktreeDir = `${tmpDir}/feature%20worktree`
   const worktreePath = fileUriToPath(worktreeDir)
-  const worktreeInvocationPath = decodeURIComponent(worktreeDir)
   await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-branch'))
   await Workspace.setUri(workspaceDir)
@@ -22,7 +21,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
 
   await Git.shouldHaveInvocations([
     {
-      command: ['git', 'worktree', 'add', worktreeInvocationPath, 'worktree-source'],
+      command: ['git', 'worktree', 'add', worktreePath, 'worktree-source'],
       cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])

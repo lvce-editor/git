@@ -2,9 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.commit-empty'
 
-// Enable after the server includes Notification.showWithOptions and provider cancellation.
-export const skip = 1
-
 export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SourceControl, Workspace }) => {
   await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
@@ -15,10 +12,15 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await FileSystem.writeFile(`${tmpDir}/file.txt`, 'content')
   await Command.execute('ExtensionHost.executeCommand', 'git.acceptInput', 'Initial commit')
   await SourceControl.show()
+  const sourceControl = Locator('.SourceControl')
+  await expect(sourceControl).toHaveAttribute('aria-busy', 'false')
   await SourceControl.handleInput('My empty commit')
   const input = Locator('[aria-label="Source Control Input"]')
-  // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Exercise the real input keyboard binding.
-  await input.click()
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- Focus the textarea and exercise its DOM input and keyboard binding.
+  await input.type('My empty commit')
+  // Wait for the input worker to process the focus event and register its shortcuts.
+  await SourceControl.handleInput('My empty commit')
+  await expect(input).toBeFocused()
 
   await KeyBoard.press('Control+Enter')
 
