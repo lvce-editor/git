@@ -7,6 +7,10 @@ import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitReposito
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
 
+const refreshWorkspace = async (): Promise<void> => {
+  await Rpc.invoke('Layout.handleWorkspaceRefresh', { reloadAll: true })
+}
+
 const createAndCheckout = async (name: string, startPoint?: string): Promise<string> => {
   const repository = await Repositories.getCurrent()
   await GitRepositoriesRequests.execute({
@@ -30,6 +34,7 @@ const createAndCheckout = async (name: string, startPoint?: string): Promise<str
     fn: GitRequests.checkout,
     id: 'checkout',
   })
+  await refreshWorkspace()
   return name
 }
 
@@ -76,5 +81,6 @@ export const commandCheckout = async (): Promise<string | undefined> => {
     fn: GitRequests.checkout,
     id: 'checkout',
   })
+  await refreshWorkspace()
   return branchName
 }

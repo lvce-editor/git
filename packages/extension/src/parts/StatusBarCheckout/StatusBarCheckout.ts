@@ -27,6 +27,17 @@ const getStatusBarItem = () => {
 
 export const initialize = (): void => {
   state.handle = registerStatusBarItemProvider({
+    getContextMenuItems: () =>
+      state.branch && state.branch !== 'main'
+        ? [
+            {
+              args: [CommandId.GitCheckout, 'main'],
+              command: 'ExtensionHost.executeCommand',
+              id: 'switch-to-main-branch',
+              label: 'Switch to main branch',
+            },
+          ]
+        : [],
     getStatusBarItem,
     id: providerId,
   })
