@@ -2,30 +2,26 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.commit-error-empty-message'
 
-export const skip = true
-
-export const test: Test = async ({ expect, FileSystem, KeyBoard, Locator, Settings, SideBar, Workspace }) => {
-  // arrange
+export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
-  const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.commit-error-empty-message/git.js`)
-  await Settings.update({
-    'git.path': gitPath,
-  })
-  await SideBar.open('Source Control')
-  const sourceControlInput = Locator('[aria-label="Source Control Input"]')
-  // @ts-ignore
-  await sourceControlInput.focus()
+  await Workspace.setUri(tmpDir)
+  await Git.init({ initialBranch: 'main' })
+  await Git.setConfig('user.name', 'Test User')
+  await Git.setConfig('user.email', 'test@example.com')
+  await FileSystem.writeFile(`${tmpDir}/file.txt`, 'content')
+  await Git.addAll()
+  await Git.commit('Initial commit')
+  const head = await FileSystem.readFile(`${tmpDir}/.git/refs/heads/main`)
 
-  // act
-  await KeyBoard.press('Control+Enter')
-
-  // assert
-  const notification = Locator('.Notification')
-  await expect(notification).toBeVisible()
-  await expect(notification).toHaveCount(1)
-  const notificationMessage = notification.locator('.NotificationMessage')
-  await expect(notificationMessage).toHaveText('There are no changes to commit')
-  const notificationOption = notification.locator('.NotificationOption')
-  await expect(notificationOption).toHaveText('Create Empty Commit')
+  let error: unknown
+  try {
+    await Command.execute('ExtensionHost.executeCommand', 'git.acceptInput', '   ')
+  } catch (caught) {
+    error = caught
+  }
+  if (!String(error).includes('Aborting commit due to empty commit message.')) {
+    throw new Error(`Expected empty-message validation, received ${String(error)}`)
+  }
+  await expect(Locator('.NotificationOption')).toHaveCount(0)
+  await FileSystem.shouldHaveFile(`${tmpDir}/.git/refs/heads/main`, head)
 }

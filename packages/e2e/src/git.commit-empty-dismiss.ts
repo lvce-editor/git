@@ -8,7 +8,7 @@ export const skip = 1
 export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SourceControl, Workspace }) => {
   await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init({ initialBranch: 'main' })
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')
@@ -18,7 +18,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await SourceControl.show()
   await SourceControl.handleInput('Keep this message')
   const input = Locator('[aria-label="Source Control Input"]')
-  // eslint-disable-next-line e2e/no-direct-click -- Exercise the real input keyboard binding.
+  // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Exercise the real input keyboard binding.
   await input.click()
 
   await KeyBoard.press('Control+Enter')
@@ -26,7 +26,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   const notification = Locator('.Notification')
   await expect(notification.locator('.NotificationOption')).toHaveText('Create Empty Commit')
   const close = notification.locator('[aria-label="Close"]')
-  // eslint-disable-next-line e2e/no-direct-click -- Verify the notification close button resolves cancellation.
+  // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Verify the notification close button resolves cancellation.
   await close.click()
   await expect(notification).toBeHidden()
   // A second completed source-control command waits for the cancelled acceptance to finish.

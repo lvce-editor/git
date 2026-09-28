@@ -8,7 +8,7 @@ export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
   const fileName = 'file.txt'
   const filePath = `${tmpDir}/${fileName}`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init({ initialBranch: 'main' })
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')

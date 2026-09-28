@@ -12,6 +12,7 @@ export const commandMap = {
   [ExtensionCommandType.ConfigConfirmDiscard]: Config.confirmDiscard,
   [ExtensionCommandType.ConfirmPrompt]: Config.confirmPrompt,
   [ExtensionCommandType.ConfigShowErrorMessage]: Config.showErrorMessage,
+  ['Config.getWorkspaceUri']: Config.getWorkspaceUri,
   ['Config.getDefaultCloneLocation']: Config.getDefaultCloneLocation,
   ['Platform.getUserDataDir']: Config.getUserDataDir,
   ['Workspace.setWorkspaceUri']: Config.setWorkspaceUri,

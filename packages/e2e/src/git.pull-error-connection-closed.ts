@@ -7,7 +7,7 @@ export const name = 'git.pull-error-connection-closed'
 
 export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const gitPath = await FileSystem.createExecutableFrom(`fixtures/git.pull-error-connection-closed/git.js`)
   await Settings.update({
     'git.path': gitPath,

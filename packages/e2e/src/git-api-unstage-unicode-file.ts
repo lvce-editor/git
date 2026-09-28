@@ -7,7 +7,7 @@ export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'café-文件.txt'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')

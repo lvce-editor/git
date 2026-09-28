@@ -7,10 +7,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-cherry-pick')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   const featureCommitHashRaw = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/feature`)
   const featureCommitHash = featureCommitHashRaw.trim()
@@ -37,7 +37,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'cherry-pick', featureCommitHash],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

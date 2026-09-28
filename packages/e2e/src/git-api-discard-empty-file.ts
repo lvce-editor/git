@@ -6,7 +6,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const fileName = 'empty.txt'
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')

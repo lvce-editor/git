@@ -8,7 +8,7 @@ export const name = 'git.pull-error-divergent-branches'
 export const test: Test = async ({ Command, expect, Extension, FileSystem, Locator, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Extension.addWebExtension('../fixtures/mock-git-exec')
   await Command.execute('mock-exec.setup', 'pull-error-divergent-branches')
 

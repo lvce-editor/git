@@ -4,7 +4,7 @@ export const name = 'git.add-directory'
 
 export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await FileSystem.mkdir(`${tmpDir}/src`)
   await FileSystem.writeFile(`${tmpDir}/src/main.ts`, 'export {}')

@@ -37,10 +37,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const workspaceDir = `${tmpDir}/workspace`
   const workspaceGitDir = `${workspaceDir}/.git`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-fetch-prune')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   const hadFeatureRefBeforeFetch = await refExists(FileSystem, workspaceGitDir, 'refs/remotes/origin/feature')
   if (!hadFeatureRefBeforeFetch) {
@@ -59,7 +59,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'fetch', '--all', '--prune'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

@@ -8,10 +8,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const workspaceDir = `${tmpDir}/workspace`
   const fileName = 'deleted.txt'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-deleted-file')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   await Git.stage(fileName)
   await Git.commit('delete file')

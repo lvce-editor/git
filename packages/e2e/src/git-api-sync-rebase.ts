@@ -10,10 +10,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const workspaceDir = `${tmpDir}/workspace`
   const verifyDir = `${tmpDir}/verify`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-sync-rebase')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   // act
   await Command.execute('ExtensionHost.executeCommand', 'git.syncRebase')
@@ -22,7 +22,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await FileSystem.shouldHaveFile(`${workspaceDir}/remote-file.txt`, 'remote change')
   await FileSystem.shouldHaveFile(`${workspaceDir}/local-file.txt`, 'local change')
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const verifyFixtureUrl = import.meta.resolve('../fixtures/git-api-sync-rebase-verify')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', verifyFixtureUrl)
   await FileSystem.shouldHaveFile(`${verifyDir}/remote-file.txt`, 'remote change')
@@ -31,11 +31,11 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'pull', '--rebase'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'push'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

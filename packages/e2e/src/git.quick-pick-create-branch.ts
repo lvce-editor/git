@@ -25,10 +25,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   const workspaceDir = `${tmpDir}/workspace`
   const branchName = 'feature/new-branch'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-branch')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   // act
   await QuickPick.open()
@@ -38,7 +38,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   const input = Locator('input[name="QuickPickInput"][placeholder="Branch name"]')
   await expect(input).toBeVisible()
   await expect(input).toBeFocused()
-  await input.type(branchName)
+  await QuickPick.setValue(branchName)
   await expect(input).toHaveValue(branchName)
   await expect(input).toBeFocused()
   const quickPickItems = Locator('#QuickPick:has(input[placeholder="Branch name"]) .QuickPickItem:not(.QuickPickStatus)')
@@ -52,7 +52,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'branch', branchName],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

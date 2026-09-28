@@ -8,7 +8,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const key = 'user.name'
   const value = 'E2E Test User'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
 
   // act

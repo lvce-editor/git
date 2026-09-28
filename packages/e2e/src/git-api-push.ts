@@ -10,10 +10,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const workspaceDir = `${tmpDir}/workspace`
   const verifyDir = `${tmpDir}/verify`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const setupFixtureUrl = import.meta.resolve('../fixtures/git-api-push')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', setupFixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   // act
   await Git.push({
@@ -21,7 +21,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   })
 
   // assert
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const verifyFixtureUrl = import.meta.resolve('../fixtures/git-api-push-verify')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', verifyFixtureUrl)
   const content = await FileSystem.readFile(`${verifyDir}/new-file.txt`)

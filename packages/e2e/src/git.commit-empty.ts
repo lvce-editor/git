@@ -8,7 +8,7 @@ export const skip = 1
 export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SourceControl, Workspace }) => {
   await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init({ initialBranch: 'main' })
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')
@@ -17,7 +17,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await SourceControl.show()
   await SourceControl.handleInput('My empty commit')
   const input = Locator('[aria-label="Source Control Input"]')
-  // eslint-disable-next-line e2e/no-direct-click -- Exercise the real input keyboard binding.
+  // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Exercise the real input keyboard binding.
   await input.click()
 
   await KeyBoard.press('Control+Enter')
@@ -26,7 +26,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await expect(notification.locator('.NotificationMessage')).toHaveText('There are no changes to commit')
   await expect(input).toHaveValue('My empty commit')
   const option = notification.locator('.NotificationOption')
-  // eslint-disable-next-line e2e/no-direct-click -- Verify the notification DOM action resolves the pending request.
+  // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Verify the notification DOM action resolves the pending request.
   await option.click()
   await expect(notification).toBeHidden()
   await expect(input).toHaveValue('')

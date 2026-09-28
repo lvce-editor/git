@@ -13,7 +13,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const message = "It's ready: [e2e]"
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')
@@ -31,7 +31,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'commit', '-m', message],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

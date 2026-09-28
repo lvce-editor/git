@@ -2,13 +2,13 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.branch-protection-new-branch'
 
-export const test: Test = async ({ Command, expect, Extension, FileSystem, Git, KeyBoard, Locator, Workspace }) => {
+export const test: Test = async ({ Command, expect, Extension, FileSystem, Git, KeyBoard, Locator, QuickPick, Workspace }) => {
   await Extension.addWebExtension(import.meta.resolve('../fixtures/branch-protection-dialog'))
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-push'))
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await FileSystem.writeFile(`${workspaceDir}/new-file.txt`, 'protected commit')
   await Git.stage('new-file.txt')
   await Command.execute('ExtensionHost.executeCommand', 'test.configureBranchDialog', 2)
@@ -18,7 +18,7 @@ export const test: Test = async ({ Command, expect, Extension, FileSystem, Git, 
   await expect(input).toBeVisible()
   await expect(input).toHaveValue('feature/')
   await expect(input).toBeFocused()
-  await input.type('feature/protected-commit')
+  await QuickPick.setValue('feature/protected-commit')
   await expect(input).toHaveValue('feature/protected-commit')
   await KeyBoard.press('Enter')
   await expect(input).toBeHidden()

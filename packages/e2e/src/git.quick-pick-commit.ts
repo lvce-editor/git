@@ -4,10 +4,10 @@ export const name = 'git.quick-pick-commit'
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, QuickPick, SideBar, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-checkout'))
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await Git.checkout('feature')
   await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'another change')
   await Git.stage('file.txt')
@@ -31,7 +31,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await QuickPick.setValue('>Git: Commit')
   await QuickPick.selectItem('Git: Commit', { waitUntil: 'none' })
   await expect(input).toBeVisible()
-  await input.type('Second feature commit')
+  await QuickPick.setValue('Second feature commit')
   await KeyBoard.press('Enter')
   await expect(input).toBeHidden()
   await expect(treeItems).toHaveCount(0)

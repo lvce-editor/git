@@ -7,7 +7,7 @@ export const skip = 1
 export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   // act
   await Git.init()
@@ -17,7 +17,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'init'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

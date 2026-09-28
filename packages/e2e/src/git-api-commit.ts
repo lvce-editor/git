@@ -9,7 +9,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await Settings.update({ 'git.branchProtection': false })
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await FileSystem.writeFile(`${tmpDir}/file`, 'content')
   await Git.init()
   await Git.setConfig('user.name', 'Test User')
@@ -27,11 +27,11 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'init'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'commit', '-m', 'First commit'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

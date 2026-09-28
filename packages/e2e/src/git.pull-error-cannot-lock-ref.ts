@@ -8,7 +8,7 @@ export const name = 'git.pull-error-cannot-lock-ref'
 export const test: Test = async ({ expect, FileSystem, Locator, QuickPick, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir()
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   // act
   await QuickPick.executeCommand('Git: Pull')

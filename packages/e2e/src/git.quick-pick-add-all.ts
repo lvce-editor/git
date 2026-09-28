@@ -5,7 +5,7 @@ export const name = 'git.quick-pick-add-all'
 export const test: Test = async ({ expect, FileSystem, Git, Locator, QuickPick, SourceControl, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await FileSystem.setFiles([
     { content: 'first file', uri: `${tmpDir}/first.txt` },
     { content: 'second file', uri: `${tmpDir}/second.txt` },
@@ -29,7 +29,7 @@ export const test: Test = async ({ expect, FileSystem, Git, Locator, QuickPick, 
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'add', '.'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

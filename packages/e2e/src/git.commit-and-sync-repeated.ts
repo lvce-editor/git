@@ -23,10 +23,10 @@ const waitForRemoteRef = async (FileSystem: { readFile: (uri: string) => Promise
 export const test: Test = async ({ Command, FileSystem, Git, Settings, SourceControl, Workspace }) => {
   await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-push'))
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await Git.push({ setUpstream: ['origin', 'main'] })
   await Git.branch('feature')
   await Git.checkout('feature')

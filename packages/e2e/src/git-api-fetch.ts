@@ -31,13 +31,13 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const workspaceGitDir = `${workspaceDir}/.git`
   const upstreamGitDir = `${tmpDir}/upstream/.git`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Settings.update({
     'git.path': '/usr/bin/git',
   })
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-fetch')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   const localHeadBeforeFetch = await readGitRef(FileSystem, workspaceGitDir, 'refs/remotes/origin/main')
   const upstreamHeadBeforeFetch = await readGitRef(FileSystem, upstreamGitDir, 'refs/heads/main')
@@ -62,7 +62,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'fetch', '--all'],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

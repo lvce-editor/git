@@ -11,7 +11,7 @@ export const test: Test = async ({ expect, FileSystem, Git, Locator, Settings, S
   const fileName = 'file.txt'
   const filePath = `${tmpDir}/${fileName}`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init({
     initialBranch: 'main',
   })
@@ -71,55 +71,55 @@ export const test: Test = async ({ expect, FileSystem, Git, Locator, Settings, S
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'init', '--initial-branch', 'main'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'add', fileName],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'commit', '-m', 'root'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'branch', 'feature'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'checkout', 'feature'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'add', fileName],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'commit', '-m', 'feature change'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'checkout', 'main'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'add', fileName],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'commit', '-m', 'main change'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'merge', 'feature'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'add', fileName],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
     {
       command: ['git', 'commit', '-m', 'resolve merge conflict'],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

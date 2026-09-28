@@ -8,7 +8,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Settings, Workspace
   const folderName = 'nested'
   const fileNames = [`${folderName}/first.txt`, `${folderName}/second.txt`]
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')

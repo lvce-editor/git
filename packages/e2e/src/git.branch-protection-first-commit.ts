@@ -2,10 +2,10 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.branch-protection-first-commit'
 
-export const test: Test = async ({ Command, expect, Extension, FileSystem, Git, KeyBoard, Locator, Workspace }) => {
+export const test: Test = async ({ Command, expect, Extension, FileSystem, Git, KeyBoard, Locator, QuickPick, Workspace }) => {
   await Extension.addWebExtension(import.meta.resolve('../fixtures/branch-protection-dialog'))
   const workspaceDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await Git.init({ initialBranch: 'main' })
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')
@@ -17,7 +17,7 @@ export const test: Test = async ({ Command, expect, Extension, FileSystem, Git, 
   await expect(input).toBeVisible()
   await expect(input).toHaveValue('feature/')
   await expect(input).toBeFocused()
-  await input.type('feature/protected-commit')
+  await QuickPick.setValue('feature/protected-commit')
   await expect(input).toHaveValue('feature/protected-commit')
   await KeyBoard.press('Enter')
   await expect(input).toBeHidden()

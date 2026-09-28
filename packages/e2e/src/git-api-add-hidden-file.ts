@@ -4,7 +4,7 @@ export const name = 'git.add-hidden-file'
 
 export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await FileSystem.writeFile(`${tmpDir}/.env.example`, 'KEY=value\n')
 

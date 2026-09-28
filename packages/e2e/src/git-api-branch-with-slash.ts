@@ -8,10 +8,10 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const workspaceDir = `${tmpDir}/workspace`
   const branchName = 'feature/nested'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const fixtureUrl = import.meta.resolve('../fixtures/git-api-branch')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', fixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
 
   // act
   await Git.branch(branchName)
@@ -22,7 +22,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'branch', branchName],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

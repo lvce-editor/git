@@ -7,7 +7,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const initialBranch = 'feature'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
 
   // act
   await Git.init({
@@ -20,7 +20,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'init', '--initial-branch', initialBranch],
-      cwd: tmpDir,
+      cwd: decodeURIComponent(new URL(tmpDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

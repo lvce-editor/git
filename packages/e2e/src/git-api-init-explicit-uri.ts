@@ -6,7 +6,7 @@ export const test: Test = async ({ FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const repositoryDir = `${tmpDir}/repository`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await FileSystem.mkdir(repositoryDir)
 
   await Git.init({

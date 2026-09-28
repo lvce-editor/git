@@ -5,9 +5,9 @@ export const name = 'git.clean-all-multiple-untracked'
 export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', import.meta.resolve('../fixtures/git-api-branch'))
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await FileSystem.setFiles([
     { content: 'one', uri: `${workspaceDir}/one.tmp` },
     { content: 'two', uri: `${workspaceDir}/two.tmp` },

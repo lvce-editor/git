@@ -10,7 +10,7 @@ export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
   const workspaceFile = `${workspaceDir}/${fileName}`
 
   await Settings.update({ 'git.branchProtection': false })
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
   await Git.setConfig('user.name', 'Test User')
   await Git.setConfig('user.email', 'test@example.com')
@@ -29,14 +29,14 @@ export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
   await Git.commit('initial')
   await FileSystem.writeFile(siblingFile, 'sibling after')
 
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
   await Git.stage(fileName)
   await FileSystem.shouldHaveFile(siblingFile, 'sibling after')
   await FileSystem.shouldHaveFile(workspaceFile, 'workspace file')
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'add', `:(top,literal)${fileName}`],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 
@@ -46,7 +46,7 @@ export const test: Test = async ({ FileSystem, Git, Settings, Workspace }) => {
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'restore', '--staged', '--', `:(top,literal)${fileName}`],
-      cwd: workspaceDir,
+      cwd: decodeURIComponent(new URL(workspaceDir).pathname).replace(/^\/(?=[A-Za-z]:)/, ''),
     },
   ])
 }

@@ -6,7 +6,7 @@ export const test: Test = async ({ Command, FileSystem, Git, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const value = 'Test User With Spaces'
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   await Git.init()
 
   await Command.execute('ExtensionHost.executeCommand', 'git.setConfig', 'user.name', value)
