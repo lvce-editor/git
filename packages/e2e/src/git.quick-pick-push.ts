@@ -19,20 +19,21 @@ export const test: Test = async ({ Command, FileSystem, Workspace }) => {
   const workspaceDir = `${tmpDir}/workspace`
   const verifyDir = `${tmpDir}/verify`
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const setupFixtureUrl = import.meta.resolve('../fixtures/git-api-push')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', setupFixtureUrl)
-  await Workspace.setPath(workspaceDir)
+  await Workspace.setUri(workspaceDir)
+  const workspacePath = await Command.execute('Workspace.getPath')
 
   await Command.execute('ExtensionHost.executeCommand', 'git.push')
   const invocations = await Command.execute('ExtensionHost.executeCommand', 'git.getInvocations')
   const pushInvocations = invocations.filter(({ command }) => command[1] === 'push')
-  if (pushInvocations.length !== 1 || pushInvocations[0].cwd !== workspaceDir) {
-    throw new Error(`expected one push in ${workspaceDir}, got ${JSON.stringify(pushInvocations)}`)
+  if (pushInvocations.length !== 1 || pushInvocations[0].cwd !== workspacePath) {
+    throw new Error(`expected one push in ${workspacePath}, got ${JSON.stringify(pushInvocations)}`)
   }
   await waitForRemoteBranch(FileSystem, `${tmpDir}/remote.git/refs/heads/main`)
 
-  await Workspace.setPath(tmpDir)
+  await Workspace.setUri(tmpDir)
   const verifyFixtureUrl = import.meta.resolve('../fixtures/git-api-push-verify')
   await Command.execute('ExtensionHost.executeCommand', 'git.loadFixture', verifyFixtureUrl)
   const content = await FileSystem.readFile(`${verifyDir}/new-file.txt`)
