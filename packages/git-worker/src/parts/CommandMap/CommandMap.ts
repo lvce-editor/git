@@ -35,6 +35,7 @@ import * as GitWorkerCommandType from '../GitWorkerCommandType/GitWorkerCommandT
 import * as WrappedGitRequests from '../WrappedGitRequests/WrappedGitRequests.ts'
 
 export const commandMap = {
+  [GitWorkerCommandType.GitIsClean]: WrappedGitRequests.wrappedGitRequests.isClean,
   'Command.gitAddToGitignore': commandAddToGitignore,
   'Command.gitGetNewBranchName': GetNewBranchName.getNewBranchName,
   'Git.exec': Exec.exec,

@@ -6,7 +6,7 @@ export interface CommitOptions {
 }
 
 export interface CommitDependencies {
-  readonly executeCommand: (id: string, options: unknown) => Promise<unknown>
+  readonly executeCommand: (id: string, ...args: readonly unknown[]) => Promise<unknown>
   readonly getPreference: (key: string) => Promise<unknown>
   readonly getWorkspaceFolder: () => Promise<string>
   readonly invoke: (id: string, options: Readonly<Record<string, unknown>>) => Promise<any>
@@ -62,18 +62,45 @@ const runPostCommitAction = async (cwd: string, action: unknown, newBranch: stri
   await dependencies.invoke(command, { cwd })
 }
 
-export const runCommit = async (message: string | undefined, options: CommitOptions, dependencies: CommitDependencies): Promise<void> => {
+const confirmEmptyCommit = async (cwd: string, options: CommitOptions, dependencies: CommitDependencies): Promise<boolean | undefined> => {
+  if (options.all && (await dependencies.invoke(GitWorkerCommandType.GitIsClean, { cwd }))) {
+    const branch = await dependencies.invoke(GitWorkerCommandType.GitGetCurrentBranch, { cwd })
+    const choice = await dependencies.executeCommand('Notification.showWithOptions', 'info', 'There are no changes to commit', [
+      'Create Empty Commit',
+    ])
+    if (choice !== 0) {
+      return undefined
+    }
+    if (
+      (await dependencies.getWorkspaceFolder()) !== cwd ||
+      (await dependencies.invoke(GitWorkerCommandType.GitGetCurrentBranch, { cwd })) !== branch
+    ) {
+      throw new Error('The repository changed while confirming the empty commit. Please try again.')
+    }
+    return true
+  }
+  return false
+}
+
+export const runCommit = async (message: string | undefined, options: CommitOptions, dependencies: CommitDependencies): Promise<boolean | void> => {
   if (message === undefined) {
     message = await dependencies.showQuickInput({ placeholder: 'Commit message', value: '' })
     if (!message?.trim()) {
-      return
+      return false
     }
   }
+  if (!message.trim()) {
+    throw new Error('Aborting commit due to empty commit message.')
+  }
   const cwd = await dependencies.getWorkspaceFolder()
+  const allowEmpty = await confirmEmptyCommit(cwd, options, dependencies)
+  if (allowEmpty === undefined) {
+    return false
+  }
   const postCommitCommand = options.postCommitCommand
   const newBranch = await prepareBranch(cwd, dependencies)
   if (newBranch === false) {
-    return
+    return false
   }
   try {
     await dependencies.setSpinning(true)
@@ -82,7 +109,10 @@ export const runCommit = async (message: string | undefined, options: CommitOpti
       await dependencies.refreshCheckout()
     }
     const command = options.all ? GitWorkerCommandType.GitAddAllAndCommit : GitWorkerCommandType.GitCommit
-    await dependencies.invoke(command, options.all ? { cwd, message, newBranch, push: !postCommitCommand } : { cwd, message })
+    await dependencies.invoke(
+      command,
+      options.all ? { ...(allowEmpty && { allowEmpty }), cwd, message, newBranch, push: !postCommitCommand } : { cwd, message },
+    )
     await runPostCommitAction(cwd, postCommitCommand, newBranch, dependencies)
   } finally {
     try {
