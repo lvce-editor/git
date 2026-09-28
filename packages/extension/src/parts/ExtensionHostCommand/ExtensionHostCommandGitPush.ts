@@ -10,7 +10,7 @@ export const execute = async (options = undefined) => {
     if (options && typeof options === 'object') {
       return await GitWorker.invoke(GitWorkerCommandType.GitPush, options)
     }
-    return await GitWorker.invoke('Command.gitPush')
+    return await GitWorker.invoke(GitWorkerCommandType.GitPush, {})
   } finally {
     await StatusBarSync.refresh()
   }
