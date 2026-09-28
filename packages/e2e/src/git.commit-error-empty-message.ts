@@ -16,13 +16,14 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Se
 
   let error: unknown
   try {
-    await Command.execute('ExtensionHost.executeCommand', 'git.acceptInput', '   ')
-  } catch (caught) {
-    error = caught
+    await Command.execute('ExtensionHost.executeCommand', 'git.acceptInput', ' '.repeat(3))
+  } catch (error_) {
+    error = error_
   }
   if (!String(error).includes('Aborting commit due to empty commit message.')) {
     throw new Error(`Expected empty-message validation, received ${String(error)}`)
   }
-  await expect(Locator('.NotificationOption')).toHaveCount(0)
+  const options = Locator('.NotificationOption')
+  await expect(options).toHaveCount(0)
   await FileSystem.shouldHaveFile(`${tmpDir}/.git/refs/heads/main`, head)
 }
