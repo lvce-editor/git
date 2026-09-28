@@ -31,11 +31,19 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Verify the notification DOM action resolves the pending request.
   await option.click()
   await expect(notification).toBeHidden()
-  await expect(input).toHaveValue('')
-  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
+  // A render can temporarily clear the textarea before the asynchronous commit finishes.
+  let commits: readonly { readonly message: string }[] = []
+  for (let attempt = 0; attempt < 50; attempt++) {
+    commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
+    if (commits.length >= 2) {
+      break
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100))
+  }
   if (commits.length !== 2 || commits[0].message !== 'My empty commit' || commits[1].message !== 'Initial commit') {
     throw new Error(`Unexpected commits: ${JSON.stringify(commits)}`)
   }
+  await expect(input).toHaveValue('')
   await FileSystem.shouldHaveFile(`${tmpDir}/file.txt`, 'content')
   const items = Locator('.SourceControlItems .TreeItem')
   await expect(items).toHaveCount(0)
