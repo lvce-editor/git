@@ -68,3 +68,38 @@ test('execute does not refresh after a failed pull', async (): Promise<void> => 
 
   expect(mockRefreshAfterGitCommand).not.toHaveBeenCalled()
 })
+
+test('execute shows requested Git errors when the preference is disabled', async (): Promise<void> => {
+  const error = new Error('branch is already checked out in another worktree')
+  const fn = jest.fn<TestRequest>().mockRejectedValue(error)
+
+  await expect(
+    GitRepositoriesRequests.execute({
+      args: { value: 1 },
+      fn,
+      id: 'checkout',
+      showError: true,
+    }),
+  ).rejects.toBe(error)
+
+  expect(mockInvoke).toHaveBeenCalledTimes(1)
+  expect(mockInvoke).toHaveBeenCalledWith('Confirm.prompt', String(error))
+})
+
+test('execute does not show requested Git errors twice when the preference is enabled', async (): Promise<void> => {
+  const error = new Error('checkout failed')
+  const fn = jest.fn<TestRequest>().mockRejectedValue(error)
+  mockInvoke.mockResolvedValue(true)
+
+  await expect(
+    GitRepositoriesRequests.execute({
+      args: { value: 1 },
+      fn,
+      id: 'checkout',
+      showError: true,
+    }),
+  ).rejects.toBe(error)
+
+  expect(mockInvoke).toHaveBeenCalledTimes(1)
+  expect(mockInvoke).toHaveBeenCalledWith('Confirm.prompt', String(error))
+})
