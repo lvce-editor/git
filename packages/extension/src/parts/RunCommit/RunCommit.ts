@@ -62,6 +62,27 @@ const runPostCommitAction = async (cwd: string, action: unknown, newBranch: stri
   await dependencies.invoke(command, { cwd })
 }
 
+const shouldRunPostCommitAction = async (
+  cwd: string,
+  action: unknown,
+  newBranch: string | undefined,
+  allowMissingUpstream: boolean,
+  dependencies: CommitDependencies,
+): Promise<boolean> => {
+  if (action !== 'sync' || newBranch) {
+    return Boolean(action)
+  }
+  try {
+    const changes = await dependencies.invoke(GitWorkerCommandType.GitGetUpstreamChanges, { cwd })
+    return !allowMissingUpstream || Boolean(changes?.upstream)
+  } catch (error) {
+    if (allowMissingUpstream && error instanceof Error && /no upstream|no tracking information|no such branch: 'HEAD\.\.\.'/i.test(error.message)) {
+      return false
+    }
+    throw error
+  }
+}
+
 const confirmEmptyCommit = async (cwd: string, options: CommitOptions, dependencies: CommitDependencies): Promise<boolean | undefined> => {
   if (options.all && (await dependencies.invoke(GitWorkerCommandType.GitIsClean, { cwd }))) {
     const branch = await dependencies.invoke(GitWorkerCommandType.GitGetCurrentBranch, { cwd })
@@ -108,12 +129,15 @@ export const runCommit = async (message: string | undefined, options: CommitOpti
       await dependencies.invoke(GitWorkerCommandType.GitCheckout, { create: true, cwd, ref: newBranch })
       await dependencies.refreshCheckout()
     }
+    const runPostCommit = await shouldRunPostCommitAction(cwd, postCommitCommand, newBranch, options.all === true, dependencies)
     const command = options.all ? GitWorkerCommandType.GitAddAllAndCommit : GitWorkerCommandType.GitCommit
     await dependencies.invoke(
       command,
-      options.all ? { ...(allowEmpty && { allowEmpty }), cwd, message, newBranch, push: !postCommitCommand } : { cwd, message },
+      options.all ? { ...(allowEmpty && { allowEmpty }), cwd, message, newBranch, push: !runPostCommit } : { cwd, message },
     )
-    await runPostCommitAction(cwd, postCommitCommand, newBranch, dependencies)
+    if (runPostCommit) {
+      await runPostCommitAction(cwd, postCommitCommand, newBranch, dependencies)
+    }
   } finally {
     try {
       await dependencies.refresh()
