@@ -100,12 +100,13 @@ test('aborts if the branch changed while the dialog was open', async () => {
   expect(invoke.mock.calls.map(([command]) => command)).toEqual(['Git.getCurrentBranch', 'Git.getCurrentBranch'])
 })
 
-test('accept input stages changes and preserves its automatic push', async () => {
+test('accept input stages changes and synchronizes after committing', async () => {
   getPreference.mockResolvedValue(false)
-  await commit('message', { all: true })
+  await commit('message', { all: true, postCommitCommand: 'sync' })
   expect(invoke.mock.calls).toEqual([
     ['Git.isClean', { cwd: '/repo' }],
-    ['Git.addAllAndCommit', { cwd: '/repo', message: 'message', newBranch: undefined, push: true }],
+    ['Git.addAllAndCommit', { cwd: '/repo', message: 'message', newBranch: undefined, push: false }],
+    ['Git.sync', { cwd: '/repo' }],
   ])
 })
 
