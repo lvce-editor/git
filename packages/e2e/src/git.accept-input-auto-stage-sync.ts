@@ -2,13 +2,17 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.accept-input-auto-stage-sync'
 
-const waitForRemoteRef = async (FileSystem: { readFile: (uri: string) => Promise<string> }, workspaceDir: string): Promise<void> => {
+const waitForRemoteRef = async (
+  FileSystem: { readFile: (uri: string) => Promise<string> },
+  workspaceDir: string,
+  previousRef: string,
+): Promise<void> => {
   const localRef = `${workspaceDir}/.git/refs/heads/main`
   const remoteRef = `${workspaceDir}/../remote.git/refs/heads/main`
   for (let attempt = 0; attempt < 50; attempt++) {
     try {
       const [local, remote] = await Promise.all([FileSystem.readFile(localRef), FileSystem.readFile(remoteRef)])
-      if (local === remote) {
+      if (local !== previousRef && local === remote) {
         return
       }
     } catch {
@@ -45,9 +49,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await SourceControl.handleInput(message)
   await expect(input).toBeFocused()
 
+  const previousRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
   await KeyBoard.press('Control+Enter')
 
-  await waitForRemoteRef(FileSystem, workspaceDir)
+  await waitForRemoteRef(FileSystem, workspaceDir, previousRef)
   await expect(input).toHaveValue('')
   await FileSystem.shouldHaveFile(`${workspaceDir}/new-file.txt`, 'modified content')
   await FileSystem.shouldHaveFile(`${workspaceDir}/untracked.txt`, 'untracked content')
