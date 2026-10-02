@@ -56,15 +56,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
   await KeyBoard.press('Control+Enter')
 
-  await expect(input).toHaveValue('')
-  await FileSystem.shouldHaveFile(`${workspaceDir}/new-file.txt`, 'modified content')
-  await FileSystem.shouldHaveFile(`${workspaceDir}/untracked.txt`, 'untracked content')
-  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
-  if (commits.length !== 2 || commits[0]?.message !== message) {
-    throw new Error(`Unexpected commits: ${JSON.stringify(commits)}`)
-  }
   await waitFor(async () => {
-    await expect(syncStatusBarItem).toHaveText('0↓ 0↑')
     const [localRef, remoteRef] = await Promise.all([
       FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`),
       FileSystem.readFile(`${workspaceDir}/../remote.git/refs/heads/main`),
@@ -73,6 +65,14 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
       throw new Error(`expected main to be synchronized, got local ${localRef} and remote ${remoteRef}`)
     }
   })
+  await expect(input).toHaveValue('')
+  await FileSystem.shouldHaveFile(`${workspaceDir}/new-file.txt`, 'modified content')
+  await FileSystem.shouldHaveFile(`${workspaceDir}/untracked.txt`, 'untracked content')
+  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
+  if (commits.length !== 2 || commits[0]?.message !== message) {
+    throw new Error(`Unexpected commits: ${JSON.stringify(commits)}`)
+  }
+  await expect(syncStatusBarItem).toHaveText('0↓ 0↑')
   const items = Locator('.SourceControlItems .TreeItem')
   await expect(items).toHaveCount(0)
 }
