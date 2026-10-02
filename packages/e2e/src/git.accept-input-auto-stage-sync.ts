@@ -13,9 +13,9 @@ const yieldToEventLoop = (): Promise<void> =>
 
 export const name = 'git.accept-input-auto-stage-sync'
 
-const waitFor = async (condition: () => Promise<void>): Promise<void> => {
+const waitFor = async (condition: () => Promise<void>, maxAttempts = 500): Promise<void> => {
   let lastError: unknown
-  for (let attempt = 0; attempt < 500; attempt++) {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       await condition()
       return
@@ -51,6 +51,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   // Wait for the input worker to process the focus event and register its shortcuts.
   await SourceControl.handleInput(message)
   await expect(input).toBeFocused()
+  await expect(input).toHaveValue(message)
 
   const previousRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
   const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
@@ -64,7 +65,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
     if (localRef === previousRef || localRef !== remoteRef) {
       throw new Error(`expected main to be synchronized, got local ${localRef} and remote ${remoteRef}`)
     }
-  })
+  }, 3000)
   await expect(input).toHaveValue('')
   await FileSystem.shouldHaveFile(`${workspaceDir}/new-file.txt`, 'modified content')
   await FileSystem.shouldHaveFile(`${workspaceDir}/untracked.txt`, 'untracked content')

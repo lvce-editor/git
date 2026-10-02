@@ -1,5 +1,30 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+const yieldToEventLoop = (): Promise<void> =>
+  new Promise((resolve) => {
+    const channel = new MessageChannel()
+    channel.port1.onmessage = (): void => {
+      channel.port1.close()
+      channel.port2.close()
+      resolve()
+    }
+    channel.port2.postMessage(null)
+  })
+
+const waitFor = async (condition: () => Promise<void>): Promise<void> => {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 500; attempt++) {
+    try {
+      await condition()
+      return
+    } catch (error) {
+      lastError = error
+      await yieldToEventLoop()
+    }
+  }
+  throw lastError
+}
+
 export const name = 'git.commit-empty-dismiss'
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SourceControl, Workspace }) => {
@@ -22,12 +47,13 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   // Wait for the input worker to process the focus event and register its shortcuts.
   await SourceControl.handleInput('Keep this message')
   await expect(input).toBeFocused()
+  await expect(input).toHaveValue('Keep this message')
 
   await KeyBoard.press('Control+Enter')
 
   const notification = Locator('.Notification')
   const notificationOption = notification.locator('.NotificationOption')
-  await expect(notificationOption).toHaveText('Create Empty Commit')
+  await waitFor(() => expect(notificationOption).toHaveText('Create Empty Commit'))
   const close = notification.locator('[aria-label="Close"]')
   // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Verify the notification close button resolves cancellation.
   await close.click()

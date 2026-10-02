@@ -46,12 +46,13 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   // Wait for the input worker to process the focus event and register its shortcuts.
   await SourceControl.handleInput('My empty commit')
   await expect(input).toBeFocused()
+  await expect(input).toHaveValue('My empty commit')
 
   await KeyBoard.press('Control+Enter')
 
   const notification = Locator('.Notification')
   const notificationMessage = notification.locator('.NotificationMessage')
-  await waitFor(() => expect(notificationMessage).toHaveText('There are no changes to commit'))
+  await expect(notificationMessage).toHaveText('There are no changes to commit')
   await expect(input).toHaveValue('My empty commit')
   const option = notification.locator('.NotificationOption')
   // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Verify the notification DOM action resolves the pending request.
