@@ -28,14 +28,14 @@
     }
   },
   "dependencies": {
-    "@lvce-editor/rpc": "^6.21.1",
-    "@lvce-editor/rpc-registry": "^9.65.4"
+    "@lvce-editor/rpc": "^6.18.0",
+    "@lvce-editor/rpc-registry": "^9.51.0"
   },
   "devDependencies": {
-    "@jest/globals": "^30.5.2",
+    "@jest/globals": "^30.4.1",
     "@types/jest": "^30.0.0",
-    "jest": "^30.5.2",
-    "ts-jest": "^29.4.14",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.12",
     "typescript": "^6.0.3"
   }
 }

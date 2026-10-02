@@ -26,7 +26,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await KeyBoard.press('Control+Enter')
 
   const notification = Locator('.Notification')
-  await expect(notification.locator('.NotificationOption')).toHaveText('Create Empty Commit')
+  const notificationOption = notification.locator('.NotificationOption')
+  await expect(notificationOption).toHaveText('Create Empty Commit')
   const close = notification.locator('[aria-label="Close"]')
   // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Verify the notification close button resolves cancellation.
   await close.click()

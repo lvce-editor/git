@@ -37,7 +37,6 @@ export const test: Test = async ({ Command, Editor, expect, FileSystem, Git, Loc
   await Main.save()
   await Git.add(fileName)
   await SourceControl.show()
-  await new Promise((resolve) => setTimeout(resolve, 1000))
   const treeItems = Locator('.SourceControlItems .TreeItem')
   await expect(treeItems).toHaveCount(2)
   const commitMessage = 'Commit gutter decoration changes'

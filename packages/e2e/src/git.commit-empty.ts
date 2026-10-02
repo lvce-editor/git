@@ -1,6 +1,31 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+const yieldToEventLoop = (): Promise<void> =>
+  new Promise((resolve) => {
+    const channel = new MessageChannel()
+    channel.port1.onmessage = (): void => {
+      channel.port1.close()
+      channel.port2.close()
+      resolve()
+    }
+    channel.port2.postMessage(null)
+  })
+
 export const name = 'git.commit-empty'
+
+const waitFor = async (condition: () => Promise<void>): Promise<void> => {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 500; attempt++) {
+    try {
+      await condition()
+      return
+    } catch (error) {
+      lastError = error
+      await yieldToEventLoop()
+    }
+  }
+  throw lastError
+}
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SourceControl, Workspace }) => {
   await Settings.update({ 'git.branchProtection': false })
@@ -25,21 +50,20 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await KeyBoard.press('Control+Enter')
 
   const notification = Locator('.Notification')
-  await expect(notification.locator('.NotificationMessage')).toHaveText('There are no changes to commit')
+  const notificationMessage = notification.locator('.NotificationMessage')
+  await waitFor(() => expect(notificationMessage).toHaveText('There are no changes to commit'))
   await expect(input).toHaveValue('My empty commit')
   const option = notification.locator('.NotificationOption')
   // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Verify the notification DOM action resolves the pending request.
   await option.click()
   await expect(notification).toBeHidden()
-  // A render can temporarily clear the textarea before the asynchronous commit finishes.
-  let commits: readonly { readonly message: string }[] = []
-  for (let attempt = 0; attempt < 50; attempt++) {
-    commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
-    if (commits.length >= 2) {
-      break
+  await waitFor(async () => {
+    const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
+    if (commits.length < 2) {
+      throw new Error(`Expected both empty and initial commits, got ${JSON.stringify(commits)}`)
     }
-    await new Promise((resolve) => setTimeout(resolve, 100))
-  }
+  })
+  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
   if (commits.length !== 2 || commits[0].message !== 'My empty commit' || commits[1].message !== 'Initial commit') {
     throw new Error(`Unexpected commits: ${JSON.stringify(commits)}`)
   }

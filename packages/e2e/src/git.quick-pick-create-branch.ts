@@ -1,22 +1,30 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+const yieldToEventLoop = (): Promise<void> =>
+  new Promise((resolve) => {
+    const channel = new MessageChannel()
+    channel.port1.onmessage = (): void => {
+      channel.port1.close()
+      channel.port2.close()
+      resolve()
+    }
+    channel.port2.postMessage(null)
+  })
+
 export const name = 'git.quick-pick-create-branch'
 
-const waitForFileContent = async (FileSystem: { readFile: (uri: string) => Promise<string> }, uri: string, expected: string): Promise<void> => {
-  for (let i = 0; i < 20; i++) {
-    let actual: string
+const waitFor = async (condition: () => Promise<void>): Promise<void> => {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 500; attempt++) {
     try {
-      actual = await FileSystem.readFile(uri)
-    } catch {
-      actual = ''
-    }
-    if (actual === expected) {
+      await condition()
       return
+    } catch (error) {
+      lastError = error
+      await yieldToEventLoop()
     }
-    await new Promise((resolve) => setTimeout(resolve, 100))
   }
-  const actual = await FileSystem.readFile(uri)
-  throw new Error(`expected ${uri} to be ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
+  throw lastError
 }
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, QuickPick, Workspace }) => {
@@ -34,7 +42,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await QuickPick.open()
   await QuickPick.setValue('>Git: Create Branch...')
   await QuickPick.selectItem('Git: Create Branch...', { waitUntil: 'none' })
-  await new Promise((resolve) => setTimeout(resolve, 1000))
   const input = Locator('input[name="QuickPickInput"][placeholder="Branch name"]')
   await expect(input).toBeVisible()
   await expect(input).toBeFocused()
@@ -48,7 +55,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
 
   // assert
   const mainRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
-  await waitForFileContent(FileSystem, `${workspaceDir}/.git/refs/heads/${branchName}`, mainRef)
+  await waitFor(async () => {
+    const branchRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/${branchName}`)
+    if (branchRef !== mainRef) {
+      throw new Error(`Expected ${branchName} to point to ${mainRef}, got ${branchRef}`)
+    }
+  })
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'branch', branchName],

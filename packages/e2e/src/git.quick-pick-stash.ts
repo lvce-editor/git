@@ -1,17 +1,30 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+const yieldToEventLoop = (): Promise<void> =>
+  new Promise((resolve) => {
+    const channel = new MessageChannel()
+    channel.port1.onmessage = (): void => {
+      channel.port1.close()
+      channel.port2.close()
+      resolve()
+    }
+    channel.port2.postMessage(null)
+  })
+
 export const name = 'git.quick-pick-stash'
 
-const waitForFileContent = async (FileSystem: { readFile: (uri: string) => Promise<string> }, uri: string, expected: string): Promise<void> => {
-  for (let i = 0; i < 20; i++) {
-    const actual = await FileSystem.readFile(uri)
-    if (actual === expected) {
+const waitFor = async (condition: () => Promise<void>): Promise<void> => {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 500; attempt++) {
+    try {
+      await condition()
       return
+    } catch (error) {
+      lastError = error
+      await yieldToEventLoop()
     }
-    await new Promise((resolve) => setTimeout(resolve, 100))
   }
-  const actual = await FileSystem.readFile(uri)
-  throw new Error(`expected ${uri} to be ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
+  throw lastError
 }
 
 export const test: Test = async ({ Command, FileSystem, Git, QuickPick, SideBar, Workspace }) => {
@@ -38,7 +51,7 @@ export const test: Test = async ({ Command, FileSystem, Git, QuickPick, SideBar,
   await QuickPick.selectItem('Git: Pop Latest Stash')
 
   // assert
-  await waitForFileContent(FileSystem, `${workspaceDir}/file.txt`, 'second change')
+  await waitFor(() => FileSystem.shouldHaveFile(`${workspaceDir}/file.txt`, 'second change'))
 
   await FileSystem.writeFile(`${workspaceDir}/file.txt`, 'initial content')
   await Command.execute('ExtensionHost.executeCommand', 'git.applyStash', { stashReference: 'stash@{0}' })

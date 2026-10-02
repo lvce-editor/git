@@ -1,27 +1,30 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+const yieldToEventLoop = (): Promise<void> =>
+  new Promise((resolve) => {
+    const channel = new MessageChannel()
+    channel.port1.onmessage = (): void => {
+      channel.port1.close()
+      channel.port2.close()
+      resolve()
+    }
+    channel.port2.postMessage(null)
+  })
+
 export const name = 'git.accept-input-auto-stage-sync'
 
-const waitForRemoteRef = async (
-  FileSystem: { readFile: (uri: string) => Promise<string> },
-  workspaceDir: string,
-  previousRef: string,
-): Promise<void> => {
-  const localRef = `${workspaceDir}/.git/refs/heads/main`
-  const remoteRef = `${workspaceDir}/../remote.git/refs/heads/main`
-  for (let attempt = 0; attempt < 50; attempt++) {
+const waitFor = async (condition: () => Promise<void>): Promise<void> => {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 500; attempt++) {
     try {
-      const [local, remote] = await Promise.all([FileSystem.readFile(localRef), FileSystem.readFile(remoteRef)])
-      if (local !== previousRef && local === remote) {
-        return
-      }
-    } catch {
-      // The commit or push has not completed yet.
+      await condition()
+      return
+    } catch (error) {
+      lastError = error
+      await yieldToEventLoop()
     }
-    await new Promise((resolve) => setTimeout(resolve, 100))
   }
-  const [local, remote] = await Promise.all([FileSystem.readFile(localRef), FileSystem.readFile(remoteRef)])
-  throw new Error(`expected main to be synchronized, got local ${local} and remote ${remote}`)
+  throw lastError
 }
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SourceControl, Workspace }) => {
@@ -50,9 +53,9 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await expect(input).toBeFocused()
 
   const previousRef = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
+  const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
   await KeyBoard.press('Control+Enter')
 
-  await waitForRemoteRef(FileSystem, workspaceDir, previousRef)
   await expect(input).toHaveValue('')
   await FileSystem.shouldHaveFile(`${workspaceDir}/new-file.txt`, 'modified content')
   await FileSystem.shouldHaveFile(`${workspaceDir}/untracked.txt`, 'untracked content')
@@ -60,6 +63,16 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   if (commits.length !== 2 || commits[0]?.message !== message) {
     throw new Error(`Unexpected commits: ${JSON.stringify(commits)}`)
   }
+  await waitFor(async () => {
+    await expect(syncStatusBarItem).toHaveText('0↓ 0↑')
+    const [localRef, remoteRef] = await Promise.all([
+      FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`),
+      FileSystem.readFile(`${workspaceDir}/../remote.git/refs/heads/main`),
+    ])
+    if (localRef === previousRef || localRef !== remoteRef) {
+      throw new Error(`expected main to be synchronized, got local ${localRef} and remote ${remoteRef}`)
+    }
+  })
   const items = Locator('.SourceControlItems .TreeItem')
   await expect(items).toHaveCount(0)
 }

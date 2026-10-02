@@ -16,23 +16,6 @@ const readGitRef = async (FileSystem: { readFile(path: string): Promise<string> 
   }
 }
 
-const waitForGitRef = async (
-  FileSystem: { readFile(path: string): Promise<string> },
-  gitDir: string,
-  refName: string,
-  expected: string,
-): Promise<void> => {
-  for (let i = 0; i < 50; i++) {
-    const actual = await readGitRef(FileSystem, gitDir, refName)
-    if (actual === expected) {
-      return
-    }
-    await new Promise((resolve) => setTimeout(resolve, 100))
-  }
-  const actual = await readGitRef(FileSystem, gitDir, refName)
-  throw new Error(`expected ${refName} to be ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)
-}
-
 export const test: Test = async ({ Command, expect, FileSystem, Locator, Settings, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/second-workspace`
@@ -48,10 +31,14 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Setting
 
   await Workspace.setUri(workspaceDir)
   const upstreamHead = await FileSystem.readFile(`${upstreamGitDir}/refs/heads/main`)
-  await waitForGitRef(FileSystem, workspaceGitDir, 'refs/remotes/origin/main', upstreamHead)
 
   const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
   await expect(syncStatusBarItem).toBeVisible()
+  await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
+  const fetchedHead = await readGitRef(FileSystem, workspaceGitDir, 'refs/remotes/origin/main')
+  if (fetchedHead !== upstreamHead) {
+    throw new Error(`expected origin/main to be ${JSON.stringify(upstreamHead)}, got ${JSON.stringify(fetchedHead)}`)
+  }
   await expect(syncStatusBarItem).toHaveText('2↓ 0↑')
   await expect(syncStatusBarItem).toHaveAttribute('aria-label', 'second-workspace (Git) - Pull 2 commits from origin/main')
 }

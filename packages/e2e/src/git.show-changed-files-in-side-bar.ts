@@ -11,7 +11,6 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspa
 
   // act
   await Command.execute('SideBar.show', 'Source Control')
-  await new Promise((resolve) => setTimeout(resolve, 1000))
 
   // assert
   const treeItems = Locator('.TreeItem')

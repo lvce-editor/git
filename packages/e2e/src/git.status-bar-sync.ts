@@ -3,6 +3,31 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 export const name = 'git.status-bar-sync'
 export const skip = 1
 
+const yieldToEventLoop = (): Promise<void> =>
+  new Promise((resolve) => {
+    const channel = new MessageChannel()
+    channel.port1.onmessage = (): void => {
+      channel.port1.close()
+      channel.port2.close()
+      resolve()
+    }
+    channel.port2.postMessage(null)
+  })
+
+const waitFor = async (condition: () => Promise<void>): Promise<void> => {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 500; attempt++) {
+    try {
+      await condition()
+      return
+    } catch (error) {
+      lastError = error
+      await yieldToEventLoop()
+    }
+  }
+  throw lastError
+}
+
 export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Settings, SideBar, Workspace }) => {
   await Settings.update({ 'git.branchProtection': false })
   // arrange
@@ -16,24 +41,22 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Se
   await Workspace.setUri(workspaceDir)
   await SideBar.open('Source Control')
   await Git.checkout('main')
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-  await Command.execute('ExtensionHost.executeCommand', 'git.fetch')
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-
   const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
+  await Command.execute('ExtensionHost.executeCommand', 'git.fetch')
+
   await expect(syncStatusBarItem).toBeVisible()
-  await expect(syncStatusBarItem).toHaveText('1↓ 1↑')
+  await waitFor(() => expect(syncStatusBarItem).toHaveText('1↓ 1↑'))
   await expect(syncStatusBarItem).toHaveAttribute('aria-label', 'workspace (Git) - Pull 1 and push 1 commits between origin/main')
-  await expect(syncStatusBarItem.locator('.MaskIconSync')).toBeVisible()
+  const syncIcon = syncStatusBarItem.locator('.MaskIconSync')
+  await expect(syncIcon).toBeVisible()
 
   // act
   await Command.execute('StatusBar.handleClick', 'git.sync')
-  await new Promise((resolve) => setTimeout(resolve, 1000))
 
   // assert
+  await waitFor(() => expect(syncStatusBarItem).toHaveText('0↓ 0↑'))
   await FileSystem.shouldHaveFile(`${workspaceDir}/remote-file.txt`, 'remote change')
   await FileSystem.shouldHaveFile(`${workspaceDir}/local-file.txt`, 'local change')
-  await expect(syncStatusBarItem).toHaveText('0↓ 0↑')
   await expect(syncStatusBarItem).toHaveAttribute('aria-label', 'workspace (Git) - Synchronize Changes')
 
   // arrange an outgoing-only change
