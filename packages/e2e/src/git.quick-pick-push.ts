@@ -2,19 +2,7 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.push-no-options'
 
-const waitForRemoteBranch = async (FileSystem: { readFile: (uri: string) => Promise<string> }, remoteBranchPath: string): Promise<void> => {
-  for (let i = 0; i < 20; i++) {
-    try {
-      await FileSystem.readFile(remoteBranchPath)
-      return
-    } catch {
-      await new Promise((resolve) => setTimeout(resolve, 100))
-    }
-  }
-  await FileSystem.readFile(remoteBranchPath)
-}
-
-export const test: Test = async ({ Command, FileSystem, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Locator, Workspace }) => {
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   const workspaceDir = `${tmpDir}/workspace`
   const verifyDir = `${tmpDir}/verify`
@@ -31,7 +19,10 @@ export const test: Test = async ({ Command, FileSystem, Workspace }) => {
   if (pushInvocations.length !== 1 || pushInvocations[0].cwd !== workspacePath) {
     throw new Error(`expected one push in ${workspacePath}, got ${JSON.stringify(pushInvocations)}`)
   }
-  await waitForRemoteBranch(FileSystem, `${tmpDir}/remote.git/refs/heads/main`)
+  const syncStatusBarItem = Locator('.StatusBarItem[name="git.sync"]')
+  await expect(syncStatusBarItem).toHaveText('0↓ 0↑')
+  const localHead = await FileSystem.readFile(`${workspaceDir}/.git/refs/heads/main`)
+  await FileSystem.shouldHaveFile(`${tmpDir}/remote.git/refs/heads/main`, localHead)
 
   await Workspace.setUri(tmpDir)
   const verifyFixtureUrl = import.meta.resolve('../fixtures/git-api-push-verify')

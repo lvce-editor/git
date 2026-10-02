@@ -35,13 +35,8 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await KeyBoard.press('Enter')
   await expect(input).toBeHidden()
   await expect(treeItems).toHaveCount(0)
-  for (let i = 0; i < 20; i++) {
-    const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
-    if (commits[0]?.message === 'Second feature commit') {
-      return
-    }
-    await new Promise((resolve) => setTimeout(resolve, 100))
+  const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
+  if (commits[0]?.message !== 'Second feature commit') {
+    throw new Error(`Expected Second feature commit, got ${JSON.stringify(commits)}`)
   }
-  const commits = await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')
-  throw new Error(`Expected Second feature commit, got ${JSON.stringify(commits)}`)
 }

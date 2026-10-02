@@ -1,20 +1,30 @@
 import type { Test } from '@lvce-editor/test-with-playwright'
 
+const yieldToEventLoop = (): Promise<void> =>
+  new Promise((resolve) => {
+    const channel = new MessageChannel()
+    channel.port1.onmessage = (): void => {
+      channel.port1.close()
+      channel.port2.close()
+      resolve()
+    }
+    channel.port2.postMessage(null)
+  })
+
 export const name = 'git.quick-pick-delete-worktree'
 
-const waitForFolderRemoval = async (
-  FileSystem: { readDir: (uri: string) => Promise<readonly { readonly name: string }[]> },
-  parentDir: string,
-  folderName: string,
-): Promise<void> => {
-  for (let i = 0; i < 20; i++) {
-    const entries = await FileSystem.readDir(parentDir)
-    if (entries.every((dirent) => dirent.name !== folderName)) {
+const waitFor = async (condition: () => Promise<void>): Promise<void> => {
+  let lastError: unknown
+  for (let attempt = 0; attempt < 500; attempt++) {
+    try {
+      await condition()
       return
+    } catch (error) {
+      lastError = error
+      await yieldToEventLoop()
     }
-    await new Promise((resolve) => setTimeout(resolve, 100))
   }
-  throw new Error(`expected ${folderName} folder to be removed`)
+  throw lastError
 }
 
 export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, QuickPick, Workspace }) => {
@@ -31,13 +41,17 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Qu
   await QuickPick.open()
   await QuickPick.setValue('>Git: Delete Worktree')
   await QuickPick.selectItem('Git: Delete Worktree', { waitUntil: 'quickPick' })
-  await new Promise((resolve) => setTimeout(resolve, 1000))
   const worktreeItem = Locator('#QuickPick text=feature-worktree')
   await expect(worktreeItem).toBeVisible()
   await QuickPick.selectItem('feature-worktree')
 
   // assert
-  await waitForFolderRemoval(FileSystem, tmpDir, 'feature-worktree')
+  await waitFor(async () => {
+    const worktreeEntries = await FileSystem.readDir(tmpDir)
+    if (worktreeEntries.some((dirent) => dirent.name === 'feature-worktree')) {
+      throw new Error('expected feature-worktree folder to be removed')
+    }
+  })
   await Git.shouldHaveInvocations([
     {
       command: ['git', 'worktree', 'list', '--porcelain', '-z'],

@@ -14,12 +14,12 @@ export const test: Test = async ({ Command, expect, FileSystem, Locator, QuickPi
 
   // act
   const branchPickerPromise = Command.execute('StatusBar.handleClick', 'git.showBranchPicker')
-  await new Promise((resolve) => setTimeout(resolve, 1000))
 
   // assert
   const mainItem = Locator('#QuickPick .QuickPickItem').nth(2)
+  const sourceControlIcon = mainItem.locator('.MaskIconSourceControl')
   await expect(mainItem).toContainText('main')
-  await expect(mainItem.locator('.MaskIconSourceControl')).toBeVisible()
+  await expect(sourceControlIcon).toBeVisible()
   await QuickPick.selectItem('main')
   await branchPickerPromise
 }
