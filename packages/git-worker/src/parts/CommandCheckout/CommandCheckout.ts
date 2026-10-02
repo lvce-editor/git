@@ -33,6 +33,7 @@ const createAndCheckout = async (name: string, startPoint?: string): Promise<str
     },
     fn: GitRequests.checkout,
     id: 'checkout',
+    showError: true,
   })
   await refreshWorkspace()
   return name
@@ -80,6 +81,7 @@ export const commandCheckout = async (): Promise<string | undefined> => {
     },
     fn: GitRequests.checkout,
     id: 'checkout',
+    showError: true,
   })
   await refreshWorkspace()
   return branchName

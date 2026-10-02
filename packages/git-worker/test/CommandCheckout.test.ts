@@ -71,6 +71,7 @@ test('checks out selected branch', async (): Promise<void> => {
     },
     fn: GitRequests.checkout,
     id: 'checkout',
+    showError: true,
   })
 })
 
@@ -106,6 +107,7 @@ test('checks out a remote branch by creating a local tracking branch', async ():
     },
     fn: GitRequests.checkout,
     id: 'checkout',
+    showError: true,
   })
 })
 
@@ -145,6 +147,7 @@ test('checks out an existing local branch when a remote branch has the same name
     },
     fn: GitRequests.checkout,
     id: 'checkout',
+    showError: true,
   })
 })
 
@@ -199,6 +202,7 @@ test('creates and checks out a new branch', async (): Promise<void> => {
     },
     fn: GitRequests.checkout,
     id: 'checkout',
+    showError: true,
   })
 })
 
@@ -263,6 +267,7 @@ test('creates and checks out a new branch from a selected ref', async (): Promis
     },
     fn: GitRequests.checkout,
     id: 'checkout',
+    showError: true,
   })
 })
 

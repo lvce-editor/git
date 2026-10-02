@@ -12,7 +12,8 @@ export const execute = async <Result, Args>({
   args,
   fn,
   id,
-}: Readonly<{ args: Args; fn: (args: Args) => Promise<Result>; id: string }>): Promise<Result> => {
+  showError = false,
+}: Readonly<{ args: Args; fn: (args: Args) => Promise<Result>; id: string; showError?: boolean }>): Promise<Result> => {
   try {
     const r = await fn(args)
     await RefreshAfterGitCommand.refreshAfterGitCommand(id)
@@ -20,7 +21,7 @@ export const execute = async <Result, Args>({
   } catch (error) {
     // @ts-ignore
     error.isExpected = true
-    const shouldShowError = await Rpc.invoke('Config.showErrorMessage')
+    const shouldShowError = showError || (await Rpc.invoke('Config.showErrorMessage'))
     if (shouldShowError) {
       await Rpc.invoke('Confirm.prompt', String(error))
     }

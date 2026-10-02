@@ -23,7 +23,15 @@ const commit = (message: string | undefined, options: CommitOptions = {}): Promi
 
 beforeEach(() => {
   jest.resetAllMocks()
-  invoke.mockImplementation(async (command) => (command === 'Git.getCurrentBranch' ? 'main\n' : undefined))
+  invoke.mockImplementation(async (command) => {
+    if (command === 'Git.getCurrentBranch') {
+      return 'main\n'
+    }
+    if (command === 'Git.getUpstreamChanges') {
+      return { upstream: 'origin/main' }
+    }
+    return undefined
+  })
   executeCommand.mockResolvedValue(0)
 })
 
@@ -100,13 +108,49 @@ test('aborts if the branch changed while the dialog was open', async () => {
   expect(invoke.mock.calls.map(([command]) => command)).toEqual(['Git.getCurrentBranch', 'Git.getCurrentBranch'])
 })
 
-test('accept input stages changes and preserves its automatic push', async () => {
+test('accept input stages changes and synchronizes after committing', async () => {
   getPreference.mockResolvedValue(false)
-  await commit('message', { all: true })
+  await commit('message', { all: true, postCommitCommand: 'sync' })
   expect(invoke.mock.calls).toEqual([
     ['Git.isClean', { cwd: '/repo' }],
+    ['Git.getUpstreamChanges', { cwd: '/repo' }],
+    ['Git.addAllAndCommit', { cwd: '/repo', message: 'message', newBranch: undefined, push: false }],
+    ['Git.sync', { cwd: '/repo' }],
+  ])
+})
+
+test('accept input commits locally when the branch has no upstream', async () => {
+  invoke.mockImplementation(async (command) => {
+    if (command === 'Git.getCurrentBranch') {
+      return 'feature/test'
+    }
+    if (command === 'Git.getUpstreamChanges') {
+      throw new Error('Git: No upstream configured')
+    }
+    return undefined
+  })
+  getPreference.mockResolvedValue(false)
+  await commit('message', { all: true, postCommitCommand: 'sync' })
+  expect(invoke.mock.calls).toEqual([
+    ['Git.isClean', { cwd: '/repo' }],
+    ['Git.getUpstreamChanges', { cwd: '/repo' }],
     ['Git.addAllAndCommit', { cwd: '/repo', message: 'message', newBranch: undefined, push: true }],
   ])
+})
+
+test('manual commit and sync reports a missing upstream', async () => {
+  invoke.mockImplementation(async (command) => {
+    if (command === 'Git.getCurrentBranch') {
+      return 'feature/test'
+    }
+    if (command === 'Git.getUpstreamChanges') {
+      throw new Error('Git: No upstream configured')
+    }
+    return undefined
+  })
+  getPreference.mockResolvedValue(false)
+  await expect(commit('message', { postCommitCommand: 'sync' })).rejects.toThrow('No upstream configured')
+  expect(invoke.mock.calls.map(([command]) => command)).toEqual(['Git.getUpstreamChanges'])
 })
 
 test('syncs existing branches after committing', async () => {
