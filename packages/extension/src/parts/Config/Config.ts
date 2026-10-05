@@ -97,7 +97,12 @@ export const confirmPrompt = async (message) => {
   return confirm(message)
 }
 
-export const handleWorkspaceRefresh = async (changes?: { readonly reloadAll?: boolean }) => {
+export const handleWorkspaceRefresh = async (changes?: {
+  readonly changed?: readonly string[]
+  readonly deleted?: readonly string[]
+  readonly reloadContent?: boolean
+  readonly reloadAll?: boolean
+}) => {
   await handleWorkspaceRefreshFromApi(changes)
 }
 

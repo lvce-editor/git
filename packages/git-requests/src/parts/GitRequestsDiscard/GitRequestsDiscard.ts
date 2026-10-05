@@ -25,10 +25,12 @@ export const discard = async ({
   exec,
   file,
   gitPath,
+  refresh,
   remove,
 }: GitRequestContext & {
   readonly confirm: (message: string) => boolean | Promise<boolean>
   readonly file: string
+  readonly refresh?: () => void | Promise<void>
   readonly remove: (path: string) => void | Promise<void>
 }): Promise<void> => {
   try {
@@ -59,6 +61,9 @@ export const discard = async ({
         gitPath,
         name: 'discard',
       })
+    }
+    if (toRestore.length > 0 && refresh) {
+      await refresh()
     }
   } catch (error) {
     throw new GitError(error, 'discard')
