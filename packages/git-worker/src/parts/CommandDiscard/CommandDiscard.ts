@@ -21,7 +21,7 @@ export const commandDiscard = async (file: string): Promise<void> => {
       file.startsWith('file://') || file.startsWith('remote-ssh://')
         ? WorkspaceUris.toResourceUri(file, repository.workspaceUri)
         : new URL(file.replaceAll('\\', '/').split('/').map(encodeURIComponent).join('/'), `${workspaceUri.replace(/\/$/, '')}/`).href
-    await Rpc.invoke('Layout.handleWorkspaceRefresh', { changed: [fileUri] })
+    await Rpc.invoke('Layout.handleWorkspaceRefresh', { changed: [fileUri], reloadContent: true })
   }
 
   await GitRepositoriesRequests.execute({
