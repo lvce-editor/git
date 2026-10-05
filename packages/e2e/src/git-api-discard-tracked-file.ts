@@ -2,9 +2,6 @@ import type { Test } from '@lvce-editor/test-with-playwright'
 
 export const name = 'git.discard-tracked-file'
 
-// This regression requires the editor-worker force-reload support to be released and installed.
-export const skip = 1
-
 export const test: Test = async ({ Command, Dialog, expect, FileSystem, Git, Locator, Main, Settings, Workspace }) => {
   // arrange
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
