@@ -44,10 +44,10 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   const input = Locator('[aria-label="Source Control Input"]')
   // eslint-disable-next-line @typescript-eslint/no-deprecated -- Focus the textarea and exercise its DOM input and keyboard binding.
   await input.type('Keep this message')
-  // Wait for the input worker to process the focus event and register its shortcuts.
-  await SourceControl.handleInput('Keep this message')
   await expect(input).toBeFocused()
   await expect(input).toHaveValue('Keep this message')
+  // Await the focus command so its keybinding update completes before the shortcut.
+  await Command.execute('Source Control.handleFocus')
 
   await KeyBoard.press('Control+Enter')
 
