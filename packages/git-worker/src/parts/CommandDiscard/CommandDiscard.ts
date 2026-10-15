@@ -4,10 +4,11 @@ import * as Repositories from '../GitRepositories/GitRepositories.ts'
 import * as GitRepositoriesRequests from '../GitRepositoriesRequests/GitRepositoriesRequests.ts'
 import * as GitRequests from '../GitRequests/GitRequests.ts'
 import * as Rpc from '../Rpc/Rpc.ts'
+import { toFileUri } from '../ToFileUri/ToFileUri.ts'
 import * as WorkspaceUris from '../WorkspaceUris/WorkspaceUris.ts'
 
-const remove = async (uri: string): Promise<void> => {
-  await Rpc.invoke('FileSystem.remove', uri)
+const remove = async (path: string): Promise<void> => {
+  await Rpc.invoke('FileSystem.remove', toFileUri(path))
 }
 
 export const commandDiscard = async (file: string): Promise<void> => {

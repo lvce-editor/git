@@ -88,6 +88,12 @@ await replace({
   replacement: 'dist/gitWorkerMain.js',
 })
 
+await replace({
+  path: join(root, 'dist', 'src', 'parts', 'GitWebWorkerUrl', 'GitWebWorkerUrl.ts'),
+  occurrence: '../../git-web/',
+  replacement: '../git-web/',
+})
+
 await buildNodeClient(join(root, 'dist', 'node', 'src', 'gitClient.js'))
 await buildNodeProcess(join(root, 'dist', 'node', 'gitProcess.js'))
 
