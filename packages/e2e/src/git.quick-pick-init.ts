@@ -15,7 +15,8 @@ export const name = 'git.init-quick-pick'
 
 const waitFor = async (condition: () => Promise<void>): Promise<void> => {
   let lastError: unknown
-  for (let attempt = 0; attempt < 500; attempt++) {
+  const deadline = performance.now() + 5000
+  while (performance.now() < deadline) {
     try {
       await condition()
       return

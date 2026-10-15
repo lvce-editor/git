@@ -27,7 +27,7 @@ const waitFor = async (condition: () => Promise<void>): Promise<void> => {
 
 export const name = 'git.commit-empty-dismiss'
 
-export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, Locator, Settings, SourceControl, Workspace }) => {
+export const test: Test = async ({ Command, expect, FileSystem, Git, Locator, Settings, SourceControl, Workspace }) => {
   await Settings.update({ 'git.branchProtection': false })
   const tmpDir = await FileSystem.getTmpDir({ scheme: 'file' })
   await Workspace.setUri(tmpDir)
@@ -46,10 +46,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   await input.type('Keep this message')
   await expect(input).toBeFocused()
   await expect(input).toHaveValue('Keep this message')
-  // Await the focus command so its keybinding update completes before the shortcut.
-  await Command.execute('Source Control.handleFocus')
-
-  await KeyBoard.press('Control+Enter')
+  const acceptance = SourceControl.acceptInput()
 
   const notification = Locator('.Notification')
   const notificationOption = notification.locator('.NotificationOption')
@@ -58,8 +55,7 @@ export const test: Test = async ({ Command, expect, FileSystem, Git, KeyBoard, L
   // eslint-disable-next-line e2e/no-direct-click, @typescript-eslint/no-deprecated -- Verify the notification close button resolves cancellation.
   await close.click()
   await expect(notification).toBeHidden()
-  // A second completed source-control command waits for the cancelled acceptance to finish.
-  await SourceControl.show()
+  await acceptance
   await expect(input).toHaveValue('Keep this message')
   await FileSystem.shouldHaveFile(`${tmpDir}/.git/refs/heads/main`, head)
   const commits = (await Command.execute('ExtensionHost.executeCommand', 'git.getCommits')) as readonly { readonly message: string }[]
