@@ -20,7 +20,11 @@ export const getFileBefore = async ({
     })
     return gitResult.stdout
   } catch (error) {
-    if ((error as GitErrorLike | undefined)?.stderr === `fatal: invalid object name 'HEAD'.`) {
+    const stderr = (error as GitErrorLike | undefined)?.stderr
+    if (
+      stderr === `fatal: invalid object name 'HEAD'.` ||
+      /^fatal: path '.+' (?:exists on disk, but not|does not exist) in 'HEAD'\.$/.test(stderr ?? '')
+    ) {
       return ''
     }
     console.error(error)
