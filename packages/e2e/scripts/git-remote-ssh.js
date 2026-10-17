@@ -46,6 +46,13 @@ export const test = async ({ page, expect, sshServer, port, socketUrls, sockets 
   }).toPass({ timeout: 30_000 })
   expect(await readFile(sshServer.filePath, 'utf8')).toBe(sshServer.fixture.updatedContent)
 
+  const newFile = page.locator('.SourceControlItems .TreeItem').filter({ hasText: specialName })
+  await expect(newFile).toBeVisible({ timeout: 30_000 })
+  await newFile.click()
+  await expect(page.locator('.DiffEditor')).toBeVisible()
+  await expect(page.locator('.DiffEditor .DiffEditorRows')).toContainText('remote-only change')
+  await expect(page.locator('.DiffEditorErrorMessage')).toHaveCount(0)
+
   await page.keyboard.press('Control+Shift+E')
   await expect(page.locator(`.TreeItem[aria-label="${specialName}"]`)).toBeVisible({ timeout: 30_000 })
   await expect(async () => {
@@ -62,5 +69,5 @@ export const test = async ({ page, expect, sshServer, port, socketUrls, sockets 
   for (const { params } of requests) {
     expect(params[2].cwd).toBe(`file://${workspace}`)
   }
-  console.log('PASS Git over SSH: branch, changed file, stage, unstage, encoded filename, remote process routing')
+  console.log('PASS Git over SSH: branch, changed file, stage, unstage, new file diff without errors, encoded filename, remote process routing')
 }
