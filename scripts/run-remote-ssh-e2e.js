@@ -1,5 +1,7 @@
 import { spawn } from 'node:child_process'
-import { dirname, resolve } from 'node:path'
+import { readFile, readdir, writeFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
+import { dirname, join, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -27,4 +29,27 @@ const run = async (args) => {
 }
 await run(['packages/build/src/build.ts'])
 await run(['packages/build/src/build-extension.ts'])
-await run(['packages/e2e/scripts/run-e2e.js', '--headless'])
+// The harness serves a candidate extension, so index its SVGs alongside the
+// runtime's static assets rather than relying on the bundled Git version.
+const requireFromRemote = createRequire(join(remoteSshRoot, 'package.json'))
+const requireFromServer = createRequire(requireFromRemote.resolve('@lvce-editor/server/package.json'))
+const configPath = join(dirname(requireFromServer.resolve('@lvce-editor/static-server/package.json')), 'config.json')
+const originalConfig = await readFile(configPath, 'utf8')
+const config = JSON.parse(originalConfig)
+const paths = Object.keys(config.files)
+const extensionPrefix = paths.find((path) => /^\/[^/]+\/extensions\//.test(path))?.match(/^\/[^/]+\/extensions\//)?.[0]
+const svgPath = paths.find((path) => path.endsWith('.svg'))
+if (!extensionPrefix || svgPath === undefined) {
+  throw new Error('Remote SSH runtime has no extension prefix or SVG response headers')
+}
+for (const path of await readdir(join(root, 'dist/icons'), { recursive: true })) {
+  if (path.endsWith('.svg')) {
+    config.files[`${extensionPrefix}builtin.git/icons/${path.split(sep).join('/')}`] = config.files[svgPath]
+  }
+}
+try {
+  await writeFile(configPath, JSON.stringify(config, null, 2) + '\n')
+  await run(['packages/e2e/scripts/run-e2e.js', '--headless'])
+} finally {
+  await writeFile(configPath, originalConfig)
+}

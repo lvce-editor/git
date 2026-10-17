@@ -22,22 +22,24 @@ test('getFileBefore returns tracked file contents', async () => {
   })
 })
 
-test.each([`fatal: path 'file.txt' exists on disk, but not in 'HEAD'.`, `fatal: path 'file.txt' does not exist in 'HEAD'.`])(
-  'getFileBefore returns empty contents when the path is absent from HEAD: %s',
-  async (stderr) => {
-    const exec: GitExec = jest.fn(async () => {
-      throw Object.assign(new Error(stderr), { stderr })
-    })
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+test.each([
+  `fatal: path 'file.txt' exists on disk, but not in 'HEAD'.`,
+  `fatal: path 'file.txt' does not exist in 'HEAD'.`,
+  `fatal: path 'file.txt' exists on disk, but not in 'HEAD'`,
+  `fatal: path 'file.txt' does not exist in 'HEAD'`,
+])('getFileBefore returns empty contents when the path is absent from HEAD: %s', async (stderr) => {
+  const exec: GitExec = jest.fn(async () => {
+    throw Object.assign(new Error(stderr), { stderr })
+  })
+  const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
-    try {
-      await expect(createRequest(exec)).resolves.toBe('')
-      expect(errorSpy).not.toHaveBeenCalled()
-    } finally {
-      errorSpy.mockRestore()
-    }
-  },
-)
+  try {
+    await expect(createRequest(exec)).resolves.toBe('')
+    expect(errorSpy).not.toHaveBeenCalled()
+  } finally {
+    errorSpy.mockRestore()
+  }
+})
 
 test('getFileBefore returns empty contents when HEAD is missing', async () => {
   const stderr = `fatal: invalid object name 'HEAD'.`
