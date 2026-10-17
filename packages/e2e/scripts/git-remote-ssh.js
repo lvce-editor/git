@@ -6,6 +6,18 @@ import { promisify } from 'node:util'
 const run = promisify(execFile)
 
 export const test = async ({ page, expect, sshServer, port, socketUrls, sockets }) => {
+  const command = async (label) => {
+    await page.keyboard.press('F1')
+    const input = page.locator('.QuickPick input')
+    await expect(input).toBeVisible()
+    await input.fill(`>${label}`)
+    await page.locator('.QuickPickItemLabel').filter({ hasText: label }).first().click()
+    await expect(input).toHaveCount(0)
+  }
+
+  await command('Layout: Toggle Panel')
+  await expect(page.locator('.XtermTerminal')).toBeHidden()
+
   const errors = []
   page.on('console', (message) => {
     if (message.type() === 'error') errors.push(message.text())
@@ -22,21 +34,14 @@ export const test = async ({ page, expect, sshServer, port, socketUrls, sockets 
   }
   const workspace = sshServer.fixture.workspacePath
   const specialName = 'remote space #%.txt'
-  await writeFile(join(workspace, specialName), 'remote-only change\n')
-
-  const command = async (label) => {
-    await page.keyboard.press('F1')
-    const input = page.locator('.QuickPick input')
-    await expect(input).toBeVisible()
-    await input.fill(`>${label}`)
-    await page.locator('.QuickPickItemLabel').filter({ hasText: label }).first().click()
-    await expect(input).toHaveCount(0)
-  }
+  const diffName = 'new-file.txt'
+  await writeFile(join(workspace, specialName), 'encoded filename contents\n')
+  await writeFile(join(workspace, diffName), 'remote-only change\n')
 
   await command('Git: Stage All')
   await expect(async () => {
     const { stdout } = await run('git', ['-C', workspace, 'diff', '--cached', '--name-only', '-z'])
-    expect(stdout.split('\0')).toEqual(expect.arrayContaining(['file.txt', specialName]))
+    expect(stdout.split('\0')).toEqual(expect.arrayContaining(['file.txt', specialName, diffName]))
   }).toPass({ timeout: 30_000 })
 
   await command('Git: Unstage All')
@@ -45,6 +50,14 @@ export const test = async ({ page, expect, sshServer, port, socketUrls, sockets 
     expect(stdout).toBe('')
   }).toPass({ timeout: 30_000 })
   expect(await readFile(sshServer.filePath, 'utf8')).toBe(sshServer.fixture.updatedContent)
+
+  const newFile = page.locator('.SourceControlItems .TreeItem').filter({ hasText: diffName })
+  await expect(newFile).toBeVisible({ timeout: 30_000 })
+  await expect(newFile.locator('.DecorationIcon')).toHaveAttribute('title', 'Untracked')
+  await newFile.locator('.Label').click()
+  await expect(page.locator('.DiffEditor')).toBeVisible()
+  await expect(page.locator('.DiffEditor .DiffEditorRows')).toContainText('remote-only change')
+  await expect(page.locator('.DiffEditorErrorMessage')).toHaveCount(0)
 
   await page.keyboard.press('Control+Shift+E')
   await expect(page.locator(`.TreeItem[aria-label="${specialName}"]`)).toBeVisible({ timeout: 30_000 })
@@ -62,5 +75,7 @@ export const test = async ({ page, expect, sshServer, port, socketUrls, sockets 
   for (const { params } of requests) {
     expect(params[2].cwd).toBe(`file://${workspace}`)
   }
-  console.log('PASS Git over SSH: branch, changed file, stage, unstage, encoded filename, remote process routing')
+  await command('Layout: Toggle Panel')
+  await expect(page.locator('.XtermTerminal')).toBeVisible()
+  console.log('PASS Git over SSH: branch, changed file, stage, unstage, new file diff without errors, encoded filename, remote process routing')
 }
