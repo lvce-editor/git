@@ -543,6 +543,51 @@ export class GitRepository {
   }
 
   async listBranches(): Promise<string[]> {
+    if (this.useFileSystem) {
+      const head = await this.readHead()
+      const currentBranchRef = head.startsWith('ref: refs/heads/') ? head.slice('ref: refs/heads/'.length) : ''
+      const branchNames = new Set<string>()
+
+      const collectBranches = async (directory: string, prefix: string): Promise<void> => {
+        const entries = await defaultFileSystem.readdir(directory)
+
+        for (const entry of entries) {
+          const path = join(directory, entry)
+          const name = `${prefix}${entry}`
+          const stat = await defaultFileSystem.stat(path)
+
+          if (stat.isDirectory) {
+            await collectBranches(path, `${name}/`)
+          } else if (stat.isFile) {
+            branchNames.add(name)
+          }
+        }
+      }
+
+      await collectBranches(join(this.gitdir, 'refs', 'heads'), '')
+
+      // Include branches stored in packed-refs, which are not loose ref files.
+      try {
+        const packedRefs = await defaultFileSystem.read(join(this.gitdir, 'packed-refs'))
+        for (const line of packedRefs.split('\n')) {
+          const match = /^[0-9a-f]+ refs\/heads\/(.+)$/.exec(line)
+          if (match) {
+            branchNames.add(match[1])
+          }
+        }
+      } catch {
+        // Repositories without packed refs are normal.
+      }
+
+      if (currentBranchRef) {
+        branchNames.add(currentBranchRef)
+      }
+
+      return [...branchNames]
+        .sort()
+        .map((branch) => `${branch === currentBranchRef ? '*' : ' '} ${branch}`)
+    }
+
     return this.repo.branches.map((b) => (b.isCurrent ? `* ${b.name}` : `  ${b.name}`))
   }
 
