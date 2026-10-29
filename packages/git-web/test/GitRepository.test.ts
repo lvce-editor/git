@@ -182,6 +182,44 @@ test.skip('listBranches returns branch list', async (): Promise<void> => {
   expect(Array.isArray(branches)).toBe(true)
 })
 
+test('listBranches reads filesystem refs when a git config exists', async (): Promise<void> => {
+  registerMockRpc({
+    'FileSystem.exists'(path: string) {
+      return path.endsWith('.git/config')
+    },
+    'FileSystem.read'(path: string) {
+      if (path.endsWith('.git/HEAD')) {
+        return 'ref: refs/heads/main\n'
+      }
+
+      throw new Error(`Unexpected read: ${path}`)
+    },
+    'FileSystem.readdir'(path: string) {
+      if (path.endsWith('.git/refs/heads')) {
+        return ['feature', 'main']
+      }
+
+      if (path.endsWith('.git/refs/heads/feature')) {
+        return ['nested']
+      }
+
+      return []
+    },
+    'FileSystem.stat'(path: string) {
+      return {
+        isDirectory: path.endsWith('/feature'),
+        isFile: path.endsWith('/main') || path.endsWith('/nested'),
+        size: 0,
+      }
+    },
+  })
+
+  const repo = await GitRepository.getRepository('web://test-filesystem-branches')
+  const branches = await repo.listBranches()
+
+  expect(branches).toEqual(['  feature/nested', '* main'])
+})
+
 test.skip('getCommits returns commit list', async (): Promise<void> => {
   const mockRpc = registerMockRpc({
     'FileSystem.exists'(path: string) {
